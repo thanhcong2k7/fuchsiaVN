@@ -194,7 +194,7 @@ if (!isset($_SESSION["userwtf"])) {
               <div class="col-12 col-lg-6 col-xl-3 border-light">
                 <div class="card-body">
                   <h5 class="text-white mb-0">It is <span id="codepro-hour"></span>
-                    <span class="float-right"><i class="fa fa-delicious"></i></span>
+                    <span class="float-right"><i class="zmdi zmdi-time"></i></span>
                   </h5>
                   <div class="progress my-3" style="height:3px;">
                     <div class="progress-bar" style="width:100%"></div>
