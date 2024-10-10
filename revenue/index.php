@@ -16,7 +16,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
   <meta name="description" content=""/>
   <meta name="author" content=""/>
-  <title>Discography - fuchsia Media Group</title>
+  <title>Revenue - fuchsia Media Group</title>
   <!-- loader-->
   <link href="../assets/css/pace.min.css" rel="stylesheet"/>
   <script src="../assets/js/pace.min.js"></script>
@@ -284,7 +284,27 @@
   <!-- Index js -->
   <script src="../assets/js/index.js"></script>
 <script type="text/javascript">
+						var myVar = setInterval(function() {
+							myTimer()
+						}, 1000);
+						function myTimer() {
+							var d = new Date();
+							var t = d.toLocaleTimeString();
+							hr = d.getHours();
+							mn = d.getMinutes();
+							document.getElementById("codepro-hour").innerHTML = (hr<10?"0":"") + hr + ":" + (mn<10?"0":"") + mn;
+						}
 						n = new Date();
+						if (n.getTimezoneOffset() == 0) t = n.getTime() + (7 * 60 * 60 * 1000);
+						else t = n.getTime();
+						n.setTime(t);
+						var dn = new Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
+						d = n.getDay();
+						m = n.getMonth() + 1;
+						y = n.getFullYear();
+						var date = dn[d] + " " + (n.getDate() < 10 ? "0" : "") + n.getDate() + "/" + (m < 10 ? "0" : "") + m + "/" + y;
+					    document.getElementById("codepro-date").innerHTML = date;
+						document.getElementById("timediffvn").innerHTML = Math.abs(n.getTimezoneOffset())/60;
 						document.getElementById("cccccyear").innerHTML = n.getFullYear();
 				    </script>
   

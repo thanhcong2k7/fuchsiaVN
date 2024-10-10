@@ -1,5 +1,5 @@
 <?php
-	$conn = mysqli_connect("127.0.0.1", "root", "rootroot", "fuchsia_dev");
+	$conn = mysqli_connect("127.0.0.1", "wtjmdnac_fuchsia", "nguyenthanhcong", "wtjmdnac_fuchsia");
 	function query($cmd){
 		return $GLOBALS["conn"]->query($cmd);
 	}

@@ -27,7 +27,7 @@
 			$uploadOk = 0;
 		}
 		//echo '<script>window.location.href="./update_storage.php'..'"</script>';
-		move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)
+		move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
 		echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
 		//
 	} else {
