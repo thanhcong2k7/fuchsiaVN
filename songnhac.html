@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Wave Visualizer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0e0e0e;
+      color: #fff;
+      text-align: center;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-shadow: 0px 0px 20px rgba(0, 255, 255, 1);
+    }
+    canvas {
+      display: block;
+      margin: 20px auto;
+      border: 2px solid #00ffff;
+      box-shadow: 0px 0px 20px rgba(0, 255, 255, 0.5);
+    }
+    .controls {
+      margin-top: 20px;
+    }
+    .controls button {
+      margin: 0 10px;
+      padding: 10px 20px;
+      background-color: #00ffff;
+      border: none;
+      border-radius: 5px;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.7);
+    }
+    .timeline {
+      margin: 20px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .timeline input[type="range"] {
+      margin: 0 10px;
+      width: 300px;
+    }
+    .watermarked {
+      position: relative;
+      overflow: hidden;
+    }
+    .watermarked::before {
+      position: absolute;
+      top: -75%;
+      left: -75%;
+      display: block;
+      width: 150%;
+      height: 150%;
+      transform: rotate(-45deg);
+      content: attr(data-watermark);
+      opacity: 0.2;
+      line-height: 3em;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    #imageControls, #waveControls {
+      display: inline-block;
+      text-align: left;
+      margin: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Music Wave Visualizer</h1>
+  
+  <div class="watermarked" data-watermark="Watermark">
+    <canvas id="visualizer" width="800" height="400"></canvas>
+  </div>
+
+  <input type="file" id="audioFile" accept="audio/*">
+  <input type="file" id="bgImageFile" accept="image/*">
+  
+  <div id="imageControls">
+    <h3>Image Controls</h3>
+    <label>Exposure: <input type="range" id="exposureRange" min="0" max="200" value="100"></label>
+    <label>Brightness: <input type="range" id="brightnessRange" min="0" max="200" value="100"></label>
+    <label>Contrast: <input type="range" id="contrastRange" min="0" max="200" value="100"></label>
+    <label>Saturation: <input type="range" id="saturationRange" min="0" max="200" value="100"></label>
+    <label>Sharpness: <input type="range" id="sharpnessRange" min="0" max="200" value="100"></label>
+    <label>Temperature: <input type="range" id="temperatureRange" min="0" max="200" value="100"></label>
+  </div>
+
+  <div id="waveControls">
+    <h3>Wave Controls</h3>
+    <label>Start Frequency: <input type="range" id="startFreqRange" min="20" max="20000" value="500"></label>
+    <label>End Frequency: <input type="range" id="endFreqRange" min="20" max="20000" value="5000"></label>
+    <label>Frequency Bands: <input type="range" id="frequencyBandsRange" min="1" max="1024" value="32"></label>
+    <label>Max Height: <input type="range" id="maxHeightRange" min="1" max="500" value="150"></label>
+    <label>Thickness: <input type="range" id="thicknessRange" min="1" max="20" value="5"></label>
+    <label>Softness: <input type="range" id="softnessRange" min="0" max="100" value="50"></label>
+    <label>Inside Color: <input type="color" id="insideColor" value="#00ffff"></label>
+    <label>Outside Color: <input type="color" id="outsideColor" value="#ffffff"></label>
+  </div>
+
+  <div class="controls">
+    <button id="playPauseBtn">Play</button>
+    <button id="rewindBtn">Rewind 5s</button>
+    <button id="forwardBtn">Forward 5s</button>
+    <button id="cutStartBtn">Set Start Cut</button>
+    <button id="cutEndBtn">Set End Cut</button>
+  </div>
+
+  <div class="timeline">
+    <input type="range" id="timelineRange" min="0" value="0">
+  </div>
+
+  <button id="fullScreenBtn">Full Screen</button>
+  <button id="recordBtn">Start Recording</button>
+
+  <script>
+    const canvas = document.getElementById('visualizer');
+    const ctx = canvas.getContext('2d');
+    let audioElement, audioContext, analyser, sourceNode, bufferLength, dataArray;
+    let isPlaying = false, cutStartTime = 0, cutEndTime = 0;
+    let backgroundImage = null, mediaRecorder, recordedChunks = [];
+
+    document.getElementById('audioFile').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        if (audioElement) {
+          audioElement.pause();
+        }
+        
+        audioElement = new Audio(URL.createObjectURL(file));
+        audioElement.crossOrigin = "anonymous";
+        audioElement.addEventListener('canplay', initAudio);
+      }
+    });
+
+    document.getElementById('bgImageFile').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = new Image();
+          img.onload = function() {
+            backgroundImage = img;
+            drawBackground(); // Vẽ lại ảnh nền
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function initAudio() {
+      audioContext = new AudioContext();
+      analyser = audioContext.createAnalyser();
+      analyser.fftSize = 2048;
+      bufferLength = analyser.frequencyBinCount;
+      dataArray = new Uint8Array(bufferLength);
+
+      sourceNode = audioContext.createMediaElementSource(audioElement);
+      sourceNode.connect(analyser);
+      analyser.connect(audioContext.destination);
+    }
+
+    function visualize() {
+      if (!audioElement || !analyser) return;
+
+      requestAnimationFrame(visualize);
+      analyser.getByteFrequencyData(dataArray);
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawBackground(); // Vẽ lại ảnh nền
+
+      const barWidth = canvas.width / bufferLength;
+      let barHeight;
+      let x = 0;
+
+      for (let i = 0; i < bufferLength; i++) {
+        barHeight = dataArray[i] / 2;
+        ctx.fillStyle = 'rgba(0, 255, 255, 0.5)';
+        ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+        x += barWidth;
+      }
+      
+      // Cập nhật vị trí timeline
+      document.getElementById('timelineRange').value = audioElement.currentTime / audioElement.duration * 100;
+    }
+
+    function drawBackground() {
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+
+      if (backgroundImage) {
+        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    // Các thanh điều chỉnh ảnh nền
+    const exposureRange = document.getElementById('exposureRange');
+    const brightnessRange = document.getElementById('brightnessRange');
+    const contrastRange = document.getElementById('contrastRange');
+    const saturationRange = document.getElementById('saturationRange');
+    const sharpnessRange = document.getElementById('sharpnessRange');
+    const temperatureRange = document.getElementById('temperatureRange');
+
+    function updateImageFilters() {
+      const exposure = exposureRange.value;
+      const brightness = brightnessRange.value;
+      const contrast = contrastRange.value;
+      const saturation = saturationRange.value;
+      const sharpness = sharpnessRange.value;
+      const temperature = temperatureRange.value;
+
+      const filter = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturation}%)`;
+      ctx.filter = filter;
+
+      drawBackground(); // Vẽ lại ảnh nền với bộ lọc mới
+    }
+
+    [exposureRange, brightnessRange, contrastRange, saturationRange, sharpnessRange, temperatureRange].forEach(input => {
+      input.addEventListener('input', updateImageFilters);
+    });
+
+    // Các thanh điều chỉnh sóng
+    const startFreqRange = document.getElementById('startFreqRange');
+    const endFreqRange = document.getElementById('endFreqRange');
+    const frequencyBandsRange = document.getElementById('frequencyBandsRange');
+    const maxHeightRange = document.getElementById('maxHeightRange');
+    const thicknessRange = document.getElementById('thicknessRange');
+    const softnessRange = document.getElementById('softnessRange');
+    const insideColor = document.getElementById('insideColor');
+    const outsideColor = document.getElementById('outsideColor');
+
+    function updateWaveProperties() {
+      const startFreq = startFreqRange.value;
+      const endFreq = endFreqRange.value;
+      const frequencyBands = frequencyBandsRange.value;
+      const maxHeight = maxHeightRange.value;
+      const thickness = thicknessRange.value;
+      const softness = softnessRange.value / 100;
+      const inside = insideColor.value;
+      const outside = outsideColor.value;
+
+      ctx.lineWidth = thickness;
+      ctx.strokeStyle = inside;
+
+      visualize();
+    }
+
+    [startFreqRange, endFreqRange, frequencyBandsRange, maxHeightRange, thicknessRange, softnessRange, insideColor, outsideColor].forEach(input => {
+      input.addEventListener('input', updateWaveProperties);
+    });
+
+    document.getElementById('playPauseBtn').addEventListener('click', function() {
+      if (isPlaying) {
+        audioElement.pause();
+        isPlaying = false;
+        this.textContent = 'Play';
+      } else {
+        audioElement.play();
+        audioContext.resume();
+        isPlaying = true;
+        this.textContent = 'Pause';
+        visualize();
+      }
+    });
+
+    document.getElementById('rewindBtn').addEventListener('click', function() {
+      audioElement.currentTime = Math.max(0, audioElement.currentTime - 5);
+    });
+
+    document.getElementById('forwardBtn').addEventListener('click', function() {
+      audioElement.currentTime = Math.min(audioElement.duration, audioElement.currentTime + 5);
+    });
+
+    document.getElementById('cutStartBtn').addEventListener('click', function() {
+      cutStartTime = audioElement.currentTime;
+      console.log('Start Cut Time:', cutStartTime);
+    });
+
+    document.getElementById('cutEndBtn').addEventListener('click', function() {
+      cutEndTime = audioElement.currentTime;
+      console.log('End Cut Time:', cutEndTime);
+      // Logic để cắt âm thanh có thể được thêm ở đây
+    });
+
+    document.getElementById('timelineRange').addEventListener('input', function() {
+      audioElement.currentTime = audioElement.duration * (this.value / 100);
+    });
+
+    document.getElementById('fullScreenBtn').addEventListener('click', function() {
+      if (canvas.requestFullscreen) {
+        canvas.requestFullscreen();
+      } else if (canvas.mozRequestFullScreen) {
+        canvas.mozRequestFullScreen();
+      } else if (canvas.webkitRequestFullscreen) {
+        canvas.webkitRequestFullscreen();
+      }
+    });
+
+    document.getElementById('recordBtn').addEventListener('click', function() {
+      if (!mediaRecorder) {
+        mediaRecorder = new MediaRecorder(canvas.captureStream());
+        mediaRecorder.ondataavailable = function(e) {
+          recordedChunks.push(e.data);
+        };
+        mediaRecorder.onstop = function() {
+          const blob = new Blob(recordedChunks, { type: 'video/webm' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'recording.webm';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          recordedChunks = [];
+        };
+        mediaRecorder.start();
+        this.textContent = 'Stop Recording';
+      } else {
+        mediaRecorder.stop();
+        mediaRecorder = null;
+        this.textContent = 'Start Recording';
+      }
+    });
+  </script>
+</body>
+</html>
