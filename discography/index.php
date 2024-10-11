@@ -88,7 +88,7 @@
         </a>
       </li>
 
-      <li class="../sidebar-header/">TOOLBOX</li>
+      <li class="sidebar-header">TOOLBOX</li>
       <li><a href="manager/artist/"><i class="zmdi zmdi-accounts text-warning"></i> <span>Artists</span></a></li>
       <li><a href="../manager/tracks/"><i class="zmdi zmdi-audio text-success"></i> <span>Tracks</span></a></li>
 	  <li><a href="../ticket/"><i class="zmdi zmdi-bug text-info"></i> <span>Found a bug?</span></a></li>

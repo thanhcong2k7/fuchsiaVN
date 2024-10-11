@@ -37,8 +37,8 @@ if (!isset($_SESSION["userwtf"])) {
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
+  <meta name="description" content="A" />
+  <meta name="author" content="fuchsia Media Group" />
   <title>Dashboard - fuchsia Media Group</title>
   <!-- loader-->
   <link href="assets/css/pace.min.css" rel="stylesheet" />
