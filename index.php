@@ -18,8 +18,9 @@ if (!isset($_SESSION["userwtf"])) {
         //setcookie("saveses","", time()-3600, "/");
         echo '<script>document.location.reload();</script>';
       } else {
-        echo '<script>alert("Your saved information on this browser seems broken, so we are redirecting you to login page. (Might be hacked/spoofed...?)");</script>';
+        //echo '<script>alert("Your saved information on this browser seems broken, so we are redirecting you to login page. (Might be hacked/spoofed...?)");</script>';
         setcookie("saveses", "", -1, "/");
+        query("delete from sessions where ip='".$ip."';");
         echo '<script>document.location.reload();</script>';
       }
     }
@@ -37,7 +38,7 @@ if (!isset($_SESSION["userwtf"])) {
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description" content="A" />
+  <meta name="description" content="Dashboard of a Vietnamese indie distributor." />
   <meta name="author" content="fuchsia Media Group" />
   <title>Dashboard - fuchsia Media Group</title>
   <!-- loader-->
@@ -114,7 +115,7 @@ if (!isset($_SESSION["userwtf"])) {
         <li class="sidebar-header">TOOLBOX</li>
         <li><a href="manager/artist/"><i class="zmdi zmdi-accounts text-warning"></i> <span>Artists</span></a></li>
         <li><a href="manager/tracks/"><i class="zmdi zmdi-audio text-success"></i> <span>Tracks</span></a></li>
-        <li><a href="ticket/"><i class="zmdi zmdi-bug text-info"></i> <span>Found a bug?</span></a></li>
+        <li><a href="ticket/"><i class="zmdi zmdi-tag text-info"></i> <span>Support</span></a></li>
         <li><a href="./login/login.php?logout=yes"><i class="zmdi zmdi-run text-danger"></i> <span>Log out?</span></a>
         </li>
       </ul>
@@ -256,13 +257,6 @@ if (!isset($_SESSION["userwtf"])) {
                     <a href="analytics/" class="dropdown-toggle dropdown-toggle-nocaret">
                       <i class="zmdi zmdi-long-arrow-right"></i>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="javascript:void();">Action</a>
-                      <a class="dropdown-item" href="javascript:void();">Another action</a>
-                      <a class="dropdown-item" href="javascript:void();">Something else here</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="javascript:void();">Separated link</a>
-                    </div>
                   </div>
                 </div>
               </div>

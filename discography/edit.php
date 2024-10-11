@@ -17,7 +17,9 @@ else {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Release Editor - ID <?php echo $_GET["id"]; ?></title>
+    <title>Release Editor -
+        "<?php echo ($release[$_GET["id"]]->name ? $release[$_GET["id"]]->name : "(untitled)"); ?>"
+    </title>
     <!-- loader-->
     <link href="../assets/css/pace.min.css" rel="stylesheet" />
     <script src="../assets/js/pace.min.js"></script>
@@ -90,9 +92,11 @@ else {
                 </li>
 
                 <li class="sidebar-header">TOOLBOX</li>
-                <li><a href="manager/artist/"><i class="zmdi zmdi-accounts text-warning"></i> <span>Artists</span></a>
+                <li><a href="manager/artist/"><i class="zmdi zmdi-accounts text-warning"></i>
+                        <span>Artists</span></a>
                 </li>
-                <li><a href="../manager/tracks/"><i class="zmdi zmdi-audio text-success"></i> <span>Tracks</span></a>
+                <li><a href="../manager/tracks/"><i class="zmdi zmdi-audio text-success"></i>
+                        <span>Tracks</span></a>
                 </li>
                 <li><a href="../ticket/"><i class="zmdi zmdi-bug text-info"></i> <span>Found a bug?</span></a></li>
                 <li><a href="../login/login.php?logout=yes"><i class="zmdi zmdi-run text-danger"></i> <span>Log
@@ -140,7 +144,8 @@ else {
                                 <a href="javaScript:void();">
                                     <div class="media">
                                         <div class="avatar"><img class="align-self-start mr-3"
-                                                src="../assets/images/gallery/ava_sample.png" alt="user avatar"></div>
+                                                src="../assets/images/gallery/ava_sample.png" alt="user avatar">
+                                        </div>
                                         <div class="media-body">
                                             <h6 class="mt-2 user-title"><?php echo $user->display; ?></h6>
                                             <p class="user-subtitle"><?php echo $user->email; ?></p>
@@ -168,7 +173,145 @@ else {
             <div class="container-fluid">
 
                 <!--Start Dashboard Content-->
-                ok ok ok ok 
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <form action="save.php" method="POST">
+                                <div class="card-header">
+                                    <i class="zmdi zmdi-border-color"></i> Catalog ID:
+                                    <?php echo "FMG" . $_GET["id"]; ?>
+                                    <div class="card-action">
+                                        <a href="" class="text-success"><span> Save changes <i
+                                                    class="zmdi zmdi-assignment text-success"></i></span></a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive overflow-hidden">
+                                        <style>
+                                            * {
+                                                box-sizing: border-box;
+                                            }
+
+                                            .dnd {
+                                                width: 100%;
+                                                height: 100%;
+                                                display: flex;
+                                            }
+
+                                            #drop-area {
+                                                width: 300px;
+                                                height: 300px;
+                                                padding: 15px;
+                                                text-align: center;
+                                                border-radius: 7px dashed #000000;
+                                            }
+
+                                            #img-view {
+                                                width: 100%;
+                                                height: 100%;
+                                                border-radius: 7px;
+                                                border: 1px dashed #AFFFFFFF;
+                                                background: #BF000000;
+                                                background-position: center;
+                                                background-size: cover;
+                                            }
+
+                                            #img-view img {
+                                                width: 100%;
+                                                margin-top: 25px;
+                                            }
+
+                                            #img-view span {
+                                                display: block;
+                                                font-size: 11px;
+                                                color: #eeeeee;
+                                                margin-top: 47%;
+                                            }
+                                        </style>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <div class="dnd">
+                                                    <label for="input-file" id="drop-area">
+                                                        <input type="file" accept="image/*" id="input-file" hidden>
+                                                        <div id="img-view">
+                                                            <span><i class="zmdi zmdi-file-plus"></i> Upload your artwork here <br />(Min. 1500x1500)</span>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <?php
+                                                //
+                                                $artist = getArtist($_GET["id"]);
+                                                $mergedArtistnames = "";
+                                                $i=0;
+                                                foreach ($artist as &$adu) {
+                                                    $mergedArtistnames .= ($i?", ":"").$adu->name;
+                                                    $i++;
+                                                }
+                                            ?>
+                                            <div class="col-md-auto" style="padding-top: 20px;">
+                                                <h3><?php echo ($release[$_GET["id"]]->name ? $release[$_GET["id"]]->name : "(untitled)"); ?>
+                                                </h3>
+                                                <span><span style="font-weight: bold;">UPC</span>:
+                                                    <?php echo ($release[$_GET["id"]]->upc ? $release[$_GET["id"]]->upc : "(not set)"); ?></span>
+                                                <span><span style="font-weight: bold;">Artists: </span><?php echo $mergedArtistnames; ?></span>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header"><i class="zmdi zmdi-album"></i> Tracks List
+                                                <div class="card-action">
+                                                    <div class="dropdown">
+                                                        <a href="" class="text dropdown-toggle dropdown-toggle-nocaret">
+                                                            <i class="zmdi zmdi-collection-plus"></i> Add more
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body table-responsive">
+                                                    <table class="table align-items-center align-items-center table-borderless table-sm">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>ID</th>
+                                                                <th>Track Name</th>
+                                                                <th>Artists</th>
+                                                                <th>Download</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr id="track1">
+                                                                <td>1</td>
+                                                                <td>1</td>
+                                                                <td>Yabucac</td>
+                                                                <td><a href="" class="text-info">GDrive</a></td>
+                                                                <td><a class="text-warning" onclick="document.getElementById('track1').remove();">Delete</a></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <script>
+                                                const dropArea = document.getElementById("drop-area");
+                                                const inputFile = document.getElementById("input-file");
+                                                const imageView = document.getElementById("img-view");
+                                                inputFile.addEventListener("change", uploadImage);
+                                                function uploadImage() {
+                                                    let imgLink = URL.createObjectURL(inputFile.files[0]);
+                                                    imageView.style.backgroundImage = `url(${imgLink})`;
+                                                    imageView.textContent = "";
+                                                }
+                                                dropArea.addEventListener("dragover", function (e) { e.preventDefault(); });
+                                                dropArea.addEventListener("drop", function (e) {
+                                                    e.preventDefault();
+                                                    inputFile.files = e.dataTransfer.files;
+                                                    uploadImage();
+                                                });
+                                            </script>
+                                        </div>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <!--End Dashboard Content-->
 
                 <!--start overlay-->
@@ -250,4 +393,5 @@ else {
         document.getElementById("cccccyear").innerHTML = n.getFullYear();
     </script>
 </body>
+
 </html>

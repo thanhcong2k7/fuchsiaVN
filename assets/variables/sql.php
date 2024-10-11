@@ -5,6 +5,7 @@
 	}
 	class artistType {
 		public $id;
+		public $name;
 		public $role;
 	}
 	class albumType{
@@ -76,5 +77,73 @@
 			$tmp2->email = $row["email"];
 		}
 		return $tmp2;
+	}
+	class file{
+		public $name;
+		public $id;
+		public $data;
+		public $gid;
+	}
+	function getFile($uid){
+		$tmp1 = query("select * from storage where userID=".$uid.";");
+		$tmp2 = new file();
+		$data = array();
+		while ($row=$tmp1->fetch_assoc()){
+			$tmp2->name = $row["fName"];
+			$tmp2->gid = $row["gID"];
+			$tmp2->id = $row["fileID"];
+			$data[] = $tmp2;
+		}
+		return $data;
+	}
+	class trackType{
+		public $id;
+		public $name;
+		public $role;
+		public $artist;
+	}
+	function getTrack($album){
+		$tmp1 = query("select trackID from album where albumID=".$album.";");
+		//$track = array();
+		while ($row=$tmp1->fetch_assoc()){
+			$track = json_decode($row["trackID"]);
+			foreach ($track as &$ok) {
+				$typ = new trackType();
+				$typ->id = $ok;
+				$typ->name = getTrackname($ok);
+			}
+		}
+	}
+	function getTrackname($trackID){
+		$tmp1 = query("select name from track where id=".$trackID.";");
+		while ($row=$tmp1->fetch_assoc()){
+			return $row["name"];
+		}
+	}
+	function getArtist($trackID){
+		$tmp1 = query("select * from track where id=".$trackID.";");
+		$arr = array();
+		while($row=$tmp1->fetch_assoc()){
+			$artists = new artistType();
+			$jsjsjsjs = json_decode($row["artist"]);
+			$sus = json_decode($row["role"]);
+			$i = 0;
+			foreach($jsjsjsjs as &$tmp2){
+				$artists->id = $tmp2;
+				$artists->name = getArtistname($tmp2);
+				$artists->role = $sus[$i];
+				$i++;
+			}
+			$arr[] = $artists;
+		}
+		return $arr;
+	}
+	function getArtistname($artistID){
+		$tmp1 = query("select authorName from author where authorID=".$artistID.";");
+		$ok = "";
+		while ($row=$tmp1->fetch_assoc()){
+			$ok = $row["authorName"];
+		}
+		return $ok;
 	}
 ?>
