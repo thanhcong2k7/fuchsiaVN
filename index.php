@@ -363,19 +363,24 @@ if (!isset($_SESSION["userwtf"])) {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>Hand Watch</td>
-                        <td><img src="https://via.placeholder.com/110x110" class="product-img" alt="product img"></td>
-                        <td>#9405840</td>
-                        <td>$ 1800.00</td>
-                        <td>03 Aug 2017</td>
-                        <td>
-                          <div class="progress shadow" style="height: 3px;">
-                            <div class="progress-bar" role="progressbar" style="width: 40%"></div>
-                          </div>
-                        </td>
-                      </tr>
-
+                      <?php
+                        $r = getRelease($_SESSION["userwtf"], 10);
+                        foreach ($r as &$re){
+                          echo '
+                            <tr>
+                              <td>'.$re->name.'</td>
+                              <td><img src="'.(!isset($re->art) ? 'https://via.placeholder.com/50x50' : "https://lh3.googleusercontent.com/d/".$re->art).'" class="product-img" alt="product img"></td>
+                              <td>#9405840</td>
+                              <td>$ 1800.00</td>
+                              <td>03 Aug 2017</td>
+                              <td>
+                                <div class="progress shadow" style="height: 3px;">
+                                  <div class="progress-bar" role="progressbar" style="width: 40%"></div>
+                                </div>
+                              </td>
+                            </tr>';
+                        }
+                      ?>
                     </tbody>
                   </table>
                 </div>

@@ -23,7 +23,7 @@
 		public $p; //publishing line
 		public $file = array(); //JSON array of tracks
 	}
-	function getRelease($uid){
+	function getRelease($uid, $num = 0){
 		//find all release based on user id
 		$tmp1 = query("select * from album where userID=".$uid.";");
 		$releases = array();
@@ -57,7 +57,13 @@
 			}
 			$releases[] = $tmp2;
 		}
-		return $releases;
+		$r = array();
+		if ($num!=0){
+			for($i=0; $i<$num && $i<count($releases); $i++){
+				$r[] = $releases[$i];
+			}
+			return $r;
+		} else return $releases;
 	}
 	class userType {
 		public $name;

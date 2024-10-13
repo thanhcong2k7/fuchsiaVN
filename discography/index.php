@@ -66,7 +66,7 @@ else {
         </li>
 
         <li>
-          <a href="../discography/">
+          <a href="">
             <i class="zmdi zmdi-album"></i> <span>Discography</span>
           </a>
         </li>
