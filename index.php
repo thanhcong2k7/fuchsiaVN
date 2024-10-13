@@ -356,7 +356,7 @@ if (!isset($_SESSION["userwtf"])) {
                       <tr>
                         <th>Release Name</th>
                         <th>Artwork</th>
-                        <th>Catalog ID</th>
+                        <th>UPC</th>
                         <th>Status</th>
                         <th>Release date</th>
                         <th>Actions</th>
@@ -370,13 +370,12 @@ if (!isset($_SESSION["userwtf"])) {
                             <tr>
                               <td>'.$re->name.'</td>
                               <td><img src="'.(!isset($re->art) ? 'https://via.placeholder.com/50x50' : "https://lh3.googleusercontent.com/d/".$re->art).'" class="product-img" alt="product img"></td>
-                              <td>#9405840</td>
-                              <td>$ 1800.00</td>
-                              <td>03 Aug 2017</td>
+                              <td>FMG'.$re->id.'</td>
+                              <td>'.($re->status == 0 ? "DRAFT" : ($re->status == 1 ? "DELIVERED" : ($re->status == 2 ? "ERROR" : "CHECKING"))).'</td>
+                              <td>'.($re->relDate ? $re->relDate : "--/--/----").'</td>
                               <td>
-                                <div class="progress shadow" style="height: 3px;">
-                                  <div class="progress-bar" role="progressbar" style="width: 40%"></div>
-                                </div>
+                                <a href="discography/edit.php?id=' . $re->upc . '">Edit</a> / 
+			                          <a class="text-error" href="discography/edit.php?id=' . $re->id . '&delete=1">Delete</a>
                               </td>
                             </tr>';
                         }

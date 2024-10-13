@@ -7,6 +7,10 @@ else {
     $user = getUser($_SESSION["userwtf"]);
     $release = getRelease($_SESSION["userwtf"]);
 }
+if (isset($_GET["delete"]) && isset( $_GET["id"]) && isset( $_SESSION["userwtf"] )){
+    query("delete from album where albumID=".$_GET["id"].";");
+    echo "<script>window.location.href='./index.php';</script>";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -241,12 +245,19 @@ else {
                                             </div>
                                             <?php
                                                 //
-                                                $artist = getArtist($_GET["id"]);
                                                 $mergedArtistnames = "";
-                                                $i=0;
-                                                foreach ($artist as &$adu) {
-                                                    $mergedArtistnames .= ($i?", ":"").$adu->name;
-                                                    $i++;
+                                                $f = getFile($_GET["id"]);
+                                                $r2 = getRelease($_SESSION["userwtf"], 0, $_GET["id"]);
+                                                $track = array();
+                                                foreach($r2->file as &$adu){
+                                                    foreach($f as &$f2){
+                                                        if($f2 == $adu) $t = getTrack($f2);
+                                                        $track[] = $t;
+                                                        $artist = getArtist($t->id);
+                                                        foreach ($artist as &$adu) {
+                                                            $mergedArtistnames .= ($mergedArtistnames!=""?", ":"").$adu->name;
+                                                        }
+                                                    }
                                                 }
                                             ?>
                                             <div class="col-md-auto" style="padding-top: 20px;">
@@ -254,6 +265,7 @@ else {
                                                 </h3>
                                                 <span><span style="font-weight: bold;">UPC</span>:
                                                     <?php echo ($release[$_GET["id"]]->upc ? $release[$_GET["id"]]->upc : "(not set)"); ?></span>
+                                                    <br />
                                                 <span><span style="font-weight: bold;">Artists: </span><?php echo $mergedArtistnames; ?></span>
                                             </div>
                                         </div>
@@ -278,13 +290,19 @@ else {
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr id="track1">
-                                                                <td>1</td>
-                                                                <td>1</td>
-                                                                <td>Yabucac</td>
-                                                                <td><a href="" class="text-info">GDrive</a></td>
-                                                                <td><a class="text-warning" onclick="document.getElementById('track1').remove();">Delete</a></td>
-                                                            </tr>
+                                                            <?php
+                                                                foreach($track as &$tr){
+                                                                    echo '
+                                                                    <tr id="track'.$tr->id.'">
+                                                                        <td>'.$tr->name.'</td>
+                                                                        <td>1</td>
+                                                                        <td>Yabucac</td>
+                                                                        <td><a href="" class="text-info">GDrive</a></td>
+                                                                        <td><a class="text-warning" onclick="document.getElementById(\'track1\').remove();">Delete</a></td>
+                                                                    </tr>
+                                                                    ';
+                                                                }
+                                                            ?>
                                                         </tbody>
                                                     </table>
                                                 </div>
