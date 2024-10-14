@@ -167,8 +167,15 @@ else {
         <div class="row">
           <div class="col">
             <div class="card">
+              <div class="card-header">
+              <i class="zmdi zmdi-album"></i> Your Discography
+                <div class="card-action">
+                  <a href="edit.php?new=1" class="text dropdown-toggle dropdown-toggle-nocaret">
+                    <i class="zmdi zmdi-collection-plus"></i> Create new album
+                  </a>
+                </div>
+              </div>
               <div class="card-body">
-                <h5 class="card-title">Your Discography</h5>
                 <div class="table-responsive">
                   <table class="table table-hover">
                     <thead>
@@ -189,19 +196,19 @@ else {
                       else
                         foreach ($release as &$r) {
                           echo '
-				<tr>
-                    <td>' . ($r->id < 10 ? "0" . $r->id : $r->id) . '</td>
-		    <td>' . ($r->upc ? $r->upc : "--") . '</td>
-                    <td>' . ($r->name ? $r->name : "(draft)") . '</td>
-                    <td><img src="' . (!isset($r->art) ? 'https://via.placeholder.com/50x50' : $r->art) . '" class="product-img" alt="' . $r->name . ' Artwork"></td>
-                    <td class="text' . ($r->status == 0 ? "" : ($r->status == 1 ? "-success" : ($r->status == 2 ? "-error" : "-info"))) . '">
-		    ' . ($r->status == 0 ? "DRAFT" : ($r->status == 1 ? "DELIVERED" : ($r->status == 2 ? "ERROR" : "CHECKING"))) . '
-		    </td>
-                    <td>' . ($r->relDate ? $r->relDate : "--/--/----") . '</td>
-		    <td>
-			<a href="edit.php?id=' . $r->id . '">Edit</a> / 
-			<a class="text-error" href="edit.php?id=' . $r->id . '&delete=1">Delete</a>
-		    </td>
+                          <tr>
+                                      <td>' . ($r->id < 10 ? "0" . $r->id : $r->id) . '</td>
+                          <td>' . ($r->upc ? $r->upc : "--") . '</td>
+                                      <td>' . ($r->name ? $r->name : "(draft)") . '</td>
+                                      <td><img src="' . (!isset($r->art) ? 'https://via.placeholder.com/50x50' : $r->art) . '" class="product-img" alt="' . $r->name . ' Artwork"></td>
+                                      <td class="text' . ($r->status == 0 ? "" : ($r->status == 1 ? "-success" : ($r->status == 2 ? "-error" : "-info"))) . '">
+                          ' . ($r->status == 0 ? "DRAFT" : ($r->status == 1 ? "DELIVERED" : ($r->status == 2 ? "ERROR" : "CHECKING"))) . '
+                          </td>
+                                      <td>' . ($r->relDate ? $r->relDate : "--/--/----") . '</td>
+                          <td>
+                        <a href="edit.php?id=' . $r->id . '">Edit</a> / 
+                        <a class="text-error" href="edit.php?id=' . $r->id . '&delete=1">Delete</a>
+                          </td>
                   </tr>';
                         }
                       ?>

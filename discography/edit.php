@@ -7,6 +7,11 @@ else {
     $user = getUser($_SESSION["userwtf"]);
     $release = getRelease($_SESSION["userwtf"], 0, $_GET["id"]);
 }
+if(isset($_GET["new"]) && isset( $_SESSION["userwtf"])){
+    query("insert into album (userID) values (".$_SESSION["userwtf"].");");
+    $newid = creNew($_SESSION["userwtf"]);
+    echo "<script>window.location.href='edit.php?id=".$newid."';</script>";
+}
 if (isset($_GET["delete"]) && isset( $_GET["id"]) && isset( $_SESSION["userwtf"] )){
     query("delete from album where albumID=".$_GET["id"].";");
     echo "<script>window.location.href='./index.php';</script>";
@@ -251,7 +256,7 @@ if (isset($_GET["delete"]) && isset( $_GET["id"]) && isset( $_SESSION["userwtf"]
                                                 foreach($r2->file as &$adu){
                                                     foreach($f as &$f2){
                                                         if($f2->id == $adu){
-                                                            $t = getTrack($f2);
+                                                            $t = getTrack($f2->id);
                                                             $track[] = $t;
                                                             $artist = getArtist($t->id);
                                                             foreach ($artist as &$adu) {

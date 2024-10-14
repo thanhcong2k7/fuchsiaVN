@@ -368,13 +368,13 @@ if (!isset($_SESSION["userwtf"])) {
                         foreach ($r as &$re){
                           echo '
                             <tr>
-                              <td>'.$re->name.'</td>
+                              <td>'.($re->name ? $re->name : "(untitled)").'</td>
                               <td><img src="'.(!isset($re->art) ? 'https://via.placeholder.com/50x50' : "https://lh3.googleusercontent.com/d/".$re->art).'" class="product-img" alt="product img"></td>
                               <td>FMG'.$re->id.'</td>
                               <td>'.($re->status == 0 ? "DRAFT" : ($re->status == 1 ? "DELIVERED" : ($re->status == 2 ? "ERROR" : "CHECKING"))).'</td>
                               <td>'.($re->relDate ? $re->relDate : "--/--/----").'</td>
                               <td>
-                                <a href="discography/edit.php?id=' . $re->upc . '">Edit</a> / 
+                                <a href="discography/edit.php?id=' . $re->id . '">Edit</a> / 
 			                          <a class="text-error" href="discography/edit.php?id=' . $re->id . '&delete=1">Delete</a>
                               </td>
                             </tr>';

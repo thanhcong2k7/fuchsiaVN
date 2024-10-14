@@ -98,7 +98,7 @@
 		public $file;
 	}
 	function getTrack($track){
-		$tmp1 = query("select * from album where trackID=".$track.";");
+		$tmp1 = query("select * from track where id=".$track.";");
 		//$track = array();
 		$typ = new trackType();
 		while ($row=$tmp1->fetch_assoc()){
@@ -135,5 +135,13 @@
 			$ok = $row["authorName"];
 		}
 		return $ok;
+	}
+	function creNew($uid){
+		$tmp1 = query("select albumID from album where userID=".$uid.";");
+		$tmp2 = 0;
+		while ($row=$tmp1->fetch_assoc()){
+			$tmp2 = $row["albumID"];
+		}
+		return $tmp2;
 	}
 ?>
