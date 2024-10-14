@@ -5,7 +5,7 @@ if (!isset($_SESSION["userwtf"]))
 else {
     require '../assets/variables/sql.php';
     $user = getUser($_SESSION["userwtf"]);
-    $release = getRelease($_SESSION["userwtf"]);
+    $release = getRelease($_SESSION["userwtf"], 0, $_GET["id"]);
 }
 if (isset($_GET["delete"]) && isset( $_GET["id"]) && isset( $_SESSION["userwtf"] )){
     query("delete from album where albumID=".$_GET["id"].";");
@@ -22,7 +22,7 @@ if (isset($_GET["delete"]) && isset( $_GET["id"]) && isset( $_SESSION["userwtf"]
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Release Editor -
-        "<?php echo ($release[$_GET["id"]]->name ? $release[$_GET["id"]]->name : "(untitled)"); ?>"
+        "<?php echo ($release->name ? $release->name : "(untitled)"); ?>"
     </title>
     <!-- loader-->
     <link href="../assets/css/pace.min.css" rel="stylesheet" />
@@ -244,27 +244,28 @@ if (isset($_GET["delete"]) && isset( $_GET["id"]) && isset( $_SESSION["userwtf"]
                                                 </div>
                                             </div>
                                             <?php
-                                                //
                                                 $mergedArtistnames = "";
                                                 $f = getFile($_GET["id"]);
                                                 $r2 = getRelease($_SESSION["userwtf"], 0, $_GET["id"]);
                                                 $track = array();
                                                 foreach($r2->file as &$adu){
                                                     foreach($f as &$f2){
-                                                        if($f2 == $adu) $t = getTrack($f2);
-                                                        $track[] = $t;
-                                                        $artist = getArtist($t->id);
-                                                        foreach ($artist as &$adu) {
-                                                            $mergedArtistnames .= ($mergedArtistnames!=""?", ":"").$adu->name;
-                                                        }
+                                                        if($f2->id == $adu){
+                                                            $t = getTrack($f2);
+                                                            $track[] = $t;
+                                                            $artist = getArtist($t->id);
+                                                            foreach ($artist as &$adu) {
+                                                                $mergedArtistnames .= ($mergedArtistnames!=""?", ":"").$adu->name;
+                                                            }
+                                                        } else continue;
                                                     }
                                                 }
                                             ?>
                                             <div class="col-md-auto" style="padding-top: 20px;">
-                                                <h3><?php echo ($release[$_GET["id"]]->name ? $release[$_GET["id"]]->name : "(untitled)"); ?>
+                                                <h3><?php echo ($release->name ? $release->name : "(untitled)"); ?>
                                                 </h3>
                                                 <span><span style="font-weight: bold;">UPC</span>:
-                                                    <?php echo ($release[$_GET["id"]]->upc ? $release[$_GET["id"]]->upc : "(not set)"); ?></span>
+                                                    <?php echo ($release->upc ? $release->upc : "(not set)"); ?></span>
                                                     <br />
                                                 <span><span style="font-weight: bold;">Artists: </span><?php echo $mergedArtistnames; ?></span>
                                             </div>

@@ -41,10 +41,9 @@
 			$rrole = json_decode($row["artistRole"]); //role
 			$tmp2->createdDate = $row["createdDate"];
 			$tmp2->relDate = $row["relDate"];
-			$releases[] = $tmp2;
 			if($id!=0 && $row["albumID"] == $id){
 				return $tmp2;
-			}
+			} else $releases[] = $tmp2;
 		}
 		$r = array();
 		if ($num!=0){
@@ -81,9 +80,9 @@
 	}
 	function getFile($uid){
 		$tmp1 = query("select * from storage where userID=".$uid.";");
-		$tmp2 = new file();
 		$data = array();
 		while ($row=$tmp1->fetch_assoc()){
+			$tmp2 = new file();
 			$tmp2->name = $row["fName"];
 			$tmp2->gid = $row["gID"];
 			$tmp2->id = $row["fileID"];
