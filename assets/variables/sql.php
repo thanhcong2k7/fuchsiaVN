@@ -51,7 +51,8 @@
 				$r[] = $releases[$i];
 			}
 			return $r;
-		} else return $releases;
+		}
+		return $releases;
 	}
 	class userType {
 		public $name;

@@ -101,7 +101,7 @@ if (isset($_GET["delete"]) && isset( $_GET["id"]) && isset( $_SESSION["userwtf"]
                 </li>
 
                 <li class="sidebar-header">TOOLBOX</li>
-                <li><a href="manager/artist/"><i class="zmdi zmdi-accounts text-warning"></i>
+                <li><a href="../manager/artist/"><i class="zmdi zmdi-accounts text-warning"></i>
                         <span>Artists</span></a>
                 </li>
                 <li><a href="../manager/tracks/"><i class="zmdi zmdi-audio text-success"></i>
