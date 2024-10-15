@@ -60,43 +60,43 @@ else {
             <ul class="sidebar-menu do-nicescrol">
                 <li class="sidebar-header">MAIN MENU</li>
                 <li>
-                    <a href="../">
+                    <a href="../../">
                         <i class="zmdi zmdi-view-dashboard"></i> <span>Homepage</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="../discography/">
+                    <a href="../../discography/">
                         <i class="zmdi zmdi-album"></i> <span>Discography</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="../analytics/">
+                    <a href="../../analytics/">
                         <i class="zmdi zmdi-format-list-bulleted"></i> <span>Analytics</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="../revenue/">
+                    <a href="../../revenue/">
                         <i class="zmdi zmdi-balance-wallet"></i> <span>Revenue</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="../settings/">
+                    <a href="../../settings/">
                         <i class="zmdi zmdi-assignment-account"></i> <span>Your account</span>
                     </a>
                 </li>
 
                 <li class="sidebar-header">TOOLBOX</li>
-                <li><a href="../manager/artist/"><i class="zmdi zmdi-accounts text-warning"></i>
+                <li><a href="."><i class="zmdi zmdi-accounts text-warning"></i>
                         <span>Artists</span></a>
                 </li>
-                <li><a href="../manager/tracks/"><i class="zmdi zmdi-audio text-success"></i>
+                <li><a href="../tracks/"><i class="zmdi zmdi-audio text-success"></i>
                         <span>Tracks</span></a>
                 </li>
-                <li><a href="../ticket/"><i class="zmdi zmdi-bug text-info"></i> <span>Found a bug?</span></a></li>
+                <li><a href="../../ticket/"><i class="zmdi zmdi-bug text-info"></i> <span>Found a bug?</span></a></li>
                 <li><a href="../login/login.php?logout=yes"><i class="zmdi zmdi-run text-danger"></i> <span>Log
                             out?</span></a></li>
             </ul>
@@ -174,7 +174,53 @@ else {
                 <div class="row">
                     <div class="col">
                         <div class="card">
-                            ok
+                            <div class="card-header">adu</div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <form action="" id="newArtist" class="col">
+                                        <div class="row">
+                                            <div class="col col-md-auto">
+                                                <div class="form-group">
+                                                    <label for="artist-id">Artist ID</label>
+                                                    <input type="text" class="form-control" id="artist-id" placeholder="(Optional if you're creating new artist)">
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label for="alias">Artist Name</label>
+                                                    <input type="text" class="form-control" id="alias" placeholder="Alias. Example: Unknown Brain, Elektronomia, Japandee, Thereon, ...">
+                                                </div>
+                                            </div>
+                                            <div class="col col-lg-2">
+                                                <button type="submit" class="btn btn-light px-5">
+                                                    <i class="zmdi zmdi-plus-square"></i> Create
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="col-sm">
+                                                    <div class="form-group">
+                                                        <label for="spotifyID">Spotify ID</label>
+                                                        <input type="text" class="form-control" id="spotifyID" placeholder="Spotify ID ONLY. Example: 3NtqIIwOmoUGkrS4iD4lxY">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm">
+                                                    <div class="form-group">
+                                                        <label for="amID">Apple Music ID</label>
+                                                        <input type="text" class="form-control" id="amID" placeholder="Apple Music ID ONLY. Example: 3NtqIIwOmoUGkrS4iD4lxY">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="w-100"></div>
+                                <div class="card">
+                                    <div class="card-header">Artist List</div>
+                                    <div class="card-body">nyom nyom</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
