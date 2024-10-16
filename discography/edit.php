@@ -7,13 +7,13 @@ else {
     $user = getUser($_SESSION["userwtf"]);
     $release = getRelease($_SESSION["userwtf"], 0, $_GET["id"]);
 }
-if(isset($_GET["new"]) && isset( $_SESSION["userwtf"])){
-    query("insert into album (userID) values (".$_SESSION["userwtf"].");");
+if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
+    query("insert into album (userID) values (" . $_SESSION["userwtf"] . ");");
     $newid = creNew($_SESSION["userwtf"]);
-    echo "<script>window.location.href='edit.php?id=".$newid."';</script>";
+    echo "<script>window.location.href='edit.php?id=" . $newid . "';</script>";
 }
-if (isset($_GET["delete"]) && isset( $_GET["id"]) && isset( $_SESSION["userwtf"] )){
-    query("delete from album where albumID=".$_GET["id"].";");
+if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"])) {
+    query("delete from album where albumID=" . $_GET["id"] . ";");
     echo "<script>window.location.href='./index.php';</script>";
 }
 ?>
@@ -167,7 +167,8 @@ if (isset($_GET["delete"]) && isset( $_GET["id"]) && isset( $_SESSION["userwtf"]
                             <li class="dropdown-divider"></li>
                             <li class="dropdown-item"><i class="icon-settings mr-2"></i> Setting</li>
                             <li class="dropdown-divider"></li>
-                            <a class="dropdown-item" href="../login/login.php?logout=yes"><i class="icon-power mr-2"></i>
+                            <a class="dropdown-item" href="../login/login.php?logout=yes"><i
+                                    class="icon-power mr-2"></i>
                                 Logout</a>
                         </ul>
                     </li>
@@ -190,7 +191,7 @@ if (isset($_GET["delete"]) && isset( $_GET["id"]) && isset( $_SESSION["userwtf"]
                                     <i class="zmdi zmdi-border-color"></i> Catalog ID:
                                     <?php echo "FMG" . $_GET["id"]; ?>
                                     <div class="card-action">
-                                        <a href="" class="text-success"><span> Save changes <i
+                                        <a id="saveform" class="text-success"><span> Save changes <i
                                                     class="zmdi zmdi-assignment text-success"></i></span></a>
                                     </div>
                                 </div>
@@ -244,36 +245,38 @@ if (isset($_GET["delete"]) && isset( $_GET["id"]) && isset( $_SESSION["userwtf"]
                                                     <label for="input-file" id="drop-area">
                                                         <input type="file" accept="image/*" id="input-file" hidden>
                                                         <div id="img-view">
-                                                            <span><i class="zmdi zmdi-file-plus"></i> Upload your artwork here <br />(Min. 1500x1500)</span>
+                                                            <span><i class="zmdi zmdi-file-plus"></i> Upload your
+                                                                artwork here <br />(Min. 1500x1500)</span>
                                                         </div>
                                                     </label>
                                                 </div>
                                             </div>
                                             <?php
-                                                $mergedArtistnames = "";
-                                                $f = getFile($_GET["id"]);
-                                                $r2 = getRelease($_SESSION["userwtf"], 0, $_GET["id"]);
-                                                $track = array();
-                                                foreach($r2->file as &$adu){
-                                                    foreach($f as &$f2){
-                                                        if($f2->id == $adu){
-                                                            $t = getTrack($f2->id);
-                                                            $track[] = $t;
-                                                            $artist = getArtist($t->id);
-                                                            foreach ($artist as &$adu) {
-                                                                $mergedArtistnames .= ($mergedArtistnames!=""?", ":"").$adu->name;
-                                                            }
-                                                        } else continue;
+                                            $mergedArtistnames = "";
+                                            $f = getFile($_GET["id"]);
+                                            $r2 = getRelease($_SESSION["userwtf"], 0, $_GET["id"]);
+                                            $track = array();
+                                            foreach ($r2->file as &$adu) {
+                                                foreach ($f as &$f2) {
+                                                    if ($f2->id == $adu) {
+                                                        $t = getTrack($f2->id);
+                                                        $track[] = $t;
+                                                        $artist = getArtist($t->id);
+                                                        foreach ($artist as &$adu) {
+                                                            $mergedArtistnames .= ($mergedArtistnames != "" ? ", " : "") . $adu->name;
+                                                        }
                                                     }
                                                 }
+                                            }
                                             ?>
                                             <div class="col-md-auto" style="padding-top: 20px;">
                                                 <h3><?php echo ($release->name ? $release->name : "(untitled)"); ?>
                                                 </h3>
                                                 <span><span style="font-weight: bold;">UPC</span>:
                                                     <?php echo ($release->upc ? $release->upc : "(not set)"); ?></span>
-                                                    <br />
-                                                <span><span style="font-weight: bold;">Artists: </span><?php echo $mergedArtistnames; ?></span>
+                                                <br />
+                                                <span><span style="font-weight: bold;">Artists:
+                                                    </span><?php echo $mergedArtistnames; ?></span>
                                             </div>
                                         </div>
                                         <div class="card">
@@ -286,7 +289,8 @@ if (isset($_GET["delete"]) && isset( $_GET["id"]) && isset( $_SESSION["userwtf"]
                                                     </div>
                                                 </div>
                                                 <div class="card-body table-responsive">
-                                                    <table class="table align-items-center align-items-center table-borderless table-sm">
+                                                    <table
+                                                        class="table align-items-center align-items-center table-borderless table-sm">
                                                         <thead>
                                                             <tr>
                                                                 <th>ID</th>
@@ -298,18 +302,30 @@ if (isset($_GET["delete"]) && isset( $_GET["id"]) && isset( $_SESSION["userwtf"]
                                                         </thead>
                                                         <tbody>
                                                             <?php
-                                                                foreach($track as &$tr){
-                                                                    echo '
-                                                                    <tr id="track'.$tr->id.'">
-                                                                        <td>'.$tr->name.'</td>
-                                                                        <td>1</td>
-                                                                        <td>Yabucac</td>
+                                                            foreach ($track as &$tr) {
+                                                                echo '
+                                                                    <tr id="track' . $tr->id . '">
+                                                                        <td>' . $tr->id . '</td>
+                                                                        <td>' . $tr->name . '</td>
+                                                                        <td>' . $tr->artistname . '</td>
                                                                         <td><a href="" class="text-info">GDrive</a></td>
-                                                                        <td><a class="text-warning" onclick="document.getElementById(\'track1\').remove();">Delete</a></td>
+                                                                        <td><a class="text-warning" id="delete'.$tr->id.'" onclick="delete'.$tr->id.'()">Delete</a></td>
+                                                                        <script>
+                                                                            function delete'.$tr->id.'(){
+                                                                                document.getElementById(\'track'.$tr->id.'\').remove();
+                                                                                fetch("delete.php?albumid='.$_GET["id"].'&trackid='.$tr->id.'");
+                                                                                console.log("ngon");
+                                                                            }
+                                                                        </script>
                                                                     </tr>
                                                                     ';
-                                                                }
+                                                            }
                                                             ?>
+                                                            <script>
+                                                                document.addEventListener("submit",(e)=>{
+                                                                    //console.log()
+                                                                });
+                                                            </script>
                                                         </tbody>
                                                     </table>
                                                 </div>

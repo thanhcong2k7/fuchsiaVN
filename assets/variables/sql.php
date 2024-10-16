@@ -98,6 +98,7 @@
 		public $name;
 		public $role;
 		public $artist;
+		public $artistname;
 		public $file;
 	}
 	function getTrack($track){
@@ -108,6 +109,12 @@
 			$typ->id = $row["id"];
 			$typ->name = $row["name"];
 			$typ->artist = json_decode($row["artist"]);
+			$artist = getArtist($typ->id);
+			$mergedArtistnames = "";
+            foreach ($artist as &$adu) {
+                $mergedArtistnames .= ($mergedArtistnames!=""?", ":"").$adu->name;
+            }
+			$typ->artistname = $mergedArtistnames;
 			$typ->role = json_decode($row["role"]);
 			$typ->file = $row["fID"];
 		}
@@ -117,17 +124,17 @@
 		$tmp1 = query("select * from track where id=".$trackID.";");
 		$arr = array();
 		while($row=$tmp1->fetch_assoc()){
-			$artists = new artistType();
 			$jsjsjsjs = json_decode($row["artist"]);
 			$sus = json_decode($row["role"]);
 			$i = 0;
 			foreach($jsjsjsjs as &$tmp2){
+				$artists = new artistType();
 				$artists->id = $tmp2;
 				$artists->name = getArtistname($tmp2);
 				$artists->role = $sus[$i];
 				$i++;
+				$arr[] = $artists;
 			}
-			$arr[] = $artists;
 		}
 		return $arr;
 	}

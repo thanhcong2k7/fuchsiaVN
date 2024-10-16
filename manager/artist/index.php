@@ -178,7 +178,7 @@ else {
                             <div class="card-body">
                                 <div class="row">
                                     <form action="" id="newArtist" class="col">
-                                        <div class="row">
+                                        <div class="row" style="justify-content: center;">
                                             <div class="col col-md-auto">
                                                 <div class="form-group">
                                                     <label for="artist-id">Artist ID</label>
@@ -192,24 +192,23 @@ else {
                                                 </div>
                                             </div>
                                             <div class="col col-lg-2">
-                                                <button type="submit" class="btn btn-light px-5">
+                                                <label for="submit"></label>
+                                                <button type="submit" class="btn btn-light px-5" id="submit">
                                                     <i class="zmdi zmdi-plus-square"></i> Create
                                                 </button>
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col">
-                                                <div class="col-sm">
-                                                    <div class="form-group">
-                                                        <label for="spotifyID">Spotify ID</label>
-                                                        <input type="text" class="form-control" id="spotifyID" placeholder="Spotify ID ONLY. Example: 3NtqIIwOmoUGkrS4iD4lxY">
-                                                    </div>
+                                            <div class="col-sm">
+                                                <div class="form-group">
+                                                    <label for="spotifyID">Spotify ID</label>
+                                                    <input type="text" class="form-control" id="spotifyID" placeholder="Spotify ID ONLY. Example: 3NtqIIwOmoUGkrS4iD4lxY">
                                                 </div>
-                                                <div class="col-sm">
-                                                    <div class="form-group">
-                                                        <label for="amID">Apple Music ID</label>
-                                                        <input type="text" class="form-control" id="amID" placeholder="Apple Music ID ONLY. Example: 3NtqIIwOmoUGkrS4iD4lxY">
-                                                    </div>
+                                            </div>
+                                            <div class="col-sm">
+                                                <div class="form-group">
+                                                    <label for="amID">Apple Music ID</label>
+                                                    <input type="text" class="form-control" id="amID" placeholder="Apple Music ID ONLY. Example: 3NtqIIwOmoUGkrS4iD4lxY">
                                                 </div>
                                             </div>
                                         </div>
