@@ -167,7 +167,7 @@ if (isset($_GET["delete"]) && isset( $_GET["id"]) && isset( $_SESSION["userwtf"]
                             <li class="dropdown-divider"></li>
                             <li class="dropdown-item"><i class="icon-settings mr-2"></i> Setting</li>
                             <li class="dropdown-divider"></li>
-                            <a class="dropdown-item" href="login/login.php?logout=yes"><i class="icon-power mr-2"></i>
+                            <a class="dropdown-item" href="../login/login.php?logout=yes"><i class="icon-power mr-2"></i>
                                 Logout</a>
                         </ul>
                     </li>
@@ -205,6 +205,7 @@ if (isset($_GET["delete"]) && isset( $_GET["id"]) && isset( $_SESSION["userwtf"]
                                                 width: 100%;
                                                 height: 100%;
                                                 display: flex;
+                                                justify-content: center;
                                             }
 
                                             #drop-area {

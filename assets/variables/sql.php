@@ -60,6 +60,7 @@
 		public $display; //Display name
 		public $register; //register date
 		public $avatar; //Google Drive file ID
+		public $type; //account type: 0 admin; 1 sub-acc
 	}
 	function getUser($uid){
 		$tmp1 = query("select name,email,labelName,regdate,imgavt from user where userID=".$uid.";");
@@ -70,6 +71,7 @@
 			$tmp2->register = $row["regdate"];
 			$tmp2->avatar = $row["imgavt"];
 			$tmp2->email = $row["email"];
+			$tmp2->type = $row["type"];
 		}
 		return $tmp2;
 	}

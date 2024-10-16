@@ -18,7 +18,7 @@ form.addEventListener('submit', e => {
   fr.readAsArrayBuffer(file);
   fr.onload = f => {
     
-    const url = "https://script.google.com/macros/s/AKfycbw2twWhP2t8orw5JF5xS4a6OgcMKMFLBlX3Zzinusta-oZMFlYC5lRHRZWyCk13jEU/exec";  // <--- Please set the URL of Web Apps.
+    const url = "https://script.google.com/macros/s/AKfycbyRR07piipMl-FrzPBonQS5O3UX8dgp2sSMMXJkllDJdFj_VoZ4z0yLpzw3Mu8YSso/exec";  // <--- Please set the URL of Web Apps.
     
     const qs = new URLSearchParams({filename: form.filename.value || file.name, mimeType: file.type});
     fetch(`${url}?${qs}`, {method: "POST", body: JSON.stringify([...new Int8Array(f.target.result)])})
