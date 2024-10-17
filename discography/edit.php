@@ -309,11 +309,18 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                                         <td>' . $tr->name . '</td>
                                                                         <td>' . $tr->artistname . '</td>
                                                                         <td><a href="" class="text-info">GDrive</a></td>
-                                                                        <td><a class="text-warning" id="delete'.$tr->id.'" onclick="delete'.$tr->id.'()">Delete</a></td>
+                                                                        <td><a class="text-warning" id="delete'.$tr->id.'" onclick="document.getElementById(\'track'.$tr->id.'\').remove();console.log(fetch(\'delete.php?albumid='.$_GET["id"].'&trackid='.$tr->id.'\').text());">Delete</a></td>
                                                                         <script>
                                                                             function delete'.$tr->id.'(){
-                                                                                document.getElementById(\'track'.$tr->id.'\').remove();
-                                                                                fetch("delete.php?albumid='.$_GET["id"].'&trackid='.$tr->id.'");
+                                                                                
+                                                                                
+                                                                                if (response.ok) { // if HTTP-status is 200-299
+                                                                                // get the response body (the method explained below)
+                                                                                    let outp = await response.text();
+                                                                                    console.log(outp);
+                                                                                } else {
+                                                                                    alert("HTTP-Error: " + response.status);
+                                                                                }
                                                                                 console.log("ngon");
                                                                             }
                                                                         </script>
