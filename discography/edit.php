@@ -277,6 +277,15 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                 <br />
                                                 <span><span style="font-weight: bold;">Artists:
                                                     </span><?php echo $mergedArtistnames; ?></span>
+                                                <br />
+                                                <span><span style="font-weight: bold;">Status:
+                                                    </span><?php $r = $release;
+                                                    echo ($r->status == 0 ? "DRAFT" : ($r->status == 1 ? "DELIVERED" : ($r->status == 2 ? "ERROR" : "CHECKING"))); ?></span>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                //
                                             </div>
                                         </div>
                                         <div class="card">
@@ -309,27 +318,13 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                                         <td>' . $tr->name . '</td>
                                                                         <td>' . $tr->artistname . '</td>
                                                                         <td><a href="" class="text-info">GDrive</a></td>
-                                                                        <td><a class="text-warning" id="delete'.$tr->id.'" onclick="document.getElementById(\'track'.$tr->id.'\').remove();console.log(fetch(\'delete.php?albumid='.$_GET["id"].'&trackid='.$tr->id.'\').text());">Delete</a></td>
-                                                                        <script>
-                                                                            function delete'.$tr->id.'(){
-                                                                                
-                                                                                
-                                                                                if (response.ok) { // if HTTP-status is 200-299
-                                                                                // get the response body (the method explained below)
-                                                                                    let outp = await response.text();
-                                                                                    console.log(outp);
-                                                                                } else {
-                                                                                    alert("HTTP-Error: " + response.status);
-                                                                                }
-                                                                                console.log("ngon");
-                                                                            }
-                                                                        </script>
+                                                                        <td><a class="text-warning" id="delete' . $tr->id . '" onclick="document.getElementById(\'track' . $tr->id . '\').remove();fetch(\'delete.php?albumid=' . $_GET["id"] . '&trackid=' . $tr->id . '\',{credentials:\'same-origin\'}).then((response)=>response.json()).then((responseData)=>{console.log(responseData.status);});">Delete</a></td>
                                                                     </tr>
                                                                     ';
                                                             }
                                                             ?>
                                                             <script>
-                                                                document.addEventListener("submit",(e)=>{
+                                                                document.addEventListener("submit", (e) => {
                                                                     //console.log()
                                                                 });
                                                             </script>

@@ -1,4 +1,6 @@
 <?php
+    session_start();
+    header('Content-Type: application/json');
     if(isset($_SESSION["userwtf"])){
         require '../assets/variables/sql.php';
         $re = getRelease($_SESSION["userwtf"],0,$_GET["albumid"]);
@@ -13,6 +15,6 @@
             $merge .= ($tmparr==""?$tr:", ".$tr);
         }
         query("update album set trackID=\"[".$merge."]\" where albumID=".$_GET["albumid"]);
-        echo "is it ok?";
-    } else echo "nah, stupid. wanna try to do it for 1 more time?";
+        echo '{ "status":"1"}';
+    } else echo '{"status":"0"}';
 ?>
