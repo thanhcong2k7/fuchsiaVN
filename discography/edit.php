@@ -240,7 +240,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                             }
                                         </style>
                                         <div class="row">
-                                            <div class="col-4">
+                                            <div class="col">
                                                 <div class="dnd">
                                                     <label for="input-file" id="drop-area">
                                                         <input type="file" accept="image/*" id="input-file" hidden>
@@ -269,7 +269,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                 }
                                             }
                                             ?>
-                                            <div class="col-md-auto" style="padding-top: 20px;">
+                                            <div class="col" style="padding-top: 20px;">
                                                 <h3><?php echo ($release->name ? $release->name : "(untitled)"); ?>
                                                 </h3>
                                                 <span><span style="font-weight: bold;">UPC</span>:
@@ -283,6 +283,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                     echo ($r->status == 0 ? "DRAFT" : ($r->status == 1 ? "DELIVERED" : ($r->status == 2 ? "ERROR" : "CHECKING"))); ?></span>
                                             </div>
                                         </div>
+                                        <div class="w-100"></div>
                                         <div class="card">
                                             <div class="card-body">
                                                 //
