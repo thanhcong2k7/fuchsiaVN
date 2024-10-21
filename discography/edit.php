@@ -186,12 +186,12 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                 <div class="row">
                     <div class="col">
                         <div class="card">
-                            <form action="save.php" method="POST">
+                            <form action="save.php" method="POST" id="formdepchai">
                                 <div class="card-header">
                                     <i class="zmdi zmdi-border-color"></i> Catalog ID:
                                     <?php echo "FMG" . $_GET["id"]; ?>
                                     <div class="card-action">
-                                        <a id="saveform" class="text-success"><span> Save changes <i
+                                        <a id="saveform" class="text-success" type="submit"><span> Save changes <i
                                                     class="zmdi zmdi-assignment text-success"></i></span></a>
                                     </div>
                                 </div>
@@ -268,6 +268,10 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                     }
                                                 }
                                             }
+                                            if($r2->art != null){
+                                                //https://drive.google.com/thumbnail?id=${id}
+                                                echo "imageView.style.backgroundImage = `url(https://drive.google.com/thumbnail?id=".$r2->art.")`;";
+                                            }
                                             ?>
                                             <div class="col" style="padding-top: 20px;">
                                                 <h3><?php echo ($release->name ? $release->name : "(untitled)"); ?>
@@ -285,6 +289,16 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                         </div>
                                         <div class="w-100"></div>
                                         <div class="card">
+                                            <div class="card-header">
+                                                <i class="zmdi zmdi-info"></i> Album Metadata
+                                                <div class="card-action">
+                                                    <div class="dropdown">
+                                                        <a href="" class="text dropdown-toggle dropdown-toggle-nocaret">
+                                                            <i class="zmdi zmdi-collection-plus"></i> Add more
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="card-body">
                                                 //
                                             </div>
@@ -339,9 +353,28 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                 const imageView = document.getElementById("img-view");
                                                 inputFile.addEventListener("change", uploadImage);
                                                 function uploadImage() {
-                                                    let imgLink = URL.createObjectURL(inputFile.files[0]);
-                                                    imageView.style.backgroundImage = `url(${imgLink})`;
-                                                    imageView.textContent = "";
+                                                    var reader = new FileReader();
+                                                    //Read the contents of Image File.
+                                                    reader.readAsDataURL(inputFile.files[0]);
+                                                    reader.onload = function (e) {
+                                                        //Initiate the JavaScript Image object.
+                                                        var image = new Image();
+                                                        //Set the Base64 string return from FileReader as source.
+                                                        image.src = e.target.result;
+                                                        //Validate the File Height and Width.
+                                                        image.onload = function () {
+                                                            var height = this.height;
+                                                            var width = this.width;
+                                                            if (height < 1500 || width < 1500 || height/width!=1) {
+                                                                alert("Double-check your image. Is it 1500x1500 or a 1:1 image?");
+                                                                return false;
+                                                            }
+                                                            let imgLink = URL.createObjectURL(inputFile.files[0]);
+                                                            imageView.style.backgroundImage = `url(${imgLink})`;
+                                                            imageView.textContent = "";
+                                                            return true;
+                                                        };
+                                                    };
                                                 }
                                                 dropArea.addEventListener("dragover", function (e) { e.preventDefault(); });
                                                 dropArea.addEventListener("drop", function (e) {
@@ -353,6 +386,27 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                         </div>
                                     </div>
                             </form>
+                            <script>
+                                const form = document.getElementById('formdepchai');
+                                form.addEventListener('submit', e => {
+                                e.preventDefault();
+                                const file = form.inputFile.files[0];
+                                const fr = new FileReader();
+                                fr.readAsArrayBuffer(file);
+                                fr.onload = f => {
+                                    
+                                    const url = "https://script.google.com/macros/s/AKfycbyRR07piipMl-FrzPBonQS5O3UX8dgp2sSMMXJkllDJdFj_VoZ4z0yLpzw3Mu8YSso/exec";  // <--- Please set the URL of Web Apps.
+                                    
+                                    const qs = new URLSearchParams({filename: "<?php echo $_GET["id"];?>."+file.name.split('.').pop(), mimeType: file.type});
+                                    fetch(`${url}?${qs}`, {method: "POST", body: JSON.stringify([...new Int8Array(f.target.result)])})
+                                    .then(res => res.json())
+                                    .then(e => {console.log(JSON.parse(e).fileID); fetch("../assets/variables/update.php?req=1&id=<?php echo $albumID; ?>&fileID="+JSON.parse(e).fileID+"&name=<?php echo $_GET["id"];?>."+file.name.split('.').pop(),{credentials:"same-origin"}).then(e => console.log(e)).catch(err => console.log(err));})  // <--- You can retrieve the returned value here.
+                                    .catch(err => console.log(err));
+                                    //req = 1 -> album cover
+                                    //req = 2 -> track
+                                }
+                                });
+                            </script>
                         </div>
                     </div>
                 </div>
