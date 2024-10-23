@@ -240,17 +240,6 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                             }
                                         </style>
                                         <div class="row">
-                                            <div class="col">
-                                                <div class="dnd">
-                                                    <label for="input-file" id="drop-area">
-                                                        <input type="file" accept="image/*" id="input-file" hidden>
-                                                        <div id="img-view">
-                                                            <span><i class="zmdi zmdi-file-plus"></i> Upload your
-                                                                artwork here <br />(Min. 1500x1500)</span>
-                                                        </div>
-                                                    </label>
-                                                </div>
-                                            </div>
                                             <?php
                                             $mergedArtistnames = "";
                                             $f = getFile($_GET["id"]);
@@ -268,9 +257,22 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                     }
                                                 }
                                             }
+                                            ?>
+                                            <div class="col">
+                                                <div class="dnd">
+                                                    <label for="input-file" id="drop-area">
+                                                        <input type="file" accept="image/*" id="input-file" hidden>
+                                                        <div id="img-view">
+                                                            <span id="texttt"><i class="zmdi zmdi-file-plus"></i> Upload your
+                                                                artwork here <br />(Min. 1500x1500)</span>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <?php
                                             if($r2->art != null){
                                                 //https://drive.google.com/thumbnail?id=${id}
-                                                echo "imageView.style.backgroundImage = `url(https://drive.google.com/thumbnail?id=".$r2->art.")`;";
+                                                echo "<script>document.getElementById(\"img-view\").style.backgroundImage = 'url(https://lh3.googleusercontent.com/d/".$r2->art.")'; document.getElementById(\"texttt\").style.display = 'none';</script>";
                                             }
                                             ?>
                                             <div class="col" style="padding-top: 20px;">
@@ -366,7 +368,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                             var height = this.height;
                                                             var width = this.width;
                                                             if (height < 1500 || width < 1500 || height/width!=1) {
-                                                                alert("Double-check your image. Is it 1500x1500 or a 1:1 image?");
+                                                                alert("Double-check your image. Is it larger than 1500x1500 or a 1:1 image?");
                                                                 return false;
                                                             }
                                                             let imgLink = URL.createObjectURL(inputFile.files[0]);
