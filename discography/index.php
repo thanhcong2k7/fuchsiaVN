@@ -183,7 +183,7 @@ else {
                         <th>ID</th>
                         <th>UPC</th>
                         <th>Release Name</th>
-                        <th>Artwork</th>
+                        <th>Artist</th>
                         <th>Status</th>
                         <th>Release date</th>
                         <th>Actions</th>
@@ -195,12 +195,32 @@ else {
                         echo 'Error occurred while fetching data from server. Please create a ticket about this and try again later...';
                       else
                         foreach ($release as &$r) {
+                          $mergedArtistnames = "";
+                          $f = getFile($r->id);
+                          $r2 = getRelease($_SESSION["userwtf"], 0, $r->id);
+                          $track = array();
+                          foreach ($r2->file as &$adu) {
+                              foreach ($f as &$f2) {
+                                  if ($f2->id == $adu) {
+                                      $t = getTrack($f2->id);
+                                      $track[] = $t;
+                                      $artist = getArtist($t->id);
+                                      $n = 0;
+                                      foreach ($artist as &$adu) {
+                                          if($mergedArtistnames){
+                                            $n++;
+                                          } else $mergedArtistnames .= $adu->name;
+                                      }
+                                      $mergedArtistnames .= " & ".$n." more";
+                                  }
+                              }
+                          }
                           echo '
                           <tr>
                                       <td>' . ($r->id < 10 ? "0" . $r->id : $r->id) . '</td>
                           <td>' . ($r->upc ? $r->upc : "--") . '</td>
-                                      <td>' . ($r->name ? $r->name : "(draft)") . '</td>
-                                      <td><img src="' . (!isset($r->art) ? 'https://via.placeholder.com/50x50' : $r->art) . '" class="product-img" alt="' . $r->name . ' Artwork"></td>
+                                      <td>' . ($r->name ? $r->name : "(untitled)") . '</td>
+                                      <td>'.($mergedArtistnames?$mergedArtistnames:"(none)").'</td>
                                       <td class="text' . ($r->status == 0 ? "" : ($r->status == 1 ? "-success" : ($r->status == 2 ? "-error" : "-info"))) . '">
                           ' . ($r->status == 0 ? "DRAFT" : ($r->status == 1 ? "DELIVERED" : ($r->status == 2 ? "ERROR" : "CHECKING"))) . '
                           </td>

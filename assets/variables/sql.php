@@ -154,4 +154,25 @@
 		}
 		return $tmp2;
 	}
+	class fetchArtist{
+		public $id;
+		public $name;
+		public $spot;
+		public $applemusic;
+		public $email;
+	}
+	function fetchArtist($uid){
+		$tmp1 = query("select * from author where userID=".$uid.";");
+		$tmp3 = array();
+		while( $row=$tmp1->fetch_assoc()){
+			$tmp2 = new fetchArtist();
+			$tmp2->id = $row["authorID"];
+			$tmp2->name = $row["authorName"];
+			$tmp2->spot = $row["spotifyID"];
+			$tmp2->applemusic = $row["amID"];
+			$tmp2->email = $row["email"];
+			$tmp3[] = $tmp2;
+		}
+		return $tmp3;
+	}
 ?>

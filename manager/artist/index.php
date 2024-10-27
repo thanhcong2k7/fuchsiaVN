@@ -5,6 +5,7 @@ if (!isset($_SESSION["userwtf"]))
 else {
     require '../../assets/variables/sql.php';
     $user = getUser($_SESSION["userwtf"]);
+    $artist = fetchArtist($_SESSION["userwtf"]);
 }
 ?>
 <!DOCTYPE html>
@@ -182,13 +183,15 @@ else {
                                             <div class="col col-md-auto">
                                                 <div class="form-group">
                                                     <label for="artist-id">Artist ID</label>
-                                                    <input type="text" class="form-control" id="artist-id" placeholder="(Optional if you're creating new artist)">
+                                                    <input type="text" class="form-control" id="artist-id"
+                                                        placeholder="(Optional if you're creating new artist)">
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="alias">Artist Name</label>
-                                                    <input type="text" class="form-control" id="alias" placeholder="Alias. Example: Unknown Brain, Elektronomia, Japandee, Thereon, ...">
+                                                    <input type="text" class="form-control" id="alias"
+                                                        placeholder="Alias. Example: Unknown Brain, Elektronomia, Japandee, Thereon, ...">
                                                 </div>
                                             </div>
                                             <div class="col col-lg-2">
@@ -202,13 +205,15 @@ else {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label for="spotifyID">Spotify ID</label>
-                                                    <input type="text" class="form-control" id="spotifyID" placeholder="Spotify ID ONLY. Example: 3NtqIIwOmoUGkrS4iD4lxY">
+                                                    <input type="text" class="form-control" id="spotifyID"
+                                                        placeholder="Spotify ID ONLY. Example: 3NtqIIwOmoUGkrS4iD4lxY">
                                                 </div>
                                             </div>
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label for="amID">Apple Music ID</label>
-                                                    <input type="text" class="form-control" id="amID" placeholder="Apple Music ID ONLY. Example: 3NtqIIwOmoUGkrS4iD4lxY">
+                                                    <input type="text" class="form-control" id="amID"
+                                                        placeholder="Apple Music ID ONLY. Example: 3NtqIIwOmoUGkrS4iD4lxY">
                                                 </div>
                                             </div>
                                         </div>
@@ -216,8 +221,44 @@ else {
                                 </div>
                                 <div class="w-100"></div>
                                 <div class="card">
-                                    <div class="card-header">Artist List</div>
-                                    <div class="card-body">nyom nyom</div>
+                                    <div class="card-header">Your Artist</div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Artist ID</th>
+                                                        <th>Artist name</th>
+                                                        <th>Spotify</th>
+                                                        <th>Apple Music</th>
+                                                        <th>Email</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?
+                                                    if ($artist == null)
+                                                        echo 'There\'s nothing here yet...';
+                                                    else
+                                                        foreach ($artist as &$r) {
+                                                            echo '
+                          <tr>
+                                      <td>' . ($r->id < 10 ? "0" . $r->id : $r->id) . '</td>
+                                      <td>' . ($r->name ? $r->name : "(draft)") . '</td>
+                                      <td> <a href="https://open.spotify.com/artist/' . ($r->spot ? $r->spot : "--") . '">'.($r->spot ? "Link" : "--").'</a></td>
+                                      <td> <a href="https://music.apple.com/us/artist/' . ($r->applemusic ? $r->applemusic : "--") . '">'.($r->applemusic ? "Link" : "--").'</a></td>
+                                      <td>' . ($r->email ? $r->email : "--") . '</td>
+                          <td>
+                        <a href="edit.php?id=' . $r->id . '">Edit</a> / 
+                        <a class="text-error" href="edit.php?id=' . $r->id . '&delete=1">Delete</a>
+                          </td>
+                  </tr>';
+                                                        }
+                                                    ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

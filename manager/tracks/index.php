@@ -90,7 +90,7 @@ else {
                 </li>
 
                 <li class="sidebar-header">TOOLBOX</li>
-                <li><a href="."><i class="zmdi zmdi-accounts text-warning"></i>
+                <li><a href="../artist/"><i class="zmdi zmdi-accounts text-warning"></i>
                         <span>Artists</span></a>
                 </li>
                 <li><a href="../tracks/"><i class="zmdi zmdi-audio text-success"></i>

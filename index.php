@@ -29,6 +29,10 @@ if (!isset($_SESSION["userwtf"])) {
 } else {
   $user = getUser($_SESSION["userwtf"]);
   $release = getRelease($_SESSION["userwtf"]);
+  if(!$user) {
+    unset($_SESSION["userwtf"]);
+    echo "<script>window.location.href='./login/';</script>";
+  }
 }
 ?>
 <!DOCTYPE html>
