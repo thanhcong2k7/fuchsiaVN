@@ -3,6 +3,9 @@
 	function query($cmd){
 		return $GLOBALS["conn"]->query($cmd);
 	}
+	function resetinc($table){
+		query("ALTER TABLE ".$table." AUTO_INCREMENT = 1;");
+	}
 	class artistType {
 		public $id;
 		public $name;
@@ -22,6 +25,7 @@
 		public $c; //copyright line
 		public $p; //publishing line
 		public $file = array(); //JSON array of tracks
+		public $version; //Album version line: remix,...
 	}
 	function getRelease($uid, $num = 0, $id = 0){
 		//find all release based on user id
@@ -41,6 +45,7 @@
 			$rrole = json_decode($row["artistRole"]); //role
 			$tmp2->createdDate = $row["createdDate"];
 			$tmp2->relDate = $row["relDate"];
+			$tmp2->version = $row["versionLine"];
 			if($id!=0 && $row["albumID"] == $id){
 				return $tmp2;
 			} else $releases[] = $tmp2;
@@ -160,6 +165,9 @@
 		public $spot;
 		public $applemusic;
 		public $email;
+		public $isRestrict; // restrict user from deleting
+		//this thing shows what tracks it is involving as array
+		public $isRestrict_; //raw
 	}
 	function fetchArtist($uid){
 		$tmp1 = query("select * from author where userID=".$uid.";");
@@ -171,8 +179,16 @@
 			$tmp2->spot = $row["spotifyID"];
 			$tmp2->applemusic = $row["amID"];
 			$tmp2->email = $row["email"];
+			$tmp2->isRestrict = json_decode($row["isRestricted"]);
+			$tmp2->isRestrict_ = $row["isRestricted"];
 			$tmp3[] = $tmp2;
 		}
 		return $tmp3;
+	}
+	function getTrackname($tid){
+		$tmp1 = query("select name from track where id=".$tid.";");
+		while ( $row=$tmp1->fetch_assoc()){
+			return $row["name"];
+		}
 	}
 ?>

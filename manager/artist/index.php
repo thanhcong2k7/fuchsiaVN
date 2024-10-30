@@ -6,6 +6,15 @@ else {
     require '../../assets/variables/sql.php';
     $user = getUser($_SESSION["userwtf"]);
     $artist = fetchArtist($_SESSION["userwtf"]);
+    if(isset($_SESSION["restricted"])){
+        $mergee = "";
+        foreach(json_decode($_SESSION["restricted"]) as &$t){
+            $x = getTrackname($t);
+            $mergee .= ($mergee?", ".$x:$x);
+        }
+        echo "<script>alert('Can not delete this artist, who is involving in these tracks: ".$mergee."');</script>";
+        unset($_SESSION["restricted"]);
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -175,29 +184,29 @@ else {
                 <div class="row">
                     <div class="col">
                         <div class="card">
-                            <div class="card-header">adu</div>
+                            <div class="card-header"><i class="zmdi zmdi-accounts-list"></i> Artist Management</div>
                             <div class="card-body">
                                 <div class="row">
-                                    <form action="" id="newArtist" class="col">
+                                    <form action="artist.php" id="newArtist" class="col" method="POST">
                                         <div class="row" style="justify-content: center;">
                                             <div class="col col-md-auto">
                                                 <div class="form-group">
                                                     <label for="artist-id">Artist ID</label>
-                                                    <input type="text" class="form-control" id="artist-id"
+                                                    <input type="text" class="form-control" id="artist-id" name="artist-id"
                                                         placeholder="(Optional if you're creating new artist)">
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="alias">Artist Name</label>
-                                                    <input type="text" class="form-control" id="alias"
+                                                    <input type="text" class="form-control" id="alias" name="alias"
                                                         placeholder="Alias. Example: Unknown Brain, Elektronomia, Japandee, Thereon, ...">
                                                 </div>
                                             </div>
                                             <div class="col col-lg-2">
                                                 <label for="submit"></label>
                                                 <button type="submit" class="btn btn-light px-5" id="submit">
-                                                    <i class="zmdi zmdi-plus-square"></i> Create
+                                                    <i class="zmdi zmdi-plus-square"></i> Submit
                                                 </button>
                                             </div>
                                         </div>
@@ -205,15 +214,22 @@ else {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label for="spotifyID">Spotify ID</label>
-                                                    <input type="text" class="form-control" id="spotifyID"
+                                                    <input type="text" class="form-control" id="spotifyID" name="spotifyID"
                                                         placeholder="Spotify ID ONLY. Example: 3NtqIIwOmoUGkrS4iD4lxY">
                                                 </div>
                                             </div>
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label for="amID">Apple Music ID</label>
-                                                    <input type="text" class="form-control" id="amID"
+                                                    <input type="text" class="form-control" id="amID" name="amID"
                                                         placeholder="Apple Music ID ONLY. Example: 3NtqIIwOmoUGkrS4iD4lxY">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm">
+                                                <div class="form-group">
+                                                    <label for="email">Email</label>
+                                                    <input type="text" class="form-control" id="email" name="email"
+                                                        placeholder="Artist's email (optional)">
                                                 </div>
                                             </div>
                                         </div>
@@ -249,8 +265,8 @@ else {
                                       <td> <a href="https://music.apple.com/us/artist/' . ($r->applemusic ? $r->applemusic : "--") . '">'.($r->applemusic ? "Link" : "--").'</a></td>
                                       <td>' . ($r->email ? $r->email : "--") . '</td>
                           <td>
-                        <a href="edit.php?id=' . $r->id . '">Edit</a> / 
-                        <a class="text-error" href="edit.php?id=' . $r->id . '&delete=1">Delete</a>
+                        <a onclick="document.getElementById(\'artist-id\').value = \'' . $r->id . '\';document.getElementById(\'alias\').value = \'' . $r->name . '\';document.getElementById(\'spotifyID\').value = \'' . $r->spot . '\';document.getElementById(\'amID\').value = \'' . $r->applemusic . '\';document.getElementById(\'email\').value = \'' . $r->email . '\';">Edit</a> / 
+                        <a class="text-error" href="artist.php?id=' . $r->id . '&delete=1">Delete</a>
                           </td>
                   </tr>';
                                                         }

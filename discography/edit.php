@@ -289,22 +289,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                     echo ($r->status == 0 ? "DRAFT" : ($r->status == 1 ? "DELIVERED" : ($r->status == 2 ? "ERROR" : "CHECKING"))); ?></span>
                                             </div>
                                         </div>
-                                        <div class="w-100"></div>
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <i class="zmdi zmdi-info"></i> Album Metadata
-                                                <div class="card-action">
-                                                    <div class="dropdown">
-                                                        <a href="" class="text dropdown-toggle dropdown-toggle-nocaret">
-                                                            <i class="zmdi zmdi-collection-plus"></i> Add more
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                //
-                                            </div>
-                                        </div>
+                                        <br>
                                         <div class="card">
                                             <div class="card-header"><i class="zmdi zmdi-album"></i> Tracks List
                                                 <div class="card-action">
@@ -385,6 +370,145 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                     uploadImage();
                                                 });
                                             </script>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <i class="zmdi zmdi-info"></i> Album Metadata
+                                                <div class="card-action">
+                                                    <div class="dropdown">
+                                                        <a href="" class="text dropdown-toggle dropdown-toggle-nocaret">
+                                                            <i class="zmdi zmdi-collection-plus"></i> Add more
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="form-group col">
+                                                        <label for="albumtitle">Album Title</label>
+                                                        <input type="text" class="form-control" id="albumtitle" placeholder="Name of your release">
+                                                    </div>
+                                                    <div class="form-group col">
+                                                        <label for="albumversion">Version line</label>
+                                                        <input type="text" class="form-control" id="albumversion" placeholder="Example: Remix, Instrumental, Remastered, ...">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+                                                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.css"/>
+                                                    <div class="form-group col" id="sandbox-container">
+                                                        <label for="reldate">Release date</label>
+                                                        <input type="text" class="form-control" id="reldate" placeholder="Pick your release date here (mm/dd/yyyy)">
+                                                    </div>
+                                                    <div class="form-group col" id="sandbox-container">
+                                                        <label for="reldate">Original release date (optional)</label>
+                                                        <input type="text" class="form-control" id="reldate" placeholder="This is in case your album has been released before">
+                                                    </div>
+                                                    <script>
+                                                    $('#sandbox-container input').datepicker({
+                                                        autoclose: true
+                                                    });
+
+                                                    $('#sandbox-container input').on('show', function(e){
+                                                        console.debug('show', e.date, $(this).data('stickyDate'));
+                                                        
+                                                        if ( e.date ) {
+                                                            $(this).data('stickyDate', e.date);
+                                                        }
+                                                        else {
+                                                            $(this).data('stickyDate', null);
+                                                        }
+                                                    });
+
+                                                    $('#sandbox-container input').on('hide', function(e){
+                                                        console.debug('hide', e.date, $(this).data('stickyDate'));
+                                                        var stickyDate = $(this).data('stickyDate');
+                                                        
+                                                        if ( !e.date && stickyDate ) {
+                                                            console.debug('restore stickyDate', stickyDate);
+                                                            $(this).datepicker('setDate', stickyDate);
+                                                            $(this).data('stickyDate', null);
+                                                        }
+                                                    });
+                                                    </script>
+                                                </div>
+                                                <div class="row">
+                                                    <select data-placeholder="Choose language of your track">
+                                                        <option value="AF">Afrikaans</option>
+                                                        <option value="SQ">Albanian</option>
+                                                        <option value="AR">Arabic</option>
+                                                        <option value="HY">Armenian</option>
+                                                        <option value="EU">Basque</option>
+                                                        <option value="BN">Bengali</option>
+                                                        <option value="BG">Bulgarian</option>
+                                                        <option value="CA">Catalan</option>
+                                                        <option value="KM">Cambodian</option>
+                                                        <option value="ZH">Chinese (Mandarin)</option>
+                                                        <option value="HR">Croatian</option>
+                                                        <option value="CS">Czech</option>
+                                                        <option value="DA">Danish</option>
+                                                        <option value="NL">Dutch</option>
+                                                        <option value="EN">English</option>
+                                                        <option value="ET">Estonian</option>
+                                                        <option value="FJ">Fiji</option>
+                                                        <option value="FI">Finnish</option>
+                                                        <option value="FR">French</option>
+                                                        <option value="KA">Georgian</option>
+                                                        <option value="DE">German</option>
+                                                        <option value="EL">Greek</option>
+                                                        <option value="GU">Gujarati</option>
+                                                        <option value="HE">Hebrew</option>
+                                                        <option value="HI">Hindi</option>
+                                                        <option value="HU">Hungarian</option>
+                                                        <option value="IS">Icelandic</option>
+                                                        <option value="ID">Indonesian</option>
+                                                        <option value="GA">Irish</option>
+                                                        <option value="IT">Italian</option>
+                                                        <option value="JA">Japanese</option>
+                                                        <option value="JW">Javanese</option>
+                                                        <option value="KO">Korean</option>
+                                                        <option value="LA">Latin</option>
+                                                        <option value="LV">Latvian</option>
+                                                        <option value="LT">Lithuanian</option>
+                                                        <option value="MK">Macedonian</option>
+                                                        <option value="MS">Malay</option>
+                                                        <option value="ML">Malayalam</option>
+                                                        <option value="MT">Maltese</option>
+                                                        <option value="MI">Maori</option>
+                                                        <option value="MR">Marathi</option>
+                                                        <option value="MN">Mongolian</option>
+                                                        <option value="NE">Nepali</option>
+                                                        <option value="NO">Norwegian</option>
+                                                        <option value="FA">Persian</option>
+                                                        <option value="PL">Polish</option>
+                                                        <option value="PT">Portuguese</option>
+                                                        <option value="PA">Punjabi</option>
+                                                        <option value="QU">Quechua</option>
+                                                        <option value="RO">Romanian</option>
+                                                        <option value="RU">Russian</option>
+                                                        <option value="SM">Samoan</option>
+                                                        <option value="SR">Serbian</option>
+                                                        <option value="SK">Slovak</option>
+                                                        <option value="SL">Slovenian</option>
+                                                        <option value="ES">Spanish</option>
+                                                        <option value="SW">Swahili</option>
+                                                        <option value="SV">Swedish </option>
+                                                        <option value="TA">Tamil</option>
+                                                        <option value="TT">Tatar</option>
+                                                        <option value="TE">Telugu</option>
+                                                        <option value="TH">Thai</option>
+                                                        <option value="BO">Tibetan</option>
+                                                        <option value="TO">Tonga</option>
+                                                        <option value="TR">Turkish</option>
+                                                        <option value="UK">Ukrainian</option>
+                                                        <option value="UR">Urdu</option>
+                                                        <option value="UZ">Uzbek</option>
+                                                        <option value="VI">Vietnamese</option>
+                                                        <option value="CY">Welsh</option>
+                                                        <option value="XH">Xhosa</option>
+                                                        </select>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                             </form>
