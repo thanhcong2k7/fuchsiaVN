@@ -8,6 +8,7 @@ else {
     $release = getRelease($_SESSION["userwtf"], 0, $_GET["id"]);
 }
 if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
+    resetinc("album");
     query("insert into album (userID) values (" . $_SESSION["userwtf"] . ");");
     $newid = creNew($_SESSION["userwtf"]);
     echo "<script>window.location.href='edit.php?id=" . $newid . "';</script>";
