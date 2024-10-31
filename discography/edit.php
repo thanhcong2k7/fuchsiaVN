@@ -191,9 +191,11 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                 <div class="card-header">
                                     <i class="zmdi zmdi-border-color"></i> Catalog ID:
                                     <?php echo "FMG" . $_GET["id"]; ?>
-                                    <div class="card-action">
-                                        <a id="saveform" class="text-success" type="submit"><span> Save changes <i
+                                    <u class="card-action">
+                                    <button type="submit" class="btn btn-light btn-round px-5"><i class="icon-lock"></i>
+                                            <a id="saveform" class="text-success"><span> Save changes <i
                                                     class="zmdi zmdi-assignment text-success"></i></span></a>
+                                    </button>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -516,22 +518,22 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                             <script>
                                 const form = document.getElementById('formdepchai');
                                 form.addEventListener('submit', e => {
-                                e.preventDefault();
-                                const file = form.inputFile.files[0];
-                                const fr = new FileReader();
-                                fr.readAsArrayBuffer(file);
-                                fr.onload = f => {
-                                    
-                                    const url = "https://script.google.com/macros/s/AKfycbyRR07piipMl-FrzPBonQS5O3UX8dgp2sSMMXJkllDJdFj_VoZ4z0yLpzw3Mu8YSso/exec";  // <--- Please set the URL of Web Apps.
-                                    
-                                    const qs = new URLSearchParams({filename: "<?php echo $_GET["id"];?>."+file.name.split('.').pop(), mimeType: file.type});
-                                    fetch(`${url}?${qs}`, {method: "POST", body: JSON.stringify([...new Int8Array(f.target.result)])})
-                                    .then(res => res.json())
-                                    .then(e => {console.log(JSON.parse(e).fileID); fetch("../assets/variables/update.php?req=1&id=<?php echo $albumID; ?>&fileID="+JSON.parse(e).fileID+"&name=<?php echo $_GET["id"];?>."+file.name.split('.').pop(),{credentials:"same-origin"}).then(e => console.log(e)).catch(err => console.log(err));})  // <--- You can retrieve the returned value here.
-                                    .catch(err => console.log(err));
-                                    //req = 1 -> album cover
-                                    //req = 2 -> track
-                                }
+                                    e.preventDefault();
+                                    const file = form.inputFile.files[0];
+                                    const fr = new FileReader();
+                                    fr.readAsArrayBuffer(file);
+                                    fr.onload = f => {
+                                        
+                                        const url = "https://script.google.com/macros/s/AKfycbyRR07piipMl-FrzPBonQS5O3UX8dgp2sSMMXJkllDJdFj_VoZ4z0yLpzw3Mu8YSso/exec";  // <--- Please set the URL of Web Apps.
+                                        
+                                        const qs = new URLSearchParams({filename: "<?php echo $_GET["id"];?>."+file.name.split('.').pop(), mimeType: file.type});
+                                        fetch(`${url}?${qs}`, {method: "POST", body: JSON.stringify([...new Int8Array(f.target.result)])})
+                                        .then(res => res.json())
+                                        .then(e => {console.log(JSON.parse(e).fileID); fetch("../assets/variables/update.php?req=1&id=<?php echo $albumID; ?>&fileID="+JSON.parse(e).fileID+"&name=<?php echo $_GET["id"];?>."+file.name.split('.').pop(),{credentials:"same-origin"}).then(e => console.log(e)).catch(err => console.log(err));})  // <--- You can retrieve the returned value here.
+                                        .catch(err => console.log(err));
+                                        //req = 1 -> album cover
+                                        //req = 2 -> track
+                                    }
                                 });
                             </script>
                         </div>
