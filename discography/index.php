@@ -129,14 +129,14 @@ else {
           </li>
           <li class="nav-item">
             <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
-              <span class="user-profile"><img src="../assets/images/gallery/ava_sample.png" class="img-circle"
+              <span class="user-profile"><img src="<?php echo $user->avatar;?>" class="img-circle"
                   alt="user avatar"></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
               <li class="dropdown-item user-details">
                 <a href="javaScript:void();">
                   <div class="media">
-                    <div class="avatar"><img class="align-self-start mr-3" src="../assets/images/gallery/ava_sample.png"
+                    <div class="avatar"><img class="align-self-start mr-3" src="<?php echo $user->avatar;?>"
                         alt="user avatar"></div>
                     <div class="media-body">
                       <h6 class="mt-2 user-title"><?php echo $user->display; ?></h6>
@@ -150,7 +150,7 @@ else {
               <li class="dropdown-divider"></li>
               <li class="dropdown-item"><i class="icon-settings mr-2"></i> Setting</li>
               <li class="dropdown-divider"></li>
-              <a class="dropdown-item" href="login/login.php?logout=yes"><i class="icon-power mr-2"></i> Logout</a>
+              <a class="dropdown-item" href="../login/login.php?logout=yes"><i class="icon-power mr-2"></i> Logout</a>
             </ul>
           </li>
         </ul>

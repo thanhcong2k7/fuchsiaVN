@@ -157,14 +157,14 @@ if (!isset($_SESSION["userwtf"])) {
           </li>
           <li class="nav-item">
             <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
-              <span class="user-profile"><img src="assets/images/gallery/ava_sample.png" class="img-circle"
+              <span class="user-profile"><img src="<?php echo $user->avatar;?>" class="img-circle"
                   alt="user avatar"></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
               <li class="dropdown-item user-details">
                 <a href="javaScript:void();">
                   <div class="media">
-                    <div class="avatar"><img class="align-self-start mr-3" src="assets/images/gallery/ava_sample.png"
+                    <div class="avatar"><img class="align-self-start mr-3" src="<?php echo $user->avatar;?>"
                         alt="user avatar"></div>
                     <div class="media-body">
                       <h6 class="mt-2 user-title"><?php echo $user->display; ?></h6>
@@ -230,22 +230,22 @@ if (!isset($_SESSION["userwtf"])) {
               </div>
               <div class="col-12 col-lg-6 col-xl-3 border-light">
                 <div class="card-body">
-                  <h5 class="text-white mb-0">13,535,702 VND <span class="float-right"><i class="fa fa-usd"></i></span>
+                  <h5 class="text-white mb-0">14,000 VND <span class="float-right"><i class="fa fa-usd"></i></span>
                   </h5>
                   <div class="progress my-3" style="height:3px;">
-                    <div class="progress-bar" style="width:100%"></div>
+                    <div class="progress-bar" style="width:<?php echo (round(14000/250000*100))?>%"></div>
                   </div>
-                  <p class="mb-0 text-white small-font">Your Balance <span class="float-right">+112% <i
+                  <p class="mb-0 text-white small-font">Your Balance <span class="float-right">+0% <i
                         class="zmdi zmdi-long-arrow-up"></i></span></p>
                 </div>
               </div>
               <div class="col-12 col-lg-6 col-xl-3 border-light">
                 <div class="card-body">
-                  <h5 class="text-white mb-0">231,143 <span class="float-right"><i class="fa fa-eye"></i></span></h5>
+                  <h5 class="text-white mb-0">0 <span class="float-right"><i class="fa fa-eye"></i></span></h5>
                   <div class="progress my-3" style="height:3px;">
                     <div class="progress-bar" style="width:100%"></div>
                   </div>
-                  <p class="mb-0 text-white small-font">Total Stream <span class="float-right">+5.2% <i
+                  <p class="mb-0 text-white small-font">Total Stream <span class="float-right">+0% <i
                         class="zmdi zmdi-long-arrow-up"></i></span></p>
                 </div>
               </div>

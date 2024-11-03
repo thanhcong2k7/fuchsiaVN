@@ -146,7 +146,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                     </li>
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
-                            <span class="user-profile"><img src="../assets/images/gallery/ava_sample.png"
+                            <span class="user-profile"><img src="<?php echo $user->avatar;?>"
                                     class="img-circle" alt="user avatar"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right">
@@ -154,7 +154,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                 <a href="javaScript:void();">
                                     <div class="media">
                                         <div class="avatar"><img class="align-self-start mr-3"
-                                                src="../assets/images/gallery/ava_sample.png" alt="user avatar">
+                                                src="<?php echo $user->avatar;?>" alt="user avatar">
                                         </div>
                                         <div class="media-body">
                                             <h6 class="mt-2 user-title"><?php echo $user->display; ?></h6>

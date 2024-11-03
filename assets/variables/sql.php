@@ -66,6 +66,7 @@
 		public $register; //register date
 		public $avatar; //Google Drive file ID
 		public $type; //account type: 0 admin; 1 sub-acc
+		public $handle; //actually username
 	}
 	function getUser($uid){
 		$tmp1 = query("select name,email,labelName,regdate,imgavt from user where userID=".$uid.";");
@@ -74,9 +75,10 @@
 			$tmp2->name = $row["name"];
 			$tmp2->display = $row["labelName"];
 			$tmp2->register = $row["regdate"];
-			$tmp2->avatar = $row["imgavt"];
+			$tmp2->avatar = $row["imgavt"]?$row["imgavt"]:"https://dashboard.fuchsia.viiic.net/assets/images/gallery/ava_sample.png";
 			$tmp2->email = $row["email"];
 			$tmp2->type = $row["type"];
+			$tmp2->handle = $row["username"];
 		}
 		return $tmp2;
 	}

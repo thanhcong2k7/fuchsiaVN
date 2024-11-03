@@ -1,46 +1,46 @@
 <?php
 session_start();
 if (!isset($_SESSION["userwtf"]))
-    header("Location: ../login/");
+  header("Location: ../login/");
 else {
-    require '../assets/variables/sql.php';
-    $user = getUser($_SESSION["userwtf"]);
+  require '../assets/variables/sql.php';
+  $user = getUser($_SESSION["userwtf"]);
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Update Profile - fuchsia Media Group
-    </title>
-    <!-- loader-->
-    <link href="../assets/css/pace.min.css" rel="stylesheet" />
-    <script src="../assets/js/pace.min.js"></script>
-    <!--favicon-->
-    <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
-    <!-- Vector CSS -->
-    <link href="../assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
-    <!-- simplebar CSS-->
-    <link href="../assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
-    <!-- Bootstrap core CSS-->
-    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- animate CSS-->
-    <link href="../assets/css/animate.css" rel="stylesheet" type="text/css" />
-    <!-- Icons CSS-->
-    <link href="../assets/css/icons.css" rel="stylesheet" type="text/css" />
-    <!-- Sidebar CSS-->
-    <link href="../assets/css/sidebar-menu.css" rel="stylesheet" />
-    <!-- Custom Style-->
-    <link href="../assets/css/app-style.css" rel="stylesheet" />
-    <!-- Bootstrap core JavaScript-->
-    <script src="../assets/js/jquery.min.js"></script>
-    <script src="../assets/js/popper.min.js"></script>
-    <script src="../assets/js/bootstrap.min.js"></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>Update Profile - fuchsia Media Group
+  </title>
+  <!-- loader-->
+  <link href="../assets/css/pace.min.css" rel="stylesheet" />
+  <script src="../assets/js/pace.min.js"></script>
+  <!--favicon-->
+  <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+  <!-- Vector CSS -->
+  <link href="../assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
+  <!-- simplebar CSS-->
+  <link href="../assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+  <!-- Bootstrap core CSS-->
+  <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- animate CSS-->
+  <link href="../assets/css/animate.css" rel="stylesheet" type="text/css" />
+  <!-- Icons CSS-->
+  <link href="../assets/css/icons.css" rel="stylesheet" type="text/css" />
+  <!-- Sidebar CSS-->
+  <link href="../assets/css/sidebar-menu.css" rel="stylesheet" />
+  <!-- Custom Style-->
+  <link href="../assets/css/app-style.css" rel="stylesheet" />
+  <!-- Bootstrap core JavaScript-->
+  <script src="../assets/js/jquery.min.js"></script>
+  <script src="../assets/js/popper.min.js"></script>
+  <script src="../assets/js/bootstrap.min.js"></script>
 </head>
 
 <body class="bg-theme bg-theme1">
@@ -130,14 +130,14 @@ else {
           </li>
           <li class="nav-item">
             <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
-              <span class="user-profile"><img src="../assets/images/gallery/ava_sample.png" class="img-circle"
+              <span class="user-profile"><img src="<?php echo $user->avatar; ?>" class="img-circle"
                   alt="user avatar"></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
               <li class="dropdown-item user-details">
                 <a href="javaScript:void();">
                   <div class="media">
-                    <div class="avatar"><img class="align-self-start mr-3" src="../assets/images/gallery/ava_sample.png"
+                    <div class="avatar"><img class="align-self-start mr-3" src="<?php echo $user->avatar; ?>"
                         alt="user avatar"></div>
                     <div class="media-body">
                       <h6 class="mt-2 user-title"><?php echo $user->display; ?></h6>
@@ -168,13 +168,13 @@ else {
           <div class="col-lg-4">
             <div class="card profile-card-2">
               <div class="card-img-block">
-                <img class="img-fluid" src="https://via.placeholder.com/800x500" alt="Card image cap">
+                <img class="img-fluid" src="https://via.placeholder.com/800x500" alt="Background">
               </div>
               <div class="card-body pt-5">
-                <img src="https://via.placeholder.com/110x110" alt="profile-image" class="profile">
-                <h5 class="card-title">Mark Stern</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's content.</p>
+                <img src="<?php echo $user->avatar; ?>" alt="profile-image" class="profile">
+                <h5 class="card-title"><?php echo $user->name; ?>
+                  <p class="card-text">Display: <?php echo $user->display; ?></p>
+                </h5>
                 <div class="icon-block">
                   <a href="javascript:void();"><i class="fa fa-facebook bg-facebook text-white"></i></a>
                   <a href="javascript:void();"> <i class="fa fa-twitter bg-twitter text-white"></i></a>
@@ -243,155 +243,33 @@ else {
               <div class="card-body">
                 <ul class="nav nav-tabs nav-tabs-primary top-icon nav-justified">
                   <li class="nav-item">
-                    <a href="javascript:void();" data-target="#profile" data-toggle="pill" class="nav-link active"><i
-                        class="icon-user"></i> <span class="hidden-xs">Profile</span></a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="javascript:void();" data-target="#messages" data-toggle="pill" class="nav-link"><i
-                        class="icon-envelope-open"></i> <span class="hidden-xs">Messages</span></a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="javascript:void();" data-target="#edit" data-toggle="pill" class="nav-link"><i
+                    <a href="javascript:void();" data-target="#edit" data-toggle="pill" class="nav-link" id="ngonnnn"><i
                         class="icon-note"></i> <span class="hidden-xs">Edit</span></a>
                   </li>
                 </ul>
                 <div class="tab-content p-3">
-                  <div class="tab-pane active" id="profile">
-                    <h5 class="mb-3">User Profile</h5>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <h6>About</h6>
-                        <p>
-                          Web Designer, UI/UX Engineer
-                        </p>
-                        <h6>Hobbies</h6>
-                        <p>
-                          Indie music, skiing and hiking. I love the great outdoors.
-                        </p>
-                      </div>
-                      <div class="col-md-6">
-                        <h6>Recent badges</h6>
-                        <a href="javascript:void();" class="badge badge-dark badge-pill">html5</a>
-                        <a href="javascript:void();" class="badge badge-dark badge-pill">react</a>
-                        <a href="javascript:void();" class="badge badge-dark badge-pill">codeply</a>
-                        <a href="javascript:void();" class="badge badge-dark badge-pill">angularjs</a>
-                        <a href="javascript:void();" class="badge badge-dark badge-pill">css3</a>
-                        <a href="javascript:void();" class="badge badge-dark badge-pill">jquery</a>
-                        <a href="javascript:void();" class="badge badge-dark badge-pill">bootstrap</a>
-                        <a href="javascript:void();" class="badge badge-dark badge-pill">responsive-design</a>
-                        <hr>
-                        <span class="badge badge-primary"><i class="fa fa-user"></i> 900 Followers</span>
-                        <span class="badge badge-success"><i class="fa fa-cog"></i> 43 Forks</span>
-                        <span class="badge badge-danger"><i class="fa fa-eye"></i> 245 Views</span>
-                      </div>
-                      <div class="col-md-12">
-                        <h5 class="mt-2 mb-3"><span class="fa fa-clock-o ion-clock float-right"></span> Recent Activity
-                        </h5>
-                        <div class="table-responsive">
-                          <table class="table table-hover table-striped">
-                            <tbody>
-                              <tr>
-                                <td>
-                                  <strong>Abby</strong> joined ACME Project Team in <strong>`Collaboration`</strong>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <strong>Gary</strong> deleted My Board1 in <strong>`Discussions`</strong>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <strong>Kensington</strong> deleted MyBoard3 in <strong>`Discussions`</strong>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <strong>John</strong> deleted My Board1 in <strong>`Discussions`</strong>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <strong>Skell</strong> deleted his post Look at Why this is.. in
-                                  <strong>`Discussions`</strong>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                    <!--/row-->
-                  </div>
-                  <div class="tab-pane" id="messages">
-                    <div class="alert alert-info alert-dismissible" role="alert">
-                      <button type="button" class="close" data-dismiss="alert">&times;</button>
-                      <div class="alert-icon">
-                        <i class="icon-info"></i>
-                      </div>
-                      <div class="alert-message">
-                        <span><strong>Info!</strong> Lorem Ipsum is simply dummy text.</span>
-                      </div>
-                    </div>
-                    <div class="table-responsive">
-                      <table class="table table-hover table-striped">
-                        <tbody>
-                          <tr>
-                            <td>
-                              <span class="float-right font-weight-bold">3 hrs ago</span> Here is your a link to the
-                              latest summary report from the..
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <span class="float-right font-weight-bold">Yesterday</span> There has been a request on
-                              your account since that was..
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <span class="float-right font-weight-bold">9/10</span> Porttitor vitae ultrices quis,
-                              dapibus id dolor. Morbi venenatis lacinia rhoncus.
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <span class="float-right font-weight-bold">9/4</span> Vestibulum tincidunt ullamcorper
-                              eros eget luctus.
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <span class="float-right font-weight-bold">9/4</span> Maxamillion ais the fix for tibulum
-                              tincidunt ullamcorper eros.
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
                   <div class="tab-pane" id="edit">
-                    <form>
+                    <form action="profile.php">
                       <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label">First name</label>
+                        <label class="col-lg-3 col-form-label form-control-label">Full name</label>
                         <div class="col-lg-9">
-                          <input class="form-control" type="text" value="Mark">
+                          <input class="form-control" type="text" value="<?php echo $user->name; ?>">
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label">Last name</label>
+                        <label class="col-lg-3 col-form-label form-control-label">Display name</label>
                         <div class="col-lg-9">
-                          <input class="form-control" type="text" value="Jhonsan">
+                          <input class="form-control" type="text" value="<?php echo $user->display; ?>">
                         </div>
                       </div>
                       <div class="form-group row">
                         <label class="col-lg-3 col-form-label form-control-label">Email</label>
                         <div class="col-lg-9">
-                          <input class="form-control" type="email" value="mark@example.com">
+                          <input class="form-control" type="email" value="<?php echo $user->email; ?>">
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label">Change profile</label>
+                        <label class="col-lg-3 col-form-label form-control-label">Change avatar</label>
                         <div class="col-lg-9">
                           <input class="form-control" type="file">
                         </div>
@@ -421,19 +299,20 @@ else {
                       <div class="form-group row">
                         <label class="col-lg-3 col-form-label form-control-label">Username</label>
                         <div class="col-lg-9">
-                          <input class="form-control" type="text" value="jhonsanmark">
+                          <input class="form-control" type="text" value="<?php echo $user->handle; ?>">
+                          <span>(note that changing username here will take no effect.)</span>
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label">Password</label>
+                        <label class="col-lg-3 col-form-label form-control-label">New Password</label>
                         <div class="col-lg-9">
-                          <input class="form-control" type="password" value="11111122333">
+                          <input class="form-control" type="password" value="">
                         </div>
                       </div>
                       <div class="form-group row">
                         <label class="col-lg-3 col-form-label form-control-label">Confirm password</label>
                         <div class="col-lg-9">
-                          <input class="form-control" type="password" value="11111122333">
+                          <input class="form-control" type="password" value="">
                         </div>
                       </div>
                       <div class="form-group row">
@@ -446,6 +325,9 @@ else {
                     </form>
                   </div>
                 </div>
+                <script>
+                  document.getElementById("ngonnnn").click();
+                </script>
               </div>
             </div>
           </div>
