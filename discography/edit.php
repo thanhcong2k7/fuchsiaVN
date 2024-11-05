@@ -191,10 +191,11 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                 <div class="card-header">
                                     <i class="zmdi zmdi-border-color"></i> Release ID:
                                     <?php echo "FMG" . $_GET["id"]; ?>
-                                    <u class="card-action">
-                                    <button type="submit" class="btn btn-light btn-round px-5"><i class="zmdi zmdi-assignment"></i>
+                                    <div class="card-action">
+                                        <button type="submit" class="btn btn-light btn-round px-5"><i class="zmdi zmdi-assignment"></i>
                                             <a id="saveform" class="text-success"><span> Save changes</span></a>
-                                    </button>
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive overflow-hidden">
