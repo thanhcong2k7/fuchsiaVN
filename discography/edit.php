@@ -189,12 +189,11 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                         <div class="card">
                             <form action="save.php" method="POST" id="formdepchai">
                                 <div class="card-header">
-                                    <i class="zmdi zmdi-border-color"></i> Catalog ID:
+                                    <i class="zmdi zmdi-border-color"></i> Release ID:
                                     <?php echo "FMG" . $_GET["id"]; ?>
                                     <u class="card-action">
-                                    <button type="submit" class="btn btn-light btn-round px-5"><i class="icon-lock"></i>
-                                            <a id="saveform" class="text-success"><span> Save changes <i
-                                                    class="zmdi zmdi-assignment text-success"></i></span></a>
+                                    <button type="submit" class="btn btn-light btn-round px-5"><i class="zmdi zmdi-assignment"></i>
+                                            <a id="saveform" class="text-success"><span> Save changes</span></a>
                                     </button>
                                 </div>
                                 <div class="card-body">
@@ -292,6 +291,8 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                             </div>
                                         </div>
                                         <br>
+                                    </div>
+                                    <div class="row">
                                         <div class="card">
                                             <div class="card-header"><i class="zmdi zmdi-album"></i> Tracks List
                                                 <div class="card-action">
