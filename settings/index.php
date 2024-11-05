@@ -249,17 +249,17 @@ else {
                 </ul>
                 <div class="tab-content p-3">
                   <div class="tab-pane" id="edit">
-                    <form action="profile.php">
+                    <form action="profile.php" method="POST">
                       <div class="form-group row">
                         <label class="col-lg-3 col-form-label form-control-label">Full name</label>
                         <div class="col-lg-9">
-                          <input class="form-control" type="text" value="<?php echo $user->name; ?>">
+                          <input class="form-control" type="text" name="fullname" value="<?php echo $user->name; ?>">
                         </div>
                       </div>
                       <div class="form-group row">
                         <label class="col-lg-3 col-form-label form-control-label">Display name</label>
                         <div class="col-lg-9">
-                          <input class="form-control" type="text" value="<?php echo $user->display; ?>">
+                          <input class="form-control" type="text" name="displayname" value="<?php echo $user->display; ?>">
                         </div>
                       </div>
                       <div class="form-group row">
@@ -271,7 +271,7 @@ else {
                       <div class="form-group row">
                         <label class="col-lg-3 col-form-label form-control-label">Change avatar</label>
                         <div class="col-lg-9">
-                          <input class="form-control" type="file">
+                          <input class="form-control" type="file" name="avt">
                         </div>
                       </div>
                       <div class="form-group row">
@@ -295,14 +295,6 @@ else {
                           <input class="form-control" type="text" value="" placeholder="State">
                         </div>
                       </div>
-
-                      <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label">Username</label>
-                        <div class="col-lg-9">
-                          <input class="form-control" type="text" value="<?php echo $user->handle; ?>">
-                          <span>(note that changing username here will take no effect.)</span>
-                        </div>
-                      </div>
                       <div class="form-group row">
                         <label class="col-lg-3 col-form-label form-control-label">New Password</label>
                         <div class="col-lg-9">
@@ -318,8 +310,7 @@ else {
                       <div class="form-group row">
                         <label class="col-lg-3 col-form-label form-control-label"></label>
                         <div class="col-lg-9">
-                          <input type="reset" class="btn btn-secondary" value="Cancel">
-                          <input type="button" class="btn btn-primary" value="Save Changes">
+                          <input type="button" class="btn btn-primary" id="sub" value="Save Changes">
                         </div>
                       </div>
                     </form>
@@ -327,6 +318,7 @@ else {
                 </div>
                 <script>
                   document.getElementById("ngonnnn").click();
+				  
                 </script>
               </div>
             </div>

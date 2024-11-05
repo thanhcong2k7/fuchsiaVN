@@ -196,7 +196,6 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                             <a id="saveform" class="text-success"><span> Save changes <i
                                                     class="zmdi zmdi-assignment text-success"></i></span></a>
                                     </button>
-                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive overflow-hidden">
@@ -377,13 +376,6 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                         <div class="card">
                                             <div class="card-header">
                                                 <i class="zmdi zmdi-info"></i> Album Metadata
-                                                <div class="card-action">
-                                                    <div class="dropdown">
-                                                        <a href="" class="text dropdown-toggle dropdown-toggle-nocaret">
-                                                            <i class="zmdi zmdi-collection-plus"></i> Add more
-                                                        </a>
-                                                    </div>
-                                                </div>
                                             </div>
                                             <div class="card-body">
                                                 <div class="row">
@@ -511,9 +503,13 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                         <option value="XH">Xhosa</option>
                                                         </select>
                                                 </div>
+												<div class="row">
+													<
+												</div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                             </form>
                             <script>
                                 const form = document.getElementById('formdepchai');
