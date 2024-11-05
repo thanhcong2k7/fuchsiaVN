@@ -291,8 +291,6 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                             </div>
                                         </div>
                                         <br>
-                                    </div>
-                                    <div class="row">
                                         <div class="card">
                                             <div class="card-header"><i class="zmdi zmdi-album"></i> Tracks List
                                                 <div class="card-action">
@@ -505,7 +503,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                         </select>
                                                 </div>
 												<div class="row">
-													<
+													wtf
 												</div>
                                             </div>
                                         </div>
