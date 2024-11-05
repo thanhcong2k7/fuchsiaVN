@@ -146,15 +146,15 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                     </li>
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
-                            <span class="user-profile"><img src="<?php echo $user->avatar;?>"
-                                    class="img-circle" alt="user avatar"></span>
+                            <span class="user-profile"><img src="<?php echo $user->avatar; ?>" class="img-circle"
+                                    alt="user avatar"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li class="dropdown-item user-details">
                                 <a href="javaScript:void();">
                                     <div class="media">
                                         <div class="avatar"><img class="align-self-start mr-3"
-                                                src="<?php echo $user->avatar;?>" alt="user avatar">
+                                                src="<?php echo $user->avatar; ?>" alt="user avatar">
                                         </div>
                                         <div class="media-body">
                                             <h6 class="mt-2 user-title"><?php echo $user->display; ?></h6>
@@ -191,11 +191,6 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                 <div class="card-header">
                                     <i class="zmdi zmdi-border-color"></i> Release ID:
                                     <?php echo "FMG" . $_GET["id"]; ?>
-                                    <div class="card-action">
-                                        <button type="submit" class="btn btn-light btn-round px-5"><i class="zmdi zmdi-assignment"></i>
-                                            <a id="saveform" class="text-success"><span> Save changes</span></a>
-                                        </button>
-                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive overflow-hidden">
@@ -265,20 +260,21 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                     <label for="input-file" id="drop-area">
                                                         <input type="file" accept="image/*" id="input-file" hidden>
                                                         <div id="img-view">
-                                                            <span id="texttt"><i class="zmdi zmdi-file-plus"></i> Upload your
+                                                            <span id="texttt"><i class="zmdi zmdi-file-plus"></i> Upload
+                                                                your
                                                                 artwork here <br />(Min. 1500x1500)</span>
                                                         </div>
                                                     </label>
                                                 </div>
                                             </div>
                                             <?php
-                                            if($r2->art != null){
+                                            if ($r2->art != null) {
                                                 //https://drive.google.com/thumbnail?id=${id}
-                                                echo "<script>document.getElementById(\"img-view\").style.backgroundImage = 'url(https://lh3.googleusercontent.com/d/".$r2->art.")'; document.getElementById(\"texttt\").style.display = 'none';</script>";
+                                                echo "<script>document.getElementById(\"img-view\").style.backgroundImage = 'url(https://lh3.googleusercontent.com/d/" . $r2->art . ")'; document.getElementById(\"texttt\").style.display = 'none';</script>";
                                             }
                                             ?>
                                             <div class="col" style="padding-top: 20px;">
-                                                <h3><?php echo ($release->name ? $release->name : "(untitled)"); ?>
+                                                <h3><?php echo ($release->name ? $release->name : "(untitled)").($release->version?" (".$release->version.")":""); ?>
                                                 </h3>
                                                 <span><span style="font-weight: bold;">UPC</span>:
                                                     <?php echo ($release->upc ? $release->upc : "(not set)"); ?></span>
@@ -354,7 +350,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                         image.onload = function () {
                                                             var height = this.height;
                                                             var width = this.width;
-                                                            if (height < 1500 || width < 1500 || height/width!=1) {
+                                                            if (height < 1500 || width < 1500 || height / width != 1) {
                                                                 alert("Double-check your image. Is it larger than 1500x1500 or a 1:1 image?");
                                                                 return false;
                                                             }
@@ -381,133 +377,210 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                 <div class="row">
                                                     <div class="form-group col">
                                                         <label for="albumtitle">Album Title</label>
-                                                        <input type="text" class="form-control" id="albumtitle" placeholder="Name of your release">
+                                                        <input type="text" class="form-control" name="albumtitle"
+                                                            placeholder="Name of your release"
+                                                            value="<?php echo $release->name; ?>">
                                                     </div>
                                                     <div class="form-group col">
-                                                        <label for="albumversion">Version line</label>
-                                                        <input type="text" class="form-control" id="albumversion" placeholder="Example: Remix, Instrumental, Remastered, ...">
+                                                        <label for="albumversion">Version line (optional)</label>
+                                                        <input type="text" class="form-control" name="albumversion"
+                                                            placeholder="Leave blank if there's only 1 track. Example: Remix, Instrumental, ..."
+                                                            value="<?php echo $release->version; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
-                                                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.css"/>
+                                                    <script
+                                                        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+                                                    <link rel="stylesheet"
+                                                        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.css" />
                                                     <div class="form-group col" id="sandbox-container">
-                                                        <label for="reldate">Release date</label>
-                                                        <input type="text" class="form-control" id="reldate" placeholder="Pick your release date here (mm/dd/yyyy)">
+                                                        <label for="reldate">Release date (optional)</label>
+                                                        <input type="text" class="form-control" id="reldate"
+                                                            placeholder="Pick your release date here (mm/dd/yyyy)">
                                                     </div>
                                                     <div class="form-group col" id="sandbox-container">
                                                         <label for="reldate">Original release date (optional)</label>
-                                                        <input type="text" class="form-control" id="reldate" placeholder="This is in case your album has been released before">
+                                                        <input type="text" class="form-control" id="orgreldate"
+                                                            placeholder="This is in case your album has been released before">
                                                     </div>
                                                     <script>
-                                                    $('#sandbox-container input').datepicker({
-                                                        autoclose: true
-                                                    });
+                                                        $('#sandbox-container input').datepicker({
+                                                            autoclose: true,
+                                                            startDate: '-0d',
+                                                            todayHighlight: true
+                                                        });
 
-                                                    $('#sandbox-container input').on('show', function(e){
-                                                        console.debug('show', e.date, $(this).data('stickyDate'));
-                                                        
-                                                        if ( e.date ) {
-                                                            $(this).data('stickyDate', e.date);
-                                                        }
-                                                        else {
-                                                            $(this).data('stickyDate', null);
-                                                        }
-                                                    });
+                                                        $('#sandbox-container input').on('show', function (e) {
+                                                            console.debug('show', e.date, $(this).data('stickyDate'));
 
-                                                    $('#sandbox-container input').on('hide', function(e){
-                                                        console.debug('hide', e.date, $(this).data('stickyDate'));
-                                                        var stickyDate = $(this).data('stickyDate');
-                                                        
-                                                        if ( !e.date && stickyDate ) {
-                                                            console.debug('restore stickyDate', stickyDate);
-                                                            $(this).datepicker('setDate', stickyDate);
-                                                            $(this).data('stickyDate', null);
-                                                        }
-                                                    });
+                                                            if (e.date) {
+                                                                $(this).data('stickyDate', e.date);
+                                                            }
+                                                            else {
+                                                                $(this).data('stickyDate', null);
+                                                            }
+                                                        });
+
+                                                        $('#sandbox-container input').on('hide', function (e) {
+                                                            console.debug('hide', e.date, $(this).data('stickyDate'));
+                                                            var stickyDate = $(this).data('stickyDate');
+
+                                                            if (!e.date && stickyDate) {
+                                                                console.debug('restore stickyDate', stickyDate);
+                                                                $(this).datepicker('setDate', stickyDate);
+                                                                $(this).data('stickyDate', null);
+                                                            }
+                                                        });
+                                                        var date = new Date();
+                                                        date.setDate(date.getDate() - 1);
+                                                        var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+                                                        $(document).ready(function () {
+                                                            $('#reldate').datepicker({
+                                                            });
+                                                        });
                                                     </script>
                                                 </div>
+                                                <hr class="mt-1 mb-1" />
+                                                <br>
                                                 <div class="row">
-                                                    <select data-placeholder="Choose language of your track">
-                                                        <option value="AF">Afrikaans</option>
-                                                        <option value="SQ">Albanian</option>
-                                                        <option value="AR">Arabic</option>
-                                                        <option value="HY">Armenian</option>
-                                                        <option value="EU">Basque</option>
-                                                        <option value="BN">Bengali</option>
-                                                        <option value="BG">Bulgarian</option>
-                                                        <option value="CA">Catalan</option>
-                                                        <option value="KM">Cambodian</option>
-                                                        <option value="ZH">Chinese (Mandarin)</option>
-                                                        <option value="HR">Croatian</option>
-                                                        <option value="CS">Czech</option>
-                                                        <option value="DA">Danish</option>
-                                                        <option value="NL">Dutch</option>
-                                                        <option value="EN">English</option>
-                                                        <option value="ET">Estonian</option>
-                                                        <option value="FJ">Fiji</option>
-                                                        <option value="FI">Finnish</option>
-                                                        <option value="FR">French</option>
-                                                        <option value="KA">Georgian</option>
-                                                        <option value="DE">German</option>
-                                                        <option value="EL">Greek</option>
-                                                        <option value="GU">Gujarati</option>
-                                                        <option value="HE">Hebrew</option>
-                                                        <option value="HI">Hindi</option>
-                                                        <option value="HU">Hungarian</option>
-                                                        <option value="IS">Icelandic</option>
-                                                        <option value="ID">Indonesian</option>
-                                                        <option value="GA">Irish</option>
-                                                        <option value="IT">Italian</option>
-                                                        <option value="JA">Japanese</option>
-                                                        <option value="JW">Javanese</option>
-                                                        <option value="KO">Korean</option>
-                                                        <option value="LA">Latin</option>
-                                                        <option value="LV">Latvian</option>
-                                                        <option value="LT">Lithuanian</option>
-                                                        <option value="MK">Macedonian</option>
-                                                        <option value="MS">Malay</option>
-                                                        <option value="ML">Malayalam</option>
-                                                        <option value="MT">Maltese</option>
-                                                        <option value="MI">Maori</option>
-                                                        <option value="MR">Marathi</option>
-                                                        <option value="MN">Mongolian</option>
-                                                        <option value="NE">Nepali</option>
-                                                        <option value="NO">Norwegian</option>
-                                                        <option value="FA">Persian</option>
-                                                        <option value="PL">Polish</option>
-                                                        <option value="PT">Portuguese</option>
-                                                        <option value="PA">Punjabi</option>
-                                                        <option value="QU">Quechua</option>
-                                                        <option value="RO">Romanian</option>
-                                                        <option value="RU">Russian</option>
-                                                        <option value="SM">Samoan</option>
-                                                        <option value="SR">Serbian</option>
-                                                        <option value="SK">Slovak</option>
-                                                        <option value="SL">Slovenian</option>
-                                                        <option value="ES">Spanish</option>
-                                                        <option value="SW">Swahili</option>
-                                                        <option value="SV">Swedish </option>
-                                                        <option value="TA">Tamil</option>
-                                                        <option value="TT">Tatar</option>
-                                                        <option value="TE">Telugu</option>
-                                                        <option value="TH">Thai</option>
-                                                        <option value="BO">Tibetan</option>
-                                                        <option value="TO">Tonga</option>
-                                                        <option value="TR">Turkish</option>
-                                                        <option value="UK">Ukrainian</option>
-                                                        <option value="UR">Urdu</option>
-                                                        <option value="UZ">Uzbek</option>
-                                                        <option value="VI">Vietnamese</option>
-                                                        <option value="CY">Welsh</option>
-                                                        <option value="XH">Xhosa</option>
-                                                        </select>
+                                                    <div class="form-group col">
+                                                        <label for="albumtitle">UPC (optional)</label>
+                                                        <input type="text" class="form-control" maxlength="12"
+                                                            name="upc"
+                                                            placeholder="A valid 12-digit UPC for your release. Leave blank if you don't have one."
+                                                            value="<?php echo $release->upc; ?>">
+                                                    </div>
                                                 </div>
-												<div class="row">
-													wtf
-												</div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-4">
+                                                        <label for="albumtitle">© Copyright year</label>
+                                                        <input type="text" class="form-control" name="cyear"
+                                                            placeholder="<?php echo date("Y"); ?>"
+                                                            value="<?php echo date("Y"); ?>" required>
+                                                    </div>
+                                                    <div class="form-group col">
+                                                        <label for="albumversion">© Copyright Line</label>
+                                                        <input type="text" class="form-control" name="cline"
+                                                            placeholder="Copyright line. Example: VINA Nation"
+                                                            value="<?php echo $release->c; ?>" required>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-4">
+                                                        <label for="albumtitle">℗ Phonogram year</label>
+                                                        <input type="text" class="form-control" name="pyear"
+                                                            placeholder="<?php echo date("Y"); ?>"
+                                                            value="<?php echo date("Y"); ?>" required>
+                                                    </div>
+                                                    <div class="form-group col">
+                                                        <label for="albumversion">℗ Phonogram Line</label>
+                                                        <input type="text" class="form-control" name="pline"
+                                                            placeholder="Phonogram line. Example: VINA Nation"
+                                                            value="<?php echo $release->p; ?>" required>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
+                                        <script>
+                                            document.addEventListener('DOMContentLoaded', () => {
+                                                document.querySelectorAll('[maxlength]').forEach(input => {
+                                                    input.addEventListener('input', e => {
+                                                        let val = e.target.value, len = +e.target.getAttribute('maxlength');
+                                                        e.target.value = val.slice(0, len);
+                                                    });
+                                                });
+                                            });
+                                        </script>
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <i class="zmdi zmdi-store"></i> Stores/Services
+                                            </div>
+                                            <div class="card-body">
+                                                <style>
+                                                    .alert {
+                                                        padding: 15px;
+                                                        border-color: #6DD134;
+                                                        border-radius: 5px;
+                                                        border-width: 2px;
+                                                        color: white;
+                                                    }
+                                                    .chip {
+                                                        display: inline-block;
+                                                        padding: 5px;
+                                                        height: 20px;
+                                                        line-height: 50px;
+                                                        border-radius: 10px;
+                                                        background-color: #000000;
+                                                    }
+                                                    .chip outline{
+                                                        border-color: #ffffff;
+                                                        border-width: 2px;
+                                                    }
+                                                    .chip chip-text{
+                                                        color: white;
+                                                        font-size: 8px;
+                                                    }
+                                                </style>
+                                                <div class="col">
+                                                    <div class="alert row callout" role="alert">
+                                                        <span>
+                                                            <i class="zmdi zmdi-info-outline text-warning">
+                                                            </i> <strong>Note:</strong> Click on any stores you
+                                                            want to include/exclude to move it to Excluded/Included
+                                                            list.
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                Selected Stores
+                                                            </div>
+                                                            <div class="card-body">
+                                                            <button class="chip chip-outline chip-filter" type="button">
+                                                                <div class="chip chip-text">Car</div>
+                                                            </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                Excluded Stores
+                                                            </div>
+                                                            <div class="card-body">
+                                                                ngon
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <span>
+                                                                    <i class="zmdi zmdi-shopping-cart"></i> Additional Delivery Options:
+                                                                </span>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                //
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <center>
+                                            <button type="submit" class="btn btn-light btn-round px-5" value="save"><i
+                                                    class="zmdi zmdi-assignment"></i>
+                                                <a id="saveform" class="text-success"><span> Save changes</span></a>
+                                            </button>
+                                            <button type="submit" class="btn btn-light btn-round px-5"
+                                                value="Publish now"><i class="zmdi zmdi-assignment"></i>
+                                                <a id="saveform" class="text-warning"><span> Publish now</span></a>
+                                            </button>
+                                        </center>
                                     </div>
                                 </div>
                             </form>
@@ -519,14 +592,14 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                     const fr = new FileReader();
                                     fr.readAsArrayBuffer(file);
                                     fr.onload = f => {
-                                        
+
                                         const url = "https://script.google.com/macros/s/AKfycbyRR07piipMl-FrzPBonQS5O3UX8dgp2sSMMXJkllDJdFj_VoZ4z0yLpzw3Mu8YSso/exec";  // <--- Please set the URL of Web Apps.
-                                        
-                                        const qs = new URLSearchParams({filename: "<?php echo $_GET["id"];?>."+file.name.split('.').pop(), mimeType: file.type});
-                                        fetch(`${url}?${qs}`, {method: "POST", body: JSON.stringify([...new Int8Array(f.target.result)])})
-                                        .then(res => res.json())
-                                        .then(e => {console.log(JSON.parse(e).fileID); fetch("../assets/variables/update.php?req=1&id=<?php echo $albumID; ?>&fileID="+JSON.parse(e).fileID+"&name=<?php echo $_GET["id"];?>."+file.name.split('.').pop(),{credentials:"same-origin"}).then(e => console.log(e)).catch(err => console.log(err));})  // <--- You can retrieve the returned value here.
-                                        .catch(err => console.log(err));
+
+                                        const qs = new URLSearchParams({ filename: "<?php echo $_GET["id"]; ?>." + file.name.split('.').pop(), mimeType: file.type });
+                                        fetch(`${url}?${qs}`, { method: "POST", body: JSON.stringify([...new Int8Array(f.target.result)]) })
+                                            .then(res => res.json())
+                                            .then(e => { console.log(JSON.parse(e).fileID); fetch("../assets/variables/update.php?req=1&id=<?php echo $albumID; ?>&fileID=" + JSON.parse(e).fileID + "&name=<?php echo $_GET["id"]; ?>." + file.name.split('.').pop(), { credentials: "same-origin" }).then(e => console.log(e)).catch(err => console.log(err)); })  // <--- You can retrieve the returned value here.
+                                            .catch(err => console.log(err));
                                         //req = 1 -> album cover
                                         //req = 2 -> track
                                     }
