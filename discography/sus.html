@@ -1,34 +1,117 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.css" />
 <div id="sandbox-container">
     <input type="text" type="text" class="form-control" />
 </div>
 <script>
-$('#sandbox-container input').datepicker({
-    autoclose: true
-});
+    $('#sandbox-container input').datepicker({
+        autoclose: true
+    });
 
-$('#sandbox-container input').on('show', function(e){
-    console.debug('show', e.date, $(this).data('stickyDate'));
-    
-    if ( e.date ) {
-         $(this).data('stickyDate', e.date);
-    }
-    else {
-         $(this).data('stickyDate', null);
-    }
-});
+    $('#sandbox-container input').on('show', function (e) {
+        console.debug('show', e.date, $(this).data('stickyDate'));
 
-$('#sandbox-container input').on('hide', function(e){
-    console.debug('hide', e.date, $(this).data('stickyDate'));
-    var stickyDate = $(this).data('stickyDate');
-    
-    if ( !e.date && stickyDate ) {
-        console.debug('restore stickyDate', stickyDate);
-        $(this).datepicker('setDate', stickyDate);
-        $(this).data('stickyDate', null);
-    }
-});
+        if (e.date) {
+            $(this).data('stickyDate', e.date);
+        }
+        else {
+            $(this).data('stickyDate', null);
+        }
+    });
+
+    $('#sandbox-container input').on('hide', function (e) {
+        console.debug('hide', e.date, $(this).data('stickyDate'));
+        var stickyDate = $(this).data('stickyDate');
+
+        if (!e.date && stickyDate) {
+            console.debug('restore stickyDate', stickyDate);
+            $(this).datepicker('setDate', stickyDate);
+            $(this).data('stickyDate', null);
+        }
+    });
 </script>
+
+
+
+<div class="checkbox-wrapper-6">
+    <input class="tgl tgl-light" id="cb1-6" type="checkbox"/>
+    <label class="tgl-btn" for="cb1-6">
+  </div>
+  
+  <style>
+    .checkbox-wrapper-6 .tgl {
+      display: none;
+    }
+    .checkbox-wrapper-6 .tgl,
+    .checkbox-wrapper-6 .tgl:after,
+    .checkbox-wrapper-6 .tgl:before,
+    .checkbox-wrapper-6 .tgl *,
+    .checkbox-wrapper-6 .tgl *:after,
+    .checkbox-wrapper-6 .tgl *:before,
+    .checkbox-wrapper-6 .tgl + .tgl-btn {
+      box-sizing: border-box;
+    }
+    .checkbox-wrapper-6 .tgl::-moz-selection,
+    .checkbox-wrapper-6 .tgl:after::-moz-selection,
+    .checkbox-wrapper-6 .tgl:before::-moz-selection,
+    .checkbox-wrapper-6 .tgl *::-moz-selection,
+    .checkbox-wrapper-6 .tgl *:after::-moz-selection,
+    .checkbox-wrapper-6 .tgl *:before::-moz-selection,
+    .checkbox-wrapper-6 .tgl + .tgl-btn::-moz-selection,
+    .checkbox-wrapper-6 .tgl::selection,
+    .checkbox-wrapper-6 .tgl:after::selection,
+    .checkbox-wrapper-6 .tgl:before::selection,
+    .checkbox-wrapper-6 .tgl *::selection,
+    .checkbox-wrapper-6 .tgl *:after::selection,
+    .checkbox-wrapper-6 .tgl *:before::selection,
+    .checkbox-wrapper-6 .tgl + .tgl-btn::selection {
+      background: none;
+    }
+    .checkbox-wrapper-6 .tgl + .tgl-btn {
+      outline: 0;
+      display: block;
+      width: 4em;
+      height: 2em;
+      position: relative;
+      cursor: pointer;
+      -webkit-user-select: none;
+         -moz-user-select: none;
+          -ms-user-select: none;
+              user-select: none;
+    }
+    .checkbox-wrapper-6 .tgl + .tgl-btn:after,
+    .checkbox-wrapper-6 .tgl + .tgl-btn:before {
+      position: relative;
+      display: block;
+      content: "";
+      width: 50%;
+      height: 100%;
+    }
+    .checkbox-wrapper-6 .tgl + .tgl-btn:after {
+      left: 0;
+    }
+    .checkbox-wrapper-6 .tgl + .tgl-btn:before {
+      display: none;
+    }
+    .checkbox-wrapper-6 .tgl:checked + .tgl-btn:after {
+      left: 50%;
+    }
+  
+    .checkbox-wrapper-6 .tgl-light + .tgl-btn {
+      background: #f0f0f0;
+      border-radius: 2em;
+      padding: 2px;
+      transition: all 0.4s ease;
+    }
+    .checkbox-wrapper-6 .tgl-light + .tgl-btn:after {
+      border-radius: 50%;
+      background: #fff;
+      transition: all 0.2s ease;
+    }
+    .checkbox-wrapper-6 .tgl-light:checked + .tgl-btn {
+      background: #9FD6AE;
+    }
+  </style>
+  

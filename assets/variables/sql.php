@@ -6,6 +6,21 @@
 	function resetinc($table){
 		query("ALTER TABLE ".$table." AUTO_INCREMENT = 1;");
 	}
+	class store{
+		public $id;
+		public $name;
+	}
+	function getStore(){
+		$tmp = query("select * from stores;");
+		$tmp2 = array();
+		while($row = mysqli_fetch_array($tmp)){
+			$sus = new store();
+			$sus->id = $row["storeID"];
+			$sus->name = $row["storeName"];
+			$tmp2[] = $sus;
+		}
+		return $tmp2;
+	}
 	class artistType {
 		public $id;
 		public $name;
@@ -21,6 +36,7 @@
 		public $author = array(); //JSON array of artists
 		public $createdDate; //datetime fvck brbrbr
 		public $relDate; //unset=ASAP; set=ok
+		public $orgReldate; //original release date
 		public $role = array(); //1 primary, 2 ft, 3 remixer ??? artist roles btw
 		public $c; //copyright line
 		public $p; //publishing line
@@ -42,6 +58,7 @@
 			$tmp2->file = json_decode($row["trackID"]);
 			$tmp2->c = $row["compLine"];
 			$tmp2->p = $row["publishLine"];
+			$tmp2->orgReldate = $row["orgReldate"];
 			$rrole = json_decode($row["artistRole"]); //role
 			$tmp2->createdDate = $row["createdDate"];
 			$tmp2->relDate = $row["relDate"];

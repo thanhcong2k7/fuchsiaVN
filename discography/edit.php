@@ -274,7 +274,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                             }
                                             ?>
                                             <div class="col" style="padding-top: 20px;">
-                                                <h3><?php echo ($release->name ? $release->name : "(untitled)").($release->version?" (".$release->version.")":""); ?>
+                                                <h3><?php echo ($release->name ? $release->name : "(untitled)") . ($release->version ? " (" . $release->version . ")" : ""); ?>
                                                 </h3>
                                                 <span><span style="font-weight: bold;">UPC</span>:
                                                     <?php echo ($release->upc ? $release->upc : "(not set)"); ?></span>
@@ -394,14 +394,14 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                     <link rel="stylesheet"
                                                         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.css" />
                                                     <div class="form-group col" id="sandbox-container">
-                                                        <label for="reldate">Release date (optional)</label>
-                                                        <input type="text" class="form-control" id="reldate"
-                                                            placeholder="Pick your release date here (mm/dd/yyyy)">
+                                                        <label for="reldate">Release date (optional) (mm/dd/yyyy)</label>
+                                                        <input type="text" class="form-control" id="reldate" name="reldate"
+                                                            placeholder="Pick your release date here (mm/dd/yyyy)" value="<?php echo date_format(date_create($release->relDate), "m/d/Y");?>">
                                                     </div>
-                                                    <div class="form-group col" id="sandbox-container">
-                                                        <label for="reldate">Original release date (optional)</label>
-                                                        <input type="text" class="form-control" id="orgreldate"
-                                                            placeholder="This is in case your album has been released before">
+                                                    <div class="form-group col" id="sandbox-container2">
+                                                        <label for="orgreldate">Original release date (optional) (mm/dd/yyyy)</label>
+                                                        <input type="text" class="form-control" id="orgreldate" name="orgreldate"
+                                                            placeholder="This is in case your album has been released before" value="<?php echo date_format(date_create($release->orgReldate), "m/d/Y");?>">
                                                     </div>
                                                     <script>
                                                         $('#sandbox-container input').datepicker({
@@ -409,8 +409,22 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                             startDate: '-0d',
                                                             todayHighlight: true
                                                         });
+                                                        $('#sandbox-container2 input').datepicker({
+                                                            autoclose: true,
+                                                            endDate: '+0d',
+                                                            todayHighlight: true
+                                                        });
 
                                                         $('#sandbox-container input').on('show', function (e) {
+                                                            console.debug('show', e.date, $(this).data('stickyDate'));
+
+                                                            if (e.date) {
+                                                                $(this).data('stickyDate', e.date);
+                                                            }
+                                                            else {
+                                                                $(this).data('stickyDate', null);
+                                                            }
+                                                        });$('#sandbox-container2 input').on('show', function (e) {
                                                             console.debug('show', e.date, $(this).data('stickyDate'));
 
                                                             if (e.date) {
@@ -430,13 +444,15 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                                 $(this).datepicker('setDate', stickyDate);
                                                                 $(this).data('stickyDate', null);
                                                             }
-                                                        });
-                                                        var date = new Date();
-                                                        date.setDate(date.getDate() - 1);
-                                                        var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-                                                        $(document).ready(function () {
-                                                            $('#reldate').datepicker({
-                                                            });
+                                                        });$('#sandbox-container2 input').on('hide', function (e) {
+                                                            console.debug('hide', e.date, $(this).data('stickyDate'));
+                                                            var stickyDate = $(this).data('stickyDate');
+
+                                                            if (!e.date && stickyDate) {
+                                                                console.debug('restore stickyDate', stickyDate);
+                                                                $(this).datepicker('setDate', stickyDate);
+                                                                $(this).data('stickyDate', null);
+                                                            }
                                                         });
                                                     </script>
                                                 </div>
@@ -504,6 +520,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                         border-width: 2px;
                                                         color: white;
                                                     }
+
                                                     .chip {
                                                         display: inline-block;
                                                         padding: 5px;
@@ -512,45 +529,116 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                         border-radius: 10px;
                                                         background-color: #000000;
                                                     }
-                                                    .chip outline{
+
+                                                    .chip outline {
                                                         border-color: #ffffff;
                                                         border-width: 2px;
                                                     }
-                                                    .chip chip-text{
+
+                                                    .chip chip-text {
                                                         color: white;
                                                         font-size: 8px;
                                                     }
                                                 </style>
-                                                <div class="col">
-                                                    <div class="alert row callout" role="alert">
-                                                        <span>
-                                                            <i class="zmdi zmdi-info-outline text-warning">
-                                                            </i> <strong>Note:</strong> Click on any stores you
-                                                            want to include/exclude to move it to Excluded/Included
-                                                            list.
-                                                        </span>
-                                                    </div>
-                                                </div>
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="card">
                                                             <div class="card-header">
-                                                                Selected Stores
+                                                                <center>
+                                                                    <div class="position-relative has-icon-right">
+                                                                        <label for="searchBox" class="sr-only">Search:
+                                                                        </label> <input type="text" id="searchBox"
+                                                                            class="form-control input-shadow"
+                                                                            placeholder="Search for stores/services...">
+                                                                        <div class="form-control-position">
+                                                                            <i class="zmdi zmdi-search"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </center>
                                                             </div>
                                                             <div class="card-body">
-                                                            <button class="chip chip-outline chip-filter" type="button">
-                                                                <div class="chip chip-text">Car</div>
-                                                            </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="card">
-                                                            <div class="card-header">
-                                                                Excluded Stores
-                                                            </div>
-                                                            <div class="card-body">
-                                                                ngon
+                                                                <style>
+                                                                    #checkboxContainer {
+                                                                        /* Adjust the height as needed */
+                                                                        overflow-y: hidden;
+                                                                        max-height: 100%;
+                                                                    }
+                                                                </style>
+                                                                <?php
+                                                                /**
+                                                                 * @return Generator
+                                                                 */
+                                                                function fileData($filee)
+                                                                {
+                                                                    $file = fopen($filee, 'r');
+
+                                                                    if (!$file) {
+                                                                        return; // die() is a bad practice, better to use return
+                                                                    }
+                                                                    while (($line = fgets($file)) !== false) {
+                                                                        yield $line;
+                                                                    }
+
+                                                                    fclose($file);
+                                                                }
+                                                                ;
+                                                                ?>
+                                                                <div class="wrapperforsus"
+                                                                    style="max-height: 300px; max-width:100%; overflow-y:scroll;">
+                                                                    <div id="checkboxContainer" style="column-count: 2;">
+                                                                        <div class="icheck-material-white">
+                                                                            <input id="selectAll" name="selall" type="checkbox" />
+                                                                            <label for="selectAll">  select all</label>
+                                                                        </div>
+                                                                            <?php
+                                                                            $sus = getStore();
+                                                                            foreach ($sus as $s) {
+                                                                                echo '
+                                                                        <div class="icheck-material-white">
+                                                                                    <input id="store' . $s->id . '" name="'.$s->id.'" type="checkbox" />
+                                                                                    <label for="store' . $s->id . '">' . $s->name . '</label>
+                                                                                    </div>
+                                                                                ';
+                                                                            }
+                                                                            ?>
+                                                                    </div>
+                                                                </div>
+                                                                <script>
+                                                                    const searchBox = document.getElementById('searchBox');
+                                                                    const checkboxes = document.querySelectorAll('#checkboxContainer input[type="checkbox"]');
+                                                                    searchBox.addEventListener('input', () => {
+                                                                        const searchTerm = searchBox.value.toLowerCase();
+                                                                        checkboxes.forEach(checkbox => {
+                                                                            const labeltmp = checkbox.getAttribute("id");
+                                                                            console.log(labeltmp);
+                                                                            label = document.querySelector(`#checkboxContainer label[for="${labeltmp}"]`);
+                                                                            if (label.textContent.toLowerCase().includes(searchTerm)) {
+                                                                                checkbox.style.display = 'inline';
+                                                                                checkbox.style.maxHeight = '50px';
+                                                                                label.style.display = 'inline';
+                                                                                label.style.maxHeight = '50px';
+                                                                            } else {
+                                                                                checkbox.style.display = 'none';
+                                                                                label.style.display = 'none';
+                                                                                checkbox.style.maxHeight = '0px';
+                                                                                label.style.maxHeight = '0px';
+                                                                            }
+                                                                        });
+                                                                    });
+                                                                    const selectAllCheckbox = document.getElementById('selectAll');
+                                                                    selectAllCheckbox.addEventListener('change', () => {
+                                                                        checkboxes.forEach(checkbox => {
+                                                                            checkbox.checked = selectAllCheckbox.checked;
+                                                                        });
+                                                                    });
+                                                                    checkboxes.forEach(checkbox => {
+                                                                        checkbox.addEventListener('change', () => {
+                                                                            if (!checkbox.checked) {
+                                                                                selectAllCheckbox.checked = false;
+                                                                            }
+                                                                        });
+                                                                    });
+                                                                </script>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -560,11 +648,63 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                         <div class="card">
                                                             <div class="card-header">
                                                                 <span>
-                                                                    <i class="zmdi zmdi-shopping-cart"></i> Additional Delivery Options:
+                                                                    <i class="zmdi zmdi-shopping-cart"></i> Additional
+                                                                    Delivery Options
                                                                 </span>
                                                             </div>
                                                             <div class="card-body">
-                                                                //
+                                                                <div class="col">
+                                                                    <div class="alert row callout" role="alert" style="overflow: hidden;white-space: initial;">
+                                                                        <span>
+                                                                            <i
+                                                                                class="zmdi zmdi-info-outline text-warning">
+                                                                            </i> <strong>Note:</strong> Enable Youtube
+                                                                            Content ID only when you're confident that
+                                                                            your song doesn't contain any copyrighted
+                                                                            content!
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <div class="card card-body row">
+                                                                        <div class="icheck-material-white">
+                                                                            <input type="checkbox" id="ytcid" name="ytcid" />
+                                                                            <label for="ytcid"> YouTube Content ID</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="card card-body row">
+                                                                        <div class="icheck-material-white">
+                                                                            <input type="checkbox" id="scloud" name="scloud" />
+                                                                            <label for="scloud"> SoundCloud Monetization & Content Protection</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="card card-body row">
+                                                                        <div class="icheck-material-white">
+                                                                            <input type="checkbox" id="soundx" name="soundx" />
+                                                                            <label for="soundx"> SoundExchange</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="card card-body row">
+                                                                        <div class="icheck-material-white">
+                                                                            <input type="checkbox" id="jdl" name="jdl" />
+                                                                            <label for="jdl"> Juno Download</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="card card-body row">
+                                                                        <div class="icheck-material-white">
+                                                                            <input type="checkbox" id="trl" name="trl" />
+                                                                            <label for="trl"> Tracklib</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="card card-body row">
+                                                                        <div class="icheck-material-white col">
+                                                                            <input type="checkbox" id="bport" name="bport" />
+                                                                            <label for="bport"> Beatport
+                                                                            </label>
+                                                                        </div>
+                                                                        <input type="text" class="form-control row col" name="bport" placeholder="Page URL">
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -577,7 +717,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                 <a id="saveform" class="text-success"><span> Save changes</span></a>
                                             </button>
                                             <button type="submit" class="btn btn-light btn-round px-5"
-                                                value="Publish now"><i class="zmdi zmdi-assignment"></i>
+                                                value="publish"><i class="zmdi zmdi-assignment"></i>
                                                 <a id="saveform" class="text-warning"><span> Publish now</span></a>
                                             </button>
                                         </center>
@@ -588,7 +728,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                 const form = document.getElementById('formdepchai');
                                 form.addEventListener('submit', e => {
                                     e.preventDefault();
-                                    const file = form.inputFile.files[0];
+                                    const file = document.getElementById("input-file").files[0];
                                     const fr = new FileReader();
                                     fr.readAsArrayBuffer(file);
                                     fr.onload = f => {
@@ -689,5 +829,4 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
         document.getElementById("cccccyear").innerHTML = n.getFullYear();
     </script>
 </body>
-
 </html>

@@ -1,0 +1,51 @@
+<style>
+    #checkboxContainer {
+        max-height: 200px;
+        /* Adjust the height as needed */
+        overflow-y: auto;
+    }
+</style>
+
+<input type="text" id="searchBox" placeholder="Search...">
+<div id="checkboxContainer">
+    <input type="checkbox" id="selectAll">
+    <label for="selectAll">select all <br></label>
+    <input type="checkbox" id="checkbox1">
+    <label for="checkbox1">option 1 <br></label>
+    <input type="checkbox" id="checkbox2">
+    <label for="checkbox2">option 2 <br></label>
+    <input type="checkbox" id="checkbox3">
+    <label for="checkbox3">option 3 <br></label>
+</div>
+<script>
+    const searchBox = document.getElementById('searchBox');
+    const checkboxes = document.querySelectorAll('#checkboxContainer input[type="checkbox"]');
+    searchBox.addEventListener('input', () => {
+        const searchTerm = searchBox.value.toLowerCase();
+        checkboxes.forEach(checkbox => {
+            const labeltmp = checkbox.getAttribute("id");
+            console.log(labeltmp);
+            label = document.querySelector(`#checkboxContainer label[for="${labeltmp}"]`);
+            if (label.textContent.toLowerCase().includes(searchTerm)) {
+                checkbox.style.display = 'inline';
+                label.style.display = 'inline';
+            } else {
+                checkbox.style.display = 'none';
+                label.style.display = 'none';
+            }
+        });
+    });
+    const selectAllCheckbox = document.getElementById('selectAll');
+    selectAllCheckbox.addEventListener('change', () => {
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = selectAllCheckbox.checked;
+        });
+    });
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            if (!checkbox.checked) {
+                selectAllCheckbox.checked = false;
+            }
+        });
+    });
+</script>
