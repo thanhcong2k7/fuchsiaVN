@@ -1,6 +1,6 @@
 <?php
     session_start();
-    if (isset($_SESSION["userwtf"])){
+    //if (isset($_SESSION["userwtf"])){
         $apikey = "9527a1c516dd2fca6551240ba89343ca";
         $url = "https://api.imgbb.com/1/upload";
         $ch = curl_init();
@@ -21,5 +21,5 @@
         ));
         $res = curl_exec($ch);
         echo $res;
-    }
+    //}
 ?>

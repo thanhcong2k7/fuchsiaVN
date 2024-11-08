@@ -6,6 +6,9 @@
 	function resetinc($table){
 		query("ALTER TABLE ".$table." AUTO_INCREMENT = 1;");
 	}
+	function update($key, $val, $table, $condition){
+		query("update ".$table." set ".$key."='".$val."' where ".$condition.";");
+	}
 	class store{
 		public $id;
 		public $name;
@@ -42,6 +45,12 @@
 		public $p; //publishing line
 		public $file = array(); //JSON array of tracks
 		public $version; //Album version line: remix,...
+		public $ytcid;
+		public $sc;
+		public $jdl;
+		public $trl;
+		public $sx;
+		public $bp;
 	}
 	function getRelease($uid, $num = 0, $id = 0){
 		//find all release based on user id
@@ -63,6 +72,11 @@
 			$tmp2->createdDate = $row["createdDate"];
 			$tmp2->relDate = $row["relDate"];
 			$tmp2->version = $row["versionLine"];
+			$tmp2->ytcid = $row["ytcid"];
+			$tmp2->jdl=$row["juno"];
+			$tmp2->sx = $row["soundx"];
+			$tmp2->sc = $row["scloud"];
+			$tmp2->bp = $row["beatport"];
 			if($id!=0 && $row["albumID"] == $id){
 				return $tmp2;
 			} else $releases[] = $tmp2;

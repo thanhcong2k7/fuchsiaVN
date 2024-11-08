@@ -187,7 +187,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                 <div class="row">
                     <div class="col">
                         <div class="card">
-                            <form action="save.php" method="POST" id="formdepchai">
+                            <form action="save.php" method="POST" id="formdepchai" enctype='multipart/form-data'>
                                 <div class="card-header">
                                     <i class="zmdi zmdi-border-color"></i> Release ID:
                                     <?php echo "FMG" . $_GET["id"]; ?>
@@ -258,7 +258,8 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                             <div class="col">
                                                 <div class="dnd">
                                                     <label for="input-file" id="drop-area">
-                                                        <input type="file" accept="image/*" id="input-file" name="artworkup" hidden>
+                                                        <input type="file" accept="image/*" id="input-file"
+                                                            name="artworkup" hidden>
                                                         <div id="img-view">
                                                             <span id="texttt"><i class="zmdi zmdi-file-plus"></i> Upload
                                                                 your
@@ -270,7 +271,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                             <?php
                                             if ($r2->art != null) {
                                                 //https://drive.google.com/thumbnail?id=${id}
-                                                echo "<script>document.getElementById(\"img-view\").style.backgroundImage = 'url(https://lh3.googleusercontent.com/d/" . $r2->art . ")'; document.getElementById(\"texttt\").style.display = 'none';</script>";
+                                                echo "<script>document.getElementById(\"img-view\").style.backgroundImage = 'url(" . $r2->art . ")'; document.getElementById(\"texttt\").style.display = 'none';</script>";
                                             }
                                             ?>
                                             <div class="col" style="padding-top: 20px;">
@@ -285,6 +286,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                 <span><span style="font-weight: bold;">Status:
                                                     </span><?php $r = $release;
                                                     echo ($r->status == 0 ? "DRAFT" : ($r->status == 1 ? "DELIVERED" : ($r->status == 2 ? "ERROR" : "CHECKING"))); ?></span>
+                                                <input value="<?php echo $_GET["id"];?>" name="albumid" hidden>
                                             </div>
                                         </div>
                                         <br>
@@ -389,14 +391,20 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                     <link rel="stylesheet"
                                                         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.css" />
                                                     <div class="form-group col" id="sandbox-container">
-                                                        <label for="reldate">Release date (optional) (mm/dd/yyyy)</label>
-                                                        <input type="text" class="form-control" id="reldate" name="reldate"
-                                                            placeholder="Pick your release date here (mm/dd/yyyy)" value="<?php echo date_format(date_create($release->relDate), "m/d/Y");?>">
+                                                        <label for="reldate">Release date (optional)
+                                                            (mm/dd/yyyy)</label>
+                                                        <input type="text" class="form-control" id="reldate"
+                                                            name="reldate"
+                                                            placeholder="Pick your release date here (mm/dd/yyyy)"
+                                                            value="<?php echo date_format(date_create($release->relDate), "m/d/Y"); ?>">
                                                     </div>
                                                     <div class="form-group col" id="sandbox-container2">
-                                                        <label for="orgreldate">Original release date (optional) (mm/dd/yyyy)</label>
-                                                        <input type="text" class="form-control" id="orgreldate" name="orgreldate"
-                                                            placeholder="This is in case your album has been released before" value="<?php echo date_format(date_create($release->orgReldate), "m/d/Y");?>">
+                                                        <label for="orgreldate">Original release date (optional)
+                                                            (mm/dd/yyyy)</label>
+                                                        <input type="text" class="form-control" id="orgreldate"
+                                                            name="orgreldate"
+                                                            placeholder="This is in case your album has been released before"
+                                                            value="<?php echo date_format(date_create($release->orgReldate), "m/d/Y"); ?>">
                                                     </div>
                                                     <script>
                                                         $('#sandbox-container input').datepicker({
@@ -419,7 +427,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                             else {
                                                                 $(this).data('stickyDate', null);
                                                             }
-                                                        });$('#sandbox-container2 input').on('show', function (e) {
+                                                        }); $('#sandbox-container2 input').on('show', function (e) {
                                                             console.debug('show', e.date, $(this).data('stickyDate'));
 
                                                             if (e.date) {
@@ -439,7 +447,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                                 $(this).datepicker('setDate', stickyDate);
                                                                 $(this).data('stickyDate', null);
                                                             }
-                                                        });$('#sandbox-container2 input').on('hide', function (e) {
+                                                        }); $('#sandbox-container2 input').on('hide', function (e) {
                                                             console.debug('hide', e.date, $(this).data('stickyDate'));
                                                             var stickyDate = $(this).data('stickyDate');
 
@@ -580,22 +588,24 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                                 ?>
                                                                 <div class="wrapperforsus"
                                                                     style="max-height: 300px; max-width:100%; overflow-y:scroll;">
-                                                                    <div id="checkboxContainer" style="column-count: 2;">
+                                                                    <div id="checkboxContainer"
+                                                                        style="column-count: 2;">
                                                                         <div class="icheck-material-white">
-                                                                            <input id="selectAll" name="selall" type="checkbox" />
-                                                                            <label for="selectAll">  select all</label>
+                                                                            <input id="selectAll" name="selall"
+                                                                                type="checkbox" />
+                                                                            <label for="selectAll"> select all</label>
                                                                         </div>
-                                                                            <?php
-                                                                            $sus = getStore();
-                                                                            foreach ($sus as $s) {
-                                                                                echo '
+                                                                        <?php
+                                                                        $sus = getStore();
+                                                                        foreach ($sus as $s) {
+                                                                            echo '
                                                                         <div class="icheck-material-white">
-                                                                                    <input id="store' . $s->id . '" name="'.$s->id.'" type="checkbox" />
+                                                                                    <input id="store' . $s->id . '" name="' . $s->id . '" type="checkbox" />
                                                                                     <label for="store' . $s->id . '">' . $s->name . '</label>
                                                                                     </div>
                                                                                 ';
-                                                                            }
-                                                                            ?>
+                                                                        }
+                                                                        ?>
                                                                     </div>
                                                                 </div>
                                                                 <script>
@@ -605,7 +615,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                                         const searchTerm = searchBox.value.toLowerCase();
                                                                         checkboxes.forEach(checkbox => {
                                                                             const labeltmp = checkbox.getAttribute("id");
-                                                                            console.log(labeltmp);
+                                                                            //console.log(labeltmp);
                                                                             label = document.querySelector(`#checkboxContainer label[for="${labeltmp}"]`);
                                                                             if (label.textContent.toLowerCase().includes(searchTerm)) {
                                                                                 checkbox.style.display = 'inline';
@@ -649,7 +659,8 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                             </div>
                                                             <div class="card-body">
                                                                 <div class="col">
-                                                                    <div class="alert row callout" role="alert" style="overflow: hidden;white-space: initial;">
+                                                                    <div class="alert row callout" role="alert"
+                                                                        style="overflow: hidden;white-space: initial;">
                                                                         <span>
                                                                             <i
                                                                                 class="zmdi zmdi-info-outline text-warning">
@@ -663,41 +674,50 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                                 <div class="col">
                                                                     <div class="card card-body row">
                                                                         <div class="icheck-material-white">
-                                                                            <input type="checkbox" id="ytcid" name="ytcid" />
-                                                                            <label for="ytcid"> YouTube Content ID</label>
+                                                                            <input type="checkbox" id="ytcid"
+                                                                                name="ytcid" />
+                                                                            <label for="ytcid"> YouTube Content
+                                                                                ID</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="card card-body row">
                                                                         <div class="icheck-material-white">
-                                                                            <input type="checkbox" id="scloud" name="scloud" />
-                                                                            <label for="scloud"> SoundCloud Monetization & Content Protection</label>
+                                                                            <input type="checkbox" id="scloud"
+                                                                                name="scloud" />
+                                                                            <label for="scloud" style="overflow: hidden;white-space: initial;"> SoundCloud Monetization
+                                                                                & Content Protection</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="card card-body row">
                                                                         <div class="icheck-material-white">
-                                                                            <input type="checkbox" id="soundx" name="soundx" />
+                                                                            <input type="checkbox" id="soundx"
+                                                                                name="soundx" />
                                                                             <label for="soundx"> SoundExchange</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="card card-body row">
                                                                         <div class="icheck-material-white">
-                                                                            <input type="checkbox" id="jdl" name="jdl" />
+                                                                            <input type="checkbox" id="jdl"
+                                                                                name="jdl" />
                                                                             <label for="jdl"> Juno Download</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="card card-body row">
                                                                         <div class="icheck-material-white">
-                                                                            <input type="checkbox" id="trl" name="trl" />
+                                                                            <input type="checkbox" id="trl"
+                                                                                name="trl" />
                                                                             <label for="trl"> Tracklib</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="card card-body row">
                                                                         <div class="icheck-material-white col">
-                                                                            <input type="checkbox" id="bport" name="bport" />
+                                                                            <input type="checkbox" id="bport"
+                                                                                name="bport" />
                                                                             <label for="bport"> Beatport
                                                                             </label>
                                                                         </div>
-                                                                        <input type="text" class="form-control row col" name="bport" placeholder="Page URL">
+                                                                        <input type="text" class="form-control row col"
+                                                                            name="bporturl" placeholder="Page URL (Leave blank for a new one)">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -707,20 +727,20 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                             </div>
                                         </div>
                                         <center>
-                                            <button type="submit" class="btn btn-light btn-round px-5" value="save"><i
-                                                    class="zmdi zmdi-assignment"></i>
-                                                <a id="saveform" class="text-success"><span> Save changes</span></a>
-                                            </button>
-                                            <button type="submit" class="btn btn-light btn-round px-5"
-                                                value="publish"><i class="zmdi zmdi-assignment"></i>
-                                                <a id="saveform" class="text-warning"><span> Publish now</span></a>
-                                            </button>
+                                            <div>
+                                                <input name="saveform" id="saveform" type="submit" class="btn btn-light btn-round px-5"
+                                                    value="Save changes">
+                                                <input name="distform" id="distform" type="submit"
+                                                    class="text-warning btn btn-light btn-round px-5"
+                                                    value="Distribute now">
+                                            </div>
                                         </center>
                                     </div>
                                 </div>
                             </form>
                             <script>
                                 const form = document.getElementById('formdepchai');
+                                /*
                                 form.addEventListener('submit', e => {
                                     e.preventDefault();
                                     const file = document.getElementById("input-file").files[0];
@@ -729,7 +749,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                     fr.onload = f => {
                                         //api key imgbb 
                                         //const key = '9527a1c516dd2fca6551240ba89343ca';
-                                        const url="https://api.imgbb.com/1/upload";
+                                        const url = "https://api.imgbb.com/1/upload";
                                         fetch(`${url}?key=${key}`);
                                         /*
                                         const url = "https://script.google.com/macros/s/AKfycbyRR07piipMl-FrzPBonQS5O3UX8dgp2sSMMXJkllDJdFj_VoZ4z0yLpzw3Mu8YSso/exec";  // <--- Please set the URL of Web Apps.
@@ -737,11 +757,11 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                         fetch(`${url}?${qs}`, { method: "POST", body: JSON.stringify([...new Int8Array(f.target.result)]) })
                                             .then(res => res.json())
                                             .then(e => { console.log(JSON.parse(e).fileID); fetch("../assets/variables/update.php?req=1&id=<?php echo $albumID; ?>&fileID=" + JSON.parse(e).fileID + "&name=<?php echo $_GET["id"]; ?>." + file.name.split('.').pop(), { credentials: "same-origin" }).then(e => console.log(e)).catch(err => console.log(err)); })  // <--- You can retrieve the returned value here.
-                                            .catch(err => console.log(err));*/
+                                            .catch(err => console.log(err));
                                         //req = 1 -> album cover
                                         //req = 2 -> track
                                     }
-                                });
+                                });*/
                             </script>
                         </div>
                     </div>
@@ -827,4 +847,5 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
         document.getElementById("cccccyear").innerHTML = n.getFullYear();
     </script>
 </body>
+
 </html>

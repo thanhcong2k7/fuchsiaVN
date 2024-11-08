@@ -1,0 +1,38 @@
+{
+    "data": {
+        "id": "mTfvhLX",
+        "title": "bcb50d1f6086",
+        "url_viewer": "https:\/\/ibb.co\/mTfvhLX",
+        "url": "https:\/\/i.ibb.co\/r0Db5Cc\/bcb50d1f6086.jpg",
+        "display_url": "https:\/\/i.ibb.co\/RbRhQxB\/bcb50d1f6086.jpg",
+        "width": 3000,
+        "height": 3000,
+        "size": 462425,
+        "time": 1731087012,
+        "expiration": 0,
+        "image": {
+            "filename": "bcb50d1f6086.jpg",
+            "name": "bcb50d1f6086",
+            "mime": "image\/jpeg",
+            "extension": "jpg",
+            "url": "https:\/\/i.ibb.co\/r0Db5Cc\/bcb50d1f6086.jpg"
+        },
+        "thumb": {
+            "filename": "bcb50d1f6086.jpg",
+            "name": "bcb50d1f6086",
+            "mime": "image\/jpeg",
+            "extension": "jpg",
+            "url": "https:\/\/i.ibb.co\/mTfvhLX\/bcb50d1f6086.jpg"
+        },
+        "medium": {
+            "filename": "bcb50d1f6086.jpg",
+            "name": "bcb50d1f6086",
+            "mime": "image\/jpeg",
+            "extension": "jpg",
+            "url": "https:\/\/i.ibb.co\/RbRhQxB\/bcb50d1f6086.jpg"
+        },
+        "delete_url": "https:\/\/ibb.co\/mTfvhLX\/78b65392d82e870b2ba00b7e7045d5d3"
+    },
+    "success": true,
+    "status": 200
+}
