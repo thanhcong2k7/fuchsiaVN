@@ -89,6 +89,7 @@ if (isset($_SESSION['userwtf'])) {
         $tmp_name = $file['tmp_name'];
         $size = $file['size'];
         echo $tmp_name . "<br>";
+        echo ($dec->data->url?$dec->data->url:"wtf null?");
     }
     //
     // END UPLOAD IMAGE
