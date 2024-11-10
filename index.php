@@ -373,7 +373,7 @@ if (!isset($_SESSION["userwtf"])) {
                           echo '
                             <tr>
                               <td>'.($re->name ? $re->name : "(untitled)").'</td>
-                              <td><img src="'.(!isset($re->art) ? 'https://via.placeholder.com/50x50' : "https://lh3.googleusercontent.com/d/".$re->art).'" class="product-img" alt="product img"></td>
+                              <td><img src="'.(!isset($re->art) ? 'https://via.placeholder.com/50x50' : $re->art).'" class="product-img" alt="product img"></td>
                               <td>FMG'.$re->id.'</td>
                               <td>'.($re->status == 0 ? "DRAFT" : ($re->status == 1 ? "DELIVERED" : ($re->status == 2 ? "ERROR" : "CHECKING"))).'</td>
                               <td>'.($re->relDate ? $re->relDate : "--/--/----").'</td>

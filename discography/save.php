@@ -79,7 +79,6 @@ if (isset($_SESSION['userwtf'])) {
     $res = curl_exec($ch);
     echo $res;
     $dec = json_decode($res, false);
-    update("artID", $dec->data->url, "album", "albumID=" . $_POST["albumID"]);
     curl_close($ch);
     foreach ($_POST as $key => $value) {
         echo "Field " . htmlspecialchars($key) . " is " . htmlspecialchars($value) . "<br>";
@@ -90,10 +89,11 @@ if (isset($_SESSION['userwtf'])) {
         $size = $file['size'];
         echo $tmp_name . "<br>";
         echo ($dec->data->url?$dec->data->url:"wtf null?");
+        echo update("artID", $dec->data->url, "album", "albumID=" . $_POST["albumid"]);
     }
     //
     // END UPLOAD IMAGE
     //
-    //header("Location: ./");
+    header("Location: ./");
 }
 ?>

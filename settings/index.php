@@ -181,11 +181,10 @@ else {
                   <a href="javascript:void();"> <i class="fa fa-google-plus bg-google-plus text-white"></i></a>
                 </div>
               </div>
-
               <div class="card-body border-top border-light">
                 <div class="media align-items-center">
                   <div>
-                    <img src="../assets/images/timeline/html5.svg" class="skill-img" alt="skill img">
+                    <img src="../assets/images/timeline/paypal.png" class="skill-img" alt="skill img">
                   </div>
                   <div class="media-body text-left ml-3">
                     <div class="progress-wrapper">
@@ -196,52 +195,31 @@ else {
                     </div>
                   </div>
                 </div>
-                <hr>
-                <div class="media align-items-center">
-                  <div><img src="../assets/images/timeline/bootstrap-4.svg" class="skill-img" alt="skill img"></div>
-                  <div class="media-body text-left ml-3">
-                    <div class="progress-wrapper">
-                      <p>Bootstrap 4 <span class="float-right">50%</span></p>
-                      <div class="progress" style="height: 5px;">
-                        <div class="progress-bar" style="width:50%"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <hr>
-                <div class="media align-items-center">
-                  <div><img src="../assets/images/timeline/angular-icon.svg" class="skill-img" alt="skill img"></div>
-                  <div class="media-body text-left ml-3">
-                    <div class="progress-wrapper">
-                      <p>AngularJS <span class="float-right">70%</span></p>
-                      <div class="progress" style="height: 5px;">
-                        <div class="progress-bar" style="width:70%"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <hr>
-                <div class="media align-items-center">
-                  <div><img src="../assets/images/timeline/react.svg" class="skill-img" alt="skill img"></div>
-                  <div class="media-body text-left ml-3">
-                    <div class="progress-wrapper">
-                      <p>React JS <span class="float-right">35%</span></p>
-                      <div class="progress" style="height: 5px;">
-                        <div class="progress-bar" style="width:35%"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
               </div>
             </div>
-
           </div>
-
           <div class="col-lg-8">
             <div class="card">
+              <div class="card-header">
+                <i class="zmdi zmdi-account-box-mail"></i> Edit your profile information
+              </div>
               <div class="card-body">
-                <ul class="nav nav-tabs nav-tabs-primary top-icon nav-justified">
+                <style>
+                  .alert {
+                    padding: 15px;
+                    border-color: #6DD134;
+                    border-radius: 5px;
+                    border-width: 2px;
+                    color: white;
+                  }
+                </style>
+                <div class="alert row callout" role="alert" style="overflow: hidden;white-space: initial;">
+                  <span>
+                    <i class="zmdi zmdi-info-outline text-warning">
+                    </i> <strong>Note:</strong> Updating payment info will be added soon!
+                  </span>
+                </div>
+                <ul class="nav nav-tabs nav-tabs-primary top-icon nav-justified" hidden>
                   <li class="nav-item">
                     <a href="javascript:void();" data-target="#edit" data-toggle="pill" class="nav-link" id="ngonnnn"><i
                         class="icon-note"></i> <span class="hidden-xs">Edit</span></a>
@@ -249,7 +227,7 @@ else {
                 </ul>
                 <div class="tab-content p-3">
                   <div class="tab-pane" id="edit">
-                    <form action="profile.php" method="POST">
+                    <form action="profile.php" method="POST" enctype='multipart/form-data'>
                       <div class="form-group row">
                         <label class="col-lg-3 col-form-label form-control-label">Full name</label>
                         <div class="col-lg-9">
@@ -259,7 +237,8 @@ else {
                       <div class="form-group row">
                         <label class="col-lg-3 col-form-label form-control-label">Display name</label>
                         <div class="col-lg-9">
-                          <input class="form-control" type="text" name="displayname" value="<?php echo $user->display; ?>">
+                          <input class="form-control" type="text" name="displayname"
+                            value="<?php echo $user->display; ?>">
                         </div>
                       </div>
                       <div class="form-group row">
@@ -275,42 +254,23 @@ else {
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label">Website</label>
-                        <div class="col-lg-9">
-                          <input class="form-control" type="url" value="">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label">Address</label>
-                        <div class="col-lg-9">
-                          <input class="form-control" type="text" value="" placeholder="Street">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label"></label>
-                        <div class="col-lg-6">
-                          <input class="form-control" type="text" value="" placeholder="City">
-                        </div>
-                        <div class="col-lg-3">
-                          <input class="form-control" type="text" value="" placeholder="State">
-                        </div>
-                      </div>
-                      <div class="form-group row">
                         <label class="col-lg-3 col-form-label form-control-label">New Password</label>
                         <div class="col-lg-9">
-                          <input class="form-control" type="password" value="">
+                          <input class="form-control" name="pwd" id="pwd" minlength="8" type="password" value="">
                         </div>
                       </div>
+                      <hr class="mt-1 mb-1" />
+                      <br>
                       <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label">Confirm password</label>
+                        <label class="col-lg-3 col-form-label form-control-label">Paypal email</label>
                         <div class="col-lg-9">
-                          <input class="form-control" type="password" value="">
+                          <input class="form-control" type="email" value="" placeholder="Optional, can be added later.">
                         </div>
                       </div>
                       <div class="form-group row">
                         <label class="col-lg-3 col-form-label form-control-label"></label>
                         <div class="col-lg-9">
-                          <input type="button" class="btn btn-primary" id="sub" value="Save Changes">
+                          <input type="submit" class="btn btn-primary" id="sub" value="Save Changes">
                         </div>
                       </div>
                     </form>
@@ -318,7 +278,7 @@ else {
                 </div>
                 <script>
                   document.getElementById("ngonnnn").click();
-				  
+
                 </script>
               </div>
             </div>

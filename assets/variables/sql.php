@@ -8,6 +8,7 @@
 	}
 	function update($key, $val, $table, $condition){
 		query("update ".$table." set ".$key."='".$val."' where ".$condition.";");
+		return "update ".$table." set ".$key."='".$val."' where ".$condition.";";
 	}
 	class store{
 		public $id;
