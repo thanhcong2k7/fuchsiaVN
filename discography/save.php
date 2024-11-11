@@ -53,47 +53,48 @@ if (isset($_SESSION['userwtf'])) {
     if ($_POST["submit"] == 'Distribute now') {
         update("status", 3, "album", "albumID=" . $_POST["albumid"]);
     }
-    //
-    // UPLOAD IMAGE
-    //
-    $apikey = "9527a1c516dd2fca6551240ba89343ca";
-    $url = "https://api.imgbb.com/1/upload";
-    $ch = curl_init();
-    //curl_setopt($ch, CURLOPT_URL,$url);
-    //curl_setopt($ch, CURL,1);
-    $localFile = $_FILES["artworkup"]['tmp_name'];
-    if (!isset($_FILES["artworkup"]['tmp_name']))
+    if (isset($_FILES["artworkup"]['tmp_name'])) {
+        //
+        // UPLOAD IMAGE
+        //
+        $apikey = "9527a1c516dd2fca6551240ba89343ca";
+        $url = "https://api.imgbb.com/1/upload";
+        $ch = curl_init();
+        //curl_setopt($ch, CURLOPT_URL,$url);
+        //curl_setopt($ch, CURL,1);
+        $localFile = $_FILES["artworkup"]['tmp_name'];
         echo "an cut r <br>";
-    //$fp = fopen($localFile, 'r');
-    curl_setopt_array($ch, array(
-        CURLOPT_RETURNTRANSFER => 1,
-        CURLOPT_URL => $url,
-        CURLOPT_USERAGENT => 'fuchsia TestSys',
-        CURLOPT_POST => 1,
-        CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_POSTFIELDS => http_build_query(array(
-                    'key' => $apikey,
-                    'image' => base64_encode(file_get_contents($localFile)),
-                ))
-    ));
-    $res = curl_exec($ch);
-    echo $res;
-    $dec = json_decode($res, false);
-    curl_close($ch);
-    foreach ($_POST as $key => $value) {
-        echo "Field " . htmlspecialchars($key) . " is " . htmlspecialchars($value) . "<br>";
+        //$fp = fopen($localFile, 'r');
+        curl_setopt_array($ch, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_URL => $url,
+            CURLOPT_USERAGENT => 'fuchsia TestSys',
+            CURLOPT_POST => 1,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_POSTFIELDS => http_build_query(array(
+                'key' => $apikey,
+                'image' => base64_encode(file_get_contents($localFile)),
+            ))
+        ));
+        $res = curl_exec($ch);
+        echo $res;
+        $dec = json_decode($res, false);
+        curl_close($ch);
+        foreach ($_POST as $key => $value) {
+            echo "Field " . htmlspecialchars($key) . " is " . htmlspecialchars($value) . "<br>";
+        }
+        foreach ($_FILES as $file) {
+            $name = basename($file['name']);
+            $tmp_name = $file['tmp_name'];
+            $size = $file['size'];
+            echo $tmp_name . "<br>";
+            echo ($dec->data->url ? $dec->data->url : "wtf null?");
+            echo update("artID", $dec->data->url, "album", "albumID=" . $_POST["albumid"]);
+        }
+        //
+        // END UPLOAD IMAGE
+        //
     }
-    foreach ($_FILES as $file) {
-        $name = basename($file['name']);
-        $tmp_name = $file['tmp_name'];
-        $size = $file['size'];
-        echo $tmp_name . "<br>";
-        echo ($dec->data->url?$dec->data->url:"wtf null?");
-        echo update("artID", $dec->data->url, "album", "albumID=" . $_POST["albumid"]);
-    }
-    //
-    // END UPLOAD IMAGE
-    //
     header("Location: ./");
 }
 ?>

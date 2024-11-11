@@ -1,18 +1,18 @@
 <?php
 session_start();
 if (!isset($_SESSION["userwtf"]))
-    header("Location: ../../login/");
+    header("Location: /login/");
 else {
-    require '../../assets/variables/sql.php';
+    require '/assets/variables/sql.php';
     $user = getUser($_SESSION["userwtf"]);
     $artist = fetchArtist($_SESSION["userwtf"]);
-    if(isset($_SESSION["restricted"])){
+    if (isset($_SESSION["restricted"])) {
         $mergee = "";
-        foreach(json_decode($_SESSION["restricted"]) as &$t){
+        foreach (json_decode($_SESSION["restricted"]) as &$t) {
             $x = getTrackname($t);
-            $mergee .= ($mergee?", ".$x:$x);
+            $mergee .= ($mergee ? ", " . $x : $x);
         }
-        echo "<script>alert('Can not delete this artist, who is involving in these tracks: ".$mergee."');</script>";
+        echo "<script>alert('Can not delete this artist, who is involving in these tracks: " . $mergee . "');</script>";
         unset($_SESSION["restricted"]);
     }
 }
@@ -29,86 +29,84 @@ else {
     <title>Artists Manager - fuchsia Media Group
     </title>
     <!-- loader-->
-    <link href="../../assets/css/pace.min.css" rel="stylesheet" />
-    <script src="../../assets/js/pace.min.js"></script>
+    <link href="/assets/css/pace.min.css" rel="stylesheet" />
+    <script src="/assets/js/pace.min.js"></script>
     <!--favicon-->
-    <link rel="icon" href="../../assets/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
     <!-- Vector CSS -->
-    <link href="../../assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
+    <link href="/assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
     <!-- simplebar CSS-->
-    <link href="../../assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+    <link href="/assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
     <!-- Bootstrap core CSS-->
-    <link href="../../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
     <!-- animate CSS-->
-    <link href="../../assets/css/animate.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/animate.css" rel="stylesheet" type="text/css" />
     <!-- Icons CSS-->
-    <link href="../../assets/css/icons.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/icons.css" rel="stylesheet" type="text/css" />
     <!-- Sidebar CSS-->
-    <link href="../../assets/css/sidebar-menu.css" rel="stylesheet" />
+    <link href="/assets/css/sidebar-menu.css" rel="stylesheet" />
     <!-- Custom Style-->
-    <link href="../../assets/css/app-style.css" rel="stylesheet" />
+    <link href="/assets/css/app-style.css" rel="stylesheet" />
     <!-- Bootstrap core JavaScript-->
-    <script src="../../assets/js/jquery.min.js"></script>
-    <script src="../../assets/js/popper.min.js"></script>
-    <script src="../../assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
 </head>
 
 <body class="bg-theme bg-theme1">
     <!-- loader scripts -->
-    <script src="../../assets/js/jquery.loading-indicator.js"></script>
+    <script src="/assets/js/jquery.loading-indicator.js"></script>
     <!-- Start wrapper-->
     <div id="wrapper">
 
         <!--Start sidebar-wrapper-->
         <div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
             <div class="brand-logo">
-                <a href="index.html">
-                    <img src="../../assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
+                <a href="/">
+                    <img src="/assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
                     <h5 class="logo-text">fuchsia Partner</h5>
                 </a>
             </div>
             <ul class="sidebar-menu do-nicescrol">
                 <li class="sidebar-header">MAIN MENU</li>
                 <li>
-                    <a href="../../">
+                    <a href="/">
                         <i class="zmdi zmdi-view-dashboard"></i> <span>Homepage</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="../../discography/">
+                    <a href="/discography/">
                         <i class="zmdi zmdi-album"></i> <span>Discography</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="../../analytics/">
+                    <a href="/analytics/">
                         <i class="zmdi zmdi-format-list-bulleted"></i> <span>Analytics</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="../../revenue/">
+                    <a href="/revenue/">
                         <i class="zmdi zmdi-balance-wallet"></i> <span>Revenue</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="../../settings/">
+                    <a href="/settings/">
                         <i class="zmdi zmdi-assignment-account"></i> <span>Your account</span>
                     </a>
                 </li>
 
                 <li class="sidebar-header">TOOLBOX</li>
-                <li><a href="."><i class="zmdi zmdi-accounts text-warning"></i>
-                        <span>Artists</span></a>
+                <li><a href="/manager/artist/"><i class="zmdi zmdi-accounts text-warning"></i> <span>Artists</span></a>
                 </li>
-                <li><a href="../tracks/"><i class="zmdi zmdi-audio text-success"></i>
-                        <span>Tracks</span></a>
+                <li><a href="/manager/tracks/"><i class="zmdi zmdi-audio text-success"></i> <span>Tracks</span></a></li>
+                <li><a href="/ticket/"><i class="zmdi zmdi-tag text-info"></i> <span>Support</span></a></li>
+                <li><a href="/login/login.php?logout=yes"><i class="zmdi zmdi-run text-danger"></i> <span>Log
+                            out?</span></a>
                 </li>
-                <li><a href="../../ticket/"><i class="zmdi zmdi-bug text-info"></i> <span>Found a bug?</span></a></li>
-                <li><a href="../login/login.php?logout=yes"><i class="zmdi zmdi-run text-danger"></i> <span>Log
-                            out?</span></a></li>
             </ul>
 
         </div>
@@ -144,7 +142,7 @@ else {
                     </li>
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
-                            <span class="user-profile"><img src="../../assets/images/gallery/ava_sample.png"
+                            <span class="user-profile"><img src="/assets/images/gallery/ava_sample.png"
                                     class="img-circle" alt="user avatar"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right">
@@ -152,7 +150,7 @@ else {
                                 <a href="javaScript:void();">
                                     <div class="media">
                                         <div class="avatar"><img class="align-self-start mr-3"
-                                                src="../../assets/images/gallery/ava_sample.png" alt="user avatar">
+                                                src="/assets/images/gallery/ava_sample.png" alt="user avatar">
                                         </div>
                                         <div class="media-body">
                                             <h6 class="mt-2 user-title"><?php echo $user->display; ?></h6>
@@ -192,7 +190,8 @@ else {
                                             <div class="col col-md-auto">
                                                 <div class="form-group">
                                                     <label for="artist-id">Artist ID</label>
-                                                    <input type="text" class="form-control" id="artist-id" name="artist-id"
+                                                    <input type="text" class="form-control" id="artist-id"
+                                                        name="artist-id"
                                                         placeholder="(Optional if you're creating new artist)">
                                                 </div>
                                             </div>
@@ -214,7 +213,8 @@ else {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label for="spotifyID">Spotify ID</label>
-                                                    <input type="text" class="form-control" id="spotifyID" name="spotifyID"
+                                                    <input type="text" class="form-control" id="spotifyID"
+                                                        name="spotifyID"
                                                         placeholder="Spotify ID ONLY. Example: 3NtqIIwOmoUGkrS4iD4lxY">
                                                 </div>
                                             </div>
@@ -261,8 +261,8 @@ else {
                           <tr>
                                       <td>' . ($r->id < 10 ? "0" . $r->id : $r->id) . '</td>
                                       <td>' . ($r->name ? $r->name : "(draft)") . '</td>
-                                      <td> <a href="https://open.spotify.com/artist/' . ($r->spot ? $r->spot : "--") . '">'.($r->spot ? "Link" : "--").'</a></td>
-                                      <td> <a href="https://music.apple.com/us/artist/' . ($r->applemusic ? $r->applemusic : "--") . '">'.($r->applemusic ? "Link" : "--").'</a></td>
+                                      <td> <a href="https://open.spotify.com/artist/' . ($r->spot ? $r->spot : "--") . '">' . ($r->spot ? "Link" : "--") . '</a></td>
+                                      <td> <a href="https://music.apple.com/us/artist/' . ($r->applemusic ? $r->applemusic : "--") . '">' . ($r->applemusic ? "Link" : "--") . '</a></td>
                                       <td>' . ($r->email ? $r->email : "--") . '</td>
                           <td>
                         <a onclick="document.getElementById(\'artist-id\').value = \'' . $r->id . '\';document.getElementById(\'alias\').value = \'' . $r->name . '\';document.getElementById(\'spotifyID\').value = \'' . $r->spot . '\';document.getElementById(\'amID\').value = \'' . $r->applemusic . '\';document.getElementById(\'email\').value = \'' . $r->email . '\';">Edit</a> / 
@@ -345,17 +345,17 @@ else {
     </div><!--End wrapper-->
 
     <!-- simplebar js -->
-    <script src="../../assets/plugins/simplebar/js/simplebar.js"></script>
+    <script src="/assets/plugins/simplebar/js/simplebar.js"></script>
     <!-- sidebar-menu js -->
-    <script src="../../assets/js/sidebar-menu.js"></script>
+    <script src="/assets/js/sidebar-menu.js"></script>
     <!-- Custom scripts -->
-    <script src="../../assets/js/app-script.js"></script>
+    <script src="/assets/js/app-script.js"></script>
     <!-- Chart js -->
 
-    <script src="../../assets/plugins/Chart.js/Chart.min.js"></script>
+    <script src="/assets/plugins/Chart.js/Chart.min.js"></script>
 
     <!-- Index js -->
-    <script src="../../assets/js/index.js"></script>
+    <script src="/assets/js/index.js"></script>
     <script type="text/javascript">
         n = new Date();
         document.getElementById("cccccyear").innerHTML = n.getFullYear();

@@ -64,53 +64,51 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
         <!--Start sidebar-wrapper-->
         <div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
             <div class="brand-logo">
-                <a href="index.html">
-                    <img src="../assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
+                <a href="/">
+                    <img src="/assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
                     <h5 class="logo-text">fuchsia Partner</h5>
                 </a>
             </div>
             <ul class="sidebar-menu do-nicescrol">
                 <li class="sidebar-header">MAIN MENU</li>
                 <li>
-                    <a href="../">
+                    <a href="/">
                         <i class="zmdi zmdi-view-dashboard"></i> <span>Homepage</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="../discography/">
+                    <a href="/discography/">
                         <i class="zmdi zmdi-album"></i> <span>Discography</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="../analytics/">
+                    <a href="/analytics/">
                         <i class="zmdi zmdi-format-list-bulleted"></i> <span>Analytics</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="../revenue/">
+                    <a href="/revenue/">
                         <i class="zmdi zmdi-balance-wallet"></i> <span>Revenue</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="../settings/">
+                    <a href="/settings/">
                         <i class="zmdi zmdi-assignment-account"></i> <span>Your account</span>
                     </a>
                 </li>
 
                 <li class="sidebar-header">TOOLBOX</li>
-                <li><a href="../manager/artist/"><i class="zmdi zmdi-accounts text-warning"></i>
-                        <span>Artists</span></a>
+                <li><a href="/manager/artist/"><i class="zmdi zmdi-accounts text-warning"></i> <span>Artists</span></a>
                 </li>
-                <li><a href="../manager/tracks/"><i class="zmdi zmdi-audio text-success"></i>
-                        <span>Tracks</span></a>
+                <li><a href="/manager/tracks/"><i class="zmdi zmdi-audio text-success"></i> <span>Tracks</span></a></li>
+                <li><a href="/ticket/"><i class="zmdi zmdi-tag text-info"></i> <span>Support</span></a></li>
+                <li><a href="/login/login.php?logout=yes"><i class="zmdi zmdi-run text-danger"></i> <span>Log
+                            out?</span></a>
                 </li>
-                <li><a href="../ticket/"><i class="zmdi zmdi-bug text-info"></i> <span>Found a bug?</span></a></li>
-                <li><a href="../login/login.php?logout=yes"><i class="zmdi zmdi-run text-danger"></i> <span>Log
-                            out?</span></a></li>
             </ul>
 
         </div>
@@ -286,7 +284,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                 <span><span style="font-weight: bold;">Status:
                                                     </span><?php $r = $release;
                                                     echo ($r->status == 0 ? "DRAFT" : ($r->status == 1 ? "DELIVERED" : ($r->status == 2 ? "ERROR" : "CHECKING"))); ?></span>
-                                                <input value="<?php echo $_GET["id"];?>" name="albumid" hidden>
+                                                <input value="<?php echo $_GET["id"]; ?>" name="albumid" hidden>
                                             </div>
                                         </div>
                                         <br>
@@ -675,7 +673,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                                     <div class="card card-body row">
                                                                         <div class="icheck-material-white">
                                                                             <input type="checkbox" id="ytcid"
-                                                                                name="ytcid" />
+                                                                                name="ytcid" <?php echo ($release->ytcid?"checked":"");?>/>
                                                                             <label for="ytcid"> YouTube Content
                                                                                 ID</label>
                                                                         </div>
@@ -683,41 +681,44 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                                     <div class="card card-body row">
                                                                         <div class="icheck-material-white">
                                                                             <input type="checkbox" id="scloud"
-                                                                                name="scloud" />
-                                                                            <label for="scloud" style="overflow: hidden;white-space: initial;"> SoundCloud Monetization
+                                                                                name="scloud" <?php echo ($release->sc?"checked":"");?>/>
+                                                                            <label for="scloud"
+                                                                                style="overflow: hidden;white-space: initial;">
+                                                                                SoundCloud Monetization
                                                                                 & Content Protection</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="card card-body row">
                                                                         <div class="icheck-material-white">
                                                                             <input type="checkbox" id="soundx"
-                                                                                name="soundx" />
+                                                                                name="soundx" <?php echo ($release->sx?"checked":"");?>/>
                                                                             <label for="soundx"> SoundExchange</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="card card-body row">
                                                                         <div class="icheck-material-white">
                                                                             <input type="checkbox" id="jdl"
-                                                                                name="jdl" />
+                                                                                name="jdl" <?php echo ($release->jdl?"checked":"");?>/>
                                                                             <label for="jdl"> Juno Download</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="card card-body row">
                                                                         <div class="icheck-material-white">
                                                                             <input type="checkbox" id="trl"
-                                                                                name="trl" />
+                                                                                name="trl" <?php echo ($release->trl?"checked":"");?>/>
                                                                             <label for="trl"> Tracklib</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="card card-body row">
                                                                         <div class="icheck-material-white col">
                                                                             <input type="checkbox" id="bport"
-                                                                                name="bport" />
+                                                                                name="bport" <?php echo ($release->bp?"checked":"");?>/>
                                                                             <label for="bport"> Beatport
                                                                             </label>
                                                                         </div>
                                                                         <input type="text" class="form-control row col"
-                                                                            name="bporturl" placeholder="Page URL (Leave blank for a new one)">
+                                                                            name="bporturl"
+                                                                            placeholder="Page URL (Leave blank for a new one)" value="<?php echo $release->bp;?>">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -728,8 +729,8 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                         </div>
                                         <center>
                                             <div>
-                                                <input name="saveform" id="saveform" type="submit" class="btn btn-light btn-round px-5"
-                                                    value="Save changes">
+                                                <input name="saveform" id="saveform" type="submit"
+                                                    class="btn btn-light btn-round px-5" value="Save changes">
                                                 <input name="distform" id="distform" type="submit"
                                                     class="text-warning btn btn-light btn-round px-5"
                                                     value="Distribute now">
@@ -754,10 +755,10 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                         /*
                                         const url = "https://script.google.com/macros/s/AKfycbyRR07piipMl-FrzPBonQS5O3UX8dgp2sSMMXJkllDJdFj_VoZ4z0yLpzw3Mu8YSso/exec";  // <--- Please set the URL of Web Apps.
                                         const qs = new URLSearchParams({ filename: "<?php echo $_GET["id"]; ?>." + file.name.split('.').pop(), mimeType: file.type });
-                                        fetch(`${url}?${qs}`, { method: "POST", body: JSON.stringify([...new Int8Array(f.target.result)]) })
-                                            .then(res => res.json())
-                                            .then(e => { console.log(JSON.parse(e).fileID); fetch("../assets/variables/update.php?req=1&id=<?php echo $albumID; ?>&fileID=" + JSON.parse(e).fileID + "&name=<?php echo $_GET["id"]; ?>." + file.name.split('.').pop(), { credentials: "same-origin" }).then(e => console.log(e)).catch(err => console.log(err)); })  // <--- You can retrieve the returned value here.
-                                            .catch(err => console.log(err));
+                                fetch(`${url}?${qs}`, { method: "POST", body: JSON.stringify([...new Int8Array(f.target.result)]) })
+                                    .then(res => res.json())
+                                    .then(e => { console.log(JSON.parse(e).fileID); fetch("../assets/variables/update.php?req=1&id=<?php echo $albumID; ?>&fileID=" + JSON.parse(e).fileID + "&name=<?php echo $_GET["id"]; ?>." + file.name.split('.').pop(), { credentials: "same-origin" }).then(e => console.log(e)).catch(err => console.log(err)); })  // <--- You can retrieve the returned value here.
+                                    .catch(err => console.log(err));
                                         //req = 1 -> album cover
                                         //req = 2 -> track
                                     }
