@@ -251,9 +251,16 @@ else {
                       <div class="form-group row">
                         <label class="col-lg-3 col-form-label form-control-label">Change avatar</label>
                         <div class="col-lg-9">
-                          <input class="form-control" type="file" name="avt">
+                          <input class="form-control" type="file" name="avt" id="avt">
                         </div>
                       </div>
+                      <div class="form-group row">
+                        <label class="col-lg-3 col-form-label form-control-label">Change Cover</label>
+                        <div class="col-lg-9">
+                          <input class="form-control" type="file" name="coverimg" id="imgcover">
+                        </div>
+                      </div>
+                      <canvas id="cvs" hidden></canvas>
                       <div class="form-group row">
                         <label class="col-lg-3 col-form-label form-control-label">New Password</label>
                         <div class="col-lg-9">
@@ -278,8 +285,57 @@ else {
                   </div>
                 </div>
                 <script>
-                  document.getElementById("ngonnnn").click();
-
+                  document.getElementById("ngonnnn").click();/*
+                  const inputFile = document.getElementById("imgcover");
+                  const canvas = document.getElementById("cvs");
+                  const context = canvas.getContext("2d");
+                  inputFile.addEventListener("change", uploadImage);
+                  function uploadImage() {
+                    var reader = new FileReader();
+                    //Read the contents of Image File.
+                    reader.readAsDataURL(inputFile.files[0]);
+                    reader.onload = function (e) {
+                      //Initiate the JavaScript Image object.
+                      var image = new Image();
+                      //Set the Base64 string return from FileReader as source.
+                      image.src = e.target.result;
+                      //Validate the File Height and Width.
+                      image.onload = function () {
+                        var height = this.height;
+                        var width = this.width;
+                        if (height < 500 || width < 800 || height / width != 1) {
+                          alert("Your cover image must be bigger that 800x500!");
+                          return false;
+                        } else{
+                          var ima = URL.createObjectURL(inputFile.files[0]);
+                          drawImage(ima, (width/2-400), (height/2-250), 500, 800, 0, 0, 800, 500);
+                        }
+                        return true;
+                      };
+                    };
+                  }const inputFile = document.getElementById("avt");
+                  inputFile.addEventListener("change", uploadImage);
+                  function uploadImage() {
+                    var reader = new FileReader();
+                    //Read the contents of Image File.
+                    reader.readAsDataURL(inputFile.files[0]);
+                    reader.onload = function (e) {
+                      //Initiate the JavaScript Image object.
+                      var image = new Image();
+                      //Set the Base64 string return from FileReader as source.
+                      image.src = e.target.result;
+                      //Validate the File Height and Width.
+                      image.onload = function () {
+                        var height = this.height;
+                        var width = this.width;
+                        if (height < 500 || width < 500 || height / width != 1) {
+                          alert("Your avatar must be bigger that 500x500!");
+                          return false;
+                        }
+                        return true;
+                      };
+                    };
+                  }*/
                 </script>
               </div>
             </div>

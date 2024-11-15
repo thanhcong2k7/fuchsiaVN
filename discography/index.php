@@ -178,10 +178,10 @@ else {
               </div>
               <div class="card-body">
                 <div class="table-responsive">
-                  <table class="table table-hover">
+                  <table class="table table-hover align-items-center table-flush table-borderless">
                     <thead>
                       <tr>
-                        <th>ID</th>
+                        <th>Art</th>
                         <th>UPC</th>
                         <th>Release Name</th>
                         <th>Artist</th>
@@ -218,11 +218,11 @@ else {
                           }
                           echo '
                           <tr>
-                                      <td>' . ($r->id < 10 ? "0" . $r->id : $r->id) . '</td>
-                          <td>' . ($r->upc ? $r->upc : "--") . '</td>
-                                      <td>' . ($r->name ? $r->name : "(untitled)") . '</td>
-                                      <td>'.($mergedArtistnames?$mergedArtistnames:"(none)").'</td>
-                                      <td class="text' . ($r->status == 0 ? "" : ($r->status == 1 ? "-success" : ($r->status == 2 ? "-error" : "-info"))) . '">
+                            <td><img src="'.(!isset($r->art) ? 'https://via.placeholder.com/50x50' : $r->art).'" class="product-img" alt="product img"></td>
+                            <td>' . ($r->upc ? $r->upc : "--") . '</td>
+                            <td>' . ($r->name ? $r->name : "(untitled)") . '</td>
+                            <td>'.($mergedArtistnames?$mergedArtistnames:"(none)").'</td>
+                            <td class="text' . ($r->status == 0 ? "" : ($r->status == 1 ? "-success" : ($r->status == 2 ? "-error" : "-info"))) . '">
                           ' . ($r->status == 0 ? "DRAFT" : ($r->status == 1 ? "DELIVERED" : ($r->status == 2 ? "ERROR" : "CHECKING"))) . '
                           </td>
                                       <td>' . ($r->relDate ? $r->relDate : "--/--/----") . '</td>
