@@ -162,12 +162,11 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                 </a>
                             </li>
                             <li class="dropdown-divider"></li>
-                            <li class="dropdown-item"><i class="icon-wallet mr-2"></i> Account</li>
+                            <li class="dropdown-item"><a href="/revenue" class="icon-wallet mr-2"></a> Account</li>
                             <li class="dropdown-divider"></li>
-                            <li class="dropdown-item"><i class="icon-settings mr-2"></i> Setting</li>
+                            <li class="dropdown-item"><a href="/settings" class="icon-settings mr-2"></> Setting</li>
                             <li class="dropdown-divider"></li>
-                            <a class="dropdown-item" href="../login/login.php?logout=yes"><i
-                                    class="icon-power mr-2"></i>
+                            <a class="dropdown-item" href="login/login.php?logout=yes"><i class="icon-power mr-2"></i>
                                 Logout</a>
                         </ul>
                     </li>
@@ -673,7 +672,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                                     <div class="card card-body row">
                                                                         <div class="icheck-material-white">
                                                                             <input type="checkbox" id="ytcid"
-                                                                                name="ytcid" <?php echo ($release->ytcid?"checked":"");?>/>
+                                                                                name="ytcid" <?php echo ($release->ytcid ? "checked" : ""); ?> />
                                                                             <label for="ytcid"> YouTube Content
                                                                                 ID</label>
                                                                         </div>
@@ -681,7 +680,7 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                                     <div class="card card-body row">
                                                                         <div class="icheck-material-white">
                                                                             <input type="checkbox" id="scloud"
-                                                                                name="scloud" <?php echo ($release->sc?"checked":"");?>/>
+                                                                                name="scloud" <?php echo ($release->sc ? "checked" : ""); ?> />
                                                                             <label for="scloud"
                                                                                 style="overflow: hidden;white-space: initial;">
                                                                                 SoundCloud Monetization
@@ -691,34 +690,35 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                                                                     <div class="card card-body row">
                                                                         <div class="icheck-material-white">
                                                                             <input type="checkbox" id="soundx"
-                                                                                name="soundx" <?php echo ($release->sx?"checked":"");?>/>
+                                                                                name="soundx" <?php echo ($release->sx ? "checked" : ""); ?> />
                                                                             <label for="soundx"> SoundExchange</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="card card-body row">
                                                                         <div class="icheck-material-white">
-                                                                            <input type="checkbox" id="jdl"
-                                                                                name="jdl" <?php echo ($release->jdl?"checked":"");?>/>
+                                                                            <input type="checkbox" id="jdl" name="jdl"
+                                                                                <?php echo ($release->jdl ? "checked" : ""); ?> />
                                                                             <label for="jdl"> Juno Download</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="card card-body row">
                                                                         <div class="icheck-material-white">
-                                                                            <input type="checkbox" id="trl"
-                                                                                name="trl" <?php echo ($release->trl?"checked":"");?>/>
+                                                                            <input type="checkbox" id="trl" name="trl"
+                                                                                <?php echo ($release->trl ? "checked" : ""); ?> />
                                                                             <label for="trl"> Tracklib</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="card card-body row">
                                                                         <div class="icheck-material-white col">
                                                                             <input type="checkbox" id="bport"
-                                                                                name="bport" <?php echo ($release->bp?"checked":"");?>/>
+                                                                                name="bport" <?php echo ($release->bp ? "checked" : ""); ?> />
                                                                             <label for="bport"> Beatport
                                                                             </label>
                                                                         </div>
                                                                         <input type="text" class="form-control row col"
                                                                             name="bporturl"
-                                                                            placeholder="Page URL (Leave blank for a new one)" value="<?php echo $release->bp;?>">
+                                                                            placeholder="Page URL (Leave blank for a new one)"
+                                                                            value="<?php echo $release->bp; ?>">
                                                                     </div>
                                                                 </div>
                                                             </div>

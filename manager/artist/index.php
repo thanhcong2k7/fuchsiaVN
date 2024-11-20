@@ -160,12 +160,11 @@ else {
                                 </a>
                             </li>
                             <li class="dropdown-divider"></li>
-                            <li class="dropdown-item"><i class="icon-wallet mr-2"></i> Account</li>
+                            <li class="dropdown-item"><a href="/revenue" class="icon-wallet mr-2"></a> Account</li>
                             <li class="dropdown-divider"></li>
-                            <li class="dropdown-item"><i class="icon-settings mr-2"></i> Setting</li>
+                            <li class="dropdown-item"><a href="/settings" class="icon-settings mr-2"></> Setting</li>
                             <li class="dropdown-divider"></li>
-                            <a class="dropdown-item" href="login/login.php?logout=yes"><i class="icon-power mr-2"></i>
-                                Logout</a>
+                            <a class="dropdown-item" href="login/login.php?logout=yes"><i class="icon-power mr-2"></i> Logout</a>
                         </ul>
                     </li>
                 </ul>

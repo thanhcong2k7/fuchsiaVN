@@ -88,12 +88,12 @@ else {
             <i class="zmdi zmdi-assignment-account"></i> <span>Your account</span>
           </a>
         </li>
-
-        <li class="sidebar-header">TOOLBOX</li>
-        <li><a href="/manager/artist/"><i class="zmdi zmdi-accounts text-warning"></i> <span>Artists</span></a></li>
-        <li><a href="/manager/tracks/"><i class="zmdi zmdi-audio text-success"></i> <span>Tracks</span></a></li>
-        <li><a href="/ticket/"><i class="zmdi zmdi-tag text-info"></i> <span>Support</span></a></li>
-        <li><a href="/login/login.php?logout=yes"><i class="zmdi zmdi-run text-danger"></i> <span>Log out?</span></a>
+        <li class="dropdown-divider"></li>
+        <li class="dropdown-item"><a href="/revenue" class="icon-wallet mr-2"></a> Account</li>
+        <li class="dropdown-divider"></li>
+        <li class="dropdown-item"><a href="/settings" class="icon-settings mr-2"></> Setting</li>
+        <li class="dropdown-divider"></li>
+        <a class="dropdown-item" href="login/login.php?logout=yes"><i class="icon-power mr-2"></i> Logout</a>
         </li>
       </ul>
 
@@ -130,14 +130,14 @@ else {
           </li>
           <li class="nav-item">
             <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
-              <span class="user-profile"><img src="<?php echo $user->avatar;?>" class="img-circle"
+              <span class="user-profile"><img src="<?php echo $user->avatar; ?>" class="img-circle"
                   alt="user avatar"></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
               <li class="dropdown-item user-details">
                 <a href="javaScript:void();">
                   <div class="media">
-                    <div class="avatar"><img class="align-self-start mr-3" src="<?php echo $user->avatar;?>"
+                    <div class="avatar"><img class="align-self-start mr-3" src="<?php echo $user->avatar; ?>"
                         alt="user avatar"></div>
                     <div class="media-body">
                       <h6 class="mt-2 user-title"><?php echo $user->display; ?></h6>
@@ -169,7 +169,7 @@ else {
           <div class="col">
             <div class="card">
               <div class="card-header">
-              <i class="zmdi zmdi-album"></i> Your Discography
+                <i class="zmdi zmdi-album"></i> Your Discography
                 <div class="card-action">
                   <a href="edit.php?new=1" class="text dropdown-toggle dropdown-toggle-nocaret">
                     <i class="zmdi zmdi-collection-plus"></i> Create new album
@@ -201,27 +201,28 @@ else {
                           $r2 = getRelease($_SESSION["userwtf"], 0, $r->id);
                           $track = array();
                           foreach ($r2->file as &$adu) {
-                              foreach ($f as &$f2) {
-                                  if ($f2->id == $adu) {
-                                      $t = getTrack($f2->id);
-                                      $track[] = $t;
-                                      $artist = getArtist($t->id);
-                                      $n = 0;
-                                      foreach ($artist as &$adu) {
-                                          if($mergedArtistnames){
-                                            $n++;
-                                          } else $mergedArtistnames .= $adu->name;
-                                      }
-                                      $mergedArtistnames .= " & ".$n." more";
-                                  }
+                            foreach ($f as &$f2) {
+                              if ($f2->id == $adu) {
+                                $t = getTrack($f2->id);
+                                $track[] = $t;
+                                $artist = getArtist($t->id);
+                                $n = 0;
+                                foreach ($artist as &$adu) {
+                                  if ($mergedArtistnames) {
+                                    $n++;
+                                  } else
+                                    $mergedArtistnames .= $adu->name;
+                                }
+                                $mergedArtistnames .= " & " . $n . " more";
                               }
+                            }
                           }
                           echo '
                           <tr>
-                            <td><img src="'.(!isset($r->art) ? 'https://via.placeholder.com/50x50' : $r->art).'" class="product-img" alt="product img"></td>
+                            <td><img src="' . (!isset($r->art) ? 'https://via.placeholder.com/50x50' : $r->art) . '" class="product-img" alt="product img"></td>
                             <td>' . ($r->upc ? $r->upc : "--") . '</td>
                             <td>' . ($r->name ? $r->name : "(untitled)") . '</td>
-                            <td>'.($mergedArtistnames?$mergedArtistnames:"(none)").'</td>
+                            <td>' . ($mergedArtistnames ? $mergedArtistnames : "(none)") . '</td>
                             <td class="text' . ($r->status == 0 ? "" : ($r->status == 1 ? "-success" : ($r->status == 2 ? "-error" : "-info"))) . '">
                           ' . ($r->status == 0 ? "DRAFT" : ($r->status == 1 ? "DELIVERED" : ($r->status == 2 ? "ERROR" : "CHECKING"))) . '
                           </td>
