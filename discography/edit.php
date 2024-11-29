@@ -82,7 +82,6 @@ if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"]))
                         <i class="zmdi zmdi-album"></i> <span>Discography</span>
                     </a>
                 </li>
-
                 <li>
                     <a href="/analytics/">
                         <i class="zmdi zmdi-format-list-bulleted"></i> <span>Analytics</span>

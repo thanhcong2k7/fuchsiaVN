@@ -3,7 +3,7 @@ session_start();
 if (!isset($_SESSION["userwtf"]))
     header("Location: /login/");
 else {
-    require '/assets/variables/sql.php';
+    require '../../assets/variables/sql.php';
     $user = getUser($_SESSION["userwtf"]);
 }
 ?>
@@ -16,7 +16,7 @@ else {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Artists Manager - fuchsia Media Group
+    <title>Tracks Manager - fuchsia Media Group
     </title>
     <!-- loader-->
     <link href="/assets/css/pace.min.css" rel="stylesheet" />
@@ -41,6 +41,7 @@ else {
     <script src="/assets/js/jquery.min.js"></script>
     <script src="/assets/js/popper.min.js"></script>
     <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/flac/EmsWorkerProxy.js"></script>
 </head>
 
 <body class="bg-theme bg-theme1">
@@ -149,12 +150,15 @@ else {
                                     </div>
                                 </a>
                             </li>
-                            <li class="dropdown-divider"></li>
-                            <li class="dropdown-item"><a href="/revenue" class="icon-wallet mr-2"></a> Account</li>
-                            <li class="dropdown-divider"></li>
-                            <li class="dropdown-item"><a href="/settings" class="icon-settings mr-2"></> Setting</li>
-                            <li class="dropdown-divider"></li>
-                            <a class="dropdown-item" href="login/login.php?logout=yes"><i class="icon-power mr-2"></i> Logout</a>
+                            <li class="sidebar-header">TOOLBOX</li>
+                            <li><a href="/manager/artist/"><i class="zmdi zmdi-accounts text-warning"></i>
+                                    <span>Artists</span></a></li>
+                            <li><a href="/manager/tracks/"><i class="zmdi zmdi-audio text-success"></i>
+                                    <span>Tracks</span></a></li>
+                            <li><a href="/ticket/"><i class="zmdi zmdi-tag text-info"></i> <span>Support</span></a></li>
+                            <li><a href="/login/login.php?logout=yes"><i class="zmdi zmdi-run text-danger"></i>
+                                    <span>Log out?</span></a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -171,53 +175,123 @@ else {
                 <div class="row">
                     <div class="col">
                         <div class="card">
-                            <div class="card-header">adu</div>
+                            <div class="card-header"><i class="zmdi zmdi-collection-music"></i> Tracks Manager</div>
                             <div class="card-body">
                                 <div class="row">
-                                    <form action="" id="newArtist" class="col">
-                                        <div class="row" style="justify-content: center;">
-                                            <div class="col col-md-auto">
-                                                <div class="form-group">
-                                                    <label for="artist-id">Artist ID</label>
-                                                    <input type="text" class="form-control" id="artist-id"
-                                                        placeholder="(Optional if you're creating new artist)">
+                                    <div class="col">
+                                        <style>
+                                            #filee {
+                                                display: none;
+                                            }
+
+                                            #ok {
+                                                height: 100px;
+                                                width: 90%;
+                                                Border-radius: 6px;
+                                                text-align: center;
+                                                Border: 1px dashed #999;
+                                                margin: 0 auto;
+                                            }
+
+                                            #ok span {
+                                                display: block;
+                                                font-size: 11px;
+                                                color: #eeeeee;
+                                                margin: auto;
+                                                padding: 35px 0;
+                                            }
+
+                                            #ok:hover {
+                                                border-color: #AFFFFFFF;
+                                            }
+
+                                            * {
+                                                box-sizing: border-box;
+                                            }
+
+                                            .dnd {
+                                                width: 100%;
+                                                height: 100%;
+                                                display: flex;
+                                                justify-content: center;
+                                            }
+                                        </style>
+                                        <div class="dnd card card-body" style="justify-content: center;">
+                                            <center>
+                                                <div class="row"
+                                                    style="align: center; display: flex; justify-content: center;">
+                                                    <input type="file" id="filee" accept=".wav,.flac" />
+                                                    <label for="filee" id="ok">
+                                                        <span><i class="zmdi zmdi-file-plus"></i> Drop
+                                                            audio file here <br>(.WAV/.FLAC only!)
+                                                        </span>
+                                                    </label>
                                                 </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label for="alias">Artist Name</label>
-                                                    <input type="text" class="form-control" id="alias"
-                                                        placeholder="Alias. Example: Unknown Brain, Elektronomia, Japandee, Thereon, ...">
+                                                <hr>
+                                                <span>Status: <p id="status"></p></span>
+                                                <div class="row"
+                                                    style="display: block; padding-right: 20px; padding-left: 20px;">
+                                                    <div class="progress my-3" style="height:4px;">
+                                                        <div class="progress-bar" style="width:50%;" id="progbar"></div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col col-lg-2">
-                                                <label for="submit"></label>
-                                                <button type="submit" class="btn btn-light px-5" id="submit">
-                                                    <i class="zmdi zmdi-plus-square"></i> Create
-                                                </button>
-                                            </div>
+                                                <script type='text/javascript'>
+                                                    var $prog = $('#progbar'),
+                                                        $console = $('#console'),
+                                                        $input = $('#filee'),
+                                                        worker = new Worker('/assets/js/flac/EmsWorkerProxy.js');
+                                                    $input.change(function () {
+                                                        var f = this.files[0],
+                                                            fr = new FileReader();
+                                                        $input.attr('disabled', 'disabled');
+                                                        fr.addEventListener('loadend', function () {
+                                                            var encodedName = f.name.replace(/\.[^\.]+$/, '.flac');
+                                                            var args = [
+                                                                f.name
+                                                            ];
+                                                            var inData = {};
+                                                            inData[f.name] = new Uint8Array(fr.result);
+                                                            var outData = {};
+                                                            outData[encodedName] = {
+                                                                'MIME': 'audio/flac'
+                                                            };
+                                                            worker.postMessage({
+                                                                command: 'encode',
+                                                                args: args,
+                                                                outData: outData,
+                                                                fileData: inData
+                                                            });
+                                                        });
+                                                        fr.readAsArrayBuffer(f);
+                                                    });
+                                                    worker.onmessage = function (e) {
+                                                        if (e.data && e.data.reply === 'progress') {
+                                                            vals = e.data.values;
+                                                            if (vals[1]) {
+                                                                $prog.val(vals[0] / vals[1] * 100);
+                                                            }
+                                                        } else if (e.data && e.data.reply === 'done') {
+                                                            $prog.val(100);
+                                                            for (fileName in e.data.values) {
+                                                                $('<a>')
+                                                                    .text(fileName)
+                                                                    .prop('href',
+                                                                        window.URL.createObjectURL(e.data.values[fileName].blob)
+                                                                    )
+                                                                    .insertAfter($input);
+                                                            }
+                                                        }
+                                                    };
+                                                </script>
+                                            </center>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label for="spotifyID">Spotify ID</label>
-                                                    <input type="text" class="form-control" id="spotifyID"
-                                                        placeholder="Spotify ID ONLY. Example: 3NtqIIwOmoUGkrS4iD4lxY">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label for="amID">Apple Music ID</label>
-                                                    <input type="text" class="form-control" id="amID"
-                                                        placeholder="Apple Music ID ONLY. Example: 3NtqIIwOmoUGkrS4iD4lxY">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
+                                    </div>
                                 </div>
                                 <div class="w-100"></div>
+                                <br>
                                 <div class="card">
-                                    <div class="card-header">Artist List</div>
+                                    <div class="card-header"><i class="zmdi zmdi-collection-music"></i> Your Tracks
+                                    </div>
                                     <div class="card-body">nyom nyom</div>
                                 </div>
                             </div>

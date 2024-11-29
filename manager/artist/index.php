@@ -3,7 +3,7 @@ session_start();
 if (!isset($_SESSION["userwtf"]))
     header("Location: /login/");
 else {
-    require '/assets/variables/sql.php';
+    require '../../assets/variables/sql.php';
     $user = getUser($_SESSION["userwtf"]);
     $artist = fetchArtist($_SESSION["userwtf"]);
     if (isset($_SESSION["restricted"])) {
@@ -159,12 +159,15 @@ else {
                                     </div>
                                 </a>
                             </li>
-                            <li class="dropdown-divider"></li>
-                            <li class="dropdown-item"><a href="/revenue" class="icon-wallet mr-2"></a> Account</li>
-                            <li class="dropdown-divider"></li>
-                            <li class="dropdown-item"><a href="/settings" class="icon-settings mr-2"></> Setting</li>
-                            <li class="dropdown-divider"></li>
-                            <a class="dropdown-item" href="login/login.php?logout=yes"><i class="icon-power mr-2"></i> Logout</a>
+                            <li class="sidebar-header">TOOLBOX</li>
+                            <li><a href="/manager/artist/"><i class="zmdi zmdi-accounts text-warning"></i>
+                                    <span>Artists</span></a></li>
+                            <li><a href="/manager/tracks/"><i class="zmdi zmdi-audio text-success"></i>
+                                    <span>Tracks</span></a></li>
+                            <li><a href="/ticket/"><i class="zmdi zmdi-tag text-info"></i> <span>Support</span></a></li>
+                            <li><a href="/login/login.php?logout=yes"><i class="zmdi zmdi-run text-danger"></i>
+                                    <span>Log out?</span></a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -236,7 +239,7 @@ else {
                                 </div>
                                 <div class="w-100"></div>
                                 <div class="card">
-                                    <div class="card-header">Your Artist</div>
+                                    <div class="card-header"><i class="zmdi zmdi-accounts-list-alt"></i> Your Artist</div>
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table class="table table-hover">
