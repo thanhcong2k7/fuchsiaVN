@@ -218,8 +218,7 @@ else {
                                         </style>
                                         <div class="dnd card card-body" style="justify-content: center;">
                                             <center>
-                                                <div class="row"
-                                                    style="align: center; display: flex; justify-content: center;">
+                                                <div id="dnarea" class="row" style="align: center; display: flex; justify-content: center;">
                                                     <input type="file" id="filee" accept=".wav,.flac" />
                                                     <label for="filee" id="ok">
                                                         <span><i class="zmdi zmdi-file-plus"></i> Drop
@@ -235,6 +234,42 @@ else {
                                                         <div class="progress-bar" style="width:50%;" id="progbar"></div>
                                                     </div>
                                                 </div>
+                                                <script>
+                                                    const dropArea = document.getElementById("dnarea");
+                                                    const inputFile = document.getElementById("filee");
+                                                    inputFile.addEventListener("change", uploadImage);
+                                                    function uploadImage() {
+                                                        var reader = new FileReader();
+                                                        //Read the contents of Image File.
+                                                        reader.readAsDataURL(inputFile.files[0]);
+                                                        reader.onload = function (e) {
+                                                            /*
+                                                            //Initiate the JavaScript Image object.
+                                                            var image = new Image();
+                                                            //Set the Base64 string return from FileReader as source.
+                                                            image.src = e.target.result;
+                                                            //Validate the File Height and Width.
+                                                            image.onload = function () {
+                                                                var height = this.height;
+                                                                var width = this.width;
+                                                                if (height < 1500 || width < 1500 || height / width != 1) {
+                                                                    alert("Double-check your image. Is it larger than 1500x1500 or a 1:1 image?");
+                                                                    return false;
+                                                                }
+                                                                let imgLink = URL.createObjectURL(inputFile.files[0]);
+                                                                imageView.style.backgroundImage = `url(${imgLink})`;
+                                                                imageView.textContent = "";
+                                                                return true;
+                                                            };*/
+                                                        };
+                                                    }
+                                                    dropArea.addEventListener("dragover", function (e) { e.preventDefault(); });
+                                                    dropArea.addEventListener("drop", function (e) {
+                                                        e.preventDefault();
+                                                        inputFile.files = e.dataTransfer.files;
+                                                        uploadImage();
+                                                    });
+                                                </script>
                                                 <script type='text/javascript'>
                                                     var $prog = $('#progbar'),
                                                         $console = $('#console'),
@@ -268,10 +303,11 @@ else {
                                                         if (e.data && e.data.reply === 'progress') {
                                                             vals = e.data.values;
                                                             if (vals[1]) {
-                                                                $prog.val(vals[0] / vals[1] * 100);
+                                                                //$prog.val(vals[0] / vals[1] * 100);
+                                                                $prog.css("width",(vals[0] / vals[1] * 100).toString()+"%");
                                                             }
                                                         } else if (e.data && e.data.reply === 'done') {
-                                                            $prog.val(100);
+                                                            $prog.css("width","100%");
                                                             for (fileName in e.data.values) {
                                                                 $('<a>')
                                                                     .text(fileName)
