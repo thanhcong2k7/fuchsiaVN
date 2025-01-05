@@ -14,3 +14,4 @@ jobs:
         server: fuchsia.viiic.net
         username: ${{ secrets.ftp_user }}
         password: ${{ secrets.ftp_password }}
+        server-dir: /domains/dashboard.fuchsia.viiic.net/public_html
