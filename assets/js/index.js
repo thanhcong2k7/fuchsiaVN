@@ -4,7 +4,6 @@ $(function() {
      // chart 1
 	 
 		  var ctx = document.getElementById('chart1').getContext('2d');
-		
 			var myChart = new Chart(ctx, {
 				type: 'line',
 				data: {

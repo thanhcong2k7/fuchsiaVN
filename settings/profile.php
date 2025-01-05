@@ -2,7 +2,6 @@
 	session_start();
 	if (isset($_SESSION["userwtf"])){
 		require '../assets/variables/sql.php';
-		require '../assets/variables/func.php';
 		if(isset($_POST["fulname"])){
 			query("update user set name='".$_POST["fulname"]."' where userID=".$_SESSION["userwtf"].";");
 		}
@@ -52,13 +51,12 @@
 			$localFile = $_FILES["coverimg"]['tmp_name'];
 			echo $localFile."<br>";
 			//START PROCESSING IMAGE
-				$filename2=date("d-m-Y hms").'.png';
-			/*
 			$im = imagecreatefrompng($localFile);
 			$size = min(imagesx($im)/8, imagesy($im)/5);
 			$im2 = imagecrop($im, ['x' => (imagesx($im)>$size*8?imagesx($im)/2-$size*4:0), 'y' => (imagesy($im)>$size*5?imagesy($im)/2-$size*5/2:0), 'width' => $size*8, 'height' => $size*5]);
 			echo $size."<br>";
 			if ($im2 !== FALSE) {
+				$filename2=date("d-m-Y hms").'.png';
 				echo $filename2."<br>";
 				ob_start();
 				imagepng($im2);
@@ -68,12 +66,6 @@
 				imagedestroy($im2);
 			}
 			imagedestroy($im);
-			*/
-			$imgcrop = new ImageCrop();
-			if ($imgcrop->openImage($localFile)){
-				$imgcrop->crop(800,500);
-				$imgcrop->save(date("d-m-Y hms").'.png');
-			}
 			//END PROCESSING IMAGE
 			curl_setopt_array($ch, array(
 				CURLOPT_RETURNTRANSFER => 1,

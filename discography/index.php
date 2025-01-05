@@ -218,7 +218,7 @@ else {
                           }
                           echo '
                           <tr>
-                            <td><img loading="eager" src="' . (!isset($r->art) ? 'https://via.placeholder.com/50x50' : $r->art) . '" class="product-img" alt="product img"></td>
+                            <td><img loading="eager" src="' . (!isset($r->art) || ($r->art=="")? '/assets/images/alb.png' : $r->art) . '" class="product-img" alt="product img"></td>
                             <td>' . ($r->upc ? $r->upc : "--") . '</td>
                             <td>' . ($r->name ? $r->name : "(untitled)") . '</td>
                             <td>' . ($mergedArtistnames ? $mergedArtistnames : "(none)") . '</td>

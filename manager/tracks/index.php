@@ -217,11 +217,13 @@ else {
                                             }
                                         </style>
                                         <div class="dnd card card-body" style="justify-content: center;">
+                                            <script src="/assets/js/ffmpeg/ffmpeg.min.js"></script>
+                                            <script src="/assets/js/coop.min.js"></script>
                                             <center>
                                                 <div id="dnarea" class="row" style="align: center; display: flex; justify-content: center;">
                                                     <input type="file" id="filee" accept=".wav,.flac" />
                                                     <label for="filee" id="ok">
-                                                        <span><i class="zmdi zmdi-file-plus"></i> Drop
+                                                        <span id="texttt"><i class="zmdi zmdi-file-plus"></i> Drop
                                                             audio file here <br>(.WAV/.FLAC only!)
                                                         </span>
                                                     </label>
@@ -239,29 +241,9 @@ else {
                                                     const inputFile = document.getElementById("filee");
                                                     inputFile.addEventListener("change", uploadImage);
                                                     function uploadImage() {
-                                                        var reader = new FileReader();
-                                                        //Read the contents of Image File.
-                                                        reader.readAsDataURL(inputFile.files[0]);
-                                                        reader.onload = function (e) {
-                                                            /*
-                                                            //Initiate the JavaScript Image object.
-                                                            var image = new Image();
-                                                            //Set the Base64 string return from FileReader as source.
-                                                            image.src = e.target.result;
-                                                            //Validate the File Height and Width.
-                                                            image.onload = function () {
-                                                                var height = this.height;
-                                                                var width = this.width;
-                                                                if (height < 1500 || width < 1500 || height / width != 1) {
-                                                                    alert("Double-check your image. Is it larger than 1500x1500 or a 1:1 image?");
-                                                                    return false;
-                                                                }
-                                                                let imgLink = URL.createObjectURL(inputFile.files[0]);
-                                                                imageView.style.backgroundImage = `url(${imgLink})`;
-                                                                imageView.textContent = "";
-                                                                return true;
-                                                            };*/
-                                                        };
+                                                        document.getElementById("texttt").innerHTML =
+                                                            '<i class="zmdi zmdi-file-plus"></i> Processing file:'
+                                                            + document.getElementById("filee").files[0].name;
                                                     }
                                                     dropArea.addEventListener("dragover", function (e) { e.preventDefault(); });
                                                     dropArea.addEventListener("drop", function (e) {
@@ -270,7 +252,10 @@ else {
                                                         uploadImage();
                                                     });
                                                 </script>
+                                                <p id="msghehe">y kien j b</p>
+                                                <audio id="output-audio" controls></audio>
                                                 <script type='text/javascript'>
+                                                    /*
                                                     var $prog = $('#progbar'),
                                                         $console = $('#console'),
                                                         $input = $('#filee'),
@@ -317,7 +302,31 @@ else {
                                                                     .insertAfter($input);
                                                             }
                                                         }
-                                                    };
+                                                    };*/
+                                                    const message = document.getElementById('msghehe');
+                                                    const { createFFmpeg, fetchFile } = FFmpeg;
+                                                    const ffmpeg = createFFmpeg({
+                                                    log: true,
+                                                    progress: ({ ratio }) => {
+                                                        message.innerHTML = `Complete: ${(ratio * 100.0).toFixed(2)}%`;
+                                                        document.getElementById("progbar").style="width:"+(ratio * 100.0).toFixed(2).toString()+"%";
+                                                    },
+                                                    });
+                                                    
+                                                    const transcode = async ({ target: { files }  }) => {
+                                                    const { name } = files[0];
+                                                    message.innerHTML = 'Loading ffmpeg-core.js';
+                                                    await ffmpeg.load();
+                                                    message.innerHTML = 'Start transcoding';
+                                                    ffmpeg.FS('writeFile', name, await fetchFile(files[0]));
+                                                    await ffmpeg.run('-i', name,  'output.mp3');
+                                                    message.innerHTML = 'Complete transcoding';
+                                                    const data = ffmpeg.FS('readFile', 'output.mp3');
+                                                    
+                                                    const video = document.getElementById('output-audio');
+                                                    video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'audio/mp3' }));
+                                                    }
+                                                    document.getElementById('uploader').addEventListener('change', transcode);
                                                 </script>
                                             </center>
                                         </div>
@@ -409,7 +418,6 @@ else {
     <script src="/assets/plugins/Chart.js/Chart.min.js"></script>
 
     <!-- Index js -->
-    <script src="/assets/js/index.js"></script>
     <script type="text/javascript">
         n = new Date();
         document.getElementById("cccccyear").innerHTML = n.getFullYear();
