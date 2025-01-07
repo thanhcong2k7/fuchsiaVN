@@ -337,7 +337,36 @@ else {
                                 <div class="card">
                                     <div class="card-header"><i class="zmdi zmdi-collection-music"></i> Your Tracks
                                     </div>
-                                    <div class="card-body">nyom nyom</div>
+                                    <div class="card-body"><div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Artist ID</th>
+                                                        <th>Artist name</th>
+                                                        <th>Spotify</th>
+                                                        <th>Apple Music</th>
+                                                        <th>Email</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                          <?php
+                                                            foreach ($track as &$tr) {
+                                                                echo '
+                                                                    <tr id="track' . $tr->id . '">
+                                                                        <td>' . $tr->id . '</td>
+                                                                        <td>' . $tr->name . '</td>
+                                                                        <td>' . $tr->artistname . '</td>
+                                                                        <td><a href="" class="text-info">GDrive</a></td>
+                                                                        <td><a class="text-warning" id="delete' . $tr->id . '" onclick="document.getElementById(\'track' . $tr->id . '\').remove();fetch(\'delete.php?albumid=' . $_GET["id"] . '&trackid=' . $tr->id . '\',{credentials:\'same-origin\'}).then((response)=>response.json()).then((responseData)=>{console.log(responseData.status);});">Delete</a></td>
+                                                                    </tr>
+                                                                    ';
+                                                            }
+                                                            ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div></div>
                                 </div>
                             </div>
                         </div>
