@@ -1,11 +1,13 @@
 <?php
-session_start();
-if (!isset($_SESSION["userwtf"]))
-    header("Location: ../../login/");
-else {
-    require '../../assets/variables/sql.php';
-    $user = getUser($_SESSION["userwtf"]);
-}
+    header("Cross-Origin-Opener-Policy: same-origin");
+    header("Cross-Origin-Embedder-Policy: require-corp");
+    session_start();
+    if (!isset($_SESSION["userwtf"]))
+        header("Location: ../../login/");
+    else {
+        require '../../assets/variables/sql.php';
+        $user = getUser($_SESSION["userwtf"]);
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

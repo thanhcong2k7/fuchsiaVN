@@ -1,11 +1,13 @@
 <?php
-session_start();
-if (!isset($_SESSION["userwtf"]))
-    header("Location: /login/");
-else {
-    require '../../assets/variables/sql.php';
-    $user = getUser($_SESSION["userwtf"]);
-}
+    header("Cross-Origin-Opener-Policy: same-origin");
+    header("Cross-Origin-Embedder-Policy: require-corp");
+    session_start();
+    if (!isset($_SESSION["userwtf"]))
+        header("Location: /login/");
+    else {
+        require '../../assets/variables/sql.php';
+        $user = getUser($_SESSION["userwtf"]);
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,7 +43,8 @@ else {
     <script src="/assets/js/jquery.min.js"></script>
     <script src="/assets/js/popper.min.js"></script>
     <script src="/assets/js/bootstrap.min.js"></script>
-    <script src="/assets/js/flac/EmsWorkerProxy.js"></script>
+    <!-- FFMPEG.JS -->
+    <script src="/assets/js/ffmpeg.min.js"></script>
 </head>
 
 <body class="bg-theme bg-theme1">
@@ -217,8 +220,6 @@ else {
                                             }
                                         </style>
                                         <div class="dnd card card-body" style="justify-content: center;">
-                                            <script src="/assets/js/ffmpeg/ffmpeg.min.js"></script>
-                                            <script src="/assets/js/coop.min.js"></script>
                                             <center>
                                                 <div id="dnarea" class="row" style="align: center; display: flex; justify-content: center;">
                                                     <input type="file" id="filee" accept=".wav,.flac" />
@@ -252,79 +253,20 @@ else {
                                                         uploadImage();
                                                     });
                                                 </script>
-                                                <p id="msghehe">y kien j b</p>
-                                                <audio id="output-audio" controls></audio>
-                                                <script type='text/javascript'>
-                                                    /*
-                                                    var $prog = $('#progbar'),
-                                                        $console = $('#console'),
-                                                        $input = $('#filee'),
-                                                        worker = new Worker('/assets/js/flac/EmsWorkerProxy.js');
-                                                    $input.change(function () {
-                                                        var f = this.files[0],
-                                                            fr = new FileReader();
-                                                        $input.attr('disabled', 'disabled');
-                                                        fr.addEventListener('loadend', function () {
-                                                            var encodedName = f.name.replace(/\.[^\.]+$/, '.flac');
-                                                            var args = [
-                                                                f.name
-                                                            ];
-                                                            var inData = {};
-                                                            inData[f.name] = new Uint8Array(fr.result);
-                                                            var outData = {};
-                                                            outData[encodedName] = {
-                                                                'MIME': 'audio/flac'
-                                                            };
-                                                            worker.postMessage({
-                                                                command: 'encode',
-                                                                args: args,
-                                                                outData: outData,
-                                                                fileData: inData
-                                                            });
-                                                        });
-                                                        fr.readAsArrayBuffer(f);
-                                                    });
-                                                    worker.onmessage = function (e) {
-                                                        if (e.data && e.data.reply === 'progress') {
-                                                            vals = e.data.values;
-                                                            if (vals[1]) {
-                                                                //$prog.val(vals[0] / vals[1] * 100);
-                                                                $prog.css("width",(vals[0] / vals[1] * 100).toString()+"%");
-                                                            }
-                                                        } else if (e.data && e.data.reply === 'done') {
-                                                            $prog.css("width","100%");
-                                                            for (fileName in e.data.values) {
-                                                                $('<a>')
-                                                                    .text(fileName)
-                                                                    .prop('href',
-                                                                        window.URL.createObjectURL(e.data.values[fileName].blob)
-                                                                    )
-                                                                    .insertAfter($input);
-                                                            }
-                                                        }
-                                                    };*/
-                                                    const message = document.getElementById('msghehe');
+                                                <audio id="player" controls></audio>
+                                                <input type="file" id="uploader">
+                                                <script src="ffmpeg.min.js"></script>
+                                                <script>
                                                     const { createFFmpeg, fetchFile } = FFmpeg;
-                                                    const ffmpeg = createFFmpeg({
-                                                    log: true,
-                                                    progress: ({ ratio }) => {
-                                                        message.innerHTML = `Complete: ${(ratio * 100.0).toFixed(2)}%`;
-                                                        document.getElementById("progbar").style="width:"+(ratio * 100.0).toFixed(2).toString()+"%";
-                                                    },
-                                                    });
-                                                    
-                                                    const transcode = async ({ target: { files }  }) => {
-                                                    const { name } = files[0];
-                                                    message.innerHTML = 'Loading ffmpeg-core.js';
-                                                    await ffmpeg.load();
-                                                    message.innerHTML = 'Start transcoding';
-                                                    ffmpeg.FS('writeFile', name, await fetchFile(files[0]));
-                                                    await ffmpeg.run('-i', name,  'output.mp3');
-                                                    message.innerHTML = 'Complete transcoding';
-                                                    const data = ffmpeg.FS('readFile', 'output.mp3');
-                                                    
-                                                    const video = document.getElementById('output-audio');
-                                                    video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'audio/mp3' }));
+                                                    const ffmpeg = createFFmpeg({ log: true });
+                                                    const transcode = async ({ target: { files } }) => {
+                                                        const { name } = files[0];
+                                                        await ffmpeg.load();
+                                                        ffmpeg.FS('writeFile', name, await fetchFile(files[0]));
+                                                        await ffmpeg.run('-i', name, '-ab', '320k', '-ar', '44100', 'output.mp3');
+                                                        const data = ffmpeg.FS('readFile', 'output.mp3');
+                                                        const video = document.getElementById('player');
+                                                        video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'audio/mpeg' }));
                                                     }
                                                     document.getElementById('uploader').addEventListener('change', transcode);
                                                 </script>
@@ -341,28 +283,17 @@ else {
                                             <table class="table table-hover">
                                                 <thead>
                                                     <tr>
-                                                        <th>Artist ID</th>
-                                                        <th>Artist name</th>
-                                                        <th>Spotify</th>
-                                                        <th>Apple Music</th>
-                                                        <th>Email</th>
-                                                        <th>Action</th>
+                                                        <th>Track ID</th>
+                                                        <th>Track name</th>
+                                                        <th>Album</th>
+                                                        <th>Artist</th>
+                                                        <th>Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                          <?php
-                                                            foreach ($track as &$tr) {
-                                                                echo '
-                                                                    <tr id="track' . $tr->id . '">
-                                                                        <td>' . $tr->id . '</td>
-                                                                        <td>' . $tr->name . '</td>
-                                                                        <td>' . $tr->artistname . '</td>
-                                                                        <td><a href="" class="text-info">GDrive</a></td>
-                                                                        <td><a class="text-warning" id="delete' . $tr->id . '" onclick="document.getElementById(\'track' . $tr->id . '\').remove();fetch(\'delete.php?albumid=' . $_GET["id"] . '&trackid=' . $tr->id . '\',{credentials:\'same-origin\'}).then((response)=>response.json()).then((responseData)=>{console.log(responseData.status);});">Delete</a></td>
-                                                                    </tr>
-                                                                    ';
-                                                            }
-                                                            ?>
+                                                    <?php
+                                                        //
+                                                    ?>
                                                 </tbody>
                                             </table>
                                         </div>
