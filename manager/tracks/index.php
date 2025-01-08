@@ -225,7 +225,7 @@
                                                     <input type="file" id="filee" accept="audio/*" />
                                                     <label for="filee" id="ok">
                                                         <span id="texttt"><i class="zmdi zmdi-file-plus"></i> Drop
-                                                            audio file here...
+                                                            audio file here...<br>(Less than 50mb is recommended!)
                                                         </span>
                                                     </label>
                                                 </div>
