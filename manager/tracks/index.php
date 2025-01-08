@@ -222,10 +222,10 @@
                                         <div class="dnd card card-body" style="justify-content: center;">
                                             <center>
                                                 <div id="dnarea" class="row" style="align: center; display: flex; justify-content: center;">
-                                                    <input type="file" id="filee" accept=".wav,.flac" />
+                                                    <input type="file" id="filee" accept="audio/*" />
                                                     <label for="filee" id="ok">
                                                         <span id="texttt"><i class="zmdi zmdi-file-plus"></i> Drop
-                                                            audio file here <br>(.WAV/.FLAC only!)
+                                                            audio file here...
                                                         </span>
                                                     </label>
                                                 </div>
