@@ -225,7 +225,7 @@
                                                     <input type="file" id="filee" accept="audio/*" />
                                                     <label for="filee" id="ok">
                                                         <span id="texttt"><i class="zmdi zmdi-file-plus"></i> Drop
-                                                            audio file here...<br>(Less than 50mb is recommended!)
+                                                            audio file here...<br>
                                                         </span>
                                                     </label>
                                                 </div>
@@ -254,7 +254,6 @@
                                                     });
                                                 </script>
                                                 <audio id="player" controls></audio>
-                                                <input type="file" id="uploader">
                                                 <script src="ffmpeg.min.js"></script>
                                                 <script>
                                                     const { createFFmpeg, fetchFile } = FFmpeg;
@@ -268,7 +267,7 @@
                                                         const video = document.getElementById('player');
                                                         video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'audio/mpeg' }));
                                                     }
-                                                    document.getElementById('uploader').addEventListener('change', transcode);
+                                                    document.getElementById('filee').addEventListener('change', transcode);
                                                 </script>
                                             </center>
                                         </div>
