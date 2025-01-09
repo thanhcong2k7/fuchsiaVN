@@ -15,5 +15,4 @@ jobs:
         username: testhihihi@fuchsia.viiic.net
         password: ${{ secrets.ftp_password }}
     - name: 🔔 Announce over ntfy.sh 
-      steps:
-        - run: curl -d "Finished pushing to FTP!" ntfy.sh/ntcedm
+      run: curl -d "Finished pushing to FTP!" ntfy.sh/ntcedm
