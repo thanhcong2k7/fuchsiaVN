@@ -225,7 +225,7 @@
                                                     <input type="file" id="filee" accept="audio/*" />
                                                     <label for="filee" id="ok">
                                                         <span id="texttt"><i class="zmdi zmdi-file-plus"></i> Drop
-                                                            audio file here...<br>
+                                                            audio file here...
                                                         </span>
                                                     </label>
                                                 </div>
@@ -254,18 +254,20 @@
                                                     });
                                                 </script>
                                                 <audio id="player" controls></audio>
-                                                <script src="ffmpeg.min.js"></script>
                                                 <script>
                                                     const { createFFmpeg, fetchFile } = FFmpeg;
                                                     const ffmpeg = createFFmpeg({ log: true });
                                                     const transcode = async ({ target: { files } }) => {
                                                         const { name } = files[0];
+                                                        document.getElementById("status").innerHTML = "Loading FFmpeg...";
                                                         await ffmpeg.load();
                                                         ffmpeg.FS('writeFile', name, await fetchFile(files[0]));
+                                                        document.getElementById("status").innerHTML = "Post-processing file...";
                                                         await ffmpeg.run('-i', name, '-ab', '320k', '-ar', '44100', 'output.mp3');
                                                         const data = ffmpeg.FS('readFile', 'output.mp3');
                                                         const video = document.getElementById('player');
                                                         video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'audio/mpeg' }));
+                                                        document.getElementById("status").innerHTML = "Done...";
                                                     }
                                                     document.getElementById('filee').addEventListener('change', transcode);
                                                 </script>
