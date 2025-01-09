@@ -15,7 +15,7 @@ body {
   align-items: center;
 }
 </style>
-<script src="https://unpkg.com/@ffmpeg/ffmpeg@0.9.2/dist/ffmpeg.min.js"></script>
+<script src="/assets/js/ffmpeg.min.js"></script>
 <h3>Upload a video to transcode to mp4 (x264) and play!</h3>
 <audio id="output-video" controls></audio><br/>
 <input type="file" id="uploader">
@@ -45,5 +45,3 @@ const transcode = async ({ target: { files }  }) => {
 }
 document.getElementById('uploader').addEventListener('change', transcode);
 </script>
-<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-<script>eruda.init();</script>
