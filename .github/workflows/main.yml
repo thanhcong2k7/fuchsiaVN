@@ -17,4 +17,4 @@ jobs:
     - name: 🔔 Announce over ntfy.sh 
       steps:
         - name: J bn
-          run: | curl -d "Finished pushing to FTP!" ntfy.sh/ntcedm
+          run: curl -d "Finished pushing to FTP!" ntfy.sh/ntcedm
