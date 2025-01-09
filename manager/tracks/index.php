@@ -259,22 +259,29 @@ if (!headers_sent()) {
                                                 </script>
                                                 <audio id="player" controls></audio>
                                                 <script>
-                                                    const { createFFmpeg, fetchFile } = FFmpeg;
-                                                    const ffmpeg = createFFmpeg({ log: true });
-                                                    const transcode = async ({ target: { files } }) => {
-                                                        const { name } = files[0];
-                                                        document.getElementById("status").innerHTML = "Loading FFmpeg...";
-                                                        await ffmpeg.load();
-                                                        ffmpeg.FS('writeFile', name, await fetchFile(files[0]));
-                                                        document.getElementById("status").innerHTML = "Post-processing file...";
-                                                        await ffmpeg.run('-i', name, '-ab', '320k', '-ar', '44100', 'output.mp3');
-                                                        const data = ffmpeg.FS('readFile', 'output.mp3');
-                                                        const video = document.getElementById('player');
-                                                        video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'audio/mpeg' }));
-                                                        document.getElementById("status").innerHTML = "Done...";
-                                                    }
-                                                    document.getElementById('filee').addEventListener('change', transcode);
-                                                </script>
+                         const message = document.getElementById('status');
+const { createFFmpeg, fetchFile } = FFmpeg;
+const ffmpeg = createFFmpeg({
+  log: true,
+  progress: ({ ratio }) => {
+    message.innerHTML = `Complete: ${(ratio * 100.0).toFixed(2)}%`;
+  },
+});
+
+const transcode = async ({ target: { files }  }) => {
+  const { name } = files[0];
+  message.innerHTML = 'Loading ffmpeg-core.js';
+  await ffmpeg.load();
+  message.innerHTML = 'Start transcoding';
+  ffmpeg.FS('writeFile', name, await fetchFile(files[0]));
+  await ffmpeg.run('-i', name,  'output.mp3');
+  message.innerHTML = 'Complete transcoding';
+  const data = ffmpeg.FS('readFile', 'output.mp3');
+ 
+  const video = document.getElementById('output-video');
+  video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'audio/mpeg' }));
+}
+document.getElementById('uploader').addEventListener('change', transcode);                       </script>
                                             </center>
                                         </div>
                                     </div>
