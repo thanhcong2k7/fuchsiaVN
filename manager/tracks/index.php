@@ -257,7 +257,7 @@ if (!headers_sent()) {
                                                         uploadImage();
                                                     });
                                                 </script>
-                                                <audio id="player" controls></audio>
+                                                <audio id="output-video" controls></audio>
                                                 <script>
                          const message = document.getElementById('status');
 const { createFFmpeg, fetchFile } = FFmpeg;
