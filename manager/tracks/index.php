@@ -1,4 +1,8 @@
 <?php
+if (!headers_sent()) {
+  foreach (headers_list() as $header)
+    header_remove($header);
+}
     header("Cross-Origin-Embedder-Policy: require-corp");
     header("Cross-Origin-Resource-Policy: cross-origin");
     session_start();
