@@ -242,13 +242,6 @@
                                                     </div>
                                                 </div>
                                                 <script>
-                                                    const dropArea = document.getElementById("dnarea");
-                                                    dropArea.addEventListener("dragover", function (e) { e.preventDefault(); });
-                                                    dropArea.addEventListener("drop", function (e) {
-                                                        e.preventDefault();
-                                                        inputFile.files = e.dataTransfer.files;
-                                                        transcode();
-                                                    });
                                                 </script>
                                                 <audio id="output-video" controls></audio>
                                                 <script>
@@ -276,6 +269,13 @@
                                                     video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'audio/mpeg' }));
                                                 }
                                                 document.getElementById("filee").addEventListener('change', transcode);
+                                                const dropArea = document.getElementById("dnarea");
+                                                dropArea.addEventListener("dragover", function (e) { e.preventDefault(); });
+                                                dropArea.addEventListener("drop", function (e) {
+                                                e.preventDefault();
+                                                    inputFile.files = e.dataTransfer.files;
+                                                    transcode();
+                                                });
                                                 </script>
                                             </center>
                                         </div>
