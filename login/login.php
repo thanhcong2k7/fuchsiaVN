@@ -18,9 +18,9 @@
         //header("Location: ../");
 	    //echo "<script>alert('ok');</script>";
 	    //$_SESSION["userwtf"]=5;
-	    $conn = mysqli_connect("127.0.0.1", "wtjmdnac_fuchsia", "nguyenthanhcong", "wtjmdnac_fuchsia");
+    $conn = mysqli_connect("127.0.0.1", "wtjmdnac_fuchsia", "nguyenthanhcong", "wtjmdnac_fuchsia");
 	if (!$conn){
-		$_SESSION["saipass"]="Connection failed! ".mysqli_connect_error();
+		$_SESSION["saipass"]="Connection failed! " . mysqli_connect_error();
 		header("Location: ./");
 	}
 	    $usr=$_POST["userslot"];

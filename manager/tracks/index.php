@@ -263,10 +263,10 @@
                                                     message.innerHTML = 'Loading ffmpeg-core.js';
                                                     await ffmpeg.load();
                                                     message.innerHTML = 'Start transcoding';
-                                                    ffmpeg.FS('writeFile', name, await fetchFile(document.getElementById("filee").files[0]));
-                                                    ffmpeg.run('-i', name,  'output.mp3');
+                                                    await ffmpeg.FS('writeFile', name, await fetchFile(document.getElementById("filee").files[0]));
+                                                    await ffmpeg.run('-i', name,  'output.mp3');
                                                     message.innerHTML = 'Complete transcoding';
-                                                    const data = ffmpeg.FS('readFile', 'output.mp3');
+                                                    const data = await ffmpeg.FS('readFile', 'output.mp3');
                                                     const video = document.getElementById('output-video');
                                                     video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'audio/mpeg' }));
                                                 }

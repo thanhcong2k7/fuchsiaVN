@@ -1,6 +1,6 @@
 <?php
 	$conn = mysqli_connect("127.0.0.1", "wtjmdnac_fuchsia", "nguyenthanhcong", "wtjmdnac_fuchsia");
-	//echo "FUCK YOU! YOU DON'T HAVE ANY PERMISSIONS TO RUN THIS SHIT!";
+ //echo "FUCK YOU! YOU DON'T HAVE ANY PERMISSIONS TO RUN THIS SHIT!";
 	function query($cmd){
 		return $GLOBALS["conn"]->query($cmd);
 	}
