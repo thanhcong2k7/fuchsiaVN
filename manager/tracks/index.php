@@ -273,7 +273,7 @@ if (!headers_sent()) {
                                                     message.innerHTML = 'Loading ffmpeg-core.js';
                                                     ffmpeg.load();
                                                     message.innerHTML = 'Start transcoding';
-                                                    ffmpeg.FS('writeFile', name, await fetchFile(document.getElementById("filee").files[0]));
+                                                    ffmpeg.FS('writeFile', name, fetchFile(document.getElementById("filee").files[0]));
                                                     ffmpeg.run('-i', name,  'output.mp3');
                                                     message.innerHTML = 'Complete transcoding';
                                                     const data = ffmpeg.FS('readFile', 'output.mp3');
