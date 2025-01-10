@@ -276,7 +276,7 @@
                                                 dropArea.addEventListener("drop", function (e) {
                                                     e.preventDefault();
                                                     document.getElementById("filee").files = e.dataTransfer.files;
-                                                });
+                                                }, true);
                                                 </script>
                                             </center>
                                         </div>
