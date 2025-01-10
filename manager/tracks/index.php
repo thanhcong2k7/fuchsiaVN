@@ -265,15 +265,15 @@ if (!headers_sent()) {
                                                         message.innerHTML = `Complete: ${(ratio * 100.0).toFixed(2)}%`;
                                                     },
                                                 });
-                                                const transcode = async ({ target: { files }  }) => {
+                                                function transcode(){
                                                     document.getElementById("texttt").innerHTML =
                                                         '<i class="zmdi zmdi-file-plus"></i> Processing file:'
                                                         + document.getElementById("filee").files[0].name;
-                                                    const { name } = document.getElementById("filee").files[0];
+                                                    const name = document.getElementById("filee").files[0].name;
                                                     message.innerHTML = 'Loading ffmpeg-core.js';
                                                     await ffmpeg.load();
                                                     message.innerHTML = 'Start transcoding';
-                                                    ffmpeg.FS('writeFile', name, await fetchFile(files[0]));
+                                                    ffmpeg.FS('writeFile', name, await fetchFile(document.getElementById("filee").files[0]));
                                                     await ffmpeg.run('-i', name,  'output.mp3');
                                                     message.innerHTML = 'Complete transcoding';
                                                     const data = ffmpeg.FS('readFile', 'output.mp3');
