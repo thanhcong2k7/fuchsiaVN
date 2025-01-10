@@ -5,6 +5,7 @@
     }
     header("Cross-Origin-Embedder-Policy: require-corp");
     header("Cross-Origin-Resource-Policy: cross-origin");
+    header("Cross-Origin-Opener-Policy: same-origin");
     session_start();
     if (!isset($_SESSION["userwtf"]))
         header("Location: /login/");
