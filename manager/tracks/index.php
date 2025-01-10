@@ -254,6 +254,7 @@
                                                     },
                                                 });
                                                 const transcode = async () => {
+                                                    console.log("event triggered!");
                                                     document.getElementById("texttt").innerHTML =
                                                         '<i class="zmdi zmdi-file-plus"></i> Processing file:'
                                                         + document.getElementById("filee").files[0].name;
@@ -272,9 +273,8 @@
                                                 const dropArea = document.getElementById("dnarea");
                                                 dropArea.addEventListener("dragover", function (e) { e.preventDefault(); });
                                                 dropArea.addEventListener("drop", function (e) {
-                                                e.preventDefault();
+                                                    e.preventDefault();
                                                     document.getElementById("filee").files = e.dataTransfer.files;
-                                                    transcode();
                                                 });
                                                 </script>
                                             </center>
