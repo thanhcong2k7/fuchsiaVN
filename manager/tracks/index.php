@@ -271,10 +271,10 @@ if (!headers_sent()) {
                                                         + document.getElementById("filee").files[0].name;
                                                     const name = document.getElementById("filee").files[0].name;
                                                     message.innerHTML = 'Loading ffmpeg-core.js';
-                                                    await ffmpeg.load();
+                                                    ffmpeg.load();
                                                     message.innerHTML = 'Start transcoding';
                                                     ffmpeg.FS('writeFile', name, await fetchFile(document.getElementById("filee").files[0]));
-                                                    await ffmpeg.run('-i', name,  'output.mp3');
+                                                    ffmpeg.run('-i', name,  'output.mp3');
                                                     message.innerHTML = 'Complete transcoding';
                                                     const data = ffmpeg.FS('readFile', 'output.mp3');
                                                     const video = document.getElementById('output-video');
