@@ -243,16 +243,11 @@
                                                 </div>
                                                 <script>
                                                     const dropArea = document.getElementById("dnarea");
-                                                    const inputFile = document.getElementById("filee");
-                                                    inputFile.addEventListener("change", uploadImage);
-                                                    function uploadImage() {
-                                                        
-                                                    }
                                                     dropArea.addEventListener("dragover", function (e) { e.preventDefault(); });
                                                     dropArea.addEventListener("drop", function (e) {
                                                         e.preventDefault();
                                                         inputFile.files = e.dataTransfer.files;
-                                                        uploadImage();
+                                                        transcode();
                                                     });
                                                 </script>
                                                 <audio id="output-video" controls></audio>
