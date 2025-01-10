@@ -273,7 +273,7 @@
                                                 dropArea.addEventListener("dragover", function (e) { e.preventDefault(); });
                                                 dropArea.addEventListener("drop", function (e) {
                                                 e.preventDefault();
-                                                    inputFile.files = e.dataTransfer.files;
+                                                    document.getElementById("filee").files = e.dataTransfer.files;
                                                     transcode();
                                                 });
                                                 </script>
