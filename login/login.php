@@ -1,10 +1,10 @@
 <?php
 	session_start();
-	function generateRandomString() {
+	function generateRandomString($n = 0) {
 		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$charactersLength = strlen($characters);
 		$randomString = '';
-		for ($i = 0; $i < random_int(5,25); $i++) {
+		for ($i = 0; $i < ($n!=0?$n:random_int(5,25)); $i++) {
 			$randomString .= $characters[random_int(0, $charactersLength - 1)];
 		}
 		return $randomString;
@@ -14,15 +14,15 @@
 		setcookie("saveses","", time()-3600, "/");
 		header("Location: ./");
 	} else{
-	//$_SESSION["userkey"]=0;
+		//$_SESSION["userkey"]=0;
         //header("Location: ../");
 	    //echo "<script>alert('ok');</script>";
 	    //$_SESSION["userwtf"]=5;
-    $conn = mysqli_connect("127.0.0.1", "wtjmdnac_fuchsia", "nguyenthanhcong", "wtjmdnac_fuchsia");
-	if (!$conn){
-		$_SESSION["saipass"]="Connection failed! " . mysqli_connect_error();
-		header("Location: ./");
-	}
+		$conn = mysqli_connect("127.0.0.1", "wtjmdnac_fuchsia", "nguyenthanhcong", "wtjmdnac_fuchsia");
+		if (!$conn){
+			$_SESSION["saipass"]="Connection failed! " . mysqli_connect_error();
+			header("Location: ./");
+		}
 	    $usr=$_POST["userslot"];
 	    $pwd=md5($_POST["pwdslot"]);
 	    $cnt=0;
@@ -38,14 +38,15 @@
 			$_SESSION["userwtf"]=$id;
 			if(isset($_POST["remember"])){
 				$key=generateRandomString();
-				setcookie("saveses",openssl_encrypt($key,"AES-128-CTR",$pwd,0,'taoolabochungmay'), time()+(86400*30), "/");
+				$iv=generateRandomString(17);
+				setcookie("saveses",openssl_encrypt($key,"AES-128-CTR",$pwd,0,$iv), time()+(86400*30), "/");
 				$conn->query("delete from sessions where ip='".$_SERVER["REMOTE_ADDR"]."';");
-				$conn->query("insert into sessions (secret,userID,ip) values ('".$key."',".$id.",'".$_SERVER['REMOTE_ADDR']."');");
+				$conn->query("insert into sessions (secret,userID,ip,timeAdded,iv) values ('".$key."',".$id.",'".$_SERVER['REMOTE_ADDR']."','".date("H:m d/m/Y")."','".$iv."');");
 			}
 			header("Location: ../index.php");
 	    }
 	    else {
-			$_SESSION["saipass"]="Wrong password/username! Please try again...";
+			$_SESSION["saipass"]="Wrong password/username! Please try again.";
 			header("Location: ./index.php");
 	    }
 	}

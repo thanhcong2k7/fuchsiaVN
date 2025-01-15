@@ -1,7 +1,10 @@
+<?php
+  if (isset($_SESSION["saipass"]))
+    echo "<script>alert('" . $_SESSION["saipass"] . "');</script>";
+  unset($_SESSION["saipass"]);
+?>
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -26,11 +29,6 @@
 </head>
 
 <body class="bg-theme bg-theme1">
-  <?php
-  if (isset($_SESSION["saipass"]))
-    echo "<script>alert('" . $_SESSION["saipass"] . "');</script>";
-  unset($_SESSION["saipass"]);
-  ?>
   <!-- start loader -->
   <div id="pageloader-overlay" class="visible incoming">
     <div class="loader-wrapper-outer">

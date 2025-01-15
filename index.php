@@ -1,39 +1,39 @@
 <?php
-session_start();
-require 'assets/variables/sql.php';
-if (!isset($_SESSION["userwtf"])) {
-  //unset($_SESSION["userwtf"]);
-  if (isset($_COOKIE["saveses"])) {
-    $ip = $_SERVER["REMOTE_ADDR"];
-    $ress = query("select * from sessions where ip='" . $ip . "';");
-    while ($row = $ress->fetch_assoc()) {
-      $uuuid = $row["userID"];
-      $sus = query("select pwd from user where userID=" . $uuuid . ";");
-      $p = "";
-      while ($roww = $sus->fetch_assoc())
-        $p = $roww["pwd"];
-      $dec = openssl_decrypt($_COOKIE["saveses"], "AES-128-CTR", $p, 0, 'taoolabochungmay');
-      if ($dec == $row["secret"]) {
-        $_SESSION["userwtf"] = $row["userID"];
-        //setcookie("saveses","", time()-3600, "/");
-        echo '<script>document.location.reload();</script>';
-      } else {
-        //echo '<script>alert("Your saved information on this browser seems broken, so we are redirecting you to login page. (Might be hacked/spoofed...?)");</script>';
-        setcookie("saveses", "", -1, "/");
-        query("delete from sessions where ip='".$ip."';");
-        echo '<script>document.location.reload();</script>';
+  session_start();
+  require 'assets/variables/sql.php';
+  if (!isset($_SESSION["userwtf"])) {
+    //unset($_SESSION["userwtf"]);
+    if (isset($_COOKIE["saveses"])) {
+      $ip = $_SERVER["REMOTE_ADDR"];
+      $ress = query("select * from sessions where ip='" . $ip . "';");
+      while ($row = $ress->fetch_assoc()) {
+        $uuuid = $row["userID"];
+        $sus = query("select pwd from user where userID=" . $uuuid . ";");
+        $p = "";
+        while ($roww = $sus->fetch_assoc())
+          $p = $roww["pwd"];
+        $dec = openssl_decrypt($_COOKIE["saveses"], "AES-128-CTR", $p, 0, 'taoolabochungmay');
+        if ($dec == $row["secret"]) {
+          $_SESSION["userwtf"] = $row["userID"];
+          //setcookie("saveses","", time()-3600, "/");
+          header("Location: ./");
+        } else {
+          //echo '<script>alert("Your saved information on this browser seems broken, so we are redirecting you to login page. (Might be hacked/spoofed...?)");</script>';
+          setcookie("saveses", "", -1, "/");
+          query("delete from sessions where ip='".$ip."';");
+          header("Location: ./");
+        }
       }
+    } else
+      header("Location: /login/");
+  } else {
+    $user = getUser($_SESSION["userwtf"]);
+    $release = getRelease($_SESSION["userwtf"]);
+    if(!$user) {
+      unset($_SESSION["userwtf"]);
+      echo "<script>window.location.href='./login/';</script>";
     }
-  } else
-    echo "<script>window.location.href='./login/';</script>";
-} else {
-  $user = getUser($_SESSION["userwtf"]);
-  $release = getRelease($_SESSION["userwtf"]);
-  if(!$user) {
-    unset($_SESSION["userwtf"]);
-    echo "<script>window.location.href='./login/';</script>";
   }
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
