@@ -1,5 +1,6 @@
 <?php
   session_start();
+  require '../assets/variables/sql.php';
   if (isset($_COOKIE["saveses"])) {
     $ip = $_SERVER["REMOTE_ADDR"];
     $ress = query("select * from sessions where ip='" . $ip . "';");
@@ -11,11 +12,15 @@
       while ($roww = $sus->fetch_assoc()) {
         $p = $roww["pwd"];
       }
-      $dec = openssl_decrypt($_COOKIE["saveses"], "AES-128-CTR", $p, 0, $iv);
-      if ($dec == $row["secret"]) {
-        $_SESSION["userwtf"] = $row["userID"];
-        //setcookie("saveses","", time()-3600, "/");
-        header("Location: ../");
+      try{
+        $dec = openssl_decrypt($_COOKIE["saveses"], "AES-128-CTR", $p, 0, $iv);
+        if ($dec == $row["secret"]) {
+          $_SESSION["userwtf"] = $row["userID"];
+          //setcookie("saveses","", time()-3600, "/");
+          header("Location: ../");
+        }
+      } catch (Exception $e){
+        echo 'Caught exception: '.$e->getMessage();
       }
       setcookie("saveses", "", -1, "/");
       query("delete from sessions where ip='" . $ip . "';");
