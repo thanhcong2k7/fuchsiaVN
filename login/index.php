@@ -8,7 +8,7 @@
       $sus = query("select pwd from user where userID=" . $uuuid . ";");
       $p = "";
       $iv = $row["iv"];
-      while ($roww = $sus->fetch_assoc()){
+      while ($roww = $sus->fetch_assoc()) {
         $p = $roww["pwd"];
       }
       $dec = openssl_decrypt($_COOKIE["saveses"], "AES-128-CTR", $p, 0, $iv);
@@ -18,15 +18,17 @@
         header("Location: ../");
       }
       setcookie("saveses", "", -1, "/");
-      query("delete from sessions where ip='".$ip."';");
+      query("delete from sessions where ip='" . $ip . "';");
       header("Location: ../");
     }
+  }
   if (isset($_SESSION["saipass"]))
     echo "<script>alert('" . $_SESSION["saipass"] . "');</script>";
   unset($_SESSION["saipass"]);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
