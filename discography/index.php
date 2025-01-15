@@ -89,10 +89,10 @@ else {
           </a>
         </li>
         <li class="sidebar-header">TOOLBOX</li>
-          <li><a href="/manager/artist/"><i class="zmdi zmdi-accounts text-warning"></i> <span>Artists</span></a></li>
-          <li><a href="/manager/tracks/"><i class="zmdi zmdi-audio text-success"></i> <span>Tracks</span></a></li>
-          <li><a href="/ticket/"><i class="zmdi zmdi-tag text-info"></i> <span>Support</span></a></li>
-          <li><a href="/login/login.php?logout=yes"><i class="zmdi zmdi-run text-danger"></i> <span>Log out?</span></a>
+        <li><a href="/manager/artist/"><i class="zmdi zmdi-accounts text-warning"></i> <span>Artists</span></a></li>
+        <li><a href="/manager/tracks/"><i class="zmdi zmdi-audio text-success"></i> <span>Tracks</span></a></li>
+        <li><a href="/ticket/"><i class="zmdi zmdi-tag text-info"></i> <span>Support</span></a></li>
+        <li><a href="/login/login.php?logout=yes"><i class="zmdi zmdi-run text-danger"></i> <span>Log out?</span></a>
         </li>
       </ul>
 
@@ -175,50 +175,49 @@ else {
                   </a>
                 </div>
               </div>
-              <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table table-hover align-items-center table-flush table-borderless">
-                    <thead>
-                      <tr>
-                        <th>Art</th>
-                        <th>UPC</th>
-                        <th>Release Name</th>
-                        <th>Artist</th>
-                        <th>Status</th>
-                        <th>Release date</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?
-                      if ($release == null)
-                        echo 'Error occurred while fetching data from server. Please create a ticket about this and try again later...';
-                      else
-                        foreach ($release as &$r) {
-                          $mergedArtistnames = "";
-                          $f = getFile($r->id);
-                          $r2 = getRelease($_SESSION["userwtf"], 0, $r->id);
-                          $track = array();
-                          foreach ($r2->file as &$adu) {
-                            foreach ($f as &$f2) {
-                              if ($f2->id == $adu) {
-                                $t = getTrack($f2->id);
-                                $track[] = $t;
-                                $artist = getArtist($t->id);
-                                $n = 0;
-                                foreach ($artist as &$adu) {
-                                  if ($mergedArtistnames) {
-                                    $n++;
-                                  } else
-                                    $mergedArtistnames .= $adu->name;
-                                }
-                                $mergedArtistnames .= " & " . $n . " more";
+              <div class="table-responsive">
+                <table class="table table-hover align-items-center table-flush table-borderless">
+                  <thead>
+                    <tr>
+                      <th>Art</th>
+                      <th>UPC</th>
+                      <th>Release Name</th>
+                      <th>Artist</th>
+                      <th>Status</th>
+                      <th>Release date</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?
+                    if ($release == null)
+                      echo 'Error occurred while fetching data from server. Please create a ticket about this and try again later...';
+                    else
+                      foreach ($release as &$r) {
+                        $mergedArtistnames = "";
+                        $f = getFile($r->id);
+                        $r2 = getRelease($_SESSION["userwtf"], 0, $r->id);
+                        $track = array();
+                        foreach ($r2->file as &$adu) {
+                          foreach ($f as &$f2) {
+                            if ($f2->id == $adu) {
+                              $t = getTrack($f2->id);
+                              $track[] = $t;
+                              $artist = getArtist($t->id);
+                              $n = 0;
+                              foreach ($artist as &$adu) {
+                                if ($mergedArtistnames) {
+                                  $n++;
+                                } else
+                                  $mergedArtistnames .= $adu->name;
                               }
+                              $mergedArtistnames .= " & " . $n . " more";
                             }
                           }
-                          echo '
+                        }
+                        echo '
                           <tr>
-                            <td><img loading="eager" src="' . (!isset($r->art) || ($r->art=="")? '/assets/images/alb.png' : $r->art) . '" class="product-img" alt="product img"></td>
+                            <td><img loading="eager" src="' . (!isset($r->art) || ($r->art == "") ? '/assets/images/alb.png' : $r->art) . '" class="product-img" alt="product img"></td>
                             <td>' . ($r->upc ? $r->upc : "--") . '</td>
                             <td>' . ($r->name ? $r->name : "(untitled)") . '</td>
                             <td>' . ($mergedArtistnames ? $mergedArtistnames : "(none)") . '</td>
@@ -231,11 +230,10 @@ else {
                         <a class="text-error" href="edit.php?id=' . $r->id . '&delete=1">Delete</a>
                           </td>
                   </tr>';
-                        }
-                      ?>
-                    </tbody>
-                  </table>
-                </div>
+                      }
+                    ?>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
