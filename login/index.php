@@ -1,4 +1,26 @@
 <?php
+  session_start();
+  if (isset($_COOKIE["saveses"])) {
+    $ip = $_SERVER["REMOTE_ADDR"];
+    $ress = query("select * from sessions where ip='" . $ip . "';");
+    while ($row = $ress->fetch_assoc()) {
+      $uuuid = $row["userID"];
+      $sus = query("select pwd from user where userID=" . $uuuid . ";");
+      $p = "";
+      $iv = $row["iv"];
+      while ($roww = $sus->fetch_assoc()){
+        $p = $roww["pwd"];
+      }
+      $dec = openssl_decrypt($_COOKIE["saveses"], "AES-128-CTR", $p, 0, $iv);
+      if ($dec == $row["secret"]) {
+        $_SESSION["userwtf"] = $row["userID"];
+        //setcookie("saveses","", time()-3600, "/");
+        header("Location: ../");
+      }
+      setcookie("saveses", "", -1, "/");
+      query("delete from sessions where ip='".$ip."';");
+      header("Location: ../");
+    }
   if (isset($_SESSION["saipass"]))
     echo "<script>alert('" . $_SESSION["saipass"] . "');</script>";
   unset($_SESSION["saipass"]);
