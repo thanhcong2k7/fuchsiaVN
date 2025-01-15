@@ -351,7 +351,7 @@
                           echo '
                             <tr>
                               <td>'.($re->name ? $re->name : "(untitled)").'</td>
-                              <td><img src="'.(!isset($re->art) ? 'https://via.placeholder.com/50x50' : $re->art).'" class="product-img" alt="product img" loading="eager"></td>
+                              <td><img src="'.(!isset($re->art) ? '/assets/images/alb.png' : $re->art).'" class="product-img" alt="product img" loading="eager"></td>
                               <td>FMG'.$re->id.'</td>
                               <td>'.($re->status == 0 ? "DRAFT" : ($re->status == 1 ? "DELIVERED" : ($re->status == 2 ? "ERROR" : "CHECKING"))).'</td>
                               <td>'.($re->relDate ? $re->relDate : "--/--/----").'</td>
