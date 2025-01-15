@@ -141,7 +141,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
-                            <span class="user-profile"><img src="/assets/images/gallery/ava_sample.png"
+                            <span class="user-profile"><img src="<?php echo $user->avatar; ?>"
                                     class="img-circle" alt="user avatar"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right">

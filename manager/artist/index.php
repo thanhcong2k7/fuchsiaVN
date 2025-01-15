@@ -150,7 +150,7 @@ else {
                                 <a href="javaScript:void();">
                                     <div class="media">
                                         <div class="avatar"><img class="align-self-start mr-3"
-                                                src="/assets/images/gallery/ava_sample.png" alt="user avatar">
+                                                src="<?php echo $user->avatar; ?>" alt="user avatar">
                                         </div>
                                         <div class="media-body">
                                             <h6 class="mt-2 user-title"><?php echo $user->display; ?></h6>
