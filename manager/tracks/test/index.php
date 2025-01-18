@@ -35,7 +35,7 @@
         })
         .then(response => response.json())
         .then(data => {
-          if (data.status === "success") {
+          if (data.status == "success") {
             document.getElementById("message").innerText = "Tệp đã được tải lên thành công! URL: " + data.url;
           } else {
             document.getElementById("message").innerText = "Lỗi: " + data.message;
