@@ -272,12 +272,13 @@
                                                     video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'audio/mpeg' }));
                                                 }
                                                 document.getElementById("filee").addEventListener('change', transcode);
+                                                document.getElementById("filee").addEventListener('onchange', transcode);
                                                 const dropArea = document.getElementById("dnarea");
                                                 dropArea.addEventListener("dragover", function (e) { e.preventDefault(); });
                                                 dropArea.addEventListener("drop", function (e) {
                                                     e.preventDefault();
                                                     document.getElementById("filee").files = e.dataTransfer.files;
-                                                    document.getElementById("filee").onchange();
+                                                    //document.getElementById("filee").onchange();
                                                 }, true);
                                                 </script>
                                             </center>
