@@ -18,7 +18,7 @@
     ));
     $res = curl_exec($ch);
     curl_close($ch);
-    echo $res;
+    //echo $res;
     $result = json_decode($res, true);
     if ($result['status'] === 'success') {
         echo json_encode([
