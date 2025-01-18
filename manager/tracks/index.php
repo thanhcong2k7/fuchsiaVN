@@ -256,7 +256,6 @@
                                                     },
                                                 });
                                                 const transcode = async () => {
-                                                    console.log("event triggered!");
                                                     document.getElementById("texttt").innerHTML =
                                                         '<i class="zmdi zmdi-file-plus"></i> Processing file:'
                                                         + document.getElementById("filee").files[0].name;
@@ -274,8 +273,9 @@
                                                 document.getElementById("filee").addEventListener('change', transcode);
                                                 document.getElementById("filee").addEventListener('onchange', transcode);
                                                 const dropArea = document.getElementById("dnarea");
-                                                dropArea.addEventListener("ondragover", function (e) { e.preventDefault(); });
-                                                dropArea.addEventListener("ondrop", function (e) {
+                                                dropArea.addEventListener("dragover", function (e) { console.log("dragging");e.preventDefault(); });
+                                                dropArea.addEventListener("drop", function (e) {
+                                                    console.log(e.dataTransfer.files[0].name);
                                                     document.getElementById("filee").files = e.dataTransfer.files;
                                                     e.preventDefault();
                                                     //document.getElementById("filee").onchange();
