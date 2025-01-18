@@ -35,8 +35,8 @@
         })
         .then(response => response.json())
         .then(data => {
-          if (data.status == "success") {
-            document.getElementById("message").innerText = "Tệp đã được tải lên thành công! ID: " + data.url;
+          if (data.status === "success") {
+            document.getElementById("message").innerText = "Tệp đã được tải lên thành công! URL: " + data.url;
           } else {
             document.getElementById("message").innerText = "Lỗi: " + data.message;
           }
@@ -47,7 +47,56 @@
         });
     });
   </script>
-  
+  <?php
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
+        $file = $_FILES['file'];
+        
+        // Đọc file và chuyển sang base64
+        $fileData = base64_encode(file_get_contents($file['tmp_name']));
+        $fileName = $file['name'];
+        $fileType = $file['type'];
+    
+        // URL của Apps Script đã triển khai
+        $url = "YOUR_DEPLOYED_WEB_APP_URL"; // Thay bằng URL của Apps Script đã deploy
+    
+        // Chuẩn bị dữ liệu POST
+        $postData = [
+            'file' => $fileData,
+            'name' => $fileName,
+            'type' => $fileType
+        ];
+    
+        // Cấu hình cURL
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    
+        // Gửi request
+        $response = curl_exec($ch);
+        curl_close($ch);
+    
+        // Xử lý kết quả trả về từ Apps Script
+        $result = json_decode($response, true);
+        if ($result['status'] === 'success') {
+            echo json_encode([
+                'status' => 'success',
+                'url' => $result['url']
+            ]);
+        } else {
+            echo json_encode([
+                'status' => 'error',
+                'message' => $result['message']
+            ]);
+        }
+    } else {
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'No file uploaded.'
+        ]);
+    }
+  ?>
 </body>
 
 </html>
