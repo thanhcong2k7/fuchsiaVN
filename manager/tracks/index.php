@@ -142,7 +142,7 @@
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
                             <span class="user-profile"><img src="<?php echo $user->avatar; ?>"
-                                    class="img-circle" alt="user avatar"></span>
+                                    class="img-circle" alt="user avatar" crossorigin></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li class="dropdown-item user-details">
@@ -251,7 +251,8 @@
                                                 const ffmpeg = createFFmpeg({
                                                     log: true,
                                                     progress: ({ ratio }) => {
-                                                        message.innerHTML = `Complete: ${(ratio * 100.0).toFixed(2)}%`;
+                                                        message.innerHTML = `Transcoding: ${(ratio * 100.0).toFixed(2)}%`;
+                                                        document.getElementById("progbar").style = "width:"+(ratio * 100.0).toFixed(2).toString()+"%";
                                                     },
                                                 });
                                                 const transcode = async () => {
@@ -276,6 +277,7 @@
                                                 dropArea.addEventListener("drop", function (e) {
                                                     e.preventDefault();
                                                     document.getElementById("filee").files = e.dataTransfer.files;
+                                                    document.getElementById("files").onchange();
                                                 }, true);
                                                 </script>
                                             </center>
