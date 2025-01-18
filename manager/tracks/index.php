@@ -276,8 +276,8 @@
                                                 const dropArea = document.getElementById("dnarea");
                                                 dropArea.addEventListener("dragover", function (e) { e.preventDefault(); });
                                                 dropArea.addEventListener("drop", function (e) {
-                                                    e.preventDefault();
                                                     document.getElementById("filee").files = e.dataTransfer.files;
+                                                    e.preventDefault();
                                                     //document.getElementById("filee").onchange();
                                                 }, true);
                                                 </script>
