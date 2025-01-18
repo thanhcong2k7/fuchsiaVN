@@ -247,7 +247,6 @@
                                                 <audio id="output-video" controls></audio>
                                                 <script>
                                                 const message = document.getElementById('status');
-                                                document.getElementById("filee").addEventListener('change', transcode);
                                                 const { createFFmpeg, fetchFile } = FFmpeg;
                                                 const ffmpeg = createFFmpeg({
                                                     log: true,
@@ -280,6 +279,7 @@
                                                     e.preventDefault();
                                                     //document.getElementById("filee").onchange();
                                                 }, true);
+                                                document.getElementById("filee").addEventListener('change', transcode);
                                                 </script>
                                             </center>
                                         </div>
