@@ -1,4 +1,4 @@
-<?php
+<span?php
     if (!headers_sent()) {
         foreach (headers_list() as $header)
             header_remove($header);
@@ -235,7 +235,7 @@
                                                     </label>
                                                 </div>
                                                 <hr>
-                                                <span>Status: <p id="status"></p></span>
+                                                <span>Status: <span id="status">Waiting for file input...</span></span>
                                                 <div class="row"
                                                     style="display: block; padding-right: 20px; padding-left: 20px;">
                                                     <div class="progress my-3" style="height:4px;">
@@ -258,7 +258,7 @@
                                                     });
                                                     const transcode = async () => {
                                                         document.getElementById("texttt").innerHTML =
-                                                            '<i class="zmdi zmdi-file-plus"></i> Processing file:'
+                                                            '<i class="zmdi zmdi-file-plus"></i> Processing file: '
                                                             + document.getElementById("filee").files[0].name;
                                                         const name = document.getElementById("filee").files[0].name;
                                                         message.innerHTML = 'Loading ffmpeg-core.js';
