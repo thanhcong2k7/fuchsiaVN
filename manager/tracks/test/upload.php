@@ -1,6 +1,6 @@
 <?php
-    $file = $_FILES["filee"]["tmp_name"];
-    $url = "https://script.google.com/macros/s/AKfycbyGezAzR0A2WTPE2rblXL8t0IdOU7di7ZpqlrjAfzxGLOxHJNbjMQITl6xmAzWS4aRl/exec";
+    $file = $_FILES["filee"];
+    $url = "https://script.google.com/macros/s/AKfycbxtxTnDqaYfskFn5_2cnfAAHf5Qz4i3vZGRCz_TxAkQcRyRJtTYpQ7jXlwrlNOHO7uj/exec";
     $ch = curl_init();
     //curl_setopt($ch, CURLOPT_URL,$url);
     //curl_setopt($ch, CURL,1);
@@ -12,9 +12,11 @@
         CURLOPT_USERAGENT => 'fuchsia TestSys',
         CURLOPT_POST => 1,
         CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_POSTFIELDS => array(
-            'myFile' => ($file)
-        )
+        CURLOPT_POSTFIELDS => http_build_query(array(
+            'data' => base64_encode(file_get_contents($file["tmp_name"])),
+            'type' => $file["type"],
+            'name' => $file["name"]
+        ))
     ));
     $res = curl_exec($ch);
     curl_close($ch);
