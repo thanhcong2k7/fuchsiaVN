@@ -33,10 +33,10 @@
           method: 'POST',
           body: formData
         })
-        .then(response => response.json())
+        .then(response => {return JSON.parse(response);})
         .then(data => {
           if (data.status == "success") {
-            document.getElementById("message").innerText = "Tệp đã được tải lên thành công! URL: " + data.url;
+            document.getElementById("message").innerText = "Tệp đã được tải lên thành công! ID: " + data.url;
           } else {
             document.getElementById("message").innerText = "Lỗi: " + data.message;
           }
