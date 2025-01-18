@@ -19,4 +19,16 @@
     $res = curl_exec($ch);
     curl_close($ch);
     echo $res;
+    $result = json_decode($res, true);
+    if ($result['status'] === 'success') {
+        echo json_encode([
+            'status' => 'success',
+            'url' => $result['url']
+        ]);
+    } else {
+        echo json_encode([
+            'status' => 'error',
+            'message' => $result['message']
+        ]);
+    }
 ?>
