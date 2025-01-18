@@ -246,40 +246,42 @@
                                                 </script>
                                                 <audio id="output-video" controls></audio>
                                                 <script>
-                                                const message = document.getElementById('status');
-                                                const { createFFmpeg, fetchFile } = FFmpeg;
-                                                const ffmpeg = createFFmpeg({
-                                                    log: true,
-                                                    progress: ({ ratio }) => {
-                                                        message.innerHTML = `Transcoding: ${(ratio * 100.0).toFixed(2)}%`;
-                                                        document.getElementById("progbar").style = "width:"+(ratio * 100.0).toFixed(2).toString()+"%";
-                                                    },
+                                                document.addEventListener("DOMContentLoaded", function() {
+                                                    const message = document.getElementById('status');
+                                                    const { createFFmpeg, fetchFile } = FFmpeg;
+                                                    const ffmpeg = createFFmpeg({
+                                                        log: true,
+                                                        progress: ({ ratio }) => {
+                                                            message.innerHTML = `Transcoding: ${(ratio * 100.0).toFixed(2)}%`;
+                                                            document.getElementById("progbar").style = "width:"+(ratio * 100.0).toFixed(2).toString()+"%";
+                                                        },
+                                                    });
+                                                    const transcode = async () => {
+                                                        document.getElementById("texttt").innerHTML =
+                                                            '<i class="zmdi zmdi-file-plus"></i> Processing file:'
+                                                            + document.getElementById("filee").files[0].name;
+                                                        const name = document.getElementById("filee").files[0].name;
+                                                        message.innerHTML = 'Loading ffmpeg-core.js';
+                                                        await ffmpeg.load();
+                                                        message.innerHTML = 'Start transcoding';
+                                                        await ffmpeg.FS('writeFile', name, await fetchFile(document.getElementById("filee").files[0]));
+                                                        await ffmpeg.run('-i', name,  'output.mp3');
+                                                        message.innerHTML = 'Complete transcoding';
+                                                        const data = await ffmpeg.FS('readFile', 'output.mp3');
+                                                        const video = document.getElementById('output-video');
+                                                        video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'audio/mpeg' }));
+                                                    }
+                                                    //document.getElementById("filee").addEventListener('onchange', transcode);
+                                                    const dropArea = document.getElementById("dnarea");
+                                                    dropArea.addEventListener("dragover", function (e) { e.preventDefault(); });
+                                                    dropArea.addEventListener("drop", function (e) {
+                                                        console.log(e.dataTransfer.files[0].name);
+                                                        document.getElementById("filee").files = e.dataTransfer.files;
+                                                        e.preventDefault();
+                                                        //document.getElementById("filee").onchange();
+                                                    }, true);
+                                                    document.getElementById("filee").addEventListener('change', transcode);
                                                 });
-                                                const transcode = async () => {
-                                                    document.getElementById("texttt").innerHTML =
-                                                        '<i class="zmdi zmdi-file-plus"></i> Processing file:'
-                                                        + document.getElementById("filee").files[0].name;
-                                                    const name = document.getElementById("filee").files[0].name;
-                                                    message.innerHTML = 'Loading ffmpeg-core.js';
-                                                    await ffmpeg.load();
-                                                    message.innerHTML = 'Start transcoding';
-                                                    await ffmpeg.FS('writeFile', name, await fetchFile(document.getElementById("filee").files[0]));
-                                                    await ffmpeg.run('-i', name,  'output.mp3');
-                                                    message.innerHTML = 'Complete transcoding';
-                                                    const data = await ffmpeg.FS('readFile', 'output.mp3');
-                                                    const video = document.getElementById('output-video');
-                                                    video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'audio/mpeg' }));
-                                                }
-                                                //document.getElementById("filee").addEventListener('onchange', transcode);
-                                                const dropArea = document.getElementById("dnarea");
-                                                dropArea.addEventListener("dragover", function (e) { e.preventDefault(); });
-                                                dropArea.addEventListener("drop", function (e) {
-                                                    console.log(e.dataTransfer.files[0].name);
-                                                    document.getElementById("filee").files = e.dataTransfer.files;
-                                                    e.preventDefault();
-                                                    //document.getElementById("filee").onchange();
-                                                }, true);
-                                                document.getElementById("filee").addEventListener('change', transcode);
                                                 </script>
                                             </center>
                                         </div>
