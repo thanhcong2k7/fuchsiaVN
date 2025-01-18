@@ -271,14 +271,14 @@
                                                     video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'audio/mpeg' }));
                                                 }
                                                 document.getElementById("filee").addEventListener('change', transcode);
-                                                document.getElementById("filee").addEventListener('onchange', transcode);
+                                                //document.getElementById("filee").addEventListener('onchange', transcode);
                                                 const dropArea = document.getElementById("dnarea");
-                                                dropArea.addEventListener("dragover", function (e) { console.log("dragging");e.preventDefault(); });
+                                                dropArea.addEventListener("dragover", function (e) { e.preventDefault(); });
                                                 dropArea.addEventListener("drop", function (e) {
                                                     console.log(e.dataTransfer.files[0].name);
                                                     document.getElementById("filee").files = e.dataTransfer.files;
                                                     e.preventDefault();
-                                                    //document.getElementById("filee").onchange();
+                                                    document.getElementById("filee").onchange();
                                                 }, true);
                                                 </script>
                                             </center>
