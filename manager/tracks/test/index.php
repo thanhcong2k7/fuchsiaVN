@@ -33,7 +33,7 @@
           method: 'POST',
           body: formData
         })
-        .then(response => {return JSON.parse(response);})
+        .then(response => response.json())
         .then(data => {
           if (data.status == "success") {
             document.getElementById("message").innerText = "Tệp đã được tải lên thành công! ID: " + data.url;
