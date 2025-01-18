@@ -44,7 +44,7 @@
         $fileType = $file['type'];
     
         // URL của Apps Script đã triển khai
-        $url = "https://script.google.com/macros/s/AKfycbzmkzng-ANV5eCreV3VAtBrG9lEcSqhOho-T6FBP7LQnDaiGyoQdhZ5C5kteIMAYhuW/exec"; // Thay bằng URL của Apps Script đã deploy
+        $url = "https://script.google.com/macros/s/AKfycbxha71p66QEC3GBGjHqTWXTipr_d4o0la2Ec3MtqoNoeIILbDq2Q_c-sgUJHb2sepmt/exec";
     
         // Chuẩn bị dữ liệu POST
         $postData = [
@@ -63,8 +63,9 @@
         // Gửi request
         $response = curl_exec($ch);
         curl_close($ch);
-    
+        echo $result;
         // Xử lý kết quả trả về từ Apps Script
+        /*
         $result = json_decode($response, true);
         if ($result['status'] === 'success') {
             echo json_encode([
@@ -76,7 +77,7 @@
                 'status' => 'error',
                 'message' => $result['message']
             ]);
-        }
+        }*/
     } else {
         echo json_encode([
             'status' => 'error',
