@@ -276,9 +276,11 @@
                                                     dropArea.addEventListener("dragover", function (e) { e.preventDefault(); });
                                                     dropArea.addEventListener("drop", function (e) {
                                                         console.log(e.dataTransfer.files[0].name);
-                                                        document.getElementById("filee").files = e.dataTransfer.files;
+                                                        const fileInput = document.getElementById("filee");
+                                                        fileInput.files = e.dataTransfer.files;
+                                                        const event = new Event('change', { bubbles: true });
+                                                        fileInput.dispatchEvent(event);
                                                         e.preventDefault();
-                                                        //document.getElementById("filee").onchange();
                                                     }, true);
                                                     document.getElementById("filee").addEventListener('change', transcode);
                                                 });
