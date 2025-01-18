@@ -16,4 +16,7 @@
             'file_contents' => file_get_contents($file),
         )
     ));
+    $res = curl_exec($ch);
+    curl_close($ch);
+    echo $res;
 ?>
