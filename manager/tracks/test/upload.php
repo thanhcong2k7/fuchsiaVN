@@ -1,6 +1,6 @@
 <?php
     $file = $_FILES["filee"]["tmp_name"];
-    $url = "https://script.google.com/macros/s/AKfycbzfrc_kMGNK9LctFbE9-a1SFh0-84v-j8MhQ5wKFOQEFF3RgCpARlJxPIqsYy0IDgA/exec";
+    $url = "https://script.google.com/macros/s/AKfycbyM9fpB01VIqnjqOomL-wqyYYjvxPnxE876OX7-ZDnAfGCvQrCNM_msQJ_Pq4vr87Ol/exec";
     $ch = curl_init();
     //curl_setopt($ch, CURLOPT_URL,$url);
     //curl_setopt($ch, CURL,1);
@@ -13,7 +13,7 @@
         CURLOPT_POST => 1,
         CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_POSTFIELDS => array(
-            'file_contents' => base64_encode(file_get_contents($file)),
+            'file' => $file,
         )
     ));
     $res = curl_exec($ch);
