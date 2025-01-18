@@ -43,7 +43,7 @@
         $fileType = $file['type'];
     
         // URL của Apps Script đã triển khai
-        $url = "https://script.google.com/macros/s/AKfycbwRCDv3mP0uO6aQf3quKoyA4yzVSPRfeDJj1vO-WIARxs-j0cnZjjGwsq1nb6mzNtK_/exec"; // Thay bằng URL của Apps Script đã deploy
+        $url = "https://script.google.com/macros/s/AKfycbzmkzng-ANV5eCreV3VAtBrG9lEcSqhOho-T6FBP7LQnDaiGyoQdhZ5C5kteIMAYhuW/exec"; // Thay bằng URL của Apps Script đã deploy
     
         // Chuẩn bị dữ liệu POST
         $postData = [
