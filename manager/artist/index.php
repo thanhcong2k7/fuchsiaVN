@@ -60,11 +60,11 @@ else {
     <div id="wrapper">
 
         <!--Start sidebar-wrapper-->
-        <?php include "../../sidebar.php";?>
+        <?php include "../../components/sidebar.php";?>
         <!--End sidebar-wrapper-->
 
         <!--Start topbar header-->
-        <?php include "../../topbar.php";?>
+        <?php include "../../components/topbar.php";?>
         <!--End topbar header-->
 
         <div class="clearfix"></div>
