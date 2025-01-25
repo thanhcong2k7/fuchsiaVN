@@ -159,7 +159,7 @@ else {
                                                             message.innerHTML = 'Start transcoding';
                                                             await ffmpeg.FS('writeFile', name, await fetchFile(document.getElementById("filee").files[0]));
                                                             await ffmpeg.run('-i', name, 'output.mp3');
-                                                            message.innerHTML = 'Complete transcoding';
+                                                            message.innerHTML = 'Complete transcoding. <a onclick="adu()">Click to upload this track to server.</a>';
                                                             const data = await ffmpeg.FS('readFile', 'output.mp3');
                                                             const video = document.getElementById('output-video');
                                                             video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'audio/mpeg' }));
@@ -177,6 +177,9 @@ else {
                                                         }, true);
                                                         document.getElementById("filee").addEventListener('change', transcode);
                                                     });
+                                                    function adu(){
+                                                        //  
+                                                    }
                                                 </script>
                                             </center>
                                         </div>

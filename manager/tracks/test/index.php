@@ -45,6 +45,7 @@
         })
         .catch(error => {
           document.getElementById("message").innerText = "Lỗi kết nối!";
+          console.log(response);
           console.error(error);
         });
     });
