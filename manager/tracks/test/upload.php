@@ -1,87 +1,39 @@
+<?php
+    include '../../../assets/variables/var.php';
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $urll = $gas;
+        if (empty($_FILES['fileInput']['name'])) {
+            echo json_encode(['status' => 'error', 'message' => 'Vui lòng chọn một file!']);
+            exit;
+        }
+        $file = $_FILES['fileInput'];
+        $GAS_DEPLOY = $urll;
 
-<?php
-/*
-    $file = $_FILES["filee"];
-    $url = "https://script.google.com/macros/s/AKfycbw9VYsNCyvp8lw-E1nLnN70DvYf8urtIC2QKwWZxKb3pmPQ7z096uHNjDRQAjA5rWoG/exec";
-    $ch = curl_init();
-    //curl_setopt($ch, CURLOPT_URL,$url);
-    //curl_setopt($ch, CURL,1);
-    //$localFile = $_FILES["artworkup"]['tmp_name'];
-    //$fp = fopen($localFile, 'r');
-    curl_setopt_array($ch, array(
-        CURLOPT_RETURNTRANSFER => 1,
-        CURLOPT_URL => $url,
-        CURLOPT_POST => 1,
-        CURLOPT_POSTFIELDS => http_build_query(array(
-            'file' => base64_encode(file_get_contents($file["tmp_name"])),
-            'type' => $file["type"],
-            'name' => $file["name"]
-        ))
-    ));
-    $res = curl_exec($ch);
-    curl_close($ch);
-    //echo $res;
-    $result = json_decode($res, true);
-    if ($result['status'] === 'success') {
-        echo json_encode([
-            'status' => 'success',
-            'url' => $result['url']
-        ]);
-    } else {
-        echo json_encode([
-            'status' => 'error',
-            'message' => $result['message']
-        ]);
-    }*/
-?>
-<?php
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
-        $file = $_FILES['file'];
-        
-        // Đọc file và chuyển sang base64
-        $fileData = base64_encode(file_get_contents($file['tmp_name']));
-        $fileName = $file['name'];
-        $fileType = $file['type'];
-    
-        // URL của Apps Script đã triển khai
-        $url = "https://script.google.com/macros/s/AKfycbxp9SAD9h8Jbn-SUsZych1WNyMqvxlFzS2fWf5sD7auI9R2PF6vCTZ-z898h2n8Ii8c/exec";
-    
-        // Chuẩn bị dữ liệu POST
-        $postData = [
-            'file' => $fileData,
-            'name' => $fileName,
-            'type' => $fileType
-        ];
-    
-        // Cấu hình cURL
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    
-        // Gửi request
-        $response = curl_exec($ch);
-        curl_close($ch);
-        echo $result;
-        // Xử lý kết quả trả về từ Apps Script
-        /*
-        $result = json_decode($response, true);
-        if ($result['status'] === 'success') {
-            echo json_encode([
-                'status' => 'success',
-                'url' => $result['url']
-            ]);
-        } else {
-            echo json_encode([
-                'status' => 'error',
-                'message' => $result['message']
-            ]);
-        }*/
-    } else {
-        echo json_encode([
-            'status' => 'error',
-            'message' => 'No file uploaded.'
-        ]);
+        try {
+            $base64String = base64_encode(file_get_contents($file['tmp_name']));
+            $formData = [
+                'name' => $file['name'],
+                'type' => $file['type'],
+                'file' => $base64String
+            ];
+
+            $ch = curl_init($GAS_DEPLOY);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $formData);
+
+            $response = curl_exec($ch);
+            curl_close($ch);
+
+            $data = json_decode($response, true);
+            if ($data['status'] === 'success') {
+                $fileID = $data['url'];
+                echo json_encode(['status' => 'success', 'fileID' => $fileID]);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Lỗi: ' . $data['message']]);
+            }
+        } catch (Exception $error) {
+            echo json_encode(['status' => 'error', 'message' => 'Lỗi mã hóa tệp!']);
+        }
     }
-  ?>
+?>

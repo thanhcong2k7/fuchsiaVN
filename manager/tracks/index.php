@@ -177,8 +177,48 @@ else {
                                                         }, true);
                                                         document.getElementById("filee").addEventListener('change', transcode);
                                                     });
-                                                    function adu(){
-                                                        //  
+                                                    function adu() {
+                                                        var urll = "https://script.google.com/macros/s/AKfycbxN_iQU0-OYm8SOiH0RI_M7oWHIkMI_ZKoWJcRMH7ayyMzygOQXaNZ8GNu0P2ZEba2X/exec";
+                                                        var fileInput = document.getElementById("fileInput");
+                                                        if (fileInput.files.length === 0) {
+                                                            document.getElementById("message").innerText = "Vui lòng chọn một file!";
+                                                            return;
+                                                        }
+
+                                                        var file = fileInput.files[0];
+                                                        const GAS_DEPLOY = urll;
+
+                                                        try {
+                                                            const base64String = await encodeFileToBase64(file);
+
+                                                            var formData = new FormData();
+                                                            formData.append("name", file.name);
+                                                            formData.append("type", file.type);
+                                                            formData.append("file", base64String);
+
+                                                            fetch(GAS_DEPLOY, {
+                                                                method: 'POST',
+                                                                body: formData
+                                                            })
+                                                                .then(response => response.json())
+                                                                .then(data => {
+                                                                    if (data.status === "success") {
+                                                                        let fileID = getFileIdFromUrl(data.url);
+                                                                        document.getElementById("message").innerText = fileID;
+                                                                        console.log(fileID);
+                                                                    } else {
+                                                                        document.getElementById("message").innerText = "Lỗi: " + data.message;
+                                                                    }
+                                                                })
+                                                                .catch(error => {
+                                                                    document.getElementById("message").innerText = "Lỗi kết nối!";
+                                                                    console.error(error);
+                                                                });
+
+                                                        } catch (error) {
+                                                            document.getElementById("message").innerText = "Lỗi mã hóa tệp!";
+                                                            console.error(error);
+                                                        }
                                                     }
                                                 </script>
                                             </center>

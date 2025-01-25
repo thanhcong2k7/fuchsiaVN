@@ -20,10 +20,10 @@
       const match = url.match(/\/d\/(.*?)\//);
       return match ? match[1] : null;
     }
-    var urll = "https://script.google.com/macros/s/AKfycbxN_iQU0-OYm8SOiH0RI_M7oWHIkMI_ZKoWJcRMH7ayyMzygOQXaNZ8GNu0P2ZEba2X/exec";
+
     document.getElementById('uploadForm').addEventListener('submit', async function (event) {
       event.preventDefault();
-
+      var urll = "https://script.google.com/macros/s/AKfycbxN_iQU0-OYm8SOiH0RI_M7oWHIkMI_ZKoWJcRMH7ayyMzygOQXaNZ8GNu0P2ZEba2X/exec";
       var fileInput = document.getElementById("fileInput");
       if (fileInput.files.length === 0) {
         document.getElementById("message").innerText = "Vui lòng chọn một file!";

@@ -12,6 +12,5 @@
     
         // Create the image's SRC:  "data:{mime};base64,{data};"
         return 'data: ' . finfo_buffer($finfo, $image) . ';base64,' . $data;
-    
     }
 ?>
