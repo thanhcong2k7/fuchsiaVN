@@ -183,57 +183,7 @@ else {
                   </div>
                 </div>
                 <script>
-                  document.getElementById("ngonnnn").click();/*
-                  const inputFile = document.getElementById("imgcover");
-                  const canvas = document.getElementById("cvs");
-                  const context = canvas.getContext("2d");
-                  inputFile.addEventListener("change", uploadImage);
-                  function uploadImage() {
-                    var reader = new FileReader();
-                    //Read the contents of Image File.
-                    reader.readAsDataURL(inputFile.files[0]);
-                    reader.onload = function (e) {
-                      //Initiate the JavaScript Image object.
-                      var image = new Image();
-                      //Set the Base64 string return from FileReader as source.
-                      image.src = e.target.result;
-                      //Validate the File Height and Width.
-                      image.onload = function () {
-                        var height = this.height;
-                        var width = this.width;
-                        if (height < 500 || width < 800 || height / width != 1) {
-                          alert("Your cover image must be bigger that 800x500!");
-                          return false;
-                        } else{
-                          var ima = URL.createObjectURL(inputFile.files[0]);
-                          drawImage(ima, (width/2-400), (height/2-250), 500, 800, 0, 0, 800, 500);
-                        }
-                        return true;
-                      };
-                    };
-                  }const inputFile = document.getElementById("avt");
-                  inputFile.addEventListener("change", uploadImage);
-                  function uploadImage() {
-                    var reader = new FileReader();
-                    //Read the contents of Image File.
-                    reader.readAsDataURL(inputFile.files[0]);
-                    reader.onload = function (e) {
-                      //Initiate the JavaScript Image object.
-                      var image = new Image();
-                      //Set the Base64 string return from FileReader as source.
-                      image.src = e.target.result;
-                      //Validate the File Height and Width.
-                      image.onload = function () {
-                        var height = this.height;
-                        var width = this.width;
-                        if (height < 500 || width < 500 || height / width != 1) {
-                          alert("Your avatar must be bigger that 500x500!");
-                          return false;
-                        }
-                        return true;
-                      };
-                    };
-                  }*/
+                  document.getElementById("ngonnnn").click();
                 </script>
               </div>
             </div>
@@ -312,9 +262,6 @@ else {
   <!-- Chart js -->
 
   <script src="../assets/plugins/Chart.js/Chart.min.js"></script>
-
-  <!-- Index js -->
-  <script src="../assets/js/index.js"></script>
   <script type="text/javascript">
     n = new Date();
     document.getElementById("cccccyear").innerHTML = n.getFullYear();
