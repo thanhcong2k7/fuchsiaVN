@@ -16,8 +16,9 @@
   <div id="message"></div>
 
   <script>
-    document.getElementById('uploadForm').addEventListener('submit', function (event) {
-      event.preventDefault(); // Ngừng việc gửi form thông thường
+    var urll = "https://script.google.com/macros/s/AKfycbxp9SAD9h8Jbn-SUsZych1WNyMqvxlFzS2fWf5sD7auI9R2PF6vCTZ-z898h2n8Ii8c/exec";
+    document.getElementById('uploadForm').addEventListener('submit', async function (event) {
+      event.preventDefault();
 
       var fileInput = document.getElementById("fileInput");
       if (fileInput.files.length === 0) {
@@ -25,33 +26,48 @@
         return;
       }
 
-      var formData = new FormData();
-      formData.append("file", fileInput.files[0]);
+      var file = fileInput.files[0];
+      const GAS_DEPLOY = urll;
 
-      // Gửi file đến server PHP bằng Fetch API
-      fetch('upload.php', {
-        method: 'POST',
-        body: formData
-      })
-        .then(response => {
-          document.getElementById("message").innerText = response;
-          console.log(response);
-          return response.json();
+      try {
+        const base64String = await encodeFileToBase64(file);
+
+        var formData = new FormData();
+        formData.append("name", file.name);
+        formData.append("type", file.type);
+        formData.append("file", base64String);
+
+        fetch(GAS_DEPLOY, {
+          method: 'POST',
+          body: formData
         })
-        .then(data => {
-          /*
-        if (data.status === "success") {
-          document.getElementById("message").innerText = "Tệp đã được tải lên thành công! URL: " + data.url;
-        } else {
-          document.getElementById("message").innerText = "Lỗi: " + data.message;
-        }*/
-          document.getElementById("message").innerText = data.fileUrl;
-        })
-        .catch(error => {
-          document.getElementById("message").innerText = "Lỗi kết nối!";
-          console.error(error);
-        });
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === "success") {
+              let fileID = getFileIdFromUrl(data.url)
+            } else {
+              document.getElementById("message").innerText = "Lỗi: " + data.message;
+            }
+          })
+          .catch(error => {
+            document.getElementById("message").innerText = "Lỗi kết nối!";
+            console.error(error);
+          });
+
+      } catch (error) {
+        document.getElementById("message").innerText = "Lỗi mã hóa tệp!";
+        console.error(error);
+      }
     });
+
+    function encodeFileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = (error) => reject(error);
+        reader.readAsDataURL(file);
+      });
+    }
   </script>
 </body>
 
