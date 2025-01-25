@@ -1,7 +1,3 @@
-<?php
-  include '../assets/variables/script.php';
-  $data = srcData(fetchData($user->avatar));
-?>
 <header class="topbar-nav">
   <nav class="navbar navbar-expand fixed-top">
     <ul class="navbar-nav mr-auto align-items-center">
@@ -37,8 +33,8 @@
           <li class="dropdown-item user-details">
             <a href="javaScript:void();">
               <div class="media">
-                <div class="avatar"><img class="align-self-start mr-3" src="<?php echo $data; ?>"
-                    alt="user avatar"></div>
+                <div class="avatar"><img class="align-self-start mr-3" src="<?php echo $user->avatar; ?>"
+                    alt="user avatar" crossorigin></div>
                 <div class="media-body">
                   <h6 class="mt-2 user-title"><?php echo $user->display; ?></h6>
                   <p class="user-subtitle"><?php echo $user->email; ?></p>
