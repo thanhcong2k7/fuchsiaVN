@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
   session_start();
   require '../assets/variables/sql.php';
@@ -33,9 +34,7 @@
     echo "<script>alert('" . $_SESSION["saipass"] . "');</script>";
   unset($_SESSION["saipass"]);
 ?>
-<!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
