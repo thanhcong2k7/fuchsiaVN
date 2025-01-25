@@ -32,7 +32,7 @@
 
     <li>
       <a href="/settings/">
-        <i class="zmdi zmdi-assignment-account"></i> <span>Your account</span>
+        <i class="zmdi zmdi-assignment-account"></i> <span>Your Account</span>
       </a>
     </li>
 
