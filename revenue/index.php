@@ -314,7 +314,6 @@ else {
   <script src="../assets/plugins/Chart.js/Chart.min.js"></script>
 
   <!-- Index js -->
-  <script src="../assets/js/index.js"></script>
   <script type="text/javascript">
     n = new Date();
     document.getElementById("cccccyear").innerHTML = n.getFullYear();

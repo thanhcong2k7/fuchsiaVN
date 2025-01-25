@@ -1,40 +1,41 @@
 <!DOCTYPE html>
 <?php
-  session_start();
-  require '../assets/variables/sql.php';
-  if (isset($_COOKIE["saveses"])) {
-    echo '<script>console.log("saved session exists. now check");</script>';
-    $ip = $_SERVER["REMOTE_ADDR"];
-    $ress = query("select * from sessions where ip='" . $ip . "';");
-    while ($row = $ress->fetch_assoc()) {
-      $uuuid = $row["userID"];
-      $sus = query("select pwd from user where userID=" . $uuuid . ";");
-      $p = "";
-      $iv = $row["iv"];
-      while ($roww = $sus->fetch_assoc()) {
-        $p = $roww["pwd"];
-      }
-      try{
-        $dec = openssl_decrypt($_COOKIE["saveses"], "AES-128-CTR", $p, 0, $iv);
-        if ($dec == $row["secret"]) {
-          $_SESSION["userwtf"] = $row["userID"];
-          //setcookie("saveses","", time()-3600, "/");
-          header("Location: ../");
-        }
-      } catch (Exception $e){
-        echo 'Caught exception: '.$e->getMessage();
-      }
-      echo '<script>console.log("failed to initialize saved session");</script>';
-      setcookie("saveses", "", -1, "/");
-      query("delete from sessions where ip='" . $ip . "';");
-      //header("Location: ../");
+session_start();
+require '../assets/variables/sql.php';
+if (isset($_COOKIE["saveses"])) {
+  echo '<script>console.log("saved session exists. now check");</script>';
+  $ip = $_SERVER["REMOTE_ADDR"];
+  $ress = query("select * from sessions where ip='" . $ip . "';");
+  while ($row = $ress->fetch_assoc()) {
+    $uuuid = $row["userID"];
+    $sus = query("select pwd from user where userID=" . $uuuid . ";");
+    $p = "";
+    $iv = $row["iv"];
+    while ($roww = $sus->fetch_assoc()) {
+      $p = $roww["pwd"];
     }
+    try {
+      $dec = openssl_decrypt($_COOKIE["saveses"], "AES-128-CTR", $p, 0, $iv);
+      if ($dec == $row["secret"]) {
+        $_SESSION["userwtf"] = $row["userID"];
+        //setcookie("saveses","", time()-3600, "/");
+        header("Location: ../");
+      }
+    } catch (Exception $e) {
+      echo 'Caught exception: ' . $e->getMessage();
+    }
+    echo '<script>console.log("failed to initialize saved session");</script>';
+    setcookie("saveses", "", -1, "/");
+    query("delete from sessions where ip='" . $ip . "';");
+    //header("Location: ../");
   }
-  if (isset($_SESSION["saipass"]))
-    echo "<script>alert('" . $_SESSION["saipass"] . "');</script>";
-  unset($_SESSION["saipass"]);
+}
+if (isset($_SESSION["saipass"]))
+  echo "<script>alert('" . $_SESSION["saipass"] . "');</script>";
+unset($_SESSION["saipass"]);
 ?>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -42,20 +43,7 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
   <title>Login - fuchsia Media Group</title>
-  <!-- loader-->
-  <link href="../assets/css/pace.min.css" rel="stylesheet" />
-  <script src="../assets/js/pace.min.js"></script>
-  <!--favicon-->
-  <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
-  <!-- Bootstrap core CSS-->
-  <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- animate CSS-->
-  <link href="../assets/css/animate.css" rel="stylesheet" type="text/css" />
-  <!-- Icons CSS-->
-  <link href="../assets/css/icons.css" rel="stylesheet" type="text/css" />
-  <!-- Custom Style-->
-  <link href="../assets/css/app-style.css" rel="stylesheet" />
-
+  <?php include '../components/stuff.php';?>
 </head>
 
 <body class="bg-theme bg-theme1">
@@ -167,19 +155,8 @@
     </div>
     <!--end color switcher-->
 
-  </div><!--wrapper-->
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="../assets/js/jquery.min.js"></script>
-  <script src="../assets/js/popper.min.js"></script>
-  <script src="../assets/js/bootstrap.min.js"></script>
-
-  <!-- sidebar-menu js -->
-  <script src="../assets/js/sidebar-menu.js"></script>
-
-  <!-- Custom scripts -->
-  <script src="../assets/js/app-script.js"></script>
-
+  </div>
+  <!--wrapper-->
 </body>
 
 </html>

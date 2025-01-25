@@ -49,9 +49,9 @@ $(function () {
     $(document).ready(function () {
         $(window).on("scroll", function () {
             if ($(this).scrollTop() > 60) {
-                $('.topbar-nav .navbar').addClass('bg-dark');
+                $('#topbar .navbar').addClass('bg-dark');
             } else {
-                $('.topbar-nav .navbar').removeClass('bg-dark');
+                $('#topbar .navbar').removeClass('bg-dark');
             }
         });
     });
