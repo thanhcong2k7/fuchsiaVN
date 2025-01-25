@@ -33,7 +33,7 @@
           method: 'POST',
           body: formData
         })
-        .then(response => response.json())
+        .then(response => {console.log(response); return response.json();})
         .then(data => {
             /*
           if (data.status === "success") {
@@ -45,7 +45,6 @@
         })
         .catch(error => {
           document.getElementById("message").innerText = "Lỗi kết nối!";
-          console.log(response);
           console.error(error);
         });
     });
