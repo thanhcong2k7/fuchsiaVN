@@ -81,7 +81,7 @@ else {
                                 <div class="row">
                                     <form action="artist.php" id="newArtist" class="col" method="POST">
                                         <div class="row" style="justify-content: center;">
-                                            <div class="col col-md-auto">
+                                            <div class="col col-md">
                                                 <div class="form-group">
                                                     <label for="artist-id">Artist ID</label>
                                                     <input type="text" class="form-control" id="artist-id"
@@ -89,18 +89,12 @@ else {
                                                         placeholder="(Optional if you're creating new artist)">
                                                 </div>
                                             </div>
-                                            <div class="col">
+                                            <div class="col col-lg">
                                                 <div class="form-group">
                                                     <label for="alias">Artist Name</label>
                                                     <input type="text" class="form-control" id="alias" name="alias"
                                                         placeholder="Alias. Example: Unknown Brain, Elektronomia, Japandee, Thereon, ...">
                                                 </div>
-                                            </div>
-                                            <div class="col col-lg-2">
-                                                <label for="submit"></label>
-                                                <button type="submit" class="btn btn-light px-5" id="submit">
-                                                    <i class="zmdi zmdi-plus-square"></i> Submit
-                                                </button>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -126,6 +120,12 @@ else {
                                                         placeholder="Artist's email (optional)">
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="row">
+                                            <label for="submit"></label>
+                                            <button type="submit" class="btn btn-light px-5" id="submit">
+                                                <i class="zmdi zmdi-plus-square"></i> Submit
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
