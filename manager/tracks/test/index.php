@@ -16,7 +16,7 @@
   <div id="message"></div>
 
   <script>
-    document.getElementById('uploadForm').addEventListener('submit', function(event) {
+    document.getElementById('uploadForm').addEventListener('submit', function (event) {
       event.preventDefault(); // Ngừng việc gửi form thông thường
 
       var fileInput = document.getElementById("fileInput");
@@ -30,18 +30,22 @@
 
       // Gửi file đến server PHP bằng Fetch API
       fetch('upload.php', {
-          method: 'POST',
-          body: formData
+        method: 'POST',
+        body: formData
+      })
+        .then(response => {
+          document.getElementById("message").innerText = response;
+          console.log(response);
+          return response.json();
         })
-        .then(response => {console.log(response); return response.json();})
         .then(data => {
-            /*
-          if (data.status === "success") {
-            document.getElementById("message").innerText = "Tệp đã được tải lên thành công! URL: " + data.url;
-          } else {
-            document.getElementById("message").innerText = "Lỗi: " + data.message;
-          }*/
-            document.getElementById("message").innerText = data.fileUrl;
+          /*
+        if (data.status === "success") {
+          document.getElementById("message").innerText = "Tệp đã được tải lên thành công! URL: " + data.url;
+        } else {
+          document.getElementById("message").innerText = "Lỗi: " + data.message;
+        }*/
+          document.getElementById("message").innerText = data.fileUrl;
         })
         .catch(error => {
           document.getElementById("message").innerText = "Lỗi kết nối!";
