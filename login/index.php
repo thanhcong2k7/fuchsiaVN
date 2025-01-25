@@ -2,6 +2,7 @@
   session_start();
   require '../assets/variables/sql.php';
   if (isset($_COOKIE["saveses"])) {
+    echo '<script>console.log("saved session exists. now check");</script>';
     $ip = $_SERVER["REMOTE_ADDR"];
     $ress = query("select * from sessions where ip='" . $ip . "';");
     while ($row = $ress->fetch_assoc()) {
@@ -22,9 +23,10 @@
       } catch (Exception $e){
         echo 'Caught exception: '.$e->getMessage();
       }
+      echo '<script>console.log("failed to initialize saved session");</script>';
       setcookie("saveses", "", -1, "/");
       query("delete from sessions where ip='" . $ip . "';");
-      header("Location: ../");
+      //header("Location: ../");
     }
   }
   if (isset($_SESSION["saipass"]))

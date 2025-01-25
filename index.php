@@ -1,17 +1,17 @@
 <?php
-  session_start();
-  require 'assets/variables/sql.php';
-  if (!isset($_SESSION["userwtf"])) {
-    //unset($_SESSION["userwtf"]);
-    header("Location: /login/");
-  } else {
-    $user = getUser($_SESSION["userwtf"]);
-    $release = getRelease($_SESSION["userwtf"]);
-    if(!$user) {
-      unset($_SESSION["userwtf"]);
-      echo "<script>window.location.href='./login/';</script>";
-    }
+session_start();
+require 'assets/variables/sql.php';
+if (!isset($_SESSION["userwtf"])) {
+  //unset($_SESSION["userwtf"]);
+  header("Location: /login/");
+} else {
+  $user = getUser($_SESSION["userwtf"]);
+  $release = getRelease($_SESSION["userwtf"]);
+  if (!$user) {
+    unset($_SESSION["userwtf"]);
+    echo "<script>window.location.href='./login/';</script>";
   }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,113 +55,11 @@
   <div id="wrapper">
 
     <!--Start sidebar-wrapper-->
-    <div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
-      <div class="brand-logo">
-        <a href="/">
-          <img src="/assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
-          <h5 class="logo-text">fuchsia Partner</h5>
-        </a>
-      </div>
-      <ul class="sidebar-menu do-nicescrol">
-        <li class="sidebar-header">MAIN MENU</li>
-        <li>
-          <a href="/">
-            <i class="zmdi zmdi-view-dashboard"></i> <span>Homepage</span>
-          </a>
-        </li>
-
-        <li>
-          <a href="/discography/">
-            <i class="zmdi zmdi-album"></i> <span>Discography</span>
-          </a>
-        </li>
-
-        <li>
-          <a href="/analytics/">
-            <i class="zmdi zmdi-format-list-bulleted"></i> <span>Analytics</span>
-          </a>
-        </li>
-
-        <li>
-          <a href="/revenue/">
-            <i class="zmdi zmdi-balance-wallet"></i> <span>Revenue</span>
-          </a>
-        </li>
-
-        <li>
-          <a href="/settings/">
-            <i class="zmdi zmdi-assignment-account"></i> <span>Your account</span>
-          </a>
-        </li>
-
-        <li class="sidebar-header">TOOLBOX</li>
-          <li><a href="/manager/artist/"><i class="zmdi zmdi-accounts text-warning"></i> <span>Artists</span></a></li>
-          <li><a href="/manager/tracks/"><i class="zmdi zmdi-audio text-success"></i> <span>Tracks</span></a></li>
-          <li><a href="/ticket/"><i class="zmdi zmdi-tag text-info"></i> <span>Support</span></a></li>
-          <li><a href="/login/login.php?logout=yes"><i class="zmdi zmdi-run text-danger"></i> <span>Log out?</span></a>
-        </li>
-      </ul>
-
-    </div>
+    <?php include '../../components/sidebar.php'; ?>
     <!--End sidebar-wrapper-->
 
     <!--Start topbar header-->
-    <header class="topbar-nav">
-      <nav class="navbar navbar-expand fixed-top">
-        <ul class="navbar-nav mr-auto align-items-center">
-          <li class="nav-item">
-            <a class="nav-link toggle-menu" href="javascript:void();">
-              <i class="icon-menu menu-icon"></i>
-            </a>
-          </li>
-          <li class="nav-item">
-            <form class="search-bar">
-              <input type="text" class="form-control" placeholder="Find releases">
-              <a href="javascript:void();"><i class="icon-magnifier"></i></a>
-            </form>
-          </li>
-        </ul>
-
-        <ul class="navbar-nav align-items-center right-nav-link">
-          <li class="nav-item dropdown-lg">
-            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown"
-              href="javascript:void();">
-              <i class="fa fa-envelope-open-o"></i></a>
-          </li>
-          <li class="nav-item dropdown-lg">
-            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown"
-              href="javascript:void();">
-              <i class="fa fa-bell-o"></i></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
-              <span class="user-profile"><img src="<?php echo $user->avatar;?>" class="img-circle"
-                  alt="user avatar"></span>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-right">
-              <li class="dropdown-item user-details">
-                <a href="javaScript:void();">
-                  <div class="media">
-                    <div class="avatar"><img class="align-self-start mr-3" src="<?php echo $user->avatar;?>"
-                        alt="user avatar"></div>
-                    <div class="media-body">
-                      <h6 class="mt-2 user-title"><?php echo $user->display; ?></h6>
-                      <p class="user-subtitle"><?php echo $user->email; ?></p>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="dropdown-divider"></li>
-              <li class="dropdown-item"><i class="icon-wallet mr-2"></i> Account</li>
-              <li class="dropdown-divider"></li>
-              <li class="dropdown-item"><i class="icon-settings mr-2"></i> Setting</li>
-              <li class="dropdown-divider"></li>
-              <a class="dropdown-item" href="login/login.php?logout=yes"><i class="icon-power mr-2"></i> Logout</a>
-            </ul>
-          </li>
-        </ul>
-      </nav>
-    </header>
+    <?php include '../../components/topbar.php'; ?>
     <!--End topbar header-->
 
     <div class="clearfix"></div>
@@ -211,7 +109,7 @@
                   <h5 class="text-white mb-0">14,000 VND <span class="float-right"><i class="fa fa-usd"></i></span>
                   </h5>
                   <div class="progress my-3" style="height:3px;">
-                    <div class="progress-bar" style="width:<?php echo (round(14000/250000*100))?>%"></div>
+                    <div class="progress-bar" style="width:<?php echo (round(14000 / 250000 * 100)) ?>%"></div>
                   </div>
                   <p class="mb-0 text-white small-font">Your Balance <span class="float-right">+0% <i
                         class="zmdi zmdi-long-arrow-up"></i></span></p>
@@ -346,21 +244,21 @@
                     </thead>
                     <tbody>
                       <?php
-                        $r = getRelease($_SESSION["userwtf"], 10);
-                        foreach ($r as &$re){
-                          echo '
+                      $r = getRelease($_SESSION["userwtf"], 10);
+                      foreach ($r as &$re) {
+                        echo '
                             <tr>
-                              <td>'.($re->name ? $re->name : "(untitled)").'</td>
-                              <td><img src="'.(!isset($re->art) ? '/assets/images/alb.png' : $re->art).'" class="product-img" alt="product img" loading="eager"></td>
-                              <td>FMG'.$re->id.'</td>
-                              <td>'.($re->status == 0 ? "DRAFT" : ($re->status == 1 ? "DELIVERED" : ($re->status == 2 ? "ERROR" : "CHECKING"))).'</td>
-                              <td>'.($re->relDate ? $re->relDate : "--/--/----").'</td>
+                              <td>' . ($re->name ? $re->name : "(untitled)") . '</td>
+                              <td><img src="' . (!isset($re->art) ? '/assets/images/alb.png' : $re->art) . '" class="product-img" alt="product img" loading="eager"></td>
+                              <td>FMG' . $re->id . '</td>
+                              <td>' . ($re->status == 0 ? "DRAFT" : ($re->status == 1 ? "DELIVERED" : ($re->status == 2 ? "ERROR" : "CHECKING"))) . '</td>
+                              <td>' . ($re->relDate ? $re->relDate : "--/--/----") . '</td>
                               <td>
                                 <a href="discography/edit.php?id=' . $re->id . '">Edit</a> / 
 			                          <a class="text-error" href="discography/edit.php?id=' . $re->id . '&delete=1">Delete</a>
                               </td>
                             </tr>';
-                        }
+                      }
                       ?>
                     </tbody>
                   </table>
