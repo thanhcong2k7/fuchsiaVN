@@ -81,7 +81,7 @@ else {
                                 <div class="row">
                                     <form action="artist.php" id="newArtist" class="col" method="POST">
                                         <div class="row" style="justify-content: center;">
-                                            <div class="col" colspan="4">
+                                            <div class="col col-4">
                                                 <div class="form-group">
                                                     <label for="artist-id">Artist ID</label>
                                                     <input type="text" class="form-control" id="artist-id"
@@ -89,7 +89,7 @@ else {
                                                         placeholder="(Optional if you're creating new artist)">
                                                 </div>
                                             </div>
-                                            <div class="col" colspan="8">
+                                            <div class="col col-8">
                                                 <div class="form-group">
                                                     <label for="alias">Artist Name</label>
                                                     <input type="text" class="form-control" id="alias" name="alias"
