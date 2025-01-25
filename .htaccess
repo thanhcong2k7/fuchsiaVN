@@ -1,0 +1,26 @@
+# -- DEFAULT DOCUMENT
+DirectoryIndex index.html index.php
+
+# -- INIT
+RewriteEngine on
+
+# -- REDIRECT ANY INDEX PAGE TO ROOT
+RewriteCond %{Request_URI} /index\.
+RewriteRule .* / [R=301]
+
+# -- HACKING
+RewriteCond %{QUERY_STRING} base64_encode[^(]*\([^)]*\) [OR]
+RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+RewriteRule .* /index.php [F]
+
+# -- DIRECTORIES
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} ^(.+)/$
+RewriteRule ^(.+)/$  /$1 [R=301,L]
+
+# -- REDIRECT REQUEST FOLDER TO /INDEX
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-d
+RewriteRule .* /index.php [L]
