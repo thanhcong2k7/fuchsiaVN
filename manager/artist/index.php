@@ -81,7 +81,7 @@ else {
                                 <div class="row">
                                     <form action="artist.php" id="newArtist" class="col" method="POST">
                                         <div class="row" style="justify-content: center;">
-                                            <div class="col col-md">
+                                            <div class="col" colspan="4">
                                                 <div class="form-group">
                                                     <label for="artist-id">Artist ID</label>
                                                     <input type="text" class="form-control" id="artist-id"
@@ -89,7 +89,7 @@ else {
                                                         placeholder="(Optional if you're creating new artist)">
                                                 </div>
                                             </div>
-                                            <div class="col col-lg">
+                                            <div class="col" colspan="8">
                                                 <div class="form-group">
                                                     <label for="alias">Artist Name</label>
                                                     <input type="text" class="form-control" id="alias" name="alias"
@@ -110,7 +110,7 @@ else {
                                                 <div class="form-group">
                                                     <label for="amID">Apple Music ID</label>
                                                     <input type="text" class="form-control" id="amID" name="amID"
-                                                        placeholder="Apple Music ID ONLY. Example: 3NtqIIwOmoUGkrS4iD4lxY">
+                                                        placeholder="Apple Music ID ONLY. Example: 1726676105">
                                                 </div>
                                             </div>
                                             <div class="col-sm">
@@ -122,10 +122,12 @@ else {
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <label for="submit"></label>
-                                            <button type="submit" class="btn btn-light px-5" id="submit">
-                                                <i class="zmdi zmdi-plus-square"></i> Submit
-                                            </button>
+                                            <div class="col">
+                                                <label for="submit"></label>
+                                                <button type="submit" class="btn btn-light px-5" id="submit">
+                                                    <i class="zmdi zmdi-plus-square"></i> Submit
+                                                </button>
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
