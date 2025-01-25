@@ -33,7 +33,7 @@ $(function () {
     });
 
     // === sidebar menu activation js
-    $('body').attr('class', 'bg-theme bg-' + (getCookie('theme') ? getCookie('theme') : function(){
+    $('body').attr('class', 'bg-theme bg-' + (getCookie('theme') ? getCookie('theme') : function () {
         setCookie('theme', 'theme1', 60);
         return "theme1";
     }));
@@ -44,11 +44,8 @@ $(function () {
             if (!o.is("li")) break;
             o = o.parent().addClass("in").parent().addClass("active");
         }
-    }),
-
-
+    });
         /* Top Header */
-
         $(document).ready(function () {
             $(window).on("scroll", function () {
                 if ($(this).scrollTop() > 60) {
@@ -57,10 +54,7 @@ $(function () {
                     $('.topbar-nav .navbar').removeClass('bg-dark');
                 }
             });
-
         });
-
-
     /* Back To Top */
 
     $(document).ready(function () {
