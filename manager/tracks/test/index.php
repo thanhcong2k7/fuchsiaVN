@@ -48,7 +48,9 @@
           .then(response => response.json())
           .then(data => {
             if (data.status === "success") {
-              let fileID = getFileIdFromUrl(data.url)
+              let fileID = getFileIdFromUrl(data.url);
+              document.getElementById("message").innerText = fileID;
+              console.log(fileID);
             } else {
               document.getElementById("message").innerText = "Lỗi: " + data.message;
             }
