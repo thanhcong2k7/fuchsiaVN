@@ -1,18 +1,18 @@
 <?php
-    if (!headers_sent()) {
-        foreach (headers_list() as $header)
-            header_remove($header);
-    }
-    header("Cross-Origin-Embedder-Policy: require-corp");
-    header("Cross-Origin-Resource-Policy: cross-origin");
-    header("Cross-Origin-Opener-Policy: same-origin");
-    session_start();
-    if (!isset($_SESSION["userwtf"]))
-        header("Location: /login/");
-    else {
-        require '../../assets/variables/sql.php';
-        $user = getUser($_SESSION["userwtf"]);
-    }
+if (!headers_sent()) {
+    foreach (headers_list() as $header)
+        header_remove($header);
+}
+header("Cross-Origin-Embedder-Policy: require-corp");
+header("Cross-Origin-Resource-Policy: cross-origin");
+header("Cross-Origin-Opener-Policy: same-origin");
+session_start();
+if (!isset($_SESSION["userwtf"]))
+    header("Location: /login/");
+else {
+    require '../../assets/variables/sql.php';
+    $user = getUser($_SESSION["userwtf"]);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +25,31 @@
     <meta name="author" content="" />
     <title>Tracks Manager - fuchsia Media Group
     </title>
-    <?php include '../../components/stuff.php';?>
+    <!-- loader-->
+    <link href="/assets/css/pace.min.css" rel="stylesheet" />
+    <script src="/assets/js/pace.min.js"></script>
+    <!--favicon-->
+    <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
+    <!-- Bootstrap core CSS-->
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- animate CSS-->
+    <link href="/assets/css/animate.css" rel="stylesheet" type="text/css" />
+    <!-- Icons CSS-->
+    <link href="/assets/css/icons.css" rel="stylesheet" type="text/css" />
+    <!-- Custom Style-->
+    <link href="/assets/css/app-style.css" rel="stylesheet" />
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+
+    <!-- sidebar-menu js -->
+    <script src="/assets/js/sidebar-menu.js"></script>
+
+    <!-- Custom scripts -->
+    <script src="/assets/js/app-script.js"></script>
     <!-- FFMPEG.JS -->
     <script src="/assets/js/ffmpeg.min.js"></script>
 </head>
@@ -37,11 +61,11 @@
     <div id="wrapper">
 
         <!--Start sidebar-wrapper-->
-        <?php include '../../components/sidebar.php';?>
+        <?php include '../../components/sidebar.php'; ?>
         <!--End sidebar-wrapper-->
 
         <!--Start topbar header-->
-        <?php include '../../components/topbar.php';?>
+        <?php include '../../components/topbar.php'; ?>
         <!--End topbar header-->
 
         <div class="clearfix"></div>
@@ -96,7 +120,8 @@
                                         </style>
                                         <div class="dnd card card-body" style="justify-content: center;">
                                             <center>
-                                                <div id="dnarea" class="row" style="align: center; display: flex; justify-content: center;">
+                                                <div id="dnarea" class="row"
+                                                    style="align: center; display: flex; justify-content: center;">
                                                     <input type="file" id="filee" accept="audio/*" />
                                                     <label for="filee" id="ok">
                                                         <span id="texttt"><i class="zmdi zmdi-file-plus"></i> Drop
@@ -116,44 +141,44 @@
                                                 </script>
                                                 <audio id="output-video" controls></audio>
                                                 <script>
-                                                document.addEventListener("DOMContentLoaded", function() {
-                                                    const message = document.getElementById('status');
-                                                    const { createFFmpeg, fetchFile } = FFmpeg;
-                                                    const ffmpeg = createFFmpeg({
-                                                        log: true,
-                                                        progress: ({ ratio }) => {
-                                                            message.innerHTML = `Transcoding: ${(ratio * 100.0).toFixed(2)}%`;
-                                                            document.getElementById("progbar").style = "width:"+(ratio * 100.0).toFixed(2).toString()+"%";
-                                                        },
+                                                    document.addEventListener("DOMContentLoaded", function () {
+                                                        const message = document.getElementById('status');
+                                                        const { createFFmpeg, fetchFile } = FFmpeg;
+                                                        const ffmpeg = createFFmpeg({
+                                                            log: true,
+                                                            progress: ({ ratio }) => {
+                                                                message.innerHTML = `Transcoding: ${(ratio * 100.0).toFixed(2)}%`;
+                                                                document.getElementById("progbar").style = "width:" + (ratio * 100.0).toFixed(2).toString() + "%";
+                                                            },
+                                                        });
+                                                        const transcode = async () => {
+                                                            document.getElementById("texttt").innerHTML =
+                                                                '<i class="zmdi zmdi-file-plus"></i> Processing file: '
+                                                                + document.getElementById("filee").files[0].name;
+                                                            const name = document.getElementById("filee").files[0].name;
+                                                            message.innerHTML = 'Loading ffmpeg-core.js';
+                                                            await ffmpeg.load();
+                                                            message.innerHTML = 'Start transcoding';
+                                                            await ffmpeg.FS('writeFile', name, await fetchFile(document.getElementById("filee").files[0]));
+                                                            await ffmpeg.run('-i', name, 'output.mp3');
+                                                            message.innerHTML = 'Complete transcoding';
+                                                            const data = await ffmpeg.FS('readFile', 'output.mp3');
+                                                            const video = document.getElementById('output-video');
+                                                            video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'audio/mpeg' }));
+                                                        }
+                                                        //document.getElementById("filee").addEventListener('onchange', transcode);
+                                                        const dropArea = document.getElementById("dnarea");
+                                                        dropArea.addEventListener("dragover", function (e) { e.preventDefault(); });
+                                                        dropArea.addEventListener("drop", function (e) {
+                                                            console.log(e.dataTransfer.files[0].name);
+                                                            const fileInput = document.getElementById("filee");
+                                                            fileInput.files = e.dataTransfer.files;
+                                                            const event = new Event('change', { bubbles: true });
+                                                            fileInput.dispatchEvent(event);
+                                                            e.preventDefault();
+                                                        }, true);
+                                                        document.getElementById("filee").addEventListener('change', transcode);
                                                     });
-                                                    const transcode = async () => {
-                                                        document.getElementById("texttt").innerHTML =
-                                                            '<i class="zmdi zmdi-file-plus"></i> Processing file: '
-                                                            + document.getElementById("filee").files[0].name;
-                                                        const name = document.getElementById("filee").files[0].name;
-                                                        message.innerHTML = 'Loading ffmpeg-core.js';
-                                                        await ffmpeg.load();
-                                                        message.innerHTML = 'Start transcoding';
-                                                        await ffmpeg.FS('writeFile', name, await fetchFile(document.getElementById("filee").files[0]));
-                                                        await ffmpeg.run('-i', name,  'output.mp3');
-                                                        message.innerHTML = 'Complete transcoding';
-                                                        const data = await ffmpeg.FS('readFile', 'output.mp3');
-                                                        const video = document.getElementById('output-video');
-                                                        video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'audio/mpeg' }));
-                                                    }
-                                                    //document.getElementById("filee").addEventListener('onchange', transcode);
-                                                    const dropArea = document.getElementById("dnarea");
-                                                    dropArea.addEventListener("dragover", function (e) { e.preventDefault(); });
-                                                    dropArea.addEventListener("drop", function (e) {
-                                                        console.log(e.dataTransfer.files[0].name);
-                                                        const fileInput = document.getElementById("filee");
-                                                        fileInput.files = e.dataTransfer.files;
-                                                        const event = new Event('change', { bubbles: true });
-                                                        fileInput.dispatchEvent(event);
-                                                        e.preventDefault();
-                                                    }, true);
-                                                    document.getElementById("filee").addEventListener('change', transcode);
-                                                });
                                                 </script>
                                             </center>
                                         </div>
@@ -164,7 +189,8 @@
                                 <div class="card">
                                     <div class="card-header"><i class="zmdi zmdi-collection-music"></i> Your Tracks
                                     </div>
-                                    <div class="card-body"><div class="table-responsive">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
                                             <table class="table table-hover">
                                                 <thead>
                                                     <tr>
@@ -177,78 +203,79 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                        //
+                                                    //
                                                     ?>
                                                 </tbody>
                                             </table>
                                         </div>
-                                    </div></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--End Dashboard Content-->
-
-                <!--start overlay-->
-                <div class="overlay toggle-menu"></div>
-                <!--end overlay-->
-
             </div>
-            <!-- End container-fluid-->
+            <!--End Dashboard Content-->
 
-        </div><!--End content-wrapper-->
-        <!--Start Back To Top Button-->
-        <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
-        <!--End Back To Top Button-->
+            <!--start overlay-->
+            <div class="overlay toggle-menu"></div>
+            <!--end overlay-->
 
-        <!--Start footer-->
-        <footer class="footer">
-            <div class="container">
-                <div class="text-center">
-                    Copyright © <span id="cccccyear">year</span> fuchsia Media Group.
-                </div>
-            </div>
-        </footer>
-        <!--End footer-->
+        </div>
+        <!-- End container-fluid-->
 
-        <!--start color switcher-->
-        <div class="right-sidebar">
-            <div class="switcher-icon">
-                <i class="zmdi zmdi-settings zmdi-hc-spin"></i>
-            </div>
-            <div class="right-sidebar-content">
+    </div><!--End content-wrapper-->
+    <!--Start Back To Top Button-->
+    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+    <!--End Back To Top Button-->
 
-                <p class="mb-0">Gaussion Texture</p>
-                <hr>
-
-                <ul class="switcher">
-                    <li id="theme1"></li>
-                    <li id="theme2"></li>
-                    <li id="theme3"></li>
-                    <li id="theme4"></li>
-                    <li id="theme5"></li>
-                    <li id="theme6"></li>
-                </ul>
-
-                <p class="mb-0">Gradient Background</p>
-                <hr>
-
-                <ul class="switcher">
-                    <li id="theme7"></li>
-                    <li id="theme8"></li>
-                    <li id="theme9"></li>
-                    <li id="theme10"></li>
-                    <li id="theme11"></li>
-                    <li id="theme12"></li>
-                    <li id="theme13"></li>
-                    <li id="theme14"></li>
-                    <li id="theme15"></li>
-                </ul>
-
+    <!--Start footer-->
+    <footer class="footer">
+        <div class="container">
+            <div class="text-center">
+                Copyright © <span id="cccccyear">year</span> fuchsia Media Group.
             </div>
         </div>
-        <!--end color switcher-->
+    </footer>
+    <!--End footer-->
+
+    <!--start color switcher-->
+    <div class="right-sidebar">
+        <div class="switcher-icon">
+            <i class="zmdi zmdi-settings zmdi-hc-spin"></i>
+        </div>
+        <div class="right-sidebar-content">
+
+            <p class="mb-0">Gaussion Texture</p>
+            <hr>
+
+            <ul class="switcher">
+                <li id="theme1"></li>
+                <li id="theme2"></li>
+                <li id="theme3"></li>
+                <li id="theme4"></li>
+                <li id="theme5"></li>
+                <li id="theme6"></li>
+            </ul>
+
+            <p class="mb-0">Gradient Background</p>
+            <hr>
+
+            <ul class="switcher">
+                <li id="theme7"></li>
+                <li id="theme8"></li>
+                <li id="theme9"></li>
+                <li id="theme10"></li>
+                <li id="theme11"></li>
+                <li id="theme12"></li>
+                <li id="theme13"></li>
+                <li id="theme14"></li>
+                <li id="theme15"></li>
+            </ul>
+
+        </div>
+    </div>
+    <!--end color switcher-->
 
     </div><!--End wrapper-->
 

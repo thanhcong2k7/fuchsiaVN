@@ -28,7 +28,31 @@ else {
     <meta name="author" content="" />
     <title>Artists Manager - fuchsia Media Group
     </title>
-    <?php include '../../components/stuff.php';?>
+    <!-- loader-->
+    <link href="/assets/css/pace.min.css" rel="stylesheet" />
+    <script src="/assets/js/pace.min.js"></script>
+    <!--favicon-->
+    <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
+    <!-- Bootstrap core CSS-->
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- animate CSS-->
+    <link href="/assets/css/animate.css" rel="stylesheet" type="text/css" />
+    <!-- Icons CSS-->
+    <link href="/assets/css/icons.css" rel="stylesheet" type="text/css" />
+    <!-- Custom Style-->
+    <link href="/assets/css/app-style.css" rel="stylesheet" />
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+
+    <!-- sidebar-menu js -->
+    <script src="/assets/js/sidebar-menu.js"></script>
+
+    <!-- Custom scripts -->
+    <script src="/assets/js/app-script.js"></script>
 </head>
 
 <body class="bg-theme bg-theme1">
@@ -38,11 +62,11 @@ else {
     <div id="wrapper">
 
         <!--Start sidebar-wrapper-->
-        <?php include "../../components/sidebar.php";?>
+        <?php include "../../components/sidebar.php"; ?>
         <!--End sidebar-wrapper-->
 
         <!--Start topbar header-->
-        <?php include "../../components/topbar.php";?>
+        <?php include "../../components/topbar.php"; ?>
         <!--End topbar header-->
 
         <div class="clearfix"></div>
@@ -109,7 +133,8 @@ else {
                                 </div>
                                 <div class="w-100"></div>
                                 <div class="card">
-                                    <div class="card-header"><i class="zmdi zmdi-accounts-list-alt"></i> Your Artist</div>
+                                    <div class="card-header"><i class="zmdi zmdi-accounts-list-alt"></i> Your Artist
+                                    </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table class="table table-hover">
@@ -225,7 +250,7 @@ else {
     <!-- Chart js -->
 
     <script src="/assets/plugins/Chart.js/Chart.min.js"></script>
-    
+
     <script type="text/javascript">
         n = new Date();
         document.getElementById("cccccyear").innerHTML = n.getFullYear();
