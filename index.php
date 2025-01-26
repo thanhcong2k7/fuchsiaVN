@@ -222,7 +222,7 @@ if (!isset($_SESSION["userwtf"])) {
         <div class="row">
           <div class="col-12 col-lg-12">
             <div class="card">
-              <div class="card-header"><i class="zmdi zmdi-album"></i> Recent releases
+              <div class="card-header"><i class="zmdi zmdi-album"></i> Recent 5 releases
                 <div class="card-action">
                   <div class="dropdown">
                     <a href="discography/" class="text dropdown-toggle dropdown-toggle-nocaret">
@@ -244,7 +244,7 @@ if (!isset($_SESSION["userwtf"])) {
                     </thead>
                     <tbody>
                       <?php
-                      $r = getRelease($_SESSION["userwtf"], 10);
+                      $r = getRelease($_SESSION["userwtf"], 5);
                       foreach ($r as &$re) {
                         echo '
                             <tr>
