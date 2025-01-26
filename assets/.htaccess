@@ -1,0 +1,4 @@
+<Directory ~ "\assets">
+    Order allow,deny
+    Deny from all
+</Directory>

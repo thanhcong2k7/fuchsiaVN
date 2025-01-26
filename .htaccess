@@ -12,3 +12,8 @@ RewriteRule .* / [R=301]
 RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
 RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-d
 RewriteRule .* /index.php [L]
+
+<Directory ~ "\assets">
+    Order allow,deny
+    Deny from all
+</Directory>
