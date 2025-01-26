@@ -47,7 +47,7 @@
           <li class="dropdown-divider"></li>
           <li class="dropdown-item"><i class="icon-settings mr-2"></i> Setting</li>
           <li class="dropdown-divider"></li>
-          <a class="dropdown-item" href="login/login.php?logout=yes"><i class="icon-power mr-2"></i> Logout</a>
+          <a class="dropdown-item" href="/login/login.php?logout=yes"><i class="icon-power mr-2"></i> Logout</a>
         </ul>
       </li>
     </ul>
