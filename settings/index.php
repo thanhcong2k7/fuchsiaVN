@@ -67,7 +67,7 @@ else {
           <div class="col-lg-4">
             <div class="card profile-card-2">
               <div class="card-img-block">
-                <img class="img-fluid" src="/assets/images/cover.jpg" alt="Background" style="border-radius:8px;">
+                <img class="img-fluid" src="/assets/images/cover.jpg" alt="Background" style="border-radius:8px;" loading="eager">
               </div>
               <div class="card-body pt-5">
                 <img src="<?php echo $user->avatar; ?>" alt="profile-image" class="profile">
