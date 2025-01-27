@@ -249,7 +249,7 @@ if (!isset($_SESSION["userwtf"])) {
                         echo '
                             <tr>
                               <td>' . ($re->name ? $re->name : "(untitled)") . '</td>
-                              <td><img src="' . (!isset($re->art) ? '/assets/images/alb.png' : $re->art) . '" class="product-img" alt="product img" loading="eager"></td>
+                              <td><img src="' . (!isset($re->artp) ? '/assets/images/alb.png' : $re->artp) . '" class="product-img" alt="product img" loading="eager"></td>
                               <td>FMG' . $re->id . '</td>
                               <td>' . ($re->status == 0 ? "DRAFT" : ($re->status == 1 ? "DELIVERED" : ($re->status == 2 ? "ERROR" : "CHECKING"))) . '</td>
                               <td>' . ($re->relDate ? $re->relDate : "--/--/----") . '</td>

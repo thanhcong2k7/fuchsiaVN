@@ -228,4 +228,11 @@
 			return $row["name"];
 		}
 	}
+	function getTrackList($uID){
+		$tmp1 = query("select * from track where userID=".$uID.";");
+		$tmp2 = array();
+		while($row = $tmp1->fetch_assoc())
+			$tmp2[] = getTrack($row["id"]);
+		return $tmp2;
+	}
 ?>

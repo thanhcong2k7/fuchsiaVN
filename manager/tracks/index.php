@@ -12,11 +12,12 @@ if (!isset($_SESSION["userwtf"]))
 else {
     require '../../assets/variables/sql.php';
     $user = getUser($_SESSION["userwtf"]);
+    $t = getTrackList($_SESSION["userwtf"]);
+    $allArtists = getArtist($_SESSION["userwtf"]);
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -244,7 +245,20 @@ else {
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                    //
+                                                        foreach ($t as &$tr) {
+                                                            $albName = getRelease($_SESSION["userwtf"],0,$tr)->name;
+                                                            echo '
+                            <tr>
+                                        <td>' . ($tr->id < 10 ? "0" . $tr->id : $tr->id) . '</td>
+                                        <td>' . ($tr->name ? $tr->name : "(draft)") . '</td>
+                                        <td>'.($albName?$albName:"[NULL]").'</td>
+                                        <td>'.($tr->artistname?$tr->artistname:"[NULL]").'</td>
+                                        <td>
+                                            <a onclick="">Edit</a> / 
+                                            <a class="text-error">Delete</a>
+                                        </td>
+                    </tr>';
+                                                        }
                                                     ?>
                                                 </tbody>
                                             </table>

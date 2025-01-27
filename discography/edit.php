@@ -12,8 +12,9 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
     query("insert into album (userID) values (" . $_SESSION["userwtf"] . ");");
     $newid = creNew($_SESSION["userwtf"]);
     echo "<script>window.location.href='edit.php?id=" . $newid . "';</script>";
-}
-if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"])) {
+} else if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"])) {
+    foreach($release->file as &$trackDel)
+        update("albumID","","track","id=".$trackDel);
     query("delete from album where albumID=" . $_GET["id"] . ";");
     echo "<script>window.location.href='.';</script>";
 }
