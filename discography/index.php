@@ -117,7 +117,7 @@ else {
                           }
                           echo '
                           <tr>
-                            <td><img loading="eager" src="' . (!isset($r->artp) || ($r->artp == "") ? '/assets/images/alb.png' : $r->artp) . '" class="product-img" alt="product img"></td>
+                            <td><img loading="eager" style="border-radius:5px" src="' . (!isset($r->artp) || ($r->artp == "") ? '/assets/images/alb.png' : $r->artp) . '" class="product-img" alt="product img"></td>
                             <td>' . ($r->upc ? $r->upc : "--") . '</td>
                             <td>' . ($r->name ? $r->name : "(untitled)") . '</td>
                             <td>' . ($mergedArtistnames ? $mergedArtistnames : "(none)") . '</td>
