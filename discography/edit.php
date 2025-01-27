@@ -15,7 +15,7 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
 }
 if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"])) {
     query("delete from album where albumID=" . $_GET["id"] . ";");
-    echo "<script>window.location.href='./index.php';</script>";
+    echo "<script>window.location.href='.';</script>";
 }
 ?>
 <!DOCTYPE html>
