@@ -119,7 +119,7 @@ else {
                                             }
                                         </style>
                                         <div class="dnd card card-body" style="justify-content: center;">
-                                            <center>
+                                            <div style="margin:auto;">
                                                 <div id="dnarea" class="row"
                                                     style="align: center; display: flex; justify-content: center;">
                                                     <input type="file" id="filee" accept="audio/*" />
@@ -223,7 +223,7 @@ else {
                                                         }
                                                     }
                                                 </script>
-                                            </center>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
