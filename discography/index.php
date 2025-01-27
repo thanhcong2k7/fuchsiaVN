@@ -117,7 +117,7 @@ else {
                           }
                           echo '
                           <tr>
-                            <td><img loading="eager" src="' . (!isset($r->art) || ($r->art == "") ? '/assets/images/alb.png' : $r->art) . '" class="product-img" alt="product img"></td>
+                            <td><img loading="eager" src="' . (!isset($r->artp) || ($r->artp == "") ? '/assets/images/alb.png' : $r->artp) . '" class="product-img" alt="product img"></td>
                             <td>' . ($r->upc ? $r->upc : "--") . '</td>
                             <td>' . ($r->name ? $r->name : "(untitled)") . '</td>
                             <td>' . ($mergedArtistnames ? $mergedArtistnames : "(none)") . '</td>
@@ -213,7 +213,6 @@ else {
 
   <script src="/assets/plugins/Chart.js/Chart.min.js"></script>
 
-  <!-- Index js -->
   <script type="text/javascript">
     n = new Date();
     document.getElementById("cccccyear").innerHTML = n.getFullYear();

@@ -53,6 +53,7 @@
 		public $trl;
 		public $sx;
 		public $bp;
+		public $artp;
 	}
 	function getRelease($uid, $num = 0, $id = 0){
 		//find all release based on user id
@@ -79,6 +80,7 @@
 			$tmp2->sx = $row["soundx"];
 			$tmp2->sc = $row["scloud"];
 			$tmp2->bp = $row["beatport"];
+			$tmp2->artp = $row["artPrev"];
 			if($id!=0 && $row["albumID"] == $id){
 				return $tmp2;
 			} else $releases[] = $tmp2;
