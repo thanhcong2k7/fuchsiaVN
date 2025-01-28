@@ -62,185 +62,18 @@ else {
 
     <div class="content-wrapper">
       <div class="container-fluid">
-
-        <div class="row mt-3">
-          <div class="col-lg-4">
-            <div class="card profile-card-2">
-              <div class="card-img-block">
-                <img class="img-fluid" src="https://via.placeholder.com/800x500" alt="Background">
-              </div>
-              <div class="card-body pt-5">
-                <img src="<?php echo $user->avatar; ?>" alt="profile-image" class="profile">
-                <h5 class="card-title"><?php echo $user->name; ?>
-                  <p class="card-text">Display: <?php echo $user->display; ?></p>
-                </h5>
-                <div class="icon-block">
-                  <a href="javascript:void();"><i class="fa fa-facebook bg-facebook text-white"></i></a>
-                  <a href="javascript:void();"> <i class="fa fa-twitter bg-twitter text-white"></i></a>
-                  <a href="javascript:void();"> <i class="fa fa-google-plus bg-google-plus text-white"></i></a>
-                </div>
-              </div>
-              <div class="card-body border-top border-light">
-                <div class="media align-items-center">
-                  <div>
-                    <img src="../assets/images/timeline/paypal.png" class="skill-img" alt="skill img">
-                  </div>
-                  <div class="media-body text-left ml-3">
-                    <div class="progress-wrapper">
-                      <p>HTML5 <span class="float-right">65%</span></p>
-                      <div class="progress" style="height: 5px;">
-                        <div class="progress-bar" style="width:65%"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-8">
+        <div class="row">
+          <div class="col">
             <div class="card">
               <div class="card-header">
-                <i class="zmdi zmdi-account-box-mail"></i> Edit your profile information
+                =)))))) j
               </div>
               <div class="card-body">
-                <style>
-                  .alert {
-                    padding: 15px;
-                    border-color: #6DD134;
-                    border-radius: 5px;
-                    border-width: 2px;
-                    color: white;
-                  }
-                </style>
-                <div class="alert row callout" role="alert" style="overflow: hidden;white-space: initial;">
-                  <span>
-                    <i class="zmdi zmdi-info-outline text-warning">
-                    </i> <strong>Note:</strong> Updating payment info will be added soon!
-                  </span>
-                </div>
-                <ul class="nav nav-tabs nav-tabs-primary top-icon nav-justified" hidden>
-                  <li class="nav-item">
-                    <a href="javascript:void();" data-target="#edit" data-toggle="pill" class="nav-link" id="ngonnnn"><i
-                        class="icon-note"></i> <span class="hidden-xs">Edit</span></a>
-                  </li>
-                </ul>
-                <div class="tab-content p-3">
-                  <div class="tab-pane" id="edit">
-                    <form action="profile.php" method="POST" enctype='multipart/form-data'>
-                      <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label">Full name</label>
-                        <div class="col-lg-9">
-                          <input class="form-control" type="text" name="fullname" value="<?php echo $user->name; ?>">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label">Display name</label>
-                        <div class="col-lg-9">
-                          <input class="form-control" type="text" name="displayname"
-                            value="<?php echo $user->display; ?>">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label">Email</label>
-                        <div class="col-lg-9">
-                          <input class="form-control" type="email" value="<?php echo $user->email; ?>">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label">Change avatar</label>
-                        <div class="col-lg-9">
-                          <input class="form-control" type="file" name="avt" id="avt">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label">Change Cover</label>
-                        <div class="col-lg-9">
-                          <input class="form-control" type="file" name="coverimg" id="imgcover">
-                        </div>
-                      </div>
-                      <canvas id="cvs" hidden></canvas>
-                      <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label">New Password</label>
-                        <div class="col-lg-9">
-                          <input class="form-control" name="pwd" id="pwd" minlength="8" type="password" value="">
-                        </div>
-                      </div>
-                      <hr class="mt-1 mb-1" />
-                      <br>
-                      <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label">Paypal email</label>
-                        <div class="col-lg-9">
-                          <input class="form-control" type="email" value="" placeholder="Optional, can be added later.">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label"></label>
-                        <div class="col-lg-9">
-                          <input type="submit" class="btn btn-primary" id="sub" value="Save Changes">
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-                <script>
-                  document.getElementById("ngonnnn").click();/*
-                  const inputFile = document.getElementById("imgcover");
-                  const canvas = document.getElementById("cvs");
-                  const context = canvas.getContext("2d");
-                  inputFile.addEventListener("change", uploadImage);
-                  function uploadImage() {
-                    var reader = new FileReader();
-                    //Read the contents of Image File.
-                    reader.readAsDataURL(inputFile.files[0]);
-                    reader.onload = function (e) {
-                      //Initiate the JavaScript Image object.
-                      var image = new Image();
-                      //Set the Base64 string return from FileReader as source.
-                      image.src = e.target.result;
-                      //Validate the File Height and Width.
-                      image.onload = function () {
-                        var height = this.height;
-                        var width = this.width;
-                        if (height < 500 || width < 800 || height / width != 1) {
-                          alert("Your cover image must be bigger that 800x500!");
-                          return false;
-                        } else{
-                          var ima = URL.createObjectURL(inputFile.files[0]);
-                          drawImage(ima, (width/2-400), (height/2-250), 500, 800, 0, 0, 800, 500);
-                        }
-                        return true;
-                      };
-                    };
-                  }const inputFile = document.getElementById("avt");
-                  inputFile.addEventListener("change", uploadImage);
-                  function uploadImage() {
-                    var reader = new FileReader();
-                    //Read the contents of Image File.
-                    reader.readAsDataURL(inputFile.files[0]);
-                    reader.onload = function (e) {
-                      //Initiate the JavaScript Image object.
-                      var image = new Image();
-                      //Set the Base64 string return from FileReader as source.
-                      image.src = e.target.result;
-                      //Validate the File Height and Width.
-                      image.onload = function () {
-                        var height = this.height;
-                        var width = this.width;
-                        if (height < 500 || width < 500 || height / width != 1) {
-                          alert("Your avatar must be bigger that 500x500!");
-                          return false;
-                        }
-                        return true;
-                      };
-                    };
-                  }*/
-                </script>
+                ok
               </div>
             </div>
           </div>
-
         </div>
-
         <!--start overlay-->
         <div class="overlay toggle-menu"></div>
         <!--end overlay-->
