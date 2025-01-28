@@ -20,6 +20,7 @@
 		setcookie("saveses",openssl_encrypt($key,"AES-128-CTR",$pwd,0,$iv), time()+(86400*30), "/");
 		$conn->query("delete from sessions where ip='".$_SERVER["REMOTE_ADDR"]."';");
 		$conn->query("insert into sessions (secret,userID,ip,timeAdded,iv) values ('".$key."',".getID($_SESSION["resetemail"]).",'".$_SERVER['REMOTE_ADDR']."','".date("H:m d/m/Y")."','".$iv."');");
+		header("Location: ../");
 	} else if (isset($_GET["logout"]) && isset($_SESSION["userwtf"])){
 		unset($_SESSION["userwtf"]);
 		setcookie("saveses","", time()-3600, "/");
