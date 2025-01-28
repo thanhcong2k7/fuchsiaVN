@@ -1,6 +1,6 @@
 <?php
 	include 'obf.php';
- //echo "FUCK YOU! YOU DON'T HAVE ANY PERMISSIONS TO RUN THIS SHIT!";
+ 	//echo "FUCK YOU! YOU DON'T HAVE ANY PERMISSIONS TO RUN THIS SHIT!";
 	function query($cmd){
 		return $GLOBALS["conn"]->query($cmd);
 	}
@@ -10,6 +10,10 @@
 	function update($key, $val, $table, $condition){
 		query("update ".$table." set ".$key."='".$val."' where ".$condition.";");
 		return "update ".$table." set ".$key."='".$val."' where ".$condition.";";
+	}
+	function getID($email){
+		while($tmp1 = query("select userID from user where email=".$email.";")->fetch_assoc())
+			return $tmp1["userID"];
 	}
 	class store{
 		public $id;

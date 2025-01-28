@@ -65,11 +65,18 @@ else {
         <div class="row">
           <div class="col">
             <div class="card">
-              <div class="card-header">
-                =)))))) j
-              </div>
               <div class="card-body">
-                ok
+                <div class="col">
+                  <div class="card">
+                    <div class="card-header">
+                      Account Balance
+                    </div>
+                    <div class="card-body">
+                      j
+                    </div>
+                  </div>
+                </div>
+                <div class="col"></div>
               </div>
             </div>
           </div>
