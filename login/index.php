@@ -116,7 +116,7 @@ unset($_SESSION["saipass"]);
                 </div>
               </div>
               <div class="form-group col-6 text-right">
-                <a href="mailto:help.fuchsiagroup@gmail.com">Reset Password</a>
+                <a href="">Reset Password</a>
               </div>
             </div>
             <button type="submit" class="btn btn-light btn-block">Sign In</button>
