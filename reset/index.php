@@ -3,8 +3,9 @@ session_start();
 if (isset($_GET["code"])) {
     require "../assets/variables/sql.php";
     $e="";
-    while ($row = query("select email from resetpwd where code=" . $_GET["code"] . ";")->fetch_assoc())
+    while ($row = query("select email from resetpwd where code=" . $_GET["code"] . ";")->fetch_assoc()){
         $e = $row["email"];
+    }
     if (isset($e) && $e) {
         $_SESSION["resetpwd"] = $_GET["code"];
         $_SESSION["resetemail"] = $e;
