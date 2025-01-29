@@ -76,7 +76,7 @@ else {
                 <div class="row">
                     <div class="col">
                         <div class="card">
-                            <div class="card-header"><i class="zmdi zmdi-accounts-list"></i> Artist Management</div>
+                            <div class="card-header"><i class="zmdi zmdi-accounts-list"></i> Artist Editor</div>
                             <div class="card-body">
                                 <div class="row">
                                     <form action="artist.php" id="newArtist" class="col" method="POST">
@@ -135,7 +135,7 @@ else {
                             </div>
                         </div>
                         <div class="card">
-                            <div class="card-header"><i class="zmdi zmdi-accounts-list-alt"></i> Your Artist
+                            <div class="card-header"><i class="zmdi zmdi-accounts-list-alt"></i> Artist Manager
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
