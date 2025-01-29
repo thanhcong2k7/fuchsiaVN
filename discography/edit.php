@@ -13,8 +13,8 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
     $newid = creNew($_SESSION["userwtf"]);
     echo "<script>window.location.href='edit.php?id=" . $newid . "';</script>";
 } else if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"])) {
-    foreach($release->file as &$trackDel)
-        update("albumID","","track","id=".$trackDel);
+    foreach ($release->file as &$trackDel)
+        update("albumID", "", "track", "id=" . $trackDel);
     query("delete from album where albumID=" . $_GET["id"] . ";");
     echo "<script>window.location.href='.';</script>";
 }
@@ -31,6 +31,8 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
     <title>Release Editor -
         "<?php echo ($release->name ? $release->name : "(untitled)"); ?>"
     </title><!-- loader-->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <link href="../assets/css/pace.min.css" rel="stylesheet" />
     <script src="../assets/js/pace.min.js"></script>
     <!--favicon-->
@@ -186,7 +188,8 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                 <div class="card-action">
                                                     <div class="dropdown">
                                                         <!-- Button trigger modal -->
-                                                        <a href="" class="text dropdown-toggle dropdown-toggle-nocaret" data-toggle="modal" data-target="#exampleModalLong">
+                                                        <a href="" class="text dropdown-toggle dropdown-toggle-nocaret"
+                                                            data-toggle="modal" data-target="#exampleModalLong">
                                                             <i class="zmdi zmdi-collection-plus"></i> Add more
                                                         </a>
                                                     </div>
@@ -194,45 +197,67 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                 <style>
                                                     /* HTML: <div class="loader"></div> */
                                                     .loader {
-                                                    width: 45px;
-                                                    aspect-ratio: 1;
-                                                    --c: no-repeat linear-gradient(#255 255 255);
-                                                    background: 
-                                                        var(--c) 0%   50%,
-                                                        var(--c) 50%  50%,
-                                                        var(--c) 100% 50%;
-                                                    background-size: 20% 100%;
-                                                    animation: l1 1s infinite linear;
+                                                        width: 45px;
+                                                        aspect-ratio: 1;
+                                                        --c: no-repeat linear-gradient(#255 255 255);
+                                                        background:
+                                                            var(--c) 0% 50%,
+                                                            var(--c) 50% 50%,
+                                                            var(--c) 100% 50%;
+                                                        background-size: 20% 100%;
+                                                        animation: l1 1s infinite linear;
                                                     }
+
                                                     @keyframes l1 {
-                                                    0%  {background-size: 20% 100%,20% 100%,20% 100%}
-                                                    33% {background-size: 20% 10% ,20% 100%,20% 100%}
-                                                    50% {background-size: 20% 100%,20% 10% ,20% 100%}
-                                                    66% {background-size: 20% 100%,20% 100%,20% 10% }
-                                                    100%{background-size: 20% 100%,20% 100%,20% 100%}
+                                                        0% {
+                                                            background-size: 20% 100%, 20% 100%, 20% 100%
+                                                        }
+
+                                                        33% {
+                                                            background-size: 20% 10%, 20% 100%, 20% 100%
+                                                        }
+
+                                                        50% {
+                                                            background-size: 20% 100%, 20% 10%, 20% 100%
+                                                        }
+
+                                                        66% {
+                                                            background-size: 20% 100%, 20% 100%, 20% 10%
+                                                        }
+
+                                                        100% {
+                                                            background-size: 20% 100%, 20% 100%, 20% 100%
+                                                        }
                                                     }
                                                 </style>
                                                 <!-- Modal -->
-                                                <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                                <div class="modal-dialog" role="document" style="bg-color: #000000;">
-                                                    <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLongTitle">
-                                                            <i class="zmdi zmdi-playlist-audio"></i> Choose files from your catalogue
-                                                        </h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                        </button>
+                                                <div class="modal fade" id="exampleModalLong" tabindex="-1"
+                                                    role="dialog" aria-labelledby="exampleModalLongTitle"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog" role="document"
+                                                        style="bg-color: #000000;">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLongTitle">
+                                                                    <i class="zmdi zmdi-playlist-audio"></i> Choose
+                                                                    files from your catalogue
+                                                                </h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="loader" id="content"></div>
+                                                                <div id="content"></div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-light px-5"
+                                                                    data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        <div class="loader" id="content"></div>
-                                                        <div id="content"></div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-light px-5" data-dismiss="modal">Close</button>
-                                                    </div>
-                                                    </div>
-                                                </div>
+                                                    <!-- End Modal -->
                                                 </div>
                                                 <div class="card-body table-responsive">
                                                     <table
@@ -521,64 +546,19 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                                 }
                                                                 ;
                                                                 ?>
-                                                                <div class="wrapperforsus"
-                                                                    style="max-height: 300px; max-width:100%; overflow-y:scroll;">
-                                                                    <div id="checkboxContainer"
-                                                                        style="column-count: 2;">
-                                                                        <div class="icheck-material-white">
-                                                                            <input id="selectAll" name="selall"
-                                                                                type="checkbox" />
-                                                                            <label for="selectAll"> select all</label>
-                                                                        </div>
-                                                                        <?php
-                                                                        $sus = getStore();
-                                                                        foreach ($sus as $s) {
-                                                                            echo '
-                                                                        <div class="icheck-material-white">
-                                                                                    <input id="store' . $s->id . '" name="' . $s->id . '" type="checkbox" />
-                                                                                    <label for="store' . $s->id . '">' . $s->name . '</label>
-                                                                                    </div>
-                                                                                ';
-                                                                        }
-                                                                        ?>
-                                                                    </div>
-                                                                </div>
-                                                                <script>
-                                                                    const searchBox = document.getElementById('searchBox');
-                                                                    const checkboxes = document.querySelectorAll('#checkboxContainer input[type="checkbox"]');
-                                                                    searchBox.addEventListener('input', () => {
-                                                                        const searchTerm = searchBox.value.toLowerCase();
-                                                                        checkboxes.forEach(checkbox => {
-                                                                            const labeltmp = checkbox.getAttribute("id");
-                                                                            //console.log(labeltmp);
-                                                                            label = document.querySelector(`#checkboxContainer label[for="${labeltmp}"]`);
-                                                                            if (label.textContent.toLowerCase().includes(searchTerm)) {
-                                                                                checkbox.style.display = 'inline';
-                                                                                checkbox.style.maxHeight = '50px';
-                                                                                label.style.display = 'inline';
-                                                                                label.style.maxHeight = '50px';
-                                                                            } else {
-                                                                                checkbox.style.display = 'none';
-                                                                                label.style.display = 'none';
-                                                                                checkbox.style.maxHeight = '0px';
-                                                                                label.style.maxHeight = '0px';
-                                                                            }
-                                                                        });
-                                                                    });
-                                                                    const selectAllCheckbox = document.getElementById('selectAll');
-                                                                    selectAllCheckbox.addEventListener('change', () => {
-                                                                        checkboxes.forEach(checkbox => {
-                                                                            checkbox.checked = selectAllCheckbox.checked;
-                                                                        });
-                                                                    });
-                                                                    checkboxes.forEach(checkbox => {
-                                                                        checkbox.addEventListener('change', () => {
-                                                                            if (!checkbox.checked) {
-                                                                                selectAllCheckbox.checked = false;
-                                                                            }
-                                                                        });
-                                                                    });
-                                                                </script>
+                                                                <select name="" class="js-example-placeholder-single js-states form-control" id="stores">
+                                                                    <option></option>
+                                                                </select>
+                                                                <?php
+                                                                $sus = getStore();
+                                                                foreach ($sus as $s) {
+                                                                    echo '<script>
+                                                                            $("#stores").append(new Options("store' . $s->id . '","' . $s->id . '",false,false)).trigger("change");
+                                                                            </script>
+                                                                        ';
+                                                                }
+                                                                ?>
+
                                                             </div>
                                                         </div>
                                                     </div>
