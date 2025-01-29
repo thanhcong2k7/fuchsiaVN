@@ -79,8 +79,8 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                 <!--Start Dashboard Content-->
                 <div class="row">
                     <div class="col">
-                        <div class="card">
-                            <form action="save.php" method="POST" id="formdepchai" enctype='multipart/form-data'>
+                        <form action="save.php" method="POST" id="formdepchai" enctype='multipart/form-data'></form>
+                            <div class="card">
                                 <div class="card-header">
                                     <i class="zmdi zmdi-border-color"></i> Release ID:
                                     <?php echo "FMG" . $_GET["id"]; ?>
@@ -546,14 +546,14 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                                 }
                                                                 ;
                                                                 ?>
-                                                                <select name="" class="js-example-placeholder-single js-states form-control" id="stores">
+                                                                <select name="" class="js-example-placeholder-single js-states form-control" id="stores" multiple="multiple">
                                                                     <option></option>
                                                                 </select>
                                                                 <?php
                                                                 $sus = getStore();
                                                                 foreach ($sus as $s) {
                                                                     echo '<script>
-                                                                            $("#stores").append(new Option("store' . $s->id . '","' . $s->id . '",false,false)).trigger("change");
+                                                                            $("#stores").append(new Option("' . $s->id . '","store' . $s->id . '",false,false)).trigger("change");
                                                                             </script>
                                                                         ';
                                                                 }
@@ -656,7 +656,6 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                         </center>
                                     </div>
                                 </div>
-                            </form>
                             <script>
                                 const form = document.getElementById('formdepchai');
                                 /*
@@ -682,7 +681,8 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                     }
                                 });*/
                             </script>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <!--End Dashboard Content-->
