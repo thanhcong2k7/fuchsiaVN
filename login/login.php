@@ -15,7 +15,7 @@
 		query("delete from resetpwd where code=".$_SESSION["resetpwd"].";");
 		$new_md5pwd = md5($_POST["resetpwd"]);
 		update("pwd",$new_md5pwd,"user","email=".$_SESSION["resetemail"]);
-		//
+		//auth
 		$key=generateRandomString();
 		$iv=generateRandomString(17);
 		setcookie("saveses",openssl_encrypt($key,"AES-128-CTR",$new_md5pwd,0,$iv), time()+(86400*30), "/");
