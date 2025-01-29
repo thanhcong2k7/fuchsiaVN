@@ -546,18 +546,20 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                                 }
                                                                 ;
                                                                 ?>
-                                                                <select name="" class="js-example-placeholder-multiple js-states form-control" id="stores" multiple="multiple">
+                                                                <select name="" class="form-select" id="stores" multiple data-placeholder="Choose anything">
                                                                     <option></option>
-                                                                </select>
                                                                 <?php
                                                                 $sus = getStore();
                                                                 foreach ($sus as $s) {
+                                                                    /*
                                                                     echo '<script>
                                                                             $("#stores").append(new Option("' . $s->name . '","store' . $s->id . '",false,false)).trigger("change");
                                                                             </script>
-                                                                        ';
+                                                                        ';*/
+                                                                    echo '<option id="'.$s->id.'">' . $s->name . '</option>';
                                                                 }
                                                                 ?>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -613,8 +615,7 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                                     </div>
                                                                     <div class="card card-body row">
                                                                         <div class="icheck-material-white">
-                                                                            <input type="checkbox" id="jdl" name="jdl"
-                                                                                <?php echo ($release->jdl ? "checked" : ""); ?> />
+                                                                            <input type="checkbox" id="jdl" name="jdl" <?php echo ($release->jdl ? "checked" : ""); ?> />
                                                                             <label for="jdl"> Juno Download</label>
                                                                         </div>
                                                                     </div>
