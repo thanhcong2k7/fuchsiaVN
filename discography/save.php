@@ -90,7 +90,7 @@ if (isset($_SESSION['userwtf'])) {
             echo $tmp_name . "<br>";
             echo ($dec->data->url ? $dec->data->url : "wtf null?");
             echo update("artID", $dec->data->url, "album", "albumID=" . $_POST["albumid"]);
-            echo update("artPrev", $dec->data->display_url, "album", "albumID=" . $_POST["albumid"]);
+            echo update("artPrev", $dec->data->thumb->url, "album", "albumID=" . $_POST["albumid"]);
         }
         //
         // END UPLOAD IMAGE

@@ -58,7 +58,7 @@ if (isset($_GET["code"])) {
                             <div class="form-group">
                                 <label for="exampleInputEmailAddress" class="">Password</label>
                                 <div class="position-relative has-icon-right">
-                                    <input type="text" id="exampleInputEmailAddress" class="form-control input-shadow"
+                                    <input type="password" id="exampleInputEmailAddress" class="form-control input-shadow"
                                         name="resetpwd" placeholder="New Password">
                                     <div class="form-control-position">
                                         <i class="zmdi zmdi-key"></i>
