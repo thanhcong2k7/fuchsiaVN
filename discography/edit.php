@@ -546,19 +546,18 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                                 }
                                                                 ;
                                                                 ?>
-                                                                <select name="" class="js-example-placeholder-single js-states form-control" id="stores" multiple="multiple">
+                                                                <select name="" class="js-example-placeholder-multiple js-states form-control" id="stores" multiple="multiple">
                                                                     <option></option>
                                                                 </select>
                                                                 <?php
                                                                 $sus = getStore();
                                                                 foreach ($sus as $s) {
                                                                     echo '<script>
-                                                                            $("#stores").append(new Option("' . $s->id . '","store' . $s->id . '",false,false)).trigger("change");
+                                                                            $("#stores").append(new Option("' . $s->name . '","store' . $s->id . '",false,false)).trigger("change");
                                                                             </script>
                                                                         ';
                                                                 }
                                                                 ?>
-
                                                             </div>
                                                         </div>
                                                     </div>
