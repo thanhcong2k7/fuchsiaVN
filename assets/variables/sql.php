@@ -12,7 +12,8 @@
 		return "update ".$table." set ".$key."='".$val."' where ".$condition.";";
 	}
 	function getID($email){
-		while($tmp1 = query("select userID from user where email=".$email.";")->fetch_assoc())
+		$tmp2 = query("select userID from user where email='".$email."';");
+		while($tmp1 = $tmp2->fetch_assoc())
 			return $tmp1["userID"];
 	}
 	class store{
