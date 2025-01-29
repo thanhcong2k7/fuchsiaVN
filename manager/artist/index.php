@@ -132,29 +132,31 @@ else {
                                     </form>
                                 </div>
                                 <div class="w-100"></div>
-                                <div class="card">
-                                    <div class="card-header"><i class="zmdi zmdi-accounts-list-alt"></i> Your Artist
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Artist ID</th>
-                                                        <th>Artist name</th>
-                                                        <th>Spotify</th>
-                                                        <th>Apple Music</th>
-                                                        <th>Email</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?
-                                                    if ($artist == null)
-                                                        echo 'There\'s nothing here yet...';
-                                                    else
-                                                        foreach ($artist as &$r) {
-                                                            echo '
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header"><i class="zmdi zmdi-accounts-list-alt"></i> Your Artist
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Artist ID</th>
+                                                <th>Artist name</th>
+                                                <th>Spotify</th>
+                                                <th>Apple Music</th>
+                                                <th>Email</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?
+                                            if ($artist == null)
+                                                echo 'There\'s nothing here yet...';
+                                            else
+                                                foreach ($artist as &$r) {
+                                                    echo '
                           <tr>
                                       <td>' . ($r->id < 10 ? "0" . $r->id : $r->id) . '</td>
                                       <td>' . ($r->name ? $r->name : "(draft)") . '</td>
@@ -166,12 +168,10 @@ else {
                         <a class="text-error" href="artist.php?id=' . $r->id . '&delete=1">Delete</a>
                           </td>
                   </tr>';
-                                                        }
-                                                    ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
+                                                }
+                                            ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>

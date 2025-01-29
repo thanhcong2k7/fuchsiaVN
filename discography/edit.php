@@ -191,20 +191,25 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                         </a>
                                                     </div>
                                                 </div>
-                                                /* HTML: <div class="loader"></div> */
                                                 <style>
+                                                    /* HTML: <div class="loader"></div> */
                                                     .loader {
-                                                    height: 4px;
-                                                    width: 130px;
-                                                    --c:no-repeat linear-gradient(#6100ee 0 0);
-                                                    background: var(--c),var(--c),#d7b8fc;
-                                                    background-size: 60% 100%;
-                                                    animation: l16 3s infinite;
+                                                    width: 45px;
+                                                    aspect-ratio: 1;
+                                                    --c: no-repeat linear-gradient(#255 255 255);
+                                                    background: 
+                                                        var(--c) 0%   50%,
+                                                        var(--c) 50%  50%,
+                                                        var(--c) 100% 50%;
+                                                    background-size: 20% 100%;
+                                                    animation: l1 1s infinite linear;
                                                     }
-                                                    @keyframes l16 {
-                                                    0%   {background-position:-150% 0,-150% 0}
-                                                    66%  {background-position: 250% 0,-150% 0}
-                                                    100% {background-position: 250% 0, 250% 0}
+                                                    @keyframes l1 {
+                                                    0%  {background-size: 20% 100%,20% 100%,20% 100%}
+                                                    33% {background-size: 20% 10% ,20% 100%,20% 100%}
+                                                    50% {background-size: 20% 100%,20% 10% ,20% 100%}
+                                                    66% {background-size: 20% 100%,20% 100%,20% 10% }
+                                                    100%{background-size: 20% 100%,20% 100%,20% 100%}
                                                     }
                                                 </style>
                                                 <!-- Modal -->
@@ -218,11 +223,10 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        ...
+                                                        <div class="loader"></div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                                        <button type="button" class="btn btn-light px-5" data-dismiss="modal">Close</button>
                                                     </div>
                                                     </div>
                                                 </div>
