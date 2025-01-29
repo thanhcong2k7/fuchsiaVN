@@ -31,31 +31,30 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
     <title>Release Editor -
         "<?php echo ($release->name ? $release->name : "(untitled)"); ?>"
     </title><!-- loader-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <link href="../assets/css/pace.min.css" rel="stylesheet" />
-    <script src="../assets/js/pace.min.js"></script>
+    <link href="/assets/css/select2.min.css" rel="stylesheet" />
+    <link href="/assets/css/pace.min.css" rel="stylesheet" />
+    <script src="/assets/js/pace.min.js"></script>
     <!--favicon-->
-    <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
     <!-- Vector CSS -->
-    <link href="../assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
+    <link href="/assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
     <!-- simplebar CSS-->
-    <link href="../assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+    <link href="/assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
     <!-- Bootstrap core CSS-->
-    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
     <!-- animate CSS-->
-    <link href="../assets/css/animate.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/animate.css" rel="stylesheet" type="text/css" />
     <!-- Icons CSS-->
-    <link href="../assets/css/icons.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/icons.css" rel="stylesheet" type="text/css" />
     <!-- Sidebar CSS-->
-    <link href="../assets/css/sidebar-menu.css" rel="stylesheet" />
+    <link href="/assets/css/sidebar-menu.css" rel="stylesheet" />
     <!-- Custom Style-->
-    <link href="../assets/css/app-style.css" rel="stylesheet" />
+    <link href="/assets/css/app-style.css" rel="stylesheet" />
     <!-- Bootstrap core JavaScript-->
-    <script src="../assets/js/jquery.min.js"></script>
-    <script src="../assets/js/popper.min.js"></script>
-    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/select2.min.js"></script>
 </head>
 
 <body class="bg-theme bg-theme1">
@@ -554,7 +553,7 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                                 $sus = getStore();
                                                                 foreach ($sus as $s) {
                                                                     echo '<script>
-                                                                            $("#stores").append(new Options("store' . $s->id . '","' . $s->id . '",false,false)).trigger("change");
+                                                                            $("#stores").append(new Option("store' . $s->id . '","' . $s->id . '",false,false)).trigger("change");
                                                                             </script>
                                                                         ';
                                                                 }
