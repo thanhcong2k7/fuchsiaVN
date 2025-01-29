@@ -54,10 +54,6 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
     <script src="/assets/js/jquery.min.js"></script>
     <script src="/assets/js/popper.min.js"></script>
     <script src="/assets/js/bootstrap.min.js"></script>
-    <script src="/assets/js/select2.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 
 <body class="bg-theme bg-theme1">
@@ -549,6 +545,9 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                                 }
                                                                 ;
                                                                 ?>
+                                                                <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css" rel="stylesheet"/>
+                                                                <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+                                                                <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
                                                                 <select name="" class="form-select" id="stores" multiple data-placeholder="Choose anything">
                                                                     <option></option>
                                                                 <?php
