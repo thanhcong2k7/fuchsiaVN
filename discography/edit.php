@@ -563,6 +563,11 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                                 }
                                                                 ?>
                                                                 </select>
+                                                                <script>
+                                                                    $(document).ready(function(){
+                                                                        $('stores').select2({width:"100%",placeholder:"Choose any stores"});
+                                                                    });
+                                                                </script>
                                                             </div>
                                                         </div>
                                                     </div>
