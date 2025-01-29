@@ -31,6 +31,7 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
     <title>Release Editor -
         "<?php echo ($release->name ? $release->name : "(untitled)"); ?>"
     </title><!-- loader-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <link href="../assets/css/pace.min.css" rel="stylesheet" />
