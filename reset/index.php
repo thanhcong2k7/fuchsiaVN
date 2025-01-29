@@ -5,6 +5,7 @@ if (isset($_GET["code"])) {
     $e="";
     while ($row = query("select email from resetpwd where code=" . $_GET["code"] . ";")->fetch_assoc()){
         $e = $row["email"];
+        break;
     }
     if (isset($e) && $e) {
         $_SESSION["resetpwd"] = $_GET["code"];
