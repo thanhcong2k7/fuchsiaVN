@@ -185,10 +185,47 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                             <div class="card-header"><i class="zmdi zmdi-album"></i> Tracks List
                                                 <div class="card-action">
                                                     <div class="dropdown">
-                                                        <a href="" class="text dropdown-toggle dropdown-toggle-nocaret">
+                                                        <!-- Button trigger modal -->
+                                                        <a href="" class="text dropdown-toggle dropdown-toggle-nocaret" data-toggle="modal" data-target="#exampleModalLong">
                                                             <i class="zmdi zmdi-collection-plus"></i> Add more
                                                         </a>
                                                     </div>
+                                                </div>
+                                                /* HTML: <div class="loader"></div> */
+                                                <style>
+                                                    .loader {
+                                                    height: 4px;
+                                                    width: 130px;
+                                                    --c:no-repeat linear-gradient(#6100ee 0 0);
+                                                    background: var(--c),var(--c),#d7b8fc;
+                                                    background-size: 60% 100%;
+                                                    animation: l16 3s infinite;
+                                                    }
+                                                    @keyframes l16 {
+                                                    0%   {background-position:-150% 0,-150% 0}
+                                                    66%  {background-position: 250% 0,-150% 0}
+                                                    100% {background-position: 250% 0, 250% 0}
+                                                    }
+                                                </style>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        ...
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                                    </div>
+                                                    </div>
+                                                </div>
                                                 </div>
                                                 <div class="card-body table-responsive">
                                                     <table
