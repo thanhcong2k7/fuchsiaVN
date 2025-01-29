@@ -14,7 +14,7 @@
 		require "../assets/variables/sql.php";
 		query("delete from resetpwd where code=".$_SESSION["resetpwd"].";");
 		$new_md5pwd = md5($_POST["resetpwd"]);
-		update("pwd",$new_md5pwd,"user","email=".$_SESSION["resetemail"]);
+		update("pwd",$new_md5pwd,"user","email='".$_SESSION["resetemail"]."'");
 		//auth
 		$key=generateRandomString();
 		$iv=generateRandomString(17);
