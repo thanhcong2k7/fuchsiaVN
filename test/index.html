@@ -1,0 +1,13 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
+<select name="" class="form-select" id="stores" multiple data-placeholder="Choose anything">
+    <option>1</option>
+    <option>2</option>
+    <option>3</option>
+</select>
+<script>
+    $(document).ready(function () {
+        $('stores').select2({ width: "100%", placeholder: "Choose any stores" });
+    });
+</script>
