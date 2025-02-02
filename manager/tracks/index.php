@@ -247,7 +247,7 @@ else {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="flex-grow-1">
+                                    <div class="col flex-grow-1">
                                         <div class="card auto-card">
                                             <div class="card-body overflow-auto">
                                                 jjjjjj
