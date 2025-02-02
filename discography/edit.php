@@ -485,20 +485,21 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                         href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css"
                                                         rel="stylesheet" />
                                                     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-                                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
+                                                    <script
+                                                        src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
                                                     <select name="" class="form-select" id="stores" multiple
                                                         data-placeholder="Choose anything">
                                                         <option></option>
                                                         <?php
-                                                            $sus = getStore();
-                                                            foreach ($sus as $s) {
-                                                                /*
-                                                                echo '<script>
-                                                                        $("#stores").append(new Option("' . $s->name . '","store' . $s->id . '",false,false)).trigger("change");
-                                                                        </script>
-                                                                    ';*/
-                                                                echo '<option id="' . $s->id . '">' . $s->name . '</option>';
-                                                            }
+                                                        $sus = getStore();
+                                                        foreach ($sus as $s) {
+                                                            /*
+                                                            echo '<script>
+                                                                    $("#stores").append(new Option("' . $s->name . '","store' . $s->id . '",false,false)).trigger("change");
+                                                                    </script>
+                                                                ';*/
+                                                            echo '<option id="' . $s->id . '">' . $s->name . '</option>';
+                                                        }
                                                         ?>
                                                     </select>
                                                     <script>
@@ -508,6 +509,7 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                     </script>
                                                 </div>
                                             </div>
+                                            <div class="w-100"></div>
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="card">
@@ -540,46 +542,47 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                                         </label>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="card card-body row">
-                                                                <div class="icheck-material-white">
-                                                                    <input type="checkbox" id="scloud" name="scloud"
-                                                                        <?php echo ($release->sc ? "checked" : ""); ?> />
-                                                                    <label for="scloud"
-                                                                        style="overflow: hidden;white-space: initial;">
-                                                                        SoundCloud Monetization
-                                                                        & Content Protection</label>
+                                                                <div class="card card-body row">
+                                                                    <div class="icheck-material-white">
+                                                                        <input type="checkbox" id="scloud" name="scloud"
+                                                                            <?php echo ($release->sc ? "checked" : ""); ?> />
+                                                                        <label for="scloud"
+                                                                            style="overflow: hidden;white-space: initial;">
+                                                                            SoundCloud Monetization
+                                                                            & Content Protection</label>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="card card-body row">
-                                                                <div class="icheck-material-white">
-                                                                    <input type="checkbox" id="soundx" name="soundx"
-                                                                        <?php echo ($release->sx ? "checked" : ""); ?> />
-                                                                    <label for="soundx"> SoundExchange</label>
+                                                                <div class="card card-body row">
+                                                                    <div class="icheck-material-white">
+                                                                        <input type="checkbox" id="soundx" name="soundx"
+                                                                            <?php echo ($release->sx ? "checked" : ""); ?> />
+                                                                        <label for="soundx"> SoundExchange</label>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="card card-body row">
-                                                                <div class="icheck-material-white">
-                                                                    <input type="checkbox" id="jdl" name="jdl" <?php echo ($release->jdl ? "checked" : ""); ?> />
-                                                                    <label for="jdl"> Juno Download</label>
+                                                                <div class="card card-body row">
+                                                                    <div class="icheck-material-white">
+                                                                        <input type="checkbox" id="jdl" name="jdl" <?php echo ($release->jdl ? "checked" : ""); ?> />
+                                                                        <label for="jdl"> Juno Download</label>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="card card-body row">
-                                                                <div class="icheck-material-white">
-                                                                    <input type="checkbox" id="trl" name="trl" <?php echo ($release->trl ? "checked" : ""); ?> />
-                                                                    <label for="trl"> Tracklib</label>
+                                                                <div class="card card-body row">
+                                                                    <div class="icheck-material-white">
+                                                                        <input type="checkbox" id="trl" name="trl" <?php echo ($release->trl ? "checked" : ""); ?> />
+                                                                        <label for="trl"> Tracklib</label>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="card card-body row">
-                                                                <div class="icheck-material-white col">
-                                                                    <input type="checkbox" id="bport" name="bport" <?php echo ($release->bp ? "checked" : ""); ?> />
-                                                                    <label for="bport"> Beatport
-                                                                    </label>
+                                                                <div class="card card-body row">
+                                                                    <div class="icheck-material-white col">
+                                                                        <input type="checkbox" id="bport" name="bport"
+                                                                            <?php echo ($release->bp ? "checked" : ""); ?> />
+                                                                        <label for="bport"> Beatport
+                                                                        </label>
+                                                                    </div>
+                                                                    <input type="text" class="form-control row col"
+                                                                        name="bporturl"
+                                                                        placeholder="Page URL (Leave blank for a new one)"
+                                                                        value="<?php echo $release->bp; ?>">
                                                                 </div>
-                                                                <input type="text" class="form-control row col"
-                                                                    name="bporturl"
-                                                                    placeholder="Page URL (Leave blank for a new one)"
-                                                                    value="<?php echo $release->bp; ?>">
                                                             </div>
                                                         </div>
                                                     </div>

@@ -118,8 +118,8 @@ else {
                                                 justify-content: center;
                                             }
                                         </style>
-                                        <div class="dnd card card-body" style="justify-content: center;">
-                                            <div style="margin:auto;">
+                                        <center class="dnd card card-body" style="justify-content: center;">
+                                            <center>
                                                 <div id="dnarea" class="row"
                                                     style="align: center; display: flex; justify-content: center;">
                                                     <input type="file" id="filee" accept="audio/*" />
@@ -223,7 +223,7 @@ else {
                                                         }
                                                     }
                                                 </script>
-                                            </div>
+                                            </center>
                                         </div>
                                     </div>
                                 </div>
