@@ -80,7 +80,7 @@ else {
                             <div class="card-header"><i class="zmdi zmdi-collection-music"></i> Tracks Manager</div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col-4">
                                         <style>
                                             #filee {
                                                 display: none;
@@ -118,8 +118,8 @@ else {
                                                 justify-content: center;
                                             }
                                         </style>
-                                        <center class="dnd card card-body" style="justify-content: center;">
-                                            <center>
+                                        <div class="dnd card card-body" style="justify-content: center;">
+                                            <div style="margin:auto;">
                                                 <div id="dnarea" class="row"
                                                     style="align: center; display: flex; justify-content: center;">
                                                     <input type="file" id="filee" accept="audio/*" />
@@ -223,7 +223,12 @@ else {
                                                         }
                                                     }
                                                 </script>
-                                            </center>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="card">
+                                            ok
                                         </div>
                                     </div>
                                 </div>
