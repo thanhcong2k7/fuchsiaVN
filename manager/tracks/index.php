@@ -79,8 +79,8 @@ else {
                         <div class="card">
                             <div class="card-header"><i class="zmdi zmdi-collection-music"></i> Tracks Manager</div>
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-4">
+                                <div class="row d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-start gap-3">
+                                    <div>
                                         <style>
                                             #filee {
                                                 display: none;
@@ -117,8 +117,31 @@ else {
                                                 display: flex;
                                                 justify-content: center;
                                             }
+
+                                            /* Both cards have a fixed height of 200px */
+                                            .square-card,
+                                            .auto-card {
+                                                height: 200px;
+                                            }
+
+                                            /* The square card is a fixed 200x200 box */
+                                            .square-card {
+                                                width: 200px;
+                                            }
+
+                                            /* On mobile, force the second card to be the same width as the first */
+                                            .auto-card {
+                                                width: 200px;
+                                            }
+
+                                            /* On medium screens and up, let the second card expand horizontally */
+                                            @media (min-width: 768px) {
+                                                .auto-card {
+                                                    width: auto;
+                                                }
+                                            }
                                         </style>
-                                        <div class="dnd card card-body" style="justify-content: center;">
+                                        <div class="dnd card card-body square-card text-center d-flex flex-column justify-content-center" style="justify-content: center;">
                                             <div style="margin:auto;">
                                                 <div id="dnarea" class="row"
                                                     style="align: center; display: flex; justify-content: center;">
@@ -186,10 +209,8 @@ else {
                                                             document.getElementById("message").innerText = "Vui lòng chọn một file!";
                                                             return;
                                                         }
-
                                                         var file = fileInput.files[0];
                                                         const GAS_DEPLOY = urll;
-
                                                         try {
                                                             const base64String = await encodeFileToBase64(file);
 
@@ -226,9 +247,11 @@ else {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-8">
-                                        <div class="card">
-                                            ok
+                                    <div class="flex-grow-1">
+                                        <div class="card auto-card">
+                                            <div class="card-body overflow-auto">
+                                                jjjjjj
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
