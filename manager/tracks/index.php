@@ -121,17 +121,17 @@ else {
                                             /* Both cards have a fixed height of 200px */
                                             .square-card,
                                             .auto-card {
-                                                height: 200px;
+                                                height: 250px;
                                             }
 
                                             /* The square card is a fixed 200x200 box */
                                             .square-card {
-                                                width: 200px;
+                                                width: 250px;
                                             }
 
                                             /* On mobile, force the second card to be the same width as the first */
                                             .auto-card {
-                                                width: 200px;
+                                                width: 250px;
                                             }
 
                                             /* On medium screens and up, let the second card expand horizontally */
