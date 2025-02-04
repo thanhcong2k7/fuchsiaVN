@@ -542,24 +542,38 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
                                                     <script
                                                         src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
-                                                    <select name="" class="form-select" id="stores" multiple
-                                                        data-placeholder="Choose anything">
-                                                        <option></option>
-                                                        <?php
-                                                        $sus = getStore();
-                                                        foreach ($sus as $s) {
-                                                            /*
-                                                            echo '<script>
-                                                                    $("#stores").append(new Option("' . $s->name . '","store' . $s->id . '",false,false)).trigger("change");
-                                                                    </script>
-                                                                ';*/
-                                                            echo '<option id="' . $s->id . '">' . $s->name . '</option>';
-                                                        }
-                                                        ?>
-                                                    </select>
+                                                    <div class="input-group select2-bootstrap-append">
+                                                        <span class="input-group-addon">
+                                                            <input type="checkbox" id="toggleSelect2">
+                                                        </span>
+                                                        <select name="" class="form-select" id="stores" multiple
+                                                            data-placeholder="Choose anything">
+                                                            <option></option>
+                                                            <?php
+                                                            $sus = getStore();
+                                                            foreach ($sus as $s) {
+                                                                /*
+                                                                echo '<script>
+                                                                        $("#stores").append(new Option("' . $s->name . '","store' . $s->id . '",false,false)).trigger("change");
+                                                                        </script>
+                                                                    ';*/
+                                                                echo '<option id="' . $s->id . '">' . $s->name . '</option>';
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
                                                     <script>
                                                         $(document).ready(function () {
                                                             $('#stores').select2({ width: "100%", placeholder: "Choose any stores" });
+                                                            $('#stores').select2({
+                                                                width: "100%",
+                                                                placeholder: "Choose any stores",
+                                                                language: {
+                                                                    searching: function () {
+                                                                        return "";
+                                                                    }
+                                                                }
+                                                            });
                                                         });
                                                     </script>
                                                 </div>
