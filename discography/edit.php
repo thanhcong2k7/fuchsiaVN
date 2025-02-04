@@ -543,9 +543,6 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                     <script
                                                         src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
                                                     <div class="input-group select2-bootstrap-append">
-                                                        <span class="input-group-addon">
-                                                            <input type="checkbox" id="toggleSelect2">
-                                                        </span>
                                                         <select name="stores" class="form-select" id="stores" multiple
                                                             data-placeholder="Choose anything" style="width:100%;">
                                                             <option></option>
@@ -561,6 +558,9 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                             }
                                                             ?>
                                                         </select>
+                                                        <span class="input-group-addon">
+                                                            <input type="checkbox" id="toggleSelect2">
+                                                        </span>
                                                     </div>
                                                     <script>
                                                         $(document).ready(function () {
