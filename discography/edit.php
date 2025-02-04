@@ -6,6 +6,11 @@ else {
     require '../assets/variables/sql.php';
     $user = getUser($_SESSION["userwtf"]);
     $release = getRelease($_SESSION["userwtf"], 0, $_GET["id"]);
+    if ($release->status == 3){
+        echo '<script>alert("Your release '.$release->name.' is currently being processed!");
+        windows.location.href=".";
+        </script>';
+    }
 }
 if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
     resetinc("album");
@@ -232,7 +237,7 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                             <!-- Modal -->
                                             <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog"
                                                 aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                                <div class="modal-dialog" role="document" style="bg-color: #000000;">
+                                                <div class="modal-dialog" role="document" style="background-color: #000000;">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="exampleModalLongTitle">
