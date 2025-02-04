@@ -542,6 +542,7 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
                                                     <script
                                                         src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
+                                                        <link rel="stylesheet" href="/assets/css/select2_custom.css">
                                                     <div class="input-group select2-bootstrap-append">
                                                         <select name="stores" class="form-select" id="stores" multiple
                                                             data-placeholder="Choose anything" style="width:100%;">
