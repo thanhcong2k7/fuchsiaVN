@@ -203,7 +203,7 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                 .loader {
                                                     width: 45px;
                                                     aspect-ratio: 1;
-                                                    --c: no-repeat linear-gradient(#255 255 255);
+                                                    --c: no-repeat linear-gradient(#fff 0 0);
                                                     background:
                                                         var(--c) 0% 50%,
                                                         var(--c) 50% 50%,
@@ -236,8 +236,9 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
 
                                                 /* Black modal content background */
                                                 .modal-content {
-                                                    background-color: rgba(0, 0, 0, 0.8) !important;
+                                                    background-color: rgba(0, 0, 0, 0.9) !important;
                                                     color: #fff;
+                                                    size: 11px;
                                                     /* White text for contrast */
                                                 }
 
