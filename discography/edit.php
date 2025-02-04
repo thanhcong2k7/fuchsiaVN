@@ -232,12 +232,21 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                     100% {
                                                         background-size: 20% 100%, 20% 100%, 20% 100%
                                                     }
+                                                }/* Black modal content background */
+                                                .modal-content {
+                                                    background-color: #000 !important;
+                                                    color: #fff; /* White text for contrast */
+                                                }
+
+                                                /* Optional: Style modal header and footer borders */
+                                                .modal-header, .modal-footer {
+                                                    border-color: #333 !important;
                                                 }
                                             </style>
                                             <!-- Modal -->
                                             <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog"
                                                 aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                                <div class="modal-dialog" role="document" style="background-color: #000000;">
+                                                <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="exampleModalLongTitle">
