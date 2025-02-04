@@ -242,6 +242,9 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                 .modal-header, .modal-footer {
                                                     border-color: #333 !important;
                                                 }
+                                                .close{
+                                                    color:white;
+                                                }
                                             </style>
                                             <!-- Modal -->
                                             <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog"
@@ -253,13 +256,11 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                                 <i class="zmdi zmdi-playlist-audio"></i> Choose
                                                                 files from your catalogue
                                                             </h5>
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
+                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close">
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <div class="loader" id="content"></div>
+                                                            <dss="loader" id="content"></div>
                                                             <div id="content"></div>
                                                         </div>
                                                         <div class="modal-footer">
