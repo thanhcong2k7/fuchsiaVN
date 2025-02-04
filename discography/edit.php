@@ -234,7 +234,7 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                     }
                                                 }/* Black modal content background */
                                                 .modal-content {
-                                                    background-color: #000 !important;
+                                                    background-color: rgba(0, 0, 0, 0.8) !important;
                                                     color: #fff; /* White text for contrast */
                                                 }
 
