@@ -279,7 +279,7 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                                 <script>
                                                                     $(document).ready(function () {
                                                                         var form = document.getElementById("addTrack");
-                                                                        form.onsubmit = function (){
+                                                                        form.onsubmit = function () {
                                                                             //
                                                                         };
                                                                     });
@@ -516,10 +516,21 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                     border-width: 2px;
                                                     color: white;
                                                 }
+
                                                 .select2-container--default .select2-selection--multiple .select2-selection__rendered {
                                                     color: #000 !important;
                                                 }
+
                                                 .select2-container--default .select2-search--inline .select2-search__field {
+                                                    color: #000 !important;
+                                                }
+
+                                                .select2-container--default .select2-results__option {
+                                                    color: #000 !important;
+                                                }
+
+                                                .select2-container--default .select2-results__option--highlighted[aria-selected] {
+                                                    background-color: #ddd !important;
                                                     color: #000 !important;
                                                 }
                                             </style>
