@@ -201,7 +201,7 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                             <style>
                                                 /* HTML: <div class="loader"></div> */
                                                 .loader {
-                                                    width: 45px;
+                                                    width: 30px;
                                                     aspect-ratio: 1;
                                                     --c: no-repeat linear-gradient(#fff 0 0);
                                                     background:
@@ -270,8 +270,20 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                         </div>
                                                         <div class="modal-body">
                                                             <div id="content">
-                                                                <div class="loader" id="content"></div>
-                                                                j
+                                                                <center>
+                                                                    <div class="loader" id="content"></div>
+                                                                </center>
+                                                                <form id="addTrack">
+                                                                    j
+                                                                </form>
+                                                                <script>
+                                                                    $(document).ready(function () {
+                                                                        var form = document.getElementById("addTrack");
+                                                                        form.onsubmit = function (){
+                                                                            //
+                                                                        };
+                                                                    });
+                                                                </script>
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
@@ -453,13 +465,13 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                             </div>
                                             <div class="row">
                                                 <div class="form-group col-md-4">
-                                                    <label for="albumtitle">© Copyright year</label>
+                                                    <label for="albumtitle">© Composition Copyright year</label>
                                                     <input type="text" class="form-control" name="cyear"
                                                         placeholder="<?php echo date("Y"); ?>"
                                                         value="<?php echo date("Y"); ?>" required>
                                                 </div>
                                                 <div class="form-group col">
-                                                    <label for="albumversion">© Copyright Line</label>
+                                                    <label for="albumversion">© Composition Copyright Line</label>
                                                     <input type="text" class="form-control" name="cline"
                                                         placeholder="Copyright line. Example: VINA Nation"
                                                         value="<?php echo $release->c; ?>" required>
@@ -467,13 +479,13 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                             </div>
                                             <div class="row">
                                                 <div class="form-group col-md-4">
-                                                    <label for="albumtitle">℗ Phonogram year</label>
+                                                    <label for="albumtitle">℗ Sound Recording Copyright year</label>
                                                     <input type="text" class="form-control" name="pyear"
                                                         placeholder="<?php echo date("Y"); ?>"
                                                         value="<?php echo date("Y"); ?>" required>
                                                 </div>
                                                 <div class="form-group col">
-                                                    <label for="albumversion">℗ Phonogram Line</label>
+                                                    <label for="albumversion">℗ Sound Recording Copyright Line</label>
                                                     <input type="text" class="form-control" name="pline"
                                                         placeholder="Phonogram line. Example: VINA Nation"
                                                         value="<?php echo $release->p; ?>" required>
@@ -503,6 +515,12 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                     border-radius: 5px;
                                                     border-width: 2px;
                                                     color: white;
+                                                }
+                                                .select2-container--default .select2-selection--multiple .select2-selection__rendered {
+                                                    color: #000 !important;
+                                                }
+                                                .select2-container--default .select2-search--inline .select2-search__field {
+                                                    color: #000 !important;
                                                 }
                                             </style>
                                             <div class="row">
