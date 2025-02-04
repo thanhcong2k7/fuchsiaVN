@@ -546,8 +546,8 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                         <span class="input-group-addon">
                                                             <input type="checkbox" id="toggleSelect2">
                                                         </span>
-                                                        <select name="" class="form-select" id="stores" multiple
-                                                            data-placeholder="Choose anything">
+                                                        <select name="stores" class="form-select" id="stores" multiple
+                                                            data-placeholder="Choose anything" style="width:100%;">
                                                             <option></option>
                                                             <?php
                                                             $sus = getStore();
@@ -573,6 +573,10 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                                         return "";
                                                                     }
                                                                 }
+                                                            });
+                                                            $('#toggleSelect2').change(function () {
+                                                                var isDisabled = this.checked;
+                                                                $('#stores').prop('disabled', isDisabled).trigger('change.select2');
                                                             });
                                                         });
                                                     </script>
