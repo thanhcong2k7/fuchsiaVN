@@ -6,8 +6,8 @@ else {
     require '../assets/variables/sql.php';
     $user = getUser($_SESSION["userwtf"]);
     $release = getRelease($_SESSION["userwtf"], 0, $_GET["id"]);
-    if ($release->status == 3){
-        echo '<script>alert("Your release '.$release->name.' is currently being processed!");
+    if ($release->status == 3) {
+        echo '<script>alert("Your release ' . $release->name . ' is currently being processed!");
         windows.location.href=".";
         </script>';
     }
@@ -232,16 +232,21 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                     100% {
                                                         background-size: 20% 100%, 20% 100%, 20% 100%
                                                     }
-                                                }/* Black modal content background */
+                                                }
+
+                                                /* Black modal content background */
                                                 .modal-content {
                                                     background-color: rgba(0, 0, 0, 0.8) !important;
-                                                    color: #fff; /* White text for contrast */
+                                                    color: #fff;
+                                                    /* White text for contrast */
                                                 }
 
                                                 /* Optional: Style modal header and footer borders */
-                                                .modal-header, .modal-footer {
+                                                .modal-header,
+                                                .modal-footer {
                                                     border-color: #333 !important;
                                                 }
+
                                                 .modal-header .close {
                                                     color: #fff !important;
                                                     opacity: 1;
@@ -263,8 +268,10 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <div class="loader" id="content"></div>
-                                                            <div id="content"></div>
+                                                            <div id="content">
+                                                                <div class="loader" id="content"></div>
+                                                                j
+                                                            </div>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-light px-5"
