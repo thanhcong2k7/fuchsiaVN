@@ -65,21 +65,15 @@ else {
         <div class="row">
           <div class="col">
             <div class="card">
+              <div class="card-header">
+                Account Balance
+              </div>
               <div class="card-body">
-                <div class="col">
-                  <div class="card">
-                    <div class="card-header">
-                      Account Balance
-                    </div>
-                    <div class="card-body">
-                      j
-                    </div>
-                  </div>
-                </div>
-                <div class="col"></div>
+                j
               </div>
             </div>
           </div>
+          <div class="col"></div>
         </div>
         <!--start overlay-->
         <div class="overlay toggle-menu"></div>
