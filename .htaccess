@@ -18,16 +18,3 @@ RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
 RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-d
 RewriteRule .* /index.php [L]
 
-# -- BLOCKING USERS FROM ACCESSING PRIVATE DOCUMENT
-<Directory ~ "\assets">
-    Order allow,deny
-    Deny from all
-</Directory>
-<Directory ~ "\components">
-    Order allow,deny
-    Deny from all
-</Directory>
-<Directory ~ "\codesamples">
-    Order allow,deny
-    Deny from all
-</Directory>
