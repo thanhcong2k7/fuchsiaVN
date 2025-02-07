@@ -63,14 +63,12 @@ else {
     <div class="content-wrapper">
       <div class="container-fluid">
         <div class="row">
-          <div class="col">
-            <div class="card">
-              <div class="card-header">
-                Account Balance
-              </div>
-              <div class="card-body">
-                j
-              </div>
+          <div class="card">
+            <div class="card-header">
+              Account Balance
+            </div>
+            <div class="card-body">
+              j
             </div>
           </div>
           <div class="col"></div>
