@@ -1,8 +1,4 @@
 <?php
-if (!headers_sent()) {
-    foreach (headers_list() as $header)
-        header_remove($header);
-}
 header("Cross-Origin-Embedder-Policy: require-corp");
 header("Cross-Origin-Resource-Policy: cross-origin");
 header("Cross-Origin-Opener-Policy: same-origin");
@@ -12,7 +8,7 @@ if (!isset($_SESSION["userwtf"]))
 else {
     require '../../assets/variables/sql.php';
     $user = getUser($_SESSION["userwtf"]);
-    $t = getTrackList($_SESSION["userwtf"]);
+    $trackList = getTrackList($_SESSION["userwtf"]);
     $allArtists = getArtist($_SESSION["userwtf"]);
 }
 ?>
@@ -52,6 +48,7 @@ else {
     <script src="/assets/js/bootstrap.min.js"></script>
     <!-- FFMPEG.JS -->
     <script src="/assets/js/ffmpeg.min.js"></script>
+    <link rel="stylesheet" href="/assets/css/scroll-bar.css" />
 </head>
 
 <body class="bg-theme bg-theme1">
@@ -72,211 +69,230 @@ else {
 
         <div class="content-wrapper">
             <div class="container-fluid">
-
                 <!--Start Dashboard Content-->
                 <div class="row">
                     <div class="col">
-                        <div class="card">
-                            <div class="card-header"><i class="zmdi zmdi-collection-music"></i> Tracks Manager</div>
-                            <div class="card-body">
-                                <div class="row d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-start gap-3">
-                                    <div>
-                                        <style>
-                                            #filee {
-                                                display: none;
-                                            }
+                        <div class="card-body">
+                            <div
+                                class="row col d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-start gap-3">
+                                <div>
+                                    <style>
+                                        #filee {
+                                            display: none;
+                                        }
 
-                                            #ok {
-                                                height: 100px;
-                                                width: 90%;
-                                                Border-radius: 6px;
-                                                text-align: center;
-                                                Border: 1px dashed #999;
-                                                margin: 0 auto;
-                                            }
+                                        #ok {
+                                            height: 100px;
+                                            width: 90%;
+                                            border-radius: 6px;
+                                            text-align: center;
+                                            Border: 1px dashed #999;
+                                            margin: 0 auto;
+                                        }
 
-                                            #ok span {
-                                                display: block;
-                                                font-size: 11px;
-                                                color: #eeeeee;
-                                                margin: auto;
-                                                padding: 35px 0;
-                                            }
+                                        #ok span {
+                                            display: block;
+                                            font-size: 11px;
+                                            color: #eeeeee;
+                                            margin: auto;
+                                            padding: 35px 0;
+                                        }
 
-                                            #ok:hover {
-                                                border-color: #AFFFFFFF;
-                                            }
+                                        #ok:hover {
+                                            border-color: #AFFFFFFF;
+                                        }
 
-                                            * {
-                                                box-sizing: border-box;
-                                            }
+                                        * {
+                                            box-sizing: border-box;
+                                        }
 
-                                            .dnd {
-                                                width: 100%;
-                                                height: 100%;
-                                                display: flex;
-                                                justify-content: center;
-                                            }
+                                        .dnd {
+                                            width: 100%;
+                                            height: 100%;
+                                            display: flex;
+                                            justify-content: center;
+                                        }
 
-                                            /* Both cards have a fixed height of 200px */
-                                            .square-card,
+                                        /* Both cards have a fixed height of 300px */
+                                        .square-card,
+                                        .auto-card {
+                                            height: 350px;
+                                        }
+
+                                        /* The square card is a fixed 350x350 box */
+                                        .square-card {
+                                            width: 100%;
+                                        }
+
+                                        /* On mobile, force the second card to be the same width as the first */
+                                        .auto-card {
+                                            width: 350px;
+                                        }
+
+                                        /* On medium screens and up, let the second card expand horizontally */
+                                        @media (min-width: 768px) {
                                             .auto-card {
-                                                height: 250px;
+                                                width: auto;
                                             }
-
-                                            /* The square card is a fixed 200x200 box */
-                                            .square-card {
-                                                width: 250px;
-                                            }
-
-                                            /* On mobile, force the second card to be the same width as the first */
-                                            .auto-card {
-                                                width: 250px;
-                                            }
-
-                                            /* On medium screens and up, let the second card expand horizontally */
-                                            @media (min-width: 768px) {
-                                                .auto-card {
-                                                    width: auto;
-                                                }
-                                            }
-                                        </style>
-                                        <div class="dnd card card-body square-card text-center d-flex flex-column justify-content-center" style="justify-content: center;">
-                                            <div style="margin:auto;">
-                                                <div id="dnarea" class="row"
-                                                    style="align: center; display: flex; justify-content: center;">
-                                                    <input type="file" id="filee" accept="audio/*" />
-                                                    <label for="filee" id="ok">
-                                                        <span id="texttt"><i class="zmdi zmdi-file-plus"></i> Drop
-                                                            audio file here...
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                                <hr>
-                                                <span>Status: <span id="status">Waiting for file input...</span></span>
-                                                <div class="row"
-                                                    style="display: block; padding-right: 20px; padding-left: 20px;">
-                                                    <div class="progress my-3" style="height:4px;">
-                                                        <div class="progress-bar" style="width:50%;" id="progbar"></div>
-                                                    </div>
-                                                </div>
-                                                <script>
-                                                </script>
-                                                <audio id="output-video" controls></audio>
-                                                <script>
-                                                    document.addEventListener("DOMContentLoaded", function () {
-                                                        const message = document.getElementById('status');
-                                                        const { createFFmpeg, fetchFile } = FFmpeg;
-                                                        const ffmpeg = createFFmpeg({
-                                                            log: true,
-                                                            progress: ({ ratio }) => {
-                                                                message.innerHTML = `Transcoding: ${(ratio * 100.0).toFixed(2)}%`;
-                                                                document.getElementById("progbar").style = "width:" + (ratio * 100.0).toFixed(2).toString() + "%";
-                                                            },
-                                                        });
-                                                        const transcode = async () => {
-                                                            document.getElementById("texttt").innerHTML =
-                                                                '<i class="zmdi zmdi-file-plus"></i> Processing file: '
-                                                                + document.getElementById("filee").files[0].name;
-                                                            const name = document.getElementById("filee").files[0].name;
-                                                            message.innerHTML = 'Loading ffmpeg-core.js';
-                                                            await ffmpeg.load();
-                                                            message.innerHTML = 'Start transcoding';
-                                                            await ffmpeg.FS('writeFile', name, await fetchFile(document.getElementById("filee").files[0]));
-                                                            await ffmpeg.run('-i', name, 'output.mp3');
-                                                            message.innerHTML = 'Complete transcoding. <a onclick="adu()">Click to upload this track to server.</a>';
-                                                            const data = await ffmpeg.FS('readFile', 'output.mp3');
-                                                            const video = document.getElementById('output-video');
-                                                            video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'audio/mpeg' }));
-                                                        }
-                                                        //document.getElementById("filee").addEventListener('onchange', transcode);
-                                                        const dropArea = document.getElementById("dnarea");
-                                                        dropArea.addEventListener("dragover", function (e) { e.preventDefault(); });
-                                                        dropArea.addEventListener("drop", function (e) {
-                                                            console.log(e.dataTransfer.files[0].name);
-                                                            const fileInput = document.getElementById("filee");
-                                                            fileInput.files = e.dataTransfer.files;
-                                                            const event = new Event('change', { bubbles: true });
-                                                            fileInput.dispatchEvent(event);
-                                                            e.preventDefault();
-                                                        }, true);
-                                                        document.getElementById("filee").addEventListener('change', transcode);
-                                                    });
-                                                    function adu() {
-                                                        var urll = "https://script.google.com/macros/s/AKfycbxN_iQU0-OYm8SOiH0RI_M7oWHIkMI_ZKoWJcRMH7ayyMzygOQXaNZ8GNu0P2ZEba2X/exec";
-                                                        var fileInput = document.getElementById("fileInput");
-                                                        if (fileInput.files.length === 0) {
-                                                            document.getElementById("message").innerText = "Vui lòng chọn một file!";
-                                                            return;
-                                                        }
-                                                        var file = fileInput.files[0];
-                                                        const GAS_DEPLOY = urll;
-                                                        try {
-                                                            const base64String = await encodeFileToBase64(file);
-
-                                                            var formData = new FormData();
-                                                            formData.append("name", file.name);
-                                                            formData.append("type", file.type);
-                                                            formData.append("file", base64String);
-
-                                                            fetch(GAS_DEPLOY, {
-                                                                method: 'POST',
-                                                                body: formData
-                                                            })
-                                                                .then(response => response.json())
-                                                                .then(data => {
-                                                                    if (data.status === "success") {
-                                                                        let fileID = getFileIdFromUrl(data.url);
-                                                                        document.getElementById("message").innerText = fileID;
-                                                                        console.log(fileID);
-                                                                    } else {
-                                                                        document.getElementById("message").innerText = "Lỗi: " + data.message;
-                                                                    }
-                                                                })
-                                                                .catch(error => {
-                                                                    document.getElementById("message").innerText = "Lỗi kết nối!";
-                                                                    console.error(error);
-                                                                });
-
-                                                        } catch (error) {
-                                                            document.getElementById("message").innerText = "Lỗi mã hóa tệp!";
-                                                            console.error(error);
-                                                        }
-                                                    }
-                                                </script>
-                                            </div>
+                                        }
+                                    </style>
+                                    <div class="dnd card">
+                                        <div class="card-header">
+                                            <i class="zmdi zmdi-cloud-upload"></i> Upload file
                                         </div>
-                                    </div>
-                                    <div class="col flex-grow-1">
-                                        <div class="card auto-card">
-                                            <div class="card-body overflow-auto">
-                                                jjjjjj
+                                        <div style="margin:auto; justify-content: center;"
+                                            class="square-card card-body text-center d-flex flex-column justify-content-center">
+                                            <div id="dnarea" class="row"
+                                                style="align: center; display: flex; justify-content: center;">
+                                                <input type="file" id="filee" accept="audio/*" />
+                                                <label for="filee" id="ok">
+                                                    <span id="texttt"><i class="zmdi zmdi-file-plus"></i> Drop
+                                                        audio file here...
+                                                    </span>
+                                                </label>
                                             </div>
+                                            <hr class="mt-1 mb-1" />
+                                            <br>
+                                            <span>Status: <span id="status">Waiting for file input...</span></span>
+                                            <div class="row"
+                                                style="display: block; padding-right: 20px; padding-left: 20px;">
+                                                <div class="progress my-3" style="height:4px;">
+                                                    <div class="progress-bar" style="width:50%;" id="progbar"></div>
+                                                </div>
+                                            </div>
+                                            <link rel="stylesheet" href="/assets/css/plyr.css">
+                                            <script src="/assets/js/plyr.min.js"></script>
+                                            <audio id="output-video" crossorigin controls></audio>
+                                            <hr class="mt-1 mb-1" />
+                                            <label for="submit"></label>
+                                            <button type="submit" class="btn btn-light px-5" onclick="adu()"
+                                                id="uploadBtn" disabled>
+                                                <i class="zmdi zmdi-plus-square"></i> Upload!
+                                            </button>
+                                            <script>
+                                                const player = new Plyr('#output-video', {}); //Init Plyr.io audio control
+                                                document.addEventListener("DOMContentLoaded", function () {
+                                                    const message = document.getElementById('status');
+                                                    const { createFFmpeg, fetchFile } = FFmpeg;
+                                                    //Load FFmpeg
+                                                    const ffmpeg = createFFmpeg({
+                                                        log: true,
+                                                        progress: ({ ratio }) => {
+                                                            message.innerHTML = `Transcoding: ${(ratio * 100.0).toFixed(2)}%`;
+                                                            document.getElementById("progbar").style = "width:" + (ratio * 100.0).toFixed(2).toString() + "%";
+                                                        },
+                                                    });
+                                                    const transcode = async () => {
+                                                        document.getElementById("texttt").innerHTML =
+                                                            '<i class="zmdi zmdi-file-plus"></i> Processing file: '
+                                                            + document.getElementById("filee").files[0].name;
+                                                        document.getElementById("uploadBtn").disabled = true;
+                                                        const name = document.getElementById("filee").files[0].name;
+                                                        message.innerHTML = 'Loading ffmpeg-core.js';
+                                                        await ffmpeg.load();
+                                                        message.innerHTML = 'Start transcoding';
+                                                        await ffmpeg.FS('writeFile', name, await fetchFile(document.getElementById("filee").files[0]));
+                                                        await ffmpeg.run('-i', name, 'output.mp3');
+                                                        message.innerHTML = 'Complete transcoding.';
+                                                        document.getElementById("uploadBtn").disabled = false;
+                                                        const data = await ffmpeg.FS('readFile', 'output.mp3');
+                                                        const video = document.getElementById('output-video');
+                                                        video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'audio/mpeg' }));
+                                                    }
+                                                    //document.getElementById("filee").addEventListener('onchange', transcode);
+                                                    const dropArea = document.getElementById("dnarea");
+                                                    dropArea.addEventListener("dragover", function (e) { e.preventDefault(); });
+                                                    dropArea.addEventListener("drop", function (e) {
+                                                        console.log(e.dataTransfer.files[0].name);
+                                                        const fileInput = document.getElementById("filee");
+                                                        fileInput.files = e.dataTransfer.files;
+                                                        const event = new Event('change', { bubbles: true });
+                                                        fileInput.dispatchEvent(event);
+                                                        e.preventDefault();
+                                                    }, true);
+                                                    document.getElementById("filee").addEventListener('change', transcode);
+                                                });
+                                                async function adu() {
+                                                    var urll = "https://script.google.com/macros/s/AKfycbxN_iQU0-OYm8SOiH0RI_M7oWHIkMI_ZKoWJcRMH7ayyMzygOQXaNZ8GNu0P2ZEba2X/exec";
+                                                    var fileInput = document.getElementById("fileInput");
+                                                    if (fileInput.files.length === 0) {
+                                                        //document.getElementById("message").innerText = "Vui lòng chọn một file!";
+                                                        alert("Not finished processing/No file detected!");
+                                                        return;
+                                                    }
+                                                    var file = fileInput.files[0];
+                                                    const GAS_DEPLOY = urll;
+                                                    try {
+                                                        const base64String = await encodeFileToBase64(file);
+
+                                                        var formData = new FormData();
+                                                        formData.append("name", file.name);
+                                                        formData.append("type", file.type);
+                                                        formData.append("file", base64String);
+
+                                                        fetch(GAS_DEPLOY, {
+                                                            method: 'POST',
+                                                            body: formData
+                                                        })
+                                                            .then(response => response.json())
+                                                            .then(data => {
+                                                                if (data.status === "success") {
+                                                                    let fileID = getFileIdFromUrl(data.url);
+                                                                    document.getElementById("message").innerText = fileID;
+                                                                    console.log(fileID);
+                                                                } else {
+                                                                    document.getElementById("message").innerText = "Lỗi: " + data.message;
+                                                                }
+                                                            })
+                                                            .catch(error => {
+                                                                document.getElementById("message").innerText = "Lỗi kết nối!";
+                                                                console.error(error);
+                                                            });
+
+                                                    } catch (error) {
+                                                        document.getElementById("message").innerText = "Lỗi mã hóa tệp!";
+                                                        console.error(error);
+                                                    }
+                                                }
+                                            </script>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="w-100"></div>
-                                <br>
-                                <div class="card">
-                                    <div class="card-header"><i class="zmdi zmdi-collection-music"></i> Your Tracks
+                                <div class="col flex-grow-1">
+                                    <div class="card auto-card" style="height:397px;">
+                                        <div class="card-header">
+                                            <i class="zmdi zmdi-info-outline"></i> Track Metadata
+                                            <div class="card-action">
+                                                <div class="dropdown">
+                                                    <a href="">Save </a> <i class="zmdi zmdi-arrow-right"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body overflow-auto">
+                                            jjjjjj
+                                        </div>
                                     </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Track ID</th>
-                                                        <th>Track name</th>
-                                                        <th>Album</th>
-                                                        <th>Artist</th>
-                                                        <th>Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php
-                                                    foreach ($t as &$tr) {
-                                                        $albName = getRelease($_SESSION["userwtf"], 0, $tr)->name;
-                                                        echo '
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header"><i class="zmdi zmdi-collection-music"></i> Your Tracks
+                                    <div class="card-action"></div>
+                                    <div class="table-responsive">
+                                        <table class="table align-items-center table-flush table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Track ID</th>
+                                                    <th>Track name</th>
+                                                    <th>Album</th>
+                                                    <th>Artist</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                foreach ($trackList as &$tr) {
+                                                    $albName = getRelease($_SESSION["userwtf"], 0, $tr->id)->name;
+                                                    echo '
                                         <tr>
                                         <td>' . ($tr->id < 10 ? "0" . $tr->id : $tr->id) . '</td>
                                         <td>' . ($tr->name ? $tr->name : "(draft)") . '</td>
@@ -287,11 +303,10 @@ else {
                                             <a class="text-error">Delete</a>
                                         </td>
                                         </tr>';
-                                                    }
-                                                    ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>

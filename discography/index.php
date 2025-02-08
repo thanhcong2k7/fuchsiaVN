@@ -41,6 +41,7 @@ else {
   <script src="/assets/js/jquery.min.js"></script>
   <script src="/assets/js/popper.min.js"></script>
   <script src="/assets/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/assets/css/scroll-bar.css" />
 </head>
 
 <body class="bg-theme bg-theme1">
@@ -89,34 +90,34 @@ else {
                       </tr>
                     </thead>
                     <tbody>
-                      <?
-                      if ($release == null)
-                        echo 'Error occurred while fetching data from server. Please create a ticket about this and try again later...';
-                      else
-                        foreach ($release as &$r) {
-                          $mergedArtistnames = "";
-                          $f = getFile($r->id);
-                          $r2 = getRelease($_SESSION["userwtf"], 0, $r->id);
-                          $track = array();
-                          foreach ($r2->file as &$adu) {
-                            foreach ($f as &$f2) {
-                              if ($f2->id == $adu) {
-                                $t = getTrack($f2->id);
-                                $track[] = $t;
-                                $artist = getArtist($t->id);
-                                $n = 0;
-                                foreach ($artist as &$adu) {
-                                  if ($mergedArtistnames) {
-                                    $n++;
-                                  } else
-                                    $mergedArtistnames .= $adu->name;
+                      <tr>
+                        <?php
+                        if ($release == null)
+                          echo '<center>There\'s nothing here yet...</center>';
+                        else
+                          foreach ($release as &$r) {
+                            $mergedArtistnames = "";
+                            $f = getFile($r->id);
+                            $r2 = getRelease($_SESSION["userwtf"], 0, $r->id);
+                            $track = array();
+                            foreach ($r2->file as &$adu) {
+                              foreach ($f as &$f2) {
+                                if ($f2->id == $adu) {
+                                  $t = getTrack($f2->id);
+                                  $track[] = $t;
+                                  $artist = getArtist($t->id);
+                                  $n = 0;
+                                  foreach ($artist as &$adu) {
+                                    if ($mergedArtistnames) {
+                                      $n++;
+                                    } else
+                                      $mergedArtistnames .= $adu->name;
+                                  }
+                                  $mergedArtistnames .= " & " . $n . " more";
                                 }
-                                $mergedArtistnames .= " & " . $n . " more";
                               }
                             }
-                          }
-                          echo '
-                          <tr>
+                            echo '
                             <td><img loading="eager" style="border-radius:5px; border-style:solid; border-color:white; border-width:1px;" src="' . (!isset($r->artp) || ($r->artp == "") ? '/assets/images/alb.png' : $r->artp) . '" class="product-img" alt="product img"></td>
                             <td>' . ($r->upc ? $r->upc : "--") . '</td>
                             <td>' . ($r->name ? $r->name : "(untitled)") . '</td>
@@ -129,9 +130,10 @@ else {
                         <a href="edit.php?id=' . $r->id . '">Edit</a> / 
                         <a class="text-error" href="edit.php?id=' . $r->id . '&delete=1">Delete</a>
                           </td>
-                  </tr>';
-                        }
-                      ?>
+                  ';
+                          }
+                        ?>
+                      </tr>
                     </tbody>
                   </table>
                 </div>

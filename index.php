@@ -46,6 +46,7 @@ if (!isset($_SESSION["userwtf"])) {
   <script src="assets/js/jquery.min.js"></script>
   <script src="assets/js/popper.min.js"></script>
   <script src="assets/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/assets/css/scroll-bar.css" />
 </head>
 
 <body class="bg-theme bg-theme1">
@@ -111,8 +112,8 @@ if (!isset($_SESSION["userwtf"])) {
                   <div class="progress my-3" style="height:3px;">
                     <div class="progress-bar" style="width:<?php echo (round(14000 / 250000 * 100)) ?>%"></div>
                   </div>
-                  <p class="mb-0 text-white small-font">Your Balance <span class="float-right">+0% <i
-                        class="zmdi zmdi-long-arrow-up"></i></span></p>
+                  <a class="mb-0 text-white small-font" href="/revenue/">Go to Revenue <span class="float-right"><i
+                        class="zmdi zmdi-long-arrow-right"></i></span></a>
                 </div>
               </div>
               <div class="col-12 col-lg-6 col-xl-3 border-light">
@@ -331,17 +332,17 @@ if (!isset($_SESSION["userwtf"])) {
       </div><!--End wrapper-->
 
       <!-- simplebar js -->
-      <script src="assets/plugins/simplebar/js/simplebar.js"></script>
+      <script src="/assets/plugins/simplebar/js/simplebar.js"></script>
       <!-- sidebar-menu js -->
-      <script src="assets/js/sidebar-menu.js"></script>
+      <script src="/assets/js/sidebar-menu.js"></script>
       <!-- Custom scripts -->
-      <script src="assets/js/app-script.js"></script>
+      <script src="/assets/js/app-script.js"></script>
       <!-- Chart js -->
 
-      <script src="assets/plugins/Chart.js/Chart.min.js"></script>
+      <script src="/assets/plugins/Chart.js/Chart.min.js"></script>
 
       <!-- Index js -->
-      <script src="assets/js/index.js"></script>
+      <script src="/assets/js/index.js"></script>
       <script type="text/javascript">
         var myVar = setInterval(function () {
           myTimer()

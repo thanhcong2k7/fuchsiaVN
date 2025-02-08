@@ -1,6 +1,7 @@
 <?php
 	include 'obf.php';
  	//echo "FUCK YOU! YOU DON'T HAVE ANY PERMISSIONS TO RUN THIS SHIT!";
+	error_reporting(E_ERROR | E_PARSE);
 	function query($cmd){
 		return $GLOBALS["conn"]->query($cmd);
 	}
@@ -76,7 +77,7 @@
 			$tmp2->c = $row["compLine"];
 			$tmp2->p = $row["publishLine"];
 			$tmp2->orgReldate = $row["orgReldate"];
-			$rrole = json_decode($row["artistRole"]); //role
+			//$rrole = json_decode($row["artistRole"]); //role
 			$tmp2->createdDate = $row["createdDate"];
 			$tmp2->relDate = $row["relDate"];
 			$tmp2->version = $row["versionLine"];
@@ -109,13 +110,13 @@
 		public $handle; //actually username
 	}
 	function getUser($uid){
-		$tmp1 = query("select name,email,labelName,regdate,imgavt from user where userID=".$uid.";");
+		$tmp1 = query("select * from user where userID=".$uid.";");
 		$tmp2 = new userType();
 		while ($row=$tmp1->fetch_assoc()){
 			$tmp2->name = $row["name"];
 			$tmp2->display = $row["labelName"];
 			$tmp2->register = $row["regdate"];
-			$tmp2->avatar = $row["imgavt"]?$row["imgavt"]:"https://dashboard.fuchsia.viiic.net/assets/images/gallery/ava_sample.png";
+			$tmp2->avatar = $row["imgavt"]?$row["imgavt"]:"/assets/images/gallery/ava_sample.png";
 			$tmp2->email = $row["email"];
 			$tmp2->type = $row["type"];
 			$tmp2->handle = $row["username"];

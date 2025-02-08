@@ -1,20 +1,20 @@
 # -- DEFAULT DOCUMENT
 DirectoryIndex index.html index.php
 
-# -- DEFINING ERROR PAGES
-ErrorDocument 403 error/403.html
-ErrorDocument 404 error/404.html
-ErrorDocument 500 error/500/index.html
+# -- DEFINING ERROR PAGES (Use absolute paths)
+ErrorDocument 403 /error/403.html
+ErrorDocument 404 /error/404.html
+ErrorDocument 500 /error/500/index.html
 
 # -- INIT
 RewriteEngine on
+# Exclude the assets folder from rewriting
+RewriteRule ^assets/ - [L]
+# -- REDIRECT INDEX PAGES TO THEIR DIRECTORY (e.g., /index.php → /)
+RewriteCond %{REQUEST_URI} ^/index\.(php|html)$
+RewriteRule .* / [R=301,L]
 
-# -- REDIRECT ANY INDEX PAGE TO ROOT
-RewriteCond %{Request_URI} /index\.
-RewriteRule .* / [R=301]
-
-# -- REDIRECT REQUEST FOLDER TO /INDEX
-RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
-RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-d
+# -- REDIRECT NON-EXISTENT REQUESTS TO /INDEX.PHP
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule .* /index.php [L]
-

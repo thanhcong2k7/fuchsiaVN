@@ -59,6 +59,7 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
     <script src="/assets/js/jquery.min.js"></script>
     <script src="/assets/js/popper.min.js"></script>
     <script src="/assets/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/assets/css/scroll-bar.css" />
 </head>
 
 <body class="bg-theme bg-theme1">

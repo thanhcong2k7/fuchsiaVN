@@ -41,6 +41,7 @@ else {
   <script src="../assets/js/jquery.min.js"></script>
   <script src="../assets/js/popper.min.js"></script>
   <script src="../assets/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/assets/css/scroll-bar.css" />
 </head>
 
 <body class="bg-theme bg-theme1">
@@ -63,15 +64,16 @@ else {
     <div class="content-wrapper">
       <div class="container-fluid">
         <div class="row">
-          <div class="card">
-            <div class="card-header">
-              Account Balance
-            </div>
-            <div class="card-body">
-              j
+          <div class="col">
+            <div class="card">
+              <div class="card-header">
+                Account Balance
+              </div>
+              <div class="card-body">
+                j
+              </div>
             </div>
           </div>
-          <div class="col"></div>
         </div>
         <!--start overlay-->
         <div class="overlay toggle-menu"></div>

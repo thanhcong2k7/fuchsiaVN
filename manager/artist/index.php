@@ -51,6 +51,7 @@ else {
     <script src="/assets/js/jquery.min.js"></script>
     <script src="/assets/js/popper.min.js"></script>
     <script src="/assets/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/assets/css/scroll-bar.css" />
 </head>
 
 <body class="bg-theme bg-theme1">
@@ -151,7 +152,7 @@ else {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?
+                                            <?php
                                             if ($artist == null)
                                                 echo 'There\'s nothing here yet...';
                                             else
