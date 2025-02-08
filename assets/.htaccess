@@ -1,10 +1,9 @@
-# /assets/.htaccess
-
-# Apache 2.2 and earlier
-Order deny,allow
-Deny from all
-
-# Apache 2.4 and later
 <IfModule mod_authz_core.c>
+    # Deny access by default
     Require all denied
+
+    # Allow public access to asset file types
+    <FilesMatch "\.(css|js|png|jpe?g|gif|svg)$">
+        Require all granted
+    </FilesMatch>
 </IfModule>

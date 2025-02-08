@@ -338,11 +338,10 @@ if (!isset($_SESSION["userwtf"])) {
       <!-- Custom scripts -->
       <script src="/assets/js/app-script.js"></script>
       <!-- Chart js -->
-
       <script src="/assets/plugins/Chart.js/Chart.min.js"></script>
-
       <!-- Index js -->
       <script src="/assets/js/index.js"></script>
+
       <script type="text/javascript">
         var myVar = setInterval(function () {
           myTimer()
