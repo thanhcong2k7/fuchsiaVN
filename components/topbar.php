@@ -43,9 +43,7 @@
             </a>
           </li>
           <li class="dropdown-divider"></li>
-          <li class="dropdown-item"><i class="icon-wallet mr-2"></i> Account</li>
-          <li class="dropdown-divider"></li>
-          <li class="dropdown-item"><i class="icon-settings mr-2"></i> Setting</li>
+          <a class="dropdown-item" href="/settings"><i class="icon-wallet mr-2"></i> Account</a>
           <li class="dropdown-divider"></li>
           <a class="dropdown-item" href="/login/login.php?logout=yes"><i class="icon-power mr-2"></i> Logout</a>
         </ul>

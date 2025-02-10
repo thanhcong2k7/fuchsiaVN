@@ -143,7 +143,7 @@ else {
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>
-                                                <th>Artist ID</th>
+                                                <th>ID</th>
                                                 <th>Artist name</th>
                                                 <th>Spotify</th>
                                                 <th>Apple Music</th>
