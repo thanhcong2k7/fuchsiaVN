@@ -255,8 +255,8 @@ if (!isset($_SESSION["userwtf"])) {
                               <td>' . ($re->status == 0 ? "DRAFT" : ($re->status == 1 ? "DELIVERED" : ($re->status == 2 ? "ERROR" : "CHECKING"))) . '</td>
                               <td>' . ($re->relDate ? $re->relDate : "--/--/----") . '</td>
                               <td>
-                                <a href="discography/edit.php?id=' . $re->id . '">Edit</a> / 
-			                          <a class="text-error" href="discography/edit.php?id=' . $re->id . '&delete=1">Delete</a>
+                                <a href="/discography/edit.php?id=' . $re->id . '">Edit</a> / 
+			                          <a class="text-error" href="/discography/edit.php?id=' . $re->id . '&delete=1">Delete</a>
                               </td>
                             </tr>';
                       }
