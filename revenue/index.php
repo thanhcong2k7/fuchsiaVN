@@ -70,7 +70,19 @@ else {
                 Account Balance
               </div>
               <div class="card-body">
-                j
+                <div class="row">
+                  <div class="col" style="height:250px; width: 400px; min-width:300px;">
+                    <div class="card" style="height:100%; width:100%">
+                      <div class="card-body">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="card">
+                      j
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

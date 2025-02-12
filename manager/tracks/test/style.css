@@ -1,0 +1,144 @@
+:Root {
+    Font-Size: 24px;
+  }
+  
+  Body {
+    Background: #1488cc;
+    /* Fallback For Old Browsers */
+    Background: Linear-Gradient(To Left, #283593, #1976d2);
+    Height: 100vh;
+    Font-Family: "Josefin Sans", Sans-Serif;
+  }
+  
+  /* Background Circles Start */
+  .Circle {
+    Position: Absolute;
+    Border-Radius: 50%;
+    Background: Radial-Gradient(#006db3, #29b6f6);
+  }
+  .Circles {
+    Position: Absolute;
+    Height: 270px;
+    Width: 450px;
+    Top: 50%;
+    Left: 50%;
+    Transform: Translate(-50%, -50%);
+  }
+  .Circle-1 {
+    Height: 180px;
+    Width: 180px;
+    Top: -50px;
+    Left: -60px;
+  }
+  .Circle-2 {
+    Height: 200px;
+    Width: 200px;
+    Bottom: -90px;
+    Right: -90px;
+    Opacity: 0.8;
+  }
+  /* Background Circles End */
+  
+  .Card-Group {
+    Position: Absolute;
+    Top: 50%;
+    Left: 50%;
+    Transform: Translate(-50%, -50%);
+  }
+  
+  .Card {
+    Position: Relative;
+    Height: 270px;
+    Width: 450px;
+    Border-Radius: 25px;
+    Background: Rgba(255, 255, 255, 0.2);
+    Backdrop-Filter: Blur(30px);
+    Border: 2px Solid Rgba(255, 255, 255, 0.1);
+    Box-Shadow: 0 0 80px Rgba(0, 0, 0, 0.2);
+    Overflow: Hidden;
+  }
+  
+  .Logo Img,
+  .Chip Img,
+  .Number,
+  .Name,
+  .From,
+  .To,
+  .Ring {
+    Position: Absolute; /* All Items Inside Card Should Have Absolute Position */
+  }
+  
+  .Logo Img {
+    Top: 35px;
+    Right: 40px;
+    Width: 80px;
+    Height: Auto;
+    Opacity: 0.8;
+  }
+  
+  .Chip Img {
+    Top: 120px;
+    Left: 40px;
+    Width: 50px;
+    Height: Auto;
+    Opacity: 0.8;
+  }
+  
+  .Number,
+  .Name,
+  .From,
+  .To {
+    Color: Rgba(255, 255, 255, 0.8);
+    Font-Weight: 400;
+    Letter-Spacing: 2px;
+    Text-Shadow: 0 0 2px Rgba(0, 0, 0, 0.6);
+  }
+  
+  .Number {
+    Left: 40px;
+    Bottom: 65px;
+    Font-Family: "Nunito", Sans-Serif;
+  }
+  
+  .Name {
+    Font-Size: 0.5rem;
+    Left: 40px;
+    Bottom: 35px;
+  }
+  
+  .From {
+    Font-Size: 0.5rem;
+    Bottom: 35px;
+    Right: 110px;
+  }
+  
+  .To {
+    Font-Size: 0.5rem;
+    Bottom: 35px;
+    Right: 40px;
+  }
+  
+  /* The Two Rings On The Card Background */
+  .Ring {
+    Height: 500px;
+    Width: 500px;
+    Border-Radius: 50%;
+    Background: Transparent;
+    Border: 50px Solid Rgba(255, 255, 255, 0.1);
+    Bottom: -250px;
+    Right: -250px;
+    Box-Sizing: Border-Box;
+  }
+  
+  .Ring::After {
+    Content: "";
+    Position: Absolute;
+    Height: 600px;
+    Width: 600px;
+    Border-Radius: 50%;
+    Background: Transparent;
+    Border: 30px Solid Rgba(255, 255, 255, 0.1);
+    Bottom: -80px;
+    Right: -110px;
+    Box-Sizing: Border-Box;
+  }
