@@ -76,18 +76,18 @@ document.addEventListener("DOMContentLoaded", function () {
             formData.append("name", file.name);
             formData.append("type", file.type);
             formData.append("file", base64String);
+            var tmpfileID;
 
             fetch(GAS_DEPLOY, {
                 method: 'POST',
                 body: formData
-            })
-                .then(response => response.json())
+            }).then(response => response.json())
                 .then(data => {
                     if (data.status === "success") {
                         let fileID = getFileIdFromUrl(data.url);
-                        document.getElementById("status").innerText = fileID;
                         console.log(fileID);
                         document.getElementById("notiSound").play();
+                        tmpfileID = fileID;
                     } else {
                         document.getElementById("status").innerText = data.message;
                     }
@@ -97,6 +97,24 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.error(error);
                 });
 
+            var updateDB = new FormData();
+            updateDB.append("fName", file.name);
+            updateDB.append("gID", tmpfileID);
+
+            fetch("insert.php", {
+                method: "POST",
+                body: updateDB,
+                credentials: "same-origin"
+            }).then(response => response.json())
+                .then(data => {
+                    if (data.status === 0)
+                        console.log(data.message);
+                    else console.log(data.message);
+                }).catch(error2 => {
+                    console.error(error2);
+                });
+            document.getElementById("status").innerText = "Finished uploading.";
+            //
         } catch (error) {
             document.getElementById("status").innerText = "Error encoding!";
             console.error(error);

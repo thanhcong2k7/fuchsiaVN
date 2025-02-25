@@ -153,24 +153,23 @@ if (!isset($_SESSION["userwtf"])) {
               <div class="row m-0 row-group text-center border-top border-light-3">
                 <div class="col-12 col-lg-4">
                   <div class="p-3">
-                    <h5 class="mb-0">45.87M</h5>
-                    <small class="mb-0">Overall Visitor <span> <i class="fa fa-arrow-up"></i> 2.43%</span></small>
+                    <h5 class="mb-0">0</h5>
+                    <small class="mb-0">New Releases <span> <i class="fa fa-arrow-up"></i> 0%</span></small>
                   </div>
                 </div>
                 <div class="col-12 col-lg-4">
                   <div class="p-3">
-                    <h5 class="mb-0">15:48</h5>
-                    <small class="mb-0">Visitor Duration <span> <i class="fa fa-arrow-up"></i> 12.65%</span></small>
+                    <h5 class="mb-0">0</h5>
+                    <small class="mb-0">Last Month Stream <span> <i class="fa fa-arrow-up"></i> 0%</span></small>
                   </div>
                 </div>
                 <div class="col-12 col-lg-4">
                   <div class="p-3">
-                    <h5 class="mb-0">245.65</h5>
-                    <small class="mb-0">Pages/Visit <span> <i class="fa fa-arrow-up"></i> 5.62%</span></small>
+                    <h5 class="mb-0">0</h5>
+                    <small class="mb-0">Last Month Revenue <span> <i class="fa fa-arrow-up"></i> 0%</span></small>
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
 

@@ -70,7 +70,7 @@ else {
                                 Release Analytics
                             </div>
                             <div class="card-body">
-                                j
+                                Under construction! Please comeback later...
                             </div>
                         </div>
                     </div>

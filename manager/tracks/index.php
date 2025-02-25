@@ -10,6 +10,9 @@ else {
     $user = getUser($_SESSION["userwtf"]);
     $trackList = getTrackList($_SESSION["userwtf"]);
     $allArtists = getArtist($_SESSION["userwtf"]);
+    if (isset($_GET["trackID"])) {
+        $track = getTrack($_GET["trackID"]);
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -184,14 +187,14 @@ else {
                                             <audio id="output-video" crossorigin controls></audio>
                                             <hr class="mt-1 mb-1" />
                                             <label for="submit"></label>
-                                            <button type="submit" class="btn btn-light px-5"
-                                                id="uploadBtn" disabled>
+                                            <button type="submit" class="btn btn-light px-5" id="uploadBtn" disabled>
                                                 <i class="zmdi zmdi-plus-square"></i> Upload!
                                             </button>
                                             <script>
                                                 const player = new Plyr('#output-video', {}); //Init Plyr.io audio control
                                             </script>
-                                            <audio src="noti.wav" style="display:none" preload="auto" id="notiSound"></audio>
+                                            <audio src="noti.wav" style="display:none" preload="auto"
+                                                id="notiSound"></audio>
                                             <script src="app.js"></script>
                                         </div>
                                     </div>
@@ -207,7 +210,25 @@ else {
                                             </div>
                                         </div>
                                         <div class="card-body overflow-auto">
-                                            jjjjjj
+                                            <form action="POST" action="">
+                                                <div class="form-group col">
+                                                    <label for="albumtitle">Track Title</label>
+                                                    <input type="text" class="form-control" name="albumtitle"
+                                                        placeholder="Name of your track"
+                                                        value="<?php echo $track->name; ?>">
+                                                </div>
+                                                <div class="form-group col">
+                                                    <label for="albumtitle">Track ISRC</label>
+                                                    <input type="text" class="form-control" name="albumtitle"
+                                                        placeholder="Leave blank if you don't have one"
+                                                        value="<?php echo $track->isrc; ?>">
+                                                </div>
+                                                <div class="form-group col">
+                                                    <label for="albumtitle">Album Title</label>
+                                                    <input type="text" class="form-control" name="albumtitle"
+                                                        placeholder="j day???" value="<?php echo $track->name; ?>">
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>

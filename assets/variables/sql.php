@@ -148,6 +148,7 @@
 		public $artist;
 		public $artistname;
 		public $file;
+		public $isrc;
 	}
 	function getTrack($track){
 		$tmp1 = query("select * from track where id=".$track.";");
@@ -165,6 +166,7 @@
 			$typ->artistname = $mergedArtistnames;
 			$typ->role = json_decode($row["role"]);
 			$typ->file = $row["fID"];
+			$typ->isrc = $row["isrc"];
 		}
 		return $typ;
 	}
