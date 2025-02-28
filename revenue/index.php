@@ -86,7 +86,7 @@ else {
               </div>
               <div class="card-body">
                 <h1 class="mb-3"><i class="zmdi zmdi-money"></i> 0.000</h1> <!-- Added margin-bottom -->
-                <div class="small text-muted"> <!-- Added styling for secondary text -->
+                <div class="small text"> <!-- Added styling for secondary text -->
                   <p class="mb-1">You are currently not eligible to withdraw!</p>
                   <p class="mb-0">Last transaction: never</p>
                 </div>
@@ -115,6 +115,9 @@ else {
               <div class="card-header"><i class="zmdi zmdi-format-list-bulleted"></i> Transaction History</div>
               <div class="card-body">
                 <?php
+                //
+                // Transaction list
+                //
                   if(true){
                     echo '<center>Nothing here yet...</center>';
                   } else {

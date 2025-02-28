@@ -677,28 +677,6 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                 </div>
                                 <script>
                                     const form = document.getElementById('formdepchai');
-                                /*
-                                form.addEventListener('submit', e => {
-                                    e.preventDefault();
-                                    const file = document.getElementById("input-file").files[0];
-                                    const fr = new FileReader();
-                                    fr.readAsArrayBuffer(file);
-                                    fr.onload = f => {
-                                        //api key imgbb 
-                                        //const key = '9527a1c516dd2fca6551240ba89343ca';
-                                        const url = "https://api.imgbb.com/1/upload";
-                                        fetch(`${url}?key=${key}`);
-                                        /*
-                                        const url = "https://script.google.com/macros/s/AKfycbyRR07piipMl-FrzPBonQS5O3UX8dgp2sSMMXJkllDJdFj_VoZ4z0yLpzw3Mu8YSso/exec";  // <--- Please set the URL of Web Apps.
-                                        const qs = new URLSearchParams({ filename: "<?php echo $_GET["id"]; ?>." + file.name.split('.').pop(), mimeType: file.type });
-                                    fetch(`${url}?${qs}`, { method: "POST", body: JSON.stringify([...new Int8Array(f.target.result)]) })
-                                        .then(res => res.json())
-                                        .then(e => { console.log(JSON.parse(e).fileID); fetch("../assets/variables/update.php?req=1&id=<?php echo $albumID; ?>&fileID=" + JSON.parse(e).fileID + "&name=<?php echo $_GET["id"]; ?>." + file.name.split('.').pop(), { credentials: "same-origin" }).then(e => console.log(e)).catch(err => console.log(err)); })  // <--- You can retrieve the returned value here.
-                                        .catch(err => console.log(err));
-                                        //req = 1 -> album cover
-                                        //req = 2 -> track
-                                    }
-                                });*/
                                 </script>
                             </div>
                             </form>
