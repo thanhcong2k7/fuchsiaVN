@@ -241,7 +241,8 @@ else {
                                             <thead>
                                                 <tr>
                                                     <th>Track ID</th>
-                                                    <th>Track name</th>
+                                                    <th>isrc</th>
+                                                    <th>name</th>
                                                     <th>Album</th>
                                                     <th>Artist</th>
                                                     <th>Actions</th>
@@ -254,6 +255,7 @@ else {
                                                     echo '
                                         <tr>
                                         <td>' . ($tr->id < 10 ? "0" . $tr->id : $tr->id) . '</td>
+                                        <td>' . ($tr->isrc ? $tr->isrc : "[NULL]") . '</td>
                                         <td>' . ($tr->name ? $tr->name : "(draft)") . '</td>
                                         <td>' . ($albName ? $albName : "[NULL]") . '</td>
                                         <td>' . ($tr->artistname ? $tr->artistname : "[NULL]") . '</td>

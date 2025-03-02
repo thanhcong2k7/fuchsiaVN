@@ -107,10 +107,10 @@ if (!isset($_SESSION["userwtf"])) {
               </div>
               <div class="col-12 col-lg-6 col-xl-3 border-light">
                 <div class="card-body">
-                  <h5 class="text-white mb-0">14,000 VND <span class="float-right"><i class="fa fa-usd"></i></span>
+                  <h5 class="text-white mb-0">0,000 USD <span class="float-right"><i class="fa fa-usd"></i></span>
                   </h5>
                   <div class="progress my-3" style="height:3px;">
-                    <div class="progress-bar" style="width:<?php echo (round(14000 / 250000 * 100)) ?>%"></div>
+                    <div class="progress-bar" style="width:<?php echo (round(0 / 50 * 100)) ?>%"></div>
                   </div>
                   <a class="mb-0 text-white small-font" href="/revenue/">Go to Revenue <span class="float-right"><i
                         class="zmdi zmdi-long-arrow-right"></i></span></a>
