@@ -90,7 +90,6 @@ else {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
                         <?php
                         if ($release == null)
                           echo '<center>There\'s nothing here yet...</center>';
@@ -117,7 +116,7 @@ else {
                                 }
                               }
                             }
-                            echo '
+                            echo '<tr>
                             <td><img loading="eager" style="border-radius:5px; border-style:solid; border-color:white; border-width:1px;" src="' . (!isset($r->artp) || ($r->artp == "") ? '/assets/images/alb.png' : $r->artp) . '" class="product-img" alt="product img"></td>
                             <td>' . ($r->upc ? $r->upc : "--") . '</td>
                             <td>' . ($r->name ? $r->name : "(untitled)") . '</td>
@@ -129,11 +128,10 @@ else {
                           <td>
                         <a href="edit.php?id=' . $r->id . '">Edit</a> / 
                         <a class="text-error" href="edit.php?id=' . $r->id . '&delete=1">Delete</a>
-                          </td>
+                          </td></tr>
                   ';
                           }
                         ?>
-                      </tr>
                     </tbody>
                   </table>
                 </div>

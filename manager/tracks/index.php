@@ -211,24 +211,137 @@ else {
                                         </div>
                                         <div class="card-body overflow-auto">
                                             <form action="POST" action="">
-                                                <div class="form-group col">
-                                                    <label for="albumtitle">Track Title</label>
-                                                    <input type="text" class="form-control" name="albumtitle"
-                                                        placeholder="Name of your track"
-                                                        value="<?php echo $track->name; ?>">
-                                                </div>
-                                                <div class="form-group col">
-                                                    <label for="albumtitle">Track ISRC</label>
-                                                    <input type="text" class="form-control" name="albumtitle"
-                                                        placeholder="Leave blank if you don't have one"
-                                                        value="<?php echo $track->isrc; ?>">
+                                                <div class="row col">
+                                                    <div class="form-group col-8">
+                                                        <label for="albumtitle">Track Title</label>
+                                                        <input type="text" class="form-control" name="albumtitle"
+                                                            placeholder="Name of your track"
+                                                            value="<?php echo $track->name; ?>">
+                                                    </div>
+                                                    <div class="form-group col-4">
+                                                        <label for="albumtitle">Track Version (optional)</label>
+                                                        <input type="text" class="form-control" name="albumtitle"
+                                                            placeholder="Remix, Original, ..."
+                                                            value="<?php echo $track->version; ?>">
+                                                    </div>
                                                 </div>
                                                 <div class="form-group col">
                                                     <label for="albumtitle">Album Title</label>
                                                     <input type="text" class="form-control" name="albumtitle"
                                                         placeholder="j day???" value="<?php echo $track->name; ?>">
                                                 </div>
+                                                <div class="form-group col">
+                                                    <label for="albumtitle">Track ISRC (optional)</label>
+                                                    <input type="text" class="form-control" name="albumtitle"
+                                                        placeholder="Leave blank if you don't have one"
+                                                        value="<?php echo $track->isrc; ?>">
+                                                </div>
+                                                <div class="form-group col">
+                                                    <label for="artist-search">Search and Select Artists</label>
+                                                    <select class="form-control select2-single" id="artist-search">
+                                                        <option></option> <!-- Empty option for placeholder -->
+                                                        <!-- Options from your database -->
+                                                        <option value="1">Artist 1</option>
+                                                        <option value="2">Artist 2</option>
+                                                        <option value="3">Artist 3</option>
+                                                        <option value="4">Artist 4</option>
+                                                    </select>
+                                                </div>
+
+                                                <!-- Selected artists table -->
+                                                <div class="card mt-3">
+                                                    <div class="card-header">Selected Artists</div>
+                                                    <div class="table-responsive">
+                                                        <table class="table align-items-center table-flush table-hover"
+                                                            id="selected-artists-table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Artist Name</th>
+                                                                    <th>Actions</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <!-- Selected artists will appear here -->
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Hidden input to store selected values -->
+                                                <input type="hidden" name="selected_artists" id="selected-artists">
                                             </form>
+                                            <!-- Add Select2 CSS and JS -->
+                                            <link
+                                                href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+                                                rel="stylesheet">
+                                            <style>
+                                                .selected-item {
+                                                    display: flex;
+                                                    justify-content: space-between;
+                                                    align-items: center;
+                                                    padding: 8px;
+                                                    border-bottom: 1px solid #ddd;
+                                                }
+
+                                                .remove-item {
+                                                    cursor: pointer;
+                                                    color: #dc3545;
+                                                    margin-left: 10px;
+                                                }
+
+                                                .select2-container--default .select2-selection--single {
+                                                    border: 1px solid #ced4da;
+                                                    height: 38px;
+                                                }
+                                            </style>
+
+                                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                            <script
+                                                src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+                                            <style>
+                                                /* Make Select2 match form-control styling */
+                                                .select2-container--default .select2-selection--single {
+                                                    background-color: inherit;
+                                                    border: inherit;
+                                                    border-radius: inherit;
+                                                    height: auto;
+                                                    padding: .375rem .75rem;
+                                                }
+
+                                                /* Dropdown styling */
+                                                .select2-container--default .select2-results__option--highlighted[aria-selected] {
+                                                    background-color: rgba(0, 0, 0, 0.1);
+                                                }
+
+                                                /* Search input in dropdown */
+                                                .select2-container--default .select2-search--dropdown .select2-search__field {
+                                                    border: 1px solid #ced4da;
+                                                    background-color: inherit;
+                                                }
+
+                                                /* Focus state */
+                                                .select2-container--default.select2-container--focus .select2-selection--single {
+                                                    border-color: #80bdff;
+                                                    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+                                                }
+
+                                                /* Arrow icon color */
+                                                .select2-container--default .select2-selection--single .select2-selection__arrow b {
+                                                    border-color: #495057 transparent transparent transparent;
+                                                }
+                                            </style>
+
+                                            <script>
+                                                $(document).ready(function () {
+                                                    $('#artist-search').select2({
+                                                        theme: "bootstrap4",
+                                                        templateSelection: function (data, container) {
+                                                            $(container).addClass("form-control");
+                                                            return data.text;
+                                                        }
+                                                    });
+                                                });
+                                            </script>
                                         </div>
                                     </div>
                                 </div>
@@ -260,7 +373,7 @@ else {
                                         <td>' . ($albName ? $albName : "[NULL]") . '</td>
                                         <td>' . ($tr->artistname ? $tr->artistname : "[NULL]") . '</td>
                                         <td>
-                                            <a onclick="" href="#metadata">Edit</a> / 
+                                            <a onclick="" href="?trackID=' . $tr->id . '">Edit</a> / 
                                             <a class="text-error">Delete</a>
                                         </td>
                                         </tr>';

@@ -144,6 +144,7 @@
 	class trackType{
 		public $id;
 		public $name;
+		public $version;
 		public $role;
 		public $artist;
 		public $artistname;
@@ -157,6 +158,7 @@
 		while ($row=$tmp1->fetch_assoc()){
 			$typ->id = $row["id"];
 			$typ->name = $row["name"];
+			$typ->version = $row["ver"];
 			$typ->artist = json_decode($row["artist"]);
 			$artist = getArtist($typ->id);
 			$mergedArtistnames = "";
