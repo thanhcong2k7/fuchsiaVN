@@ -210,137 +210,347 @@ else {
                                             </div>
                                         </div>
                                         <div class="card-body overflow-auto">
-                                            <form action="POST" action="">
-                                                <div class="row col">
-                                                    <div class="form-group col-8">
-                                                        <label for="albumtitle">Track Title</label>
-                                                        <input type="text" class="form-control" name="albumtitle"
-                                                            placeholder="Name of your track"
-                                                            value="<?php echo $track->name; ?>">
-                                                    </div>
-                                                    <div class="form-group col-4">
-                                                        <label for="albumtitle">Track Version (optional)</label>
-                                                        <input type="text" class="form-control" name="albumtitle"
-                                                            placeholder="Remix, Original, ..."
-                                                            value="<?php echo $track->version; ?>">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col">
-                                                    <label for="albumtitle">Album Title</label>
-                                                    <input type="text" class="form-control" name="albumtitle"
-                                                        placeholder="j day???" value="<?php echo $track->name; ?>">
-                                                </div>
-                                                <div class="form-group col">
-                                                    <label for="albumtitle">Track ISRC (optional)</label>
-                                                    <input type="text" class="form-control" name="albumtitle"
-                                                        placeholder="Leave blank if you don't have one"
-                                                        value="<?php echo $track->isrc; ?>">
-                                                </div>
-                                                <div class="form-group col">
-                                                    <label for="artist-search">Search and Select Artists</label>
-                                                    <select class="form-control select2-single" id="artist-search">
-                                                        <option></option> <!-- Empty option for placeholder -->
-                                                        <!-- Options from your database -->
-                                                        <option value="1">Artist 1</option>
-                                                        <option value="2">Artist 2</option>
-                                                        <option value="3">Artist 3</option>
-                                                        <option value="4">Artist 4</option>
-                                                    </select>
-                                                </div>
+                                            <form method="POST" action="">
+                                                <!-- Track Section -->
+                                                <!-- Track Section -->
+                                                <div class="card mb-3">
+                                                    <div class="card-body">
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-8 mb-3">
+                                                                <label class="d-block mb-1">Track Title</label>
+                                                                <input type="text" class="form-control"
+                                                                    name="tracktitle" placeholder="Name of your track"
+                                                                    value="<?php echo $track->name; ?>">
+                                                            </div>
+                                                            <div class="form-group col-md-4 mb-3">
+                                                                <label class="d-block mb-1">Track Version
+                                                                    (optional)</label>
+                                                                <input type="text" class="form-control"
+                                                                    name="trackversion"
+                                                                    placeholder="Remix, Original, ..."
+                                                                    value="<?php echo $track->version; ?>">
+                                                            </div>
+                                                        </div>
 
+                                                        <!-- Album/ISRC Section -->
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-6 mb-3">
+                                                                <label class="d-block mb-1">Primary Genre</label>
+                                                                <input type="text" class="form-control"
+                                                                    name="albumtitle" placeholder="" value="">
+                                                            </div>
+                                                            <div class="form-group col-md-6 mb-3">
+                                                                <label class="d-block mb-1">Secondary Genre
+                                                                    (optional)</label>
+                                                                <input type="text" class="form-control" name="isrc"
+                                                                    placeholder="Optional"
+                                                                    value="<?php echo $track->isrc; ?>">
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Phonogram Section -->
+                                                        <div class="form-row align-items-center mb-3">
+                                                            <div class="form-group col-md-4">
+                                                                <label class="d-block mb-1">℗ P Year</label>
+                                                                <input type="text" class="form-control" name="pyear"
+                                                                    placeholder="<?php echo date("Y"); ?>"
+                                                                    value="<?php echo date("Y"); ?>" required>
+                                                            </div>
+                                                            <div class="form-group col-md-8">
+                                                                <label class="d-block mb-1">℗ Phonogram Rights
+                                                                    Holder</label>
+                                                                <input type="text" class="form-control" name="pline"
+                                                                    placeholder="Phonogram line. Example: VINA Nation"
+                                                                    value="<?php echo $release->p; ?>" required>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Track ISRC -->
+                                                        <div class="form-row">
+                                                            <div class="form-group col mb-1">
+                                                                <!-- Reduced bottom margin -->
+                                                                <label class="d-block mb-1">Track ISRC</label>
+                                                                <input type="text" class="form-control" name="preview"
+                                                                    placeholder="00:15"
+                                                                    value="<?php echo $track->isrc; ?>">
+                                                                <!-- Fixed PHP comment -->
+                                                                <small class="form-text text-muted mt-1"></small>
+                                                            </div>
+                                                        </div>
+                                                        <!-- TikTok Preview Start Time -->
+                                                        <div class="form-row">
+                                                            <div class="form-group col mb-1">
+                                                                <!-- Reduced bottom margin -->
+                                                                <label class="d-block mb-1">Preview Start Time
+                                                                    (mm:ss)</label>
+                                                                <input type="text" class="form-control" name="preview"
+                                                                    placeholder="00:15"
+                                                                    value="<?php //echo $track->preview; ?>">
+                                                                <!-- Fixed PHP comment -->
+                                                                <small class="form-text text-muted mt-1">
+                                                                    Indicate the minute at which the track should start
+                                                                    playing. Please note that this only applies to
+                                                                    channels that support this specification.
+                                                                </small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <!-- Selected artists table -->
                                                 <div class="card mt-3">
-                                                    <div class="card-header">Selected Artists</div>
-                                                    <div class="table-responsive">
-                                                        <table class="table align-items-center table-flush table-hover"
-                                                            id="selected-artists-table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Artist Name</th>
-                                                                    <th>Actions</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <!-- Selected artists will appear here -->
-                                                            </tbody>
-                                                        </table>
+                                                    <div class="card-header">Select And Select Artists</div>
+                                                    <div class="card-body">
+                                                        <select class="" id="artist-search" multiple>
+                                                            <option value="1">Artist 1</option>
+                                                            <option value="2">Artist 2</option>
+                                                            <option value="3">Artist 3</option>
+                                                            <option value="4">Artist 4</option>
+                                                        </select>
+                                                        <div class="table-responsive">
+                                                            <table
+                                                                class="table align-items-center table-flush table-hover"
+                                                                id="selected-artists-table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Artist Name</th>
+                                                                        <th>Roles</th>
+                                                                        <th>Actions</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <!-- Selected artists will appear here -->
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="selected_artists" id="selected-artists">
+                                                <!-- Add this after the Selected Artists table -->
+                                                <div class="card mt-3">
+                                                    <div class="card-header">Lyrics</div>
+                                                    <div class="card-body">
+                                                        <div class="form-group">
+                                                            <label>Language of the Lyrics</label>
+                                                            <div class="custom-control custom-checkbox mb-2">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="instrumentalCheck" name="is_instrumental">
+                                                                <label class="custom-control-label"
+                                                                    for="instrumentalCheck">This track is
+                                                                    instrumental</label>
+                                                            </div>
+                                                            <select class="form-control" id="languageSelect"
+                                                                name="lyrics_language">
+                                                                <option value="">Select language...</option>
+                                                                <option value="en">English</option>
+                                                                <option value="es">Spanish</option>
+                                                                <option value="fr">French</option>
+                                                                <option value="de">German</option>
+                                                                <option value="ja">Japanese</option>
+                                                                <option value="ko">Korean</option>
+                                                                <option value="zh">Chinese</option>
+                                                                <option value="other">Other</option>
+                                                            </select>
+                                                            <small class="form-text text-muted">Select the language of
+                                                                the lyrics or if it is an instrumental track.</small>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label>Explicit Content</label>
+                                                            <div class="custom-control custom-radio">
+                                                                <input type="radio" id="explicit1"
+                                                                    name="explicit_content" value="not_explicit"
+                                                                    class="custom-control-input" checked>
+                                                                <label class="custom-control-label" for="explicit1">Not
+                                                                    Explicit - Appropriate for all audiences</label>
+                                                            </div>
+                                                            <div class="custom-control custom-radio">
+                                                                <input type="radio" id="explicit2"
+                                                                    name="explicit_content" value="explicit"
+                                                                    class="custom-control-input">
+                                                                <label class="custom-control-label"
+                                                                    for="explicit2">Explicit - Contains strong or
+                                                                    inappropriate language</label>
+                                                            </div>
+                                                            <div class="custom-control custom-radio">
+                                                                <input type="radio" id="explicit3"
+                                                                    name="explicit_content" value="cleaned"
+                                                                    class="custom-control-input">
+                                                                <label class="custom-control-label"
+                                                                    for="explicit3">Cleaned Version - Version of another
+                                                                    track where the explicit content has been
+                                                                    removed</label>
+                                                            </div>
+                                                            <small class="form-text text-muted">Indicate whether the
+                                                                lyrics contain words or phrases that are considered
+                                                                offensive, vulgar or inappropriate in some social and
+                                                                cultural contexts, especially for children.</small>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="lyricsTranscription">Lyrics
+                                                                Transcription</label>
+                                                            <textarea class="form-control" id="lyricsTranscription"
+                                                                name="lyrics_transcription" rows="4"
+                                                                placeholder="Include the lyrics transcription. It must be accurate and match the audio.&#10;Follow the proper song structure and separate the lyrical sections and changes within a song with line breaks."></textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
 
-                                                <!-- Hidden input to store selected values -->
-                                                <input type="hidden" name="selected_artists" id="selected-artists">
+                                                <script>
+                                                    // Add this script to handle instrumental checkbox
+                                                    document.getElementById('instrumentalCheck').addEventListener('change', function (e) {
+                                                        const isInstrumental = e.target.checked;
+                                                        document.getElementById('languageSelect').disabled = isInstrumental;
+                                                        document.getElementById('lyricsTranscription').disabled = isInstrumental;
+                                                        document.querySelectorAll('[name="explicit_content"]').forEach(radio => {
+                                                            radio.disabled = isInstrumental;
+                                                        });
+
+                                                        if (isInstrumental) {
+                                                            document.getElementById('languageSelect').value = '';
+                                                            document.getElementById('lyricsTranscription').value = '';
+                                                            document.getElementById('explicit1').checked = true;
+                                                        }
+                                                    });
+                                                </script>
                                             </form>
-                                            <!-- Add Select2 CSS and JS -->
-                                            <link
-                                                href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-                                                rel="stylesheet">
-                                            <style>
-                                                .selected-item {
-                                                    display: flex;
-                                                    justify-content: space-between;
-                                                    align-items: center;
-                                                    padding: 8px;
-                                                    border-bottom: 1px solid #ddd;
-                                                }
 
-                                                .remove-item {
-                                                    cursor: pointer;
-                                                    color: #dc3545;
-                                                    margin-left: 10px;
-                                                }
-
-                                                .select2-container--default .select2-selection--single {
-                                                    border: 1px solid #ced4da;
-                                                    height: 38px;
-                                                }
-                                            </style>
-
-                                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                            <!-- Add these right before closing body tag -->
                                             <script
-                                                src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+                                                src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+                                            <script
+                                                src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
+                                            <link rel="stylesheet"
+                                                href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css">
+
                                             <style>
-                                                /* Make Select2 match form-control styling */
-                                                .select2-container--default .select2-selection--single {
-                                                    background-color: inherit;
-                                                    border: inherit;
-                                                    border-radius: inherit;
-                                                    height: auto;
-                                                    padding: .375rem .75rem;
+                                                /* Hide selected items in Selectize input */
+                                                .selectize-input.items>*:not(.selectize-input) {
+                                                    display: none !important;
                                                 }
 
-                                                /* Dropdown styling */
-                                                .select2-container--default .select2-results__option--highlighted[aria-selected] {
-                                                    background-color: rgba(0, 0, 0, 0.1);
+                                                /* Make Selectize input look like normal form control */
+                                                .selectize-input {
+                                                    padding: 0.375rem 0.75rem !important;
+                                                    border: 1px solid #ced4da !important;
+                                                    border-radius: 0.25rem !important;
+                                                    background-image: none !important;
+                                                    box-shadow: none !important;
                                                 }
 
-                                                /* Search input in dropdown */
-                                                .select2-container--default .select2-search--dropdown .select2-search__field {
-                                                    border: 1px solid #ced4da;
-                                                    background-color: inherit;
+                                                .selectize-input.items .item {
+                                                    background: #e9ecef;
+                                                    border-radius: 15px;
+                                                    padding: 2px 10px;
+                                                    margin: 2px;
                                                 }
 
-                                                /* Focus state */
-                                                .select2-container--default.select2-container--focus .select2-selection--single {
-                                                    border-color: #80bdff;
-                                                    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+                                                .role-selector .selectize-input .item {
+                                                    background: #e9ecef !important;
+                                                    border-radius: 15px !important;
+                                                    padding: 2px 10px !important;
+                                                    margin: 2px !important;
+                                                    display: inline-flex !important;
+                                                    align-items: center;
                                                 }
 
-                                                /* Arrow icon color */
-                                                .select2-container--default .select2-selection--single .select2-selection__arrow b {
-                                                    border-color: #495057 transparent transparent transparent;
+                                                .role-selector .selectize-input {
+                                                    border: none !important;
+                                                    padding: 0 !important;
+                                                    box-shadow: none !important;
+                                                    min-height: 34px;
                                                 }
                                             </style>
 
                                             <script>
                                                 $(document).ready(function () {
-                                                    $('#artist-search').select2({
-                                                        theme: "bootstrap4",
-                                                        templateSelection: function (data, container) {
-                                                            $(container).addClass("form-control");
-                                                            return data.text;
+                                                    const $select = $('#artist-search').selectize({
+                                                        plugins: ['remove_button'],
+                                                        persist: false,
+                                                        maxItems: null,
+                                                        hideSelected: true,
+                                                        valueField: 'id',
+                                                        labelField: 'text',
+                                                        searchField: 'text',
+                                                        render: {
+                                                            item: function () {
+                                                                return '<div style="display: none;"></div>';
+                                                            },
+                                                            option: function (data) {
+                                                                return `<div>${data.text}</div>`;
+                                                            }
+                                                        },
+                                                        onItemAdd: function (value) {
+                                                            this.setTextboxValue('');
+                                                            updateSelectedTable();
+                                                            updateHiddenInput();
+                                                        },
+                                                        onItemRemove: function (value) {
+                                                            updateSelectedTable();
+                                                            updateHiddenInput();
                                                         }
                                                     });
+
+                                                    function updateSelectedTable() {
+                                                        const selectize = $select[0].selectize;
+                                                        const $tbody = $('#selected-artists-table tbody').empty();
+
+                                                        selectize.items.forEach(id => {
+                                                            const item = selectize.options[id];
+                                                            $tbody.append(`
+                <tr data-id="${id}">
+                    <td>${item.text}</td>
+                    <td>
+                        <select class="role-selector" multiple>
+                            <option value="composer">Composer</option>
+                            <option value="lyricist">Lyricist</option>
+                            <option value="producer">Producer</option>
+                            <option value="performer">Performer</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="btn btn-link text-danger p-0" 
+                                onclick="removeArtist('${id}')">
+                            Remove
+                        </button>
+                    </td>
+                </tr>
+            `);
+
+                                                            // Initialize role selector with proper config
+                                                            $('.role-selector:last').selectize({
+                                                                plugins: ['remove_button'],
+                                                                delimiter: ',',
+                                                                persist: false,
+                                                                create: false,
+                                                                render: {
+                                                                    item: function (data) {
+                                                                        return `<div class="item">${data.text}</div>`;
+                                                                    },
+                                                                    option: function (data) {
+                                                                        return `<div>${data.text}</div>`;
+                                                                    }
+                                                                }
+                                                            });
+                                                        });
+                                                    }
+
+                                                    function updateHiddenInput() {
+                                                        const artistData = [];
+                                                        $('#selected-artists-table tbody tr').each(function () {
+                                                            const id = $(this).data('id');
+                                                            const roles = $(this).find('.role-selector').val() || [];
+                                                            artistData.push({ id: id, roles: roles });
+                                                        });
+                                                        $('#selected-artists').val(JSON.stringify(artistData));
+                                                    }
                                                 });
+
+
+                                                function removeArtist(id) {
+                                                    const selectize = $('#artist-search')[0].selectize;
+                                                    selectize.removeItem(id);
+                                                    selectize.refreshOptions();
+                                                }
                                             </script>
                                         </div>
                                     </div>
@@ -367,7 +577,7 @@ else {
                                                     $albName = getRelease($_SESSION["userwtf"], 0, $tr->id)->name;
                                                     echo '
                                         <tr>
-                                        <td>' . ($tr->id < 10 ? "0" . $tr->id : $tr->id) . '</td>
+                                        <td>' . ($tr->id) . '</td>
                                         <td>' . ($tr->isrc ? $tr->isrc : "[NULL]") . '</td>
                                         <td>' . ($tr->name ? $tr->name : "(draft)") . '</td>
                                         <td>' . ($albName ? $albName : "[NULL]") . '</td>

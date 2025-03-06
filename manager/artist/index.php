@@ -140,7 +140,7 @@ else {
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
+                                    <table class="table align-items-center table-flush table-hover">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
@@ -154,19 +154,19 @@ else {
                                         <tbody>
                                             <?php
                                             if ($artist == null)
-                                                echo 'There\'s nothing here yet...';
+                                                echo '<center>There\'s nothing here yet...</center>';
                                             else
                                                 foreach ($artist as &$r) {
                                                     echo '
                           <tr>
                                       <td>' . ($r->id < 10 ? "0" . $r->id : $r->id) . '</td>
                                       <td>' . ($r->name ? $r->name : "(draft)") . '</td>
-                                      <td> <a href="https://open.spotify.com/artist/' . ($r->spot ? $r->spot : "--") . '">' . ($r->spot ? "Link" : "--") . '</a></td>
-                                      <td> <a href="https://music.apple.com/us/artist/' . ($r->applemusic ? $r->applemusic : "--") . '">' . ($r->applemusic ? "Link" : "--") . '</a></td>
+                                      <td> <a class="btn btn-link" href="https://open.spotify.com/artist/' . ($r->spot ? $r->spot : "--") . '">' . ($r->spot ? "Link" : "--") . '</a></td>
+                                      <td> <a class="btn btn-link" href="https://music.apple.com/us/artist/' . ($r->applemusic ? $r->applemusic : "--") . '">' . ($r->applemusic ? "Link" : "--") . '</a></td>
                                       <td>' . ($r->email ? $r->email : "--") . '</td>
                           <td>
-                        <a onclick="document.getElementById(\'artist-id\').value = \'' . $r->id . '\';document.getElementById(\'alias\').value = \'' . $r->name . '\';document.getElementById(\'spotifyID\').value = \'' . $r->spot . '\';document.getElementById(\'amID\').value = \'' . $r->applemusic . '\';document.getElementById(\'email\').value = \'' . $r->email . '\';">Edit</a> / 
-                        <a class="text-error" href="artist.php?id=' . $r->id . '&delete=1">Delete</a>
+                        <a class="btn btn-link text-error" href="javascript:document.getElementById(\'artist-id\').value = \'' . $r->id . '\';document.getElementById(\'alias\').value = \'' . $r->name . '\';document.getElementById(\'spotifyID\').value = \'' . $r->spot . '\';document.getElementById(\'amID\').value = \'' . $r->applemusic . '\';document.getElementById(\'email\').value = \'' . $r->email . '\';void(0);">Edit</a> / 
+                        <a class="btn btn-link text-danger" href="artist.php?id=' . $r->id . '&delete=1">Delete</a>
                           </td>
                   </tr>';
                                                 }
