@@ -110,7 +110,6 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                         <div class="card-header">
                                             <i class="zmdi zmdi-info"></i> Album Metadata
                                         </div>
-                                        <div class="card-body">
                                             <style>
                                                 * {
                                                     box-sizing: border-box;
@@ -333,7 +332,7 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                         value="<?php echo $release->p; ?>" required>
                                                 </div>
                                             </div>
-                                        </div>
+                                        
                                     </div>
                                     <div class="tab-pane card" id="tracks">
                                         <div class="card-header"><i class="zmdi zmdi-album"></i> Tracks List
