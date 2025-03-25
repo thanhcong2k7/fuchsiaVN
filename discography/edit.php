@@ -107,9 +107,6 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                 </ul>
                                 <div class="table-responsive overflow-hidden tab-content p-3">
                                     <div class="tab-pane active" id="metadata">
-                                        <div class="card-header">
-                                            <i class="zmdi zmdi-info"></i> Album Metadata
-                                        </div>
                                             <style>
                                                 * {
                                                     box-sizing: border-box;
