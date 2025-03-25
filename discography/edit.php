@@ -94,7 +94,7 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                 <ul class="nav nav-tabs nav-tabs-primary top-icon nav-justified">
                                     <li class="nav-item">
                                         <a href="javascript:void();" data-target="#metadata" data-toggle="pill"
-                                            class="nav-link active"><span class="hidden-xs">1.Metadata</span></a>
+                                            class="nav-link active"><i class="zmdi zmdi-storage"></i><span class="hidden-xs">1.Metadata</span></a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="javascript:void();" data-target="#tracks" data-toggle="pill"
@@ -102,7 +102,7 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                     </li>
                                     <li class="nav-item">
                                         <a href="javascript:void();" data-target="#dist" data-toggle="pill"
-                                            class="nav-link"><span class="hidden-xs">3.Distribute</span></a>
+                                            class="nav-link"><i class="zmdi zmdi-arrow-split"></i><span class="hidden-xs">3.Distribute</span></a>
                                     </li>
                                 </ul>
                                 <div class="table-responsive overflow-hidden tab-content p-3">
