@@ -88,9 +88,9 @@ else {
                   </div>
                   <div class="media-body text-left ml-3">
                     <div class="progress-wrapper">
-                      <p>HTML5 <span class="float-right">65%</span></p>
+                      <p>PayPal <span class="float-right">0%</span></p>
                       <div class="progress" style="height: 5px;">
-                        <div class="progress-bar" style="width:65%"></div>
+                        <div class="progress-bar" style="width:0%"></div>
                       </div>
                     </div>
                   </div>

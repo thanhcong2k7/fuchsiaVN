@@ -94,7 +94,7 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                 <ul class="nav nav-tabs nav-tabs-primary top-icon nav-justified">
                                     <li class="nav-item">
                                         <a href="javascript:void();" data-target="#metadata" data-toggle="pill"
-                                            class="nav-link active"><span class="hidden-xs">1.Metadata</span></a>
+                                            class="nav-link active"><i class="zmdi zmdi-storage"></i><span class="hidden-xs">1.Metadata</span></a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="javascript:void();" data-target="#tracks" data-toggle="pill"
@@ -102,15 +102,19 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                     </li>
                                     <li class="nav-item">
                                         <a href="javascript:void();" data-target="#dist" data-toggle="pill"
-                                            class="nav-link"><span class="hidden-xs">3.Distribute</span></a>
+                                            class="nav-link"><i class="zmdi zmdi-arrow-split"></i><span class="hidden-xs">3.Distribute</span></a>
                                     </li>
                                 </ul>
                                 <div class="table-responsive overflow-hidden tab-content p-3">
-                                    <div class="tab-pane active" id="metadata">
-                                        <style>
-                                            * {
-                                                box-sizing: border-box;
-                                            }
+                                    <div class="tab-pane active card" id="metadata">
+                                        <div class="card-header">
+                                            <i class="zmdi zmdi-info"></i> Album Metadata
+                                        </div>
+                                        <div class="card-body">
+                                            <style>
+                                                * {
+                                                    box-sizing: border-box;
+                                                }
 
                                             .dnd {
                                                 width: 100%;
@@ -328,7 +332,7 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                     placeholder="Phonogram line. Example: VINA Nation"
                                                     value="<?php echo $release->p; ?>" required>
                                             </div>
-                                        </div>
+                                        
                                     </div>
                                     <div class="tab-pane card" id="tracks">
                                         <div class="card-header"><i class="zmdi zmdi-album"></i> Tracks List
