@@ -810,7 +810,7 @@ else {
                                                             <label>Language of the Lyrics</label>
                                                             <div class="custom-control custom-checkbox mb-2">
                                                                 <input type="checkbox" class="custom-control-input"
-                                                                    id="instrumentalCheck" name="is_instrumental">
+                                                                    id="instrumentalCheck" name="is_instrumental" onchange="toggleFields()">
                                                                 <label class="custom-control-label"
                                                                     for="instrumentalCheck">This track is
                                                                     instrumental</label>
@@ -933,6 +933,18 @@ else {
                                                                 name="lyrics_transcription" rows="4"
                                                                 placeholder="Include the lyrics transcription. It must be accurate and match the audio.&#10;Follow the proper song structure and separate the lyrical sections and changes within a song with line breaks."></textarea>
                                                         </div>
+                                                        <script>
+                                                        function toggleFields() {
+                                                            const isChecked = document.getElementById('instrumentalCheck').checked;
+                                                            const fields = document.querySelectorAll(':scope > .form-control, .custom-control-input[type="radio"]');
+
+                                                            fields.forEach(field => {
+                                                                if (field.id !== 'instrumentalCheck') {
+                                                                    field.disabled = isChecked;
+                                                                }
+                                                            });
+                                                        }
+                                                        </script>
                                                     </div>
                                                 </div>
                                             </form>

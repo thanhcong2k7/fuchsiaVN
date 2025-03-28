@@ -106,232 +106,227 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                     </li>
                                 </ul>
                                 <div class="table-responsive overflow-hidden tab-content p-3">
-                                    <div class="tab-pane active card" id="metadata">
-                                        <div class="card-header">
-                                            <i class="zmdi zmdi-info"></i> Album Metadata
-                                        </div>
-                                        <div class="card-body">
-                                            <style>
-                                                * {
-                                                    box-sizing: border-box;
-                                                }
+                                    <div class="tab-pane active" id="metadata">
+                                        <style>
+                                            * {
+                                                box-sizing: border-box;
+                                            }
 
-                                                .dnd {
-                                                    width: 100%;
-                                                    height: 100%;
-                                                    display: flex;
-                                                    justify-content: center;
-                                                }
+                                            .dnd {
+                                                width: 100%;
+                                                height: 100%;
+                                                display: flex;
+                                                justify-content: center;
+                                            }
 
-                                                #drop-area {
-                                                    width: 300px;
-                                                    height: 300px;
-                                                    padding: 15px;
-                                                    text-align: center;
-                                                    border-radius: 7px dashed #000000;
-                                                }
+                                            #drop-area {
+                                                width: 300px;
+                                                height: 300px;
+                                                padding: 15px;
+                                                text-align: center;
+                                                border-radius: 7px dashed #000000;
+                                            }
 
-                                                #img-view {
-                                                    width: 100%;
-                                                    height: 100%;
-                                                    border-radius: 7px;
-                                                    border: 1px dashed #AFFFFFFF;
-                                                    background: #BF000000;
-                                                    background-position: center;
-                                                    background-size: cover;
-                                                }
+                                            #img-view {
+                                                width: 100%;
+                                                height: 100%;
+                                                border-radius: 7px;
+                                                border: 1px dashed #AFFFFFFF;
+                                                background: #BF000000;
+                                                background-position: center;
+                                                background-size: cover;
+                                            }
 
-                                                #img-view img {
-                                                    width: 100%;
-                                                    margin-top: 25px;
-                                                }
+                                            #img-view img {
+                                                width: 100%;
+                                                margin-top: 25px;
+                                            }
 
-                                                #img-view span {
-                                                    display: block;
-                                                    font-size: 11px;
-                                                    color: #eeeeee;
-                                                    margin-top: 47%;
-                                                }
-                                            </style>
-                                            <div class="row">
-                                                <?php
-                                                $mergedArtistnames = "";
-                                                $f = getFile($_GET["id"]);
-                                                $r2 = getRelease($_SESSION["userwtf"], 0, $_GET["id"]);
-                                                $track = array();
-                                                foreach ($r2->file as &$adu) {
-                                                    foreach ($f as &$f2) {
-                                                        if ($f2->id == $adu) {
-                                                            $t = getTrack($f2->id);
-                                                            $track[] = $t;
-                                                            $artist = getArtist($t->id);
-                                                            foreach ($artist as &$adu) {
-                                                                $mergedArtistnames .= ($mergedArtistnames != "" ? ", " : "") . $adu->name;
-                                                            }
+                                            #img-view span {
+                                                display: block;
+                                                font-size: 11px;
+                                                color: #eeeeee;
+                                                margin-top: 47%;
+                                            }
+                                        </style>
+                                        <div class="row">
+                                            <?php
+                                            $mergedArtistnames = "";
+                                            $f = getFile($_GET["id"]);
+                                            $r2 = getRelease($_SESSION["userwtf"], 0, $_GET["id"]);
+                                            $track = array();
+                                            foreach ($r2->file as &$adu) {
+                                                foreach ($f as &$f2) {
+                                                    if ($f2->id == $adu) {
+                                                        $t = getTrack($f2->id);
+                                                        $track[] = $t;
+                                                        $artist = getArtist($t->id);
+                                                        foreach ($artist as &$adu) {
+                                                            $mergedArtistnames .= ($mergedArtistnames != "" ? ", " : "") . $adu->name;
                                                         }
                                                     }
                                                 }
-                                                ?>
-                                                <div class="col">
-                                                    <div class="dnd">
-                                                        <label for="input-file" id="drop-area">
-                                                            <input type="file" accept="image/*" id="input-file"
-                                                                name="artworkup" hidden>
-                                                            <div id="img-view">
-                                                                <span id="texttt"><i class="zmdi zmdi-file-plus"></i>
-                                                                    Upload
-                                                                    your
-                                                                    artwork here <br />(Min. 1500x1500)</span>
-                                                            </div>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <?php
-                                                if ($r2->art != null) {
-                                                    //https://drive.google.com/thumbnail?id=${id}
-                                                    echo "<script>document.getElementById(\"img-view\").style.backgroundImage = 'url(" . $r2->art . ")'; document.getElementById(\"texttt\").style.display = 'none';</script>";
-                                                }
-                                                ?>
-                                                <div class="col" style="padding-top: 20px;">
-                                                    <h3><?php echo ($release->name ? $release->name : "(untitled)") . ($release->version ? " (" . $release->version . ")" : ""); ?>
-                                                    </h3>
-                                                    <span><span style="font-weight: bold;">UPC</span>:
-                                                        <?php echo ($release->upc ? $release->upc : "(not set)"); ?></span>
-                                                    <br />
-                                                    <span><span style="font-weight: bold;">Artists:
-                                                        </span><?php echo $mergedArtistnames; ?></span>
-                                                    <br />
-                                                    <span><span style="font-weight: bold;">Status:
-                                                        </span><?php $r = $release;
-                                                        echo ($r->status == 0 ? "DRAFT" : ($r->status == 1 ? "DELIVERED" : ($r->status == 2 ? "ERROR" : "CHECKING"))); ?></span>
-                                                    <input value="<?php echo $_GET["id"]; ?>" name="albumid" hidden>
+                                            }
+                                            ?>
+                                            <div class="col">
+                                                <div class="dnd">
+                                                    <label for="input-file" id="drop-area">
+                                                        <input type="file" accept="image/*" id="input-file"
+                                                            name="artworkup" hidden>
+                                                        <div id="img-view">
+                                                            <span id="texttt"><i class="zmdi zmdi-file-plus"></i>
+                                                                Upload
+                                                                your
+                                                                artwork here <br />(Min. 1500x1500)</span>
+                                                        </div>
+                                                    </label>
                                                 </div>
                                             </div>
-                                            <br>
-                                            <div class="row">
-                                                <div class="form-group col">
-                                                    <label for="albumtitle">Album Title</label>
-                                                    <input type="text" class="form-control" name="albumtitle"
-                                                        placeholder="Name of your release"
-                                                        value="<?php echo $release->name; ?>">
-                                                </div>
-                                                <div class="form-group col">
-                                                    <label for="albumversion">Version line (optional)</label>
-                                                    <input type="text" class="form-control" name="albumversion"
-                                                        placeholder="Leave blank if there's only 1 track. Example: Remix, Instrumental, ..."
-                                                        value="<?php echo $release->version; ?>">
-                                                </div>
+                                            <?php
+                                            if ($r2->art != null) {
+                                                //https://drive.google.com/thumbnail?id=${id}
+                                                echo "<script>document.getElementById(\"img-view\").style.backgroundImage = 'url(" . $r2->art . ")'; document.getElementById(\"texttt\").style.display = 'none';</script>";
+                                            }
+                                            ?>
+                                            <div class="col" style="padding-top: 20px;">
+                                                <h3><?php echo ($release->name ? $release->name : "(untitled)") . ($release->version ? " (" . $release->version . ")" : ""); ?>
+                                                </h3>
+                                                <span><span style="font-weight: bold;">UPC</span>:
+                                                    <?php echo ($release->upc ? $release->upc : "(not set)"); ?></span>
+                                                <br />
+                                                <span><span style="font-weight: bold;">Artists:
+                                                    </span><?php echo $mergedArtistnames; ?></span>
+                                                <br />
+                                                <span><span style="font-weight: bold;">Status:
+                                                    </span><?php $r = $release;
+                                                    echo ($r->status == 0 ? "DRAFT" : ($r->status == 1 ? "DELIVERED" : ($r->status == 2 ? "ERROR" : "CHECKING"))); ?></span>
+                                                <input value="<?php echo $_GET["id"]; ?>" name="albumid" hidden>
                                             </div>
-                                            <div class="row">
-                                                <script
-                                                    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
-                                                <link rel="stylesheet"
-                                                    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.css" />
-                                                <div class="form-group col" id="sandbox-container">
-                                                    <label for="reldate">Release date (optional)
-                                                        (mm/dd/yyyy)</label>
-                                                    <input type="text" class="form-control" id="reldate" name="reldate"
-                                                        placeholder="Pick your release date here (mm/dd/yyyy)"
-                                                        value="<?php echo date_format(date_create($release->relDate), "m/d/Y"); ?>">
-                                                </div>
-                                                <div class="form-group col" id="sandbox-container2">
-                                                    <label for="orgreldate">Original release date (optional)
-                                                        (mm/dd/yyyy)</label>
-                                                    <input type="text" class="form-control" id="orgreldate"
-                                                        name="orgreldate"
-                                                        placeholder="This is in case your album has been released before"
-                                                        value="<?php echo date_format(date_create($release->orgReldate), "m/d/Y"); ?>">
-                                                </div>
-                                                <script>
-                                                    $('#sandbox-container input').datepicker({
-                                                        autoclose: true,
-                                                        startDate: '-0d',
-                                                        todayHighlight: true
-                                                    });
-                                                    $('#sandbox-container2 input').datepicker({
-                                                        autoclose: true,
-                                                        endDate: '+0d',
-                                                        todayHighlight: true
-                                                    });
-
-                                                    $('#sandbox-container input').on('show', function (e) {
-                                                        console.debug('show', e.date, $(this).data('stickyDate'));
-
-                                                        if (e.date) {
-                                                            $(this).data('stickyDate', e.date);
-                                                        }
-                                                        else {
-                                                            $(this).data('stickyDate', null);
-                                                        }
-                                                    }); $('#sandbox-container2 input').on('show', function (e) {
-                                                        console.debug('show', e.date, $(this).data('stickyDate'));
-
-                                                        if (e.date) {
-                                                            $(this).data('stickyDate', e.date);
-                                                        }
-                                                        else {
-                                                            $(this).data('stickyDate', null);
-                                                        }
-                                                    });
-
-                                                    $('#sandbox-container input').on('hide', function (e) {
-                                                        console.debug('hide', e.date, $(this).data('stickyDate'));
-                                                        var stickyDate = $(this).data('stickyDate');
-
-                                                        if (!e.date && stickyDate) {
-                                                            console.debug('restore stickyDate', stickyDate);
-                                                            $(this).datepicker('setDate', stickyDate);
-                                                            $(this).data('stickyDate', null);
-                                                        }
-                                                    }); $('#sandbox-container2 input').on('hide', function (e) {
-                                                        console.debug('hide', e.date, $(this).data('stickyDate'));
-                                                        var stickyDate = $(this).data('stickyDate');
-
-                                                        if (!e.date && stickyDate) {
-                                                            console.debug('restore stickyDate', stickyDate);
-                                                            $(this).datepicker('setDate', stickyDate);
-                                                            $(this).data('stickyDate', null);
-                                                        }
-                                                    });
-                                                </script>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="form-group col">
+                                                <label for="albumtitle">Album Title</label>
+                                                <input type="text" class="form-control" name="albumtitle"
+                                                    placeholder="Name of your release"
+                                                    value="<?php echo $release->name; ?>">
                                             </div>
-                                            <hr class="mt-1 mb-1" />
-                                            <br>
-                                            <div class="row">
-                                                <div class="form-group col">
-                                                    <label for="albumtitle">UPC (optional)</label>
-                                                    <input type="text" class="form-control" maxlength="12" name="upc"
-                                                        placeholder="A valid 12-digit UPC for your release. Leave blank if you don't have one."
-                                                        value="<?php echo $release->upc; ?>">
-                                                </div>
+                                            <div class="form-group col">
+                                                <label for="albumversion">Version line (optional)</label>
+                                                <input type="text" class="form-control" name="albumversion"
+                                                    placeholder="Leave blank if there's only 1 track. Example: Remix, Instrumental, ..."
+                                                    value="<?php echo $release->version; ?>">
                                             </div>
-                                            <div class="row">
-                                                <div class="form-group col-md-4">
-                                                    <label for="albumtitle">© Composition Copyright year</label>
-                                                    <input type="text" class="form-control" name="cyear"
-                                                        placeholder="<?php echo date("Y"); ?>"
-                                                        value="<?php echo date("Y"); ?>" required>
-                                                </div>
-                                                <div class="form-group col">
-                                                    <label for="albumversion">© Composition Copyright Line</label>
-                                                    <input type="text" class="form-control" name="cline"
-                                                        placeholder="Copyright line. Example: VINA Nation"
-                                                        value="<?php echo $release->c; ?>" required>
-                                                </div>
+                                        </div>
+                                        <div class="row">
+                                            <script
+                                                src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+                                            <link rel="stylesheet"
+                                                href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.css" />
+                                            <div class="form-group col" id="sandbox-container">
+                                                <label for="reldate">Release date (optional)
+                                                    (mm/dd/yyyy)</label>
+                                                <input type="text" class="form-control" id="reldate" name="reldate"
+                                                    placeholder="Pick your release date here (mm/dd/yyyy)"
+                                                    value="<?php echo date_format(date_create($release->relDate), "m/d/Y"); ?>">
                                             </div>
-                                            <div class="row">
-                                                <div class="form-group col-md-4">
-                                                    <label for="albumtitle">℗ Sound Recording Copyright year</label>
-                                                    <input type="text" class="form-control" name="pyear"
-                                                        placeholder="<?php echo date("Y"); ?>"
-                                                        value="<?php echo date("Y"); ?>" required>
-                                                </div>
-                                                <div class="form-group col">
-                                                    <label for="albumversion">℗ Sound Recording Copyright Line</label>
-                                                    <input type="text" class="form-control" name="pline"
-                                                        placeholder="Phonogram line. Example: VINA Nation"
-                                                        value="<?php echo $release->p; ?>" required>
-                                                </div>
+                                            <div class="form-group col" id="sandbox-container2">
+                                                <label for="orgreldate">Original release date (optional)
+                                                    (mm/dd/yyyy)</label>
+                                                <input type="text" class="form-control" id="orgreldate"
+                                                    name="orgreldate"
+                                                    placeholder="This is in case your album has been released before"
+                                                    value="<?php echo date_format(date_create($release->orgReldate), "m/d/Y"); ?>">
+                                            </div>
+                                            <script>
+                                                $('#sandbox-container input').datepicker({
+                                                    autoclose: true,
+                                                    startDate: '-0d',
+                                                    todayHighlight: true
+                                                });
+                                                $('#sandbox-container2 input').datepicker({
+                                                    autoclose: true,
+                                                    endDate: '+0d',
+                                                    todayHighlight: true
+                                                });
+
+                                                $('#sandbox-container input').on('show', function (e) {
+                                                    console.debug('show', e.date, $(this).data('stickyDate'));
+
+                                                    if (e.date) {
+                                                        $(this).data('stickyDate', e.date);
+                                                    }
+                                                    else {
+                                                        $(this).data('stickyDate', null);
+                                                    }
+                                                }); $('#sandbox-container2 input').on('show', function (e) {
+                                                    console.debug('show', e.date, $(this).data('stickyDate'));
+
+                                                    if (e.date) {
+                                                        $(this).data('stickyDate', e.date);
+                                                    }
+                                                    else {
+                                                        $(this).data('stickyDate', null);
+                                                    }
+                                                });
+
+                                                $('#sandbox-container input').on('hide', function (e) {
+                                                    console.debug('hide', e.date, $(this).data('stickyDate'));
+                                                    var stickyDate = $(this).data('stickyDate');
+
+                                                    if (!e.date && stickyDate) {
+                                                        console.debug('restore stickyDate', stickyDate);
+                                                        $(this).datepicker('setDate', stickyDate);
+                                                        $(this).data('stickyDate', null);
+                                                    }
+                                                }); $('#sandbox-container2 input').on('hide', function (e) {
+                                                    console.debug('hide', e.date, $(this).data('stickyDate'));
+                                                    var stickyDate = $(this).data('stickyDate');
+
+                                                    if (!e.date && stickyDate) {
+                                                        console.debug('restore stickyDate', stickyDate);
+                                                        $(this).datepicker('setDate', stickyDate);
+                                                        $(this).data('stickyDate', null);
+                                                    }
+                                                });
+                                            </script>
+                                        </div>
+                                        <hr class="mt-1 mb-1" />
+                                        <br>
+                                        <div class="row">
+                                            <div class="form-group col">
+                                                <label for="albumtitle">UPC (optional)</label>
+                                                <input type="text" class="form-control" maxlength="12" name="upc"
+                                                    placeholder="A valid 12-digit UPC for your release. Leave blank if you don't have one."
+                                                    value="<?php echo $release->upc; ?>">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
+                                                <label for="albumtitle">© Composition Copyright year</label>
+                                                <input type="text" class="form-control" name="cyear"
+                                                    placeholder="<?php echo date("Y"); ?>"
+                                                    value="<?php echo date("Y"); ?>" required>
+                                            </div>
+                                            <div class="form-group col">
+                                                <label for="albumversion">© Composition Copyright Line</label>
+                                                <input type="text" class="form-control" name="cline"
+                                                    placeholder="Copyright line. Example: VINA Nation"
+                                                    value="<?php echo $release->c; ?>" required>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
+                                                <label for="albumtitle">℗ Sound Recording Copyright year</label>
+                                                <input type="text" class="form-control" name="pyear"
+                                                    placeholder="<?php echo date("Y"); ?>"
+                                                    value="<?php echo date("Y"); ?>" required>
+                                            </div>
+                                            <div class="form-group col">
+                                                <label for="albumversion">℗ Sound Recording Copyright Line</label>
+                                                <input type="text" class="form-control" name="pline"
+                                                    placeholder="Phonogram line. Example: VINA Nation"
+                                                    value="<?php echo $release->p; ?>" required>
                                             </div>
                                         </div>
                                     </div>
