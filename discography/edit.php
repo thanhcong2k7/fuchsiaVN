@@ -98,7 +98,7 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                     </li>
                                     <li class="nav-item">
                                         <a href="javascript:void();" data-target="#tracks" data-toggle="pill"
-                                            class="nav-link"><span class="hidden-xs">2.Tracks</span></a>
+                                            class="nav-link"><i class="zmdi zmdi-playlist-audio"></i><span class="hidden-xs">2.Tracks</span></a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="javascript:void();" data-target="#dist" data-toggle="pill"
@@ -334,8 +334,9 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                             </div>
                                         
                                     </div>
+                                </div>
                                     <div class="tab-pane card" id="tracks">
-                                        <div class="card-header"><i class="zmdi zmdi-album"></i> Tracks List
+                                        <div class="card-header"><i class="zmdi zmdi-playlist-audio"></i> Tracks List
                                             <div class="card-action">
                                                 <div class="dropdown">
                                                     <!-- Button trigger modal -->
@@ -688,7 +689,6 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                             </center>
                                         </div>
                                     </div>
-                                </div>
                                 <script>
                                     const form = document.getElementById('formdepchai');
                                 </script>
