@@ -11,6 +11,7 @@ else {
         windows.location.href=".";
         </script>';
     }
+    $trackList = getTrackList($_SESSION["userwtf"]);
 }
 if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
     resetinc("album");
@@ -450,7 +451,6 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                             <th>ID</th>
                                                             <th>Track Name</th>
                                                             <th>Artists</th>
-                                                            <th>Download</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
@@ -462,7 +462,6 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                                         <td>' . $tr->id . '</td>
                                                                         <td>' . $tr->name . '</td>
                                                                         <td>' . $tr->artistname . '</td>
-                                                                        <td><a href="" class="text-info">GDrive</a></td>
                                                                         <td><a class="text-warning" id="delete' . $tr->id . '" onclick="document.getElementById(\'track' . $tr->id . '\').remove();fetch(\'delete.php?albumid=' . $_GET["id"] . '&trackid=' . $tr->id . '\',{credentials:\'same-origin\'}).then((response)=>response.json()).then((responseData)=>{console.log(responseData.status);});">Delete</a></td>
                                                                     </tr>
                                                                     ';
