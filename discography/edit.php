@@ -1,13 +1,15 @@
 <?php
 session_start();
-if (!isset($_SESSION["userwtf"]))
+if (!isset($_SESSION["userwtf"])) {
     header("Location: ../login/");
-else {
-    require '../assets/variables/sql.php';
+} else {
+    require "../assets/variables/sql.php";
     $user = getUser($_SESSION["userwtf"]);
     $release = getRelease($_SESSION["userwtf"], 0, $_GET["id"]);
     if ($release->status == 3) {
-        echo '<script>alert("Your release ' . $release->name . ' is currently being processed!");
+        echo '<script>alert("Your release ' .
+            $release->name .
+            ' is currently being processed!");
         windows.location.href=".";
         </script>';
     }
@@ -18,9 +20,14 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
     query("insert into album (userID) values (" . $_SESSION["userwtf"] . ");");
     $newid = creNew($_SESSION["userwtf"]);
     echo "<script>window.location.href='edit.php?id=" . $newid . "';</script>";
-} else if (isset($_GET["delete"]) && isset($_GET["id"]) && isset($_SESSION["userwtf"])) {
-    foreach ($release->file as &$trackDel)
+} elseif (
+    isset($_GET["delete"]) &&
+    isset($_GET["id"]) &&
+    isset($_SESSION["userwtf"])
+) {
+    foreach ($release->file as &$trackDel) {
         update("albumID", "", "track", "id=" . $trackDel);
+    }
     query("delete from album where albumID=" . $_GET["id"] . ";");
     echo "<script>window.location.href='.';</script>";
 }
@@ -35,7 +42,7 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Release Editor -
-        "<?php echo ($release->name ? $release->name : "(untitled)"); ?>"
+        "<?php echo $release->name ? $release->name : "(untitled)"; ?>"
     </title><!-- loader-->
     <link href="/assets/css/select2.min.css" rel="stylesheet" />
     <link href="/assets/css/pace.min.css" rel="stylesheet" />
@@ -70,11 +77,11 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
     <div id="wrapper">
 
         <!--Start sidebar-wrapper-->
-        <?php include '../components/sidebar.php'; ?>
+        <?php include "../components/sidebar.php"; ?>
         <!--End sidebar-wrapper-->
 
         <!--Start topbar header-->
-        <?php include '../components/topbar.php'; ?>
+        <?php include "../components/topbar.php"; ?>
         <!--End topbar header-->
 
         <div class="clearfix"></div>
@@ -158,16 +165,30 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                             <?php
                                             $mergedArtistnames = "";
                                             $f = getFile($_GET["id"]);
-                                            $r2 = getRelease($_SESSION["userwtf"], 0, $_GET["id"]);
-                                            $track = array();
+                                            $r2 = getRelease(
+                                                $_SESSION["userwtf"],
+                                                0,
+                                                $_GET["id"]
+                                            );
+                                            $track = [];
                                             foreach ($r2->file as &$adu) {
                                                 foreach ($f as &$f2) {
                                                     if ($f2->id == $adu) {
                                                         $t = getTrack($f2->id);
                                                         $track[] = $t;
-                                                        $artist = getArtist($t->id);
-                                                        foreach ($artist as &$adu) {
-                                                            $mergedArtistnames .= ($mergedArtistnames != "" ? ", " : "") . $adu->name;
+                                                        $artist = getArtist(
+                                                            $t->id
+                                                        );
+                                                        foreach (
+                                                            $artist
+                                                            as &$adu
+                                                        ) {
+                                                            $mergedArtistnames .=
+                                                                ($mergedArtistnames !=
+                                                                ""
+                                                                    ? ", "
+                                                                    : "") .
+                                                                $adu->name;
                                                         }
                                                     }
                                                 }
@@ -187,25 +208,44 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                     </label>
                                                 </div>
                                             </div>
-                                            <?php
-                                            if ($r2->art != null) {
+                                            <?php if ($r2->art != null) {
                                                 //https://drive.google.com/thumbnail?id=${id}
-                                                echo "<script>document.getElementById(\"img-view\").style.backgroundImage = 'url(" . $r2->art . ")'; document.getElementById(\"texttt\").style.display = 'none';</script>";
-                                            }
-                                            ?>
+                                                echo "<script>document.getElementById(\"img-view\").style.backgroundImage = 'url(" .
+                                                    $r2->art .
+                                                    ")'; document.getElementById(\"texttt\").style.display = 'none';</script>";
+                                            } ?>
                                             <div class="col" style="padding-top: 20px;">
-                                                <h3><?php echo ($release->name ? $release->name : "(untitled)") . ($release->version ? " (" . $release->version . ")" : ""); ?>
+                                                <h3><?php echo ($release->name
+                                                    ? $release->name
+                                                    : "(untitled)") .
+                                                    ($release->version
+                                                        ? " (" .
+                                                            $release->version .
+                                                            ")"
+                                                        : ""); ?>
                                                 </h3>
                                                 <span><span style="font-weight: bold;">UPC</span>:
-                                                    <?php echo ($release->upc ? $release->upc : "(not set)"); ?></span>
+                                                    <?php echo $release->upc
+                                                        ? $release->upc
+                                                        : "(not set)"; ?></span>
                                                 <br />
                                                 <span><span style="font-weight: bold;">Artists:
                                                     </span><?php echo $mergedArtistnames; ?></span>
                                                 <br />
                                                 <span><span style="font-weight: bold;">Status:
-                                                    </span><?php $r = $release;
-                                                    echo ($r->status == 0 ? "DRAFT" : ($r->status == 1 ? "DELIVERED" : ($r->status == 2 ? "ERROR" : "CHECKING"))); ?></span>
-                                                <input value="<?php echo $_GET["id"]; ?>" name="albumid" hidden>
+                                                    </span><?php
+                                                    $r = $release;
+                                                    echo $r->status == 0
+                                                        ? "DRAFT"
+                                                        : ($r->status == 1
+                                                            ? "DELIVERED"
+                                                            : ($r->status == 2
+                                                                ? "ERROR"
+                                                                : "CHECKING"));
+                                                    ?></span>
+                                                <input value="<?php echo $_GET[
+                                                    "id"
+                                                ]; ?>" name="albumid" hidden>
                                             </div>
                                         </div>
                                         <br>
@@ -233,7 +273,12 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                     (mm/dd/yyyy)</label>
                                                 <input type="text" class="form-control" id="reldate" name="reldate"
                                                     placeholder="Pick your release date here (mm/dd/yyyy)"
-                                                    value="<?php echo date_format(date_create($release->relDate), "m/d/Y"); ?>">
+                                                    value="<?php echo date_format(
+                                                        date_create(
+                                                            $release->relDate
+                                                        ),
+                                                        "m/d/Y"
+                                                    ); ?>">
                                             </div>
                                             <div class="form-group col" id="sandbox-container2">
                                                 <label for="orgreldate">Original release date (optional)
@@ -241,7 +286,12 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                 <input type="text" class="form-control" id="orgreldate"
                                                     name="orgreldate"
                                                     placeholder="This is in case your album has been released before"
-                                                    value="<?php echo date_format(date_create($release->orgReldate), "m/d/Y"); ?>">
+                                                    value="<?php echo date_format(
+                                                        date_create(
+                                                            $release->orgReldate
+                                                        ),
+                                                        "m/d/Y"
+                                                    ); ?>">
                                             </div>
                                             <script>
                                                 $('#sandbox-container input').datepicker({
@@ -310,8 +360,12 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                             <div class="form-group col-md-4">
                                                 <label for="albumtitle">© Composition Copyright year</label>
                                                 <input type="text" class="form-control" name="cyear"
-                                                    placeholder="<?php echo date("Y"); ?>"
-                                                    value="<?php echo date("Y"); ?>" required>
+                                                    placeholder="<?php echo date(
+                                                        "Y"
+                                                    ); ?>"
+                                                    value="<?php echo date(
+                                                        "Y"
+                                                    ); ?>" required>
                                             </div>
                                             <div class="form-group col">
                                                 <label for="albumversion">© Composition Copyright Line</label>
@@ -324,8 +378,12 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                             <div class="form-group col-md-4">
                                                 <label for="albumtitle">℗ Sound Recording Copyright year</label>
                                                 <input type="text" class="form-control" name="pyear"
-                                                    placeholder="<?php echo date("Y"); ?>"
-                                                    value="<?php echo date("Y"); ?>" required>
+                                                    placeholder="<?php echo date(
+                                                        "Y"
+                                                    ); ?>"
+                                                    value="<?php echo date(
+                                                        "Y"
+                                                    ); ?>" required>
                                             </div>
                                             <div class="form-group col">
                                                 <label for="albumversion">℗ Sound Recording Copyright Line</label>
@@ -333,7 +391,7 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                     placeholder="Phonogram line. Example: VINA Nation"
                                                     value="<?php echo $release->p; ?>" required>
                                             </div>
-                                        
+                                        </div>
                                     </div>
                                 </div>
                                     <div class="tab-pane card" id="tracks">
@@ -455,18 +513,35 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <?php
-                                                        foreach ($track as &$tr) {
+                                                        <?php foreach (
+                                                            $track
+                                                            as &$tr
+                                                        ) {
                                                             echo '
-                                                                    <tr id="track' . $tr->id . '">
-                                                                        <td>' . $tr->id . '</td>
-                                                                        <td>' . $tr->name . '</td>
-                                                                        <td>' . $tr->artistname . '</td>
-                                                                        <td><a class="text-warning" id="delete' . $tr->id . '" onclick="document.getElementById(\'track' . $tr->id . '\').remove();fetch(\'delete.php?albumid=' . $_GET["id"] . '&trackid=' . $tr->id . '\',{credentials:\'same-origin\'}).then((response)=>response.json()).then((responseData)=>{console.log(responseData.status);});">Delete</a></td>
+                                                                    <tr id="track' .
+                                                                $tr->id .
+                                                                '">
+                                                                        <td>' .
+                                                                $tr->id .
+                                                                '</td>
+                                                                        <td>' .
+                                                                $tr->name .
+                                                                '</td>
+                                                                        <td>' .
+                                                                $tr->artistname .
+                                                                '</td>
+                                                                        <td><a class="text-warning" id="delete' .
+                                                                $tr->id .
+                                                                '" onclick="document.getElementById(\'track' .
+                                                                $tr->id .
+                                                                '\').remove();fetch(\'delete.php?albumid=' .
+                                                                $_GET["id"] .
+                                                                "&trackid=" .
+                                                                $tr->id .
+                                                                '\',{credentials:\'same-origin\'}).then((response)=>response.json()).then((responseData)=>{console.log(responseData.status);});">Delete</a></td>
                                                                     </tr>
                                                                     ';
-                                                        }
-                                                        ?>
+                                                        } ?>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -564,13 +639,20 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                             <option></option>
                                                             <?php
                                                             $sus = getStore();
-                                                            foreach ($sus as $s) {
+                                                            foreach (
+                                                                $sus
+                                                                as $s
+                                                            ) {
                                                                 /*
                                                                 echo '<script>
                                                                         $("#stores").append(new Option("' . $s->name . '","store' . $s->id . '",false,false)).trigger("change");
                                                                         </script>
                                                                     ';*/
-                                                                echo '<option id="' . $s->id . '">' . $s->name . '</option>';
+                                                                echo '<option id="' .
+                                                                    $s->id .
+                                                                    '">' .
+                                                                    $s->name .
+                                                                    "</option>";
                                                             }
                                                             ?>
                                                         </select>
@@ -625,7 +707,9 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                                 <div class="card card-body row">
                                                                     <div class="icheck-material-white">
                                                                         <input type="checkbox" id="ytcid" name="ytcid"
-                                                                            <?php echo ($release->ytcid ? "checked" : ""); ?> />
+                                                                            <?php echo $release->ytcid
+                                                                                ? "checked"
+                                                                                : ""; ?> />
                                                                         <label for="ytcid"> YouTube Content
                                                                             ID
                                                                         </label>
@@ -634,7 +718,9 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                                 <div class="card card-body row">
                                                                     <div class="icheck-material-white">
                                                                         <input type="checkbox" id="scloud" name="scloud"
-                                                                            <?php echo ($release->sc ? "checked" : ""); ?> />
+                                                                            <?php echo $release->sc
+                                                                                ? "checked"
+                                                                                : ""; ?> />
                                                                         <label for="scloud"
                                                                             style="overflow: hidden;white-space: initial;">
                                                                             SoundCloud Monetization
@@ -644,26 +730,34 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
                                                                 <div class="card card-body row">
                                                                     <div class="icheck-material-white">
                                                                         <input type="checkbox" id="soundx" name="soundx"
-                                                                            <?php echo ($release->sx ? "checked" : ""); ?> />
+                                                                            <?php echo $release->sx
+                                                                                ? "checked"
+                                                                                : ""; ?> />
                                                                         <label for="soundx"> SoundExchange</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="card card-body row">
                                                                     <div class="icheck-material-white">
-                                                                        <input type="checkbox" id="jdl" name="jdl" <?php echo ($release->jdl ? "checked" : ""); ?> />
+                                                                        <input type="checkbox" id="jdl" name="jdl" <?php echo $release->jdl
+                                                                            ? "checked"
+                                                                            : ""; ?> />
                                                                         <label for="jdl"> Juno Download</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="card card-body row">
                                                                     <div class="icheck-material-white">
-                                                                        <input type="checkbox" id="trl" name="trl" <?php echo ($release->trl ? "checked" : ""); ?> />
+                                                                        <input type="checkbox" id="trl" name="trl" <?php echo $release->trl
+                                                                            ? "checked"
+                                                                            : ""; ?> />
                                                                         <label for="trl"> Tracklib</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="card card-body row">
                                                                     <div class="icheck-material-white col">
                                                                         <input type="checkbox" id="bport" name="bport"
-                                                                            <?php echo ($release->bp ? "checked" : ""); ?> />
+                                                                            <?php echo $release->bp
+                                                                                ? "checked"
+                                                                                : ""; ?> />
                                                                         <label for="bport"> Beatport
                                                                         </label>
                                                                     </div>
