@@ -40,6 +40,7 @@ else {
   <!-- Bootstrap core JavaScript-->
   <script src="/assets/js/jquery.min.js"></script>
   <script src="/assets/js/popper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
   <script src="/assets/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="/assets/css/scroll-bar.css" />
 </head>
@@ -86,7 +87,7 @@ else {
                         <th>Artist</th>
                         <th>Status</th>
                         <th>Release date</th>
-                        <th>Actions</th>
+                        <th></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -126,9 +127,17 @@ else {
                           </td>
                                       <td>' . ($r->relDate ? $r->relDate : "--/--/----") . '</td>
                           <td>
-                        <a href="edit.php?id=' . $r->id . '">Edit</a> / 
-                        <a class="text-error" href="edit.php?id=' . $r->id . '&delete=1">Delete</a>
-                          </td></tr>
+                          <div class="dropdown">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                              Actions
+                            </button>
+                            <div class="dropdown-menu">
+                              <a class="dropdown-item" href="edit.php?id=' . $r->id . '">Edit release</a>
+                              <a class="dropdown-item" href="edit.php?id=' . $r->id . '&delete=1">Delete release</a>
+                            </div>
+                          </div>
+                          </td>
+                          </tr>
                   ';
                           }
                         ?>
