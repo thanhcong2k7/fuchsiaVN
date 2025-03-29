@@ -68,12 +68,67 @@ if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
 }
 
 // --- Prepare data for the form ---
-$mergedArtistnames = "";
-$track = []; // Initialize $track array
+// --- Prepare data for the form ---
+$mergedArtistnames = ""; // For album-level display (potentially)
+$albumTracks = [];     // CORRECTED: Array to hold tracks belonging to THIS album
+$allArtistNames = [];  // Helper array for unique album artists
+
+// Ensure $release object exists and we have a valid numeric $releaseId
+// Use filter_var again for safety, though it should be set earlier
+$currentAlbumId = filter_var($releaseId, FILTER_VALIDATE_INT);
+$currentUserId = filter_var($_SESSION["userwtf"], FILTER_VALIDATE_INT); // Sanitize user ID too
+
+if ($release && $currentAlbumId > 0 && $currentUserId > 0) {
+
+    // <<< --- CORRECTED TRACK FETCHING LOGIC --- >>>
+    // Query the track table directly for tracks linked to this album ID AND user ID
+    // (Sanitizing IDs before embedding - less secure than prepared statements)
+    $sql_get_album_tracks = "SELECT id FROM track WHERE albumID = " . $currentAlbumId . " AND userID = " . $currentUserId;
+
+    // Use the query function from sql.php
+    $tracksResult = query($sql_get_album_tracks);
+
+    if ($tracksResult) {
+        if ($tracksResult->num_rows > 0) {
+            while ($trackRow = $tracksResult->fetch_assoc()) {
+                $trackId = $trackRow['id'];
+                // Use existing getTrack function to get full track details by its ID
+                $t = getTrack($trackId);
+
+                // Check if getTrack returned a valid object for this ID
+                if ($t && isset($t->id) && $t->id == $trackId) {
+                    $albumTracks[] = $t; // Add the full track object to our display array
+
+                    // Aggregate artist names for the album display block (optional)
+                    // $t->artistname should be populated by getTrack()
+                    if (!empty($t->artistname)) {
+                         $currentTrackArtists = explode(', ', $t->artistname);
+                         $allArtistNames = array_merge($allArtistNames, $currentTrackArtists);
+                    }
+                } else {
+                     error_log("getTrack($trackId) failed to return expected object for album $currentAlbumId");
+                }
+            }
+        }
+        $tracksResult->free(); // Free result set
+    } else {
+        // Log error if the query failed
+        error_log("SQL Error fetching album tracks for album $currentAlbumId: " . $GLOBALS["conn"]->error);
+    }
+    // <<< --- END OF CORRECTED LOGIC --- >>>
+
+    // Consolidate unique artist names for the album display block (if needed)
+    $uniqueArtistNamesArray = array_unique(array_filter($allArtistNames));
+    $mergedArtistnames = implode(', ', $uniqueArtistNamesArray);
+    // Escape the final merged list for display
+    $mergedArtistnames = htmlspecialchars($mergedArtistnames, ENT_QUOTES, 'UTF-8');
+
+
+}
 
 // Ensure $release is valid before proceeding
 if ($release && isset($release->file) && is_array($release->file)) {
-    $f = getFile($releaseId); // Assuming getFile gets tracks associated with the album ID
+    $f = getFile($_SESSION["userwtf"]); // Assuming getFile gets tracks associated with the album ID
     if ($f) { // Check if getFile returned data
         foreach ($release->file as $trackIdInRelease) {
             // Find the corresponding track details from $f
@@ -929,51 +984,130 @@ $currentYear = date("Y");
                 var modalBody = $('#catalogueTrackList');
                 modalBody.html('<div class="text-center p-3"><div class="loader"></div> Loading catalogue...</div>'); // Show loader
 
-                fetch('get_catalogue_tracks.php') // Replace with your endpoint to get available tracks
+                // Get IDs of tracks already in the release (from the main table)
+                let existingTrackIds = new Set();
+                // Select rows within the specific table body in the #tracks tab
+                $('#tracks .table tbody tr[id^="track"]').each(function () {
+                    // Extract ID more safely
+                    let id = this.id.replace('track', '');
+                    if (id && /^\d+$/.test(id)) { // Check if it's a number after removing 'track'
+                        existingTrackIds.add(id); // Add the track ID (as a string) to the Set
+                    }
+                });
+                // console.log("Existing Track IDs:", existingTrackIds); // For debugging
+
+                fetch('get_catalogue_tracks.php') // Fetch directly from your PHP script
                     .then(response => {
-                        if (!response.ok) { throw new Error('Network error'); }
+                        if (!response.ok) {
+                            // Try to get error text if possible for better debugging
+                            return response.text().then(text => {
+                                throw new Error(`Network response was not ok: ${response.status} ${response.statusText}. Server response: ${text}`);
+                            });
+                        }
+                        // Expecting a direct JSON array like [{"id":"0", ...}, {"id":"1", ...}]
                         return response.json();
                     })
-                    .then(data => {
-                        if (data.success && data.tracks) {
-                            var trackHtml = '<form id="addTracksForm">'; // Start form
-                            if (data.tracks.length > 0) {
-                                trackHtml += '<ul class="list-group list-group-flush">'; // Use list group
-                                data.tracks.forEach(track => {
-                                    // Check if track is already in the current release (compare IDs)
-                                    let isAlreadyAdded = false;
-                                    $('tbody tr[id^="track"]').each(function () {
-                                        if ($(this).attr('id') === 'track' + track.id) {
-                                            isAlreadyAdded = true;
-                                            return false; // break loop
-                                        }
-                                    });
+                    .then(trackList => { // trackList is the JSON array
+                        let trackHtml = '<form id="addTracksForm">'; // Start form inside modal body
+                        if (Array.isArray(trackList) && trackList.length > 0) {
+                            trackHtml += '<ul class="list-group list-group-flush">'; // Use list group for better styling
+                            trackList.forEach(track => {
+                                // Check if track is already in the current release using the Set
+                                // Ensure comparison is safe (both as strings)
+                                let isAlreadyAdded = existingTrackIds.has(String(track.id));
 
-                                    trackHtml += `<li class="list-group-item bg-transparent">
-                                        <div class="icheck-material-white">
-                                            <input type="checkbox" name="trackids[]" value="${track.id}" id="modalTrack_${track.id}" ${isAlreadyAdded ? 'disabled' : ''}>
-                                            <label for="modalTrack_${track.id}">
-                                                ${track.id} - ${track.name || 'Untitled Track'} (${track.artistname || 'Unknown Artist'}) ${isAlreadyAdded ? '<small class="text-muted">(Already in release)</small>' : ''}
-                                            </label>
-                                        </div>
-                                      </li>`;
-                                });
-                                trackHtml += '</ul>';
-                            } else {
-                                trackHtml = '<p class="text-center">No tracks found in your catalogue.</p>';
-                            }
-                            trackHtml += '</form>'; // End form
-                            modalBody.html(trackHtml);
+                                // Escape track details for safety before inserting into HTML
+                                // Using jQuery's text() method on a dummy element is a robust way
+                                const trackName = track.name ? $('<div>').text(track.name).html() : 'Untitled Track';
+                                const artistName = track.artistname ? $('<div>').text(track.artistname).html() : 'Unknown Artist';
+                                const trackId = String(track.id); // Ensure trackId is a string
+
+                                trackHtml += `<li class="list-group-item bg-transparent" style="border-color: rgba(255, 255, 255, 0.1);"> <div class="icheck-material-white">
+                                <input type="checkbox" name="trackids[]" value="${trackId}" id="modalTrack_${trackId}" ${isAlreadyAdded ? 'disabled' : ''}>
+                                <label for="modalTrack_${trackId}" style="cursor: ${isAlreadyAdded ? 'not-allowed' : 'pointer'};"> ${trackId} - ${trackName} (${artistName}) ${isAlreadyAdded ? '<small class="text-muted font-italic">(Already in release)</small>' : ''}
+                                </label>
+                            </div>
+                          </li>`;
+                            });
+                            trackHtml += '</ul>';
+                        } else if (Array.isArray(trackList) && trackList.length === 0) {
+                            trackHtml = '<p class="text-center my-3">No tracks found in your catalogue.</p>'; // Clearer message
                         } else {
-                            modalBody.html('<p class="text-center text-danger">Error loading tracks: ' + (data.message || 'Unknown error') + '</p>');
+                            // Handle cases where the response wasn't a valid array
+                            console.error("Received non-array or unexpected response from get_catalogue_tracks.php:", trackList);
+                            trackHtml = '<p class="text-center text-danger my-3">Error: Unexpected data format received from server.</p>';
                         }
+                        trackHtml += '</form>'; // End form
+                        modalBody.html(trackHtml); // Replace loader with the generated list
                     })
                     .catch(error => {
                         console.error('Error loading catalogue tracks:', error);
-                        modalBody.html('<p class="text-center text-danger">Failed to load tracks. Please try again.</p>');
+                        modalBody.html(`<p class="text-center text-danger my-3">Failed to load tracks. ${error.message || ''}</p>`); // Display error in modal
                     });
             });
 
+            // --- Add Selected Tracks Button ---
+            // This handler should work as previously defined, provided add_tracks_to_album.php
+            // exists and correctly processes the POSTed JSON data.
+            $('#addSelectedTracksBtn').on('click', function () {
+                var selectedTracks = [];
+                // Find checkboxes within the specific form in the modal
+                $('#addTrackModal #addTracksForm input[name="trackids[]"]:checked').each(function () {
+                    selectedTracks.push($(this).val());
+                });
+
+                if (selectedTracks.length === 0) {
+                    alert('Please select at least one track to add.');
+                    return;
+                }
+
+                var albumId = $('input[name="albumid"]').val(); // Get album ID from the hidden input in the main form
+                var button = $(this);
+                button.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Adding...');
+
+                fetch('add_tracks_to_album.php', { // MAKE SURE THIS SCRIPT EXISTS AND WORKS
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json', // We are sending JSON
+                        'X-Requested-With': 'XMLHttpRequest' // Standard header for AJAX
+                    },
+                    body: JSON.stringify({ // Convert JS object to JSON string
+                        albumid: albumId,
+                        trackids: selectedTracks
+                    })
+                })
+                    .then(response => {
+                        // Check if the response is OK (status 200-299)
+                        if (!response.ok) {
+                            // If not OK, try to parse as JSON for an error message, otherwise throw generic error
+                            return response.json().catch(() => {
+                                throw new Error(`Server responded with status ${response.status}`);
+                            }).then(errData => {
+                                throw new Error(errData.message || `Server responded with status ${response.status}`);
+                            });
+                        }
+                        // Assuming your PHP script returns JSON like {"success": true/false, "message": "..."}
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) { // Check the success flag from your JSON response
+                            alert('Tracks added successfully! The page will now reload to reflect the changes.');
+                            window.location.reload(); // Reload the page
+                        } else {
+                            alert('Error adding tracks: ' + (data.message || 'Unknown server error. Please check the console.'));
+                            console.error("Server error response:", data); // Log detailed error from server
+                            button.prop('disabled', false).html('Add Selected Tracks'); // Re-enable button
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Fetch Error adding tracks:', error);
+                        alert('An error occurred while adding tracks: ' + error.message + '. Please check the console or try again.');
+                        button.prop('disabled', false).html('Add Selected Tracks'); // Re-enable button
+                    });
+
+            });
+
+            // ... (rest of your $(document).ready code like datepicker, select2, artwork upload etc.)
             // --- Add Selected Tracks Button ---
             $('#addSelectedTracksBtn').on('click', function () {
                 var selectedTracks = [];
