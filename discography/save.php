@@ -1,6 +1,7 @@
 <?php
 session_start();
 require '../assets/variables/sql.php';
+require '../assets/variables/obf.php';
 if (isset($_SESSION['userwtf'])) {
     if (isset($_POST['upc'])) {
         update("UPCNum", $_POST["upc"], "album", "albumID=" . $_POST["albumid"]);
@@ -31,7 +32,6 @@ if (isset($_SESSION['userwtf'])) {
     if (isset($_POST['pline'])) {
         update("publishLine", $_POST["pline"], "album", "albumID=" . $_POST["albumid"]);
     }
-    //
     if (isset($_POST['ytcid'])) {
         update("ytcid", 1, "album", "albumID=" . $_POST["albumid"]);
     }
@@ -53,12 +53,10 @@ if (isset($_SESSION['userwtf'])) {
     if ($_POST["submit"] == 'Distribute now') {
         update("status", 3, "album", "albumID=" . $_POST["albumid"]);
     }
-    if (isset($_FILES["artworkup"]['tmp_name'])) {
+    if (isset($_FILES["artworkup"]['tmp_name']) && $_FILES["artworkup"]['tmp_name'] != NULL) {
         //
         // UPLOAD IMAGE
         //
-        $apikey = "9527a1c516dd2fca6551240ba89343ca";
-        $url = "https://api.imgbb.com/1/upload";
         $ch = curl_init();
         //curl_setopt($ch, CURLOPT_URL,$url);
         //curl_setopt($ch, CURL,1);

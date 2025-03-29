@@ -371,11 +371,8 @@ $currentYear = date("Y");
                                         </li>
                                     </ul>
                                     <div class="table-responsive overflow-hidden tab-content p-3">
-
-                                        <div class="tab-pane active card mb-0" id="metadata">
-                                            <div class="card-header"> <i class="zmdi zmdi-info"></i> Album Metadata
-                                            </div>
-                                            <div class="card-body">
+                                        <div class="tab-pane active mb-0" id="metadata">
+                                            <div class="">
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <div class="dnd">
