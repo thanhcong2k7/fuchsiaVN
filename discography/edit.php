@@ -606,6 +606,7 @@ $currentYear = date("Y");
                                                                         </a>
                                                                     </td>
                                                                 </tr>
+                                                                <?php echo "<script>console.log(".$tr->id.");</script>"; ?>
                                                             <?php endforeach; ?>
                                                         <?php else: ?>
                                                             <tr>

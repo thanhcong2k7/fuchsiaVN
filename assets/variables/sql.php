@@ -73,7 +73,7 @@
 			$tmp2->status = $row["status"];
 			$tmp2->art = $row["artID"];
 			$tmp2->store = json_decode($row["storeID"]);
-			$tmp2->file = json_decode($row["trackID"]);
+			$tmp2->file = getTrackListOfAlbum($tmp2->id);
 			$tmp2->c = $row["compLine"];
 			$tmp2->p = $row["publishLine"];
 			$tmp2->orgReldate = $row["orgReldate"];
@@ -243,6 +243,13 @@
 		$tmp2 = array();
 		while($row = $tmp1->fetch_assoc())
 			$tmp2[] = getTrack($row["id"]);
+		return $tmp2;
+	}
+	function getTrackListOfAlbum($albID){
+		$tmp1 = query("select * from track where albumID=".$albID.";");
+		$tmp2 = array();
+		while($row = $tmp1->fetch_assoc())
+			$tmp2[] = getTrack($row["fID"]);
 		return $tmp2;
 	}
 ?>
