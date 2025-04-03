@@ -126,8 +126,10 @@ if ($release && $currentAlbumId > 0 && $currentUserId > 0) {
 
 }
 
+$track=array();
 // Ensure $release is valid before proceeding
 if ($release && isset($release->file) && is_array($release->file)) {
+    echo '<script>console.log("Found Tracks in this album.")</script>';
     $f = getFile($_SESSION["userwtf"]); // Assuming getFile gets tracks associated with the album ID
     if ($f) { // Check if getFile returned data
         foreach ($release->file as $trackIdInRelease) {
