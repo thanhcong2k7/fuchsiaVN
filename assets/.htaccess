@@ -1,9 +1,0 @@
-<IfModule mod_authz_core.c>
-    # Deny access by default
-    Require all denied
-
-    # Allow public access to asset file types
-    <FilesMatch "\.(css|js|png|jpe?g|gif|svg|woff|ttf|ico|woff2)$">
-        Require all granted
-    </FilesMatch>
-</IfModule>

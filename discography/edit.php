@@ -144,7 +144,7 @@ if ($release && isset($release->file) && is_array($release->file)) {
 
             if ($foundTrack) {
                 $t = getTrack($foundTrack->id);
-                if ($t) { // Check if getTrack returned data
+                if (isset($t)) { // Check if getTrack returned data
                     $track[] = $t;
                     $artists = getArtist($t->id); // Assuming getArtist returns artists for a track ID
                     if ($artists) { // Check if getArtist returned data
@@ -608,6 +608,7 @@ $currentYear = date("Y");
                                                                         </a>
                                                                     </td>
                                                                 </tr>
+                                                                <?php echo "<script>console.log(".$tr->id.");</script>"; ?>
                                                             <?php endforeach; ?>
                                                         <?php else: ?>
                                                             <tr>
