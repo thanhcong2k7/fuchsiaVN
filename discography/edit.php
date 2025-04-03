@@ -136,17 +136,20 @@ if ($release && isset($release->file) && is_array($release->file)) {
             // Find the corresponding track details from $f
             $foundTrack = null;
             foreach ($f as $fileData) {
-                if ($fileData->id == $trackIdInRelease) {
+                if ($fileData->id == $trackIdInRelease->file) {
                     $foundTrack = $fileData;
                     break;
                 }
             }
 
-            if ($foundTrack) {
-                $t = getTrack($foundTrack->id);
+            if ($foundTrack->id) {
+                //$t = getTrack($foundTrack->id);
+                //echo "<script>console.log('foundtrack id = ".json_encode($t)."');</script>";
+                // Returning in console: select * from track where id=;
                 if (isset($t)) { // Check if getTrack returned data
-                    $track[] = $t;
-                    $artists = getArtist($t->id); // Assuming getArtist returns artists for a track ID
+                    $track[] = $foundTrack;
+                    $artists = getArtist($foundTrack->id); // ok
+                    // Assuming getArtist returns artists for a track ID
                     if ($artists) { // Check if getArtist returned data
                         $currentTrackArtists = [];
                         foreach ($artists as $artist) {
@@ -161,10 +164,10 @@ if ($release && isset($release->file) && is_array($release->file)) {
                         }
 
                         // Store artist names directly with the track object if needed later
-                        $t->artistname = implode(", ", $currentTrackArtists);
+                        $foundTrack->artistname = implode(", ", $currentTrackArtists);
 
                     } else {
-                        $t->artistname = "(No artists found)";
+                        $foundTrack->artistname = "(No artists found)";
                     }
                 }
             }
@@ -176,6 +179,8 @@ if ($release && isset($release->file) && is_array($release->file)) {
 
     }
 }
+$collllll = array_column($track, 'id');
+array_multisort($track, SORT_ASC, $collllll);
 
 // Format dates safely
 $relDateFormatted = '';

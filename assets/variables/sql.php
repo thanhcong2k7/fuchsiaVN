@@ -3,7 +3,12 @@
  	//echo "FUCK YOU! YOU DON'T HAVE ANY PERMISSIONS TO RUN THIS SHIT!";
 	error_reporting(E_ERROR | E_PARSE);
 	function query($cmd){
-		return $GLOBALS["conn"]->query($cmd);
+		try{
+			return $GLOBALS["conn"]->query($cmd);
+		} catch(Exception $e){
+			echo '<script>console.log("'.$e->getMessage().'");</script>';
+			return false;
+		}
 	}
 	function resetinc($table){
 		query("ALTER TABLE ".$table." AUTO_INCREMENT = 1;");
@@ -73,7 +78,7 @@
 			$tmp2->status = $row["status"];
 			$tmp2->art = $row["artID"];
 			$tmp2->store = json_decode($row["storeID"]);
-			$tmp2->file = json_decode($row["trackID"]);
+			$tmp2->file = getTrackListOfAlbum($id);
 			$tmp2->c = $row["compLine"];
 			$tmp2->p = $row["publishLine"];
 			$tmp2->orgReldate = $row["orgReldate"];
@@ -153,6 +158,7 @@
 	}
 	function getTrack($track){
 		$tmp1 = query("select * from track where id=".$track.";");
+		//echo "<script> console.log('select * from track where id=".$track.";');</script>";
 		//$track = array();
 		$typ = new trackType();
 		while ($row=$tmp1->fetch_assoc()){
@@ -249,7 +255,7 @@
 		$tmp1 = query("select * from track where albumID=".$albID.";");
 		$tmp2 = array();
 		while($row = $tmp1->fetch_assoc())
-			$tmp2[] = getTrack($row["fID"]);
+			$tmp2[] = getTrack($row["id"]);
 		return $tmp2;
 	}
 ?>

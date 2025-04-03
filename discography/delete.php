@@ -45,7 +45,6 @@ if (!isset($GLOBALS["conn"]) || !$GLOBALS["conn"]) {
 //    (Sanitizing IDs before embedding)
 $sql_update_track = "UPDATE track SET albumID = NULL "
     . "WHERE id = " . $track_id . " "
-    . "AND albumID = " . $album_id . " " // Make sure it currently belongs to THIS album
     . "AND userID = " . $user_id;       // Make sure user owns the track
 
 $update_track_result = query($sql_update_track);
