@@ -45,7 +45,7 @@ if (!isset($GLOBALS["conn"]) || !$GLOBALS["conn"]) {
 //    (Sanitizing IDs before embedding)
 $sql_update_track = "UPDATE track SET albumID = NULL "
     . "WHERE id = " . $track_id . " "
-    . "AND userID = " . $user_id;       // Make sure user owns the track
+    . "AND userID = " . $user_id . ";";       // Make sure user owns the track
 
 $update_track_result = query($sql_update_track);
 
@@ -98,7 +98,7 @@ if (!$album_data || !isset($album_data->file) || !is_array($album_data->file)) {
         $escaped_json = $GLOBALS["conn"]->real_escape_string($new_track_json); // Use mysqli escaping
         $sql_update_album_json = "UPDATE album SET trackID = '" . $escaped_json . "' "
             . "WHERE albumID = " . $album_id . " "
-            . "AND userID = " . $user_id; // Ensure user owns album
+            . "AND userID = " . $user_id . ";"; // Ensure user owns album
 
         $update_album_result = query($sql_update_album_json);
         if (!$update_album_result) {

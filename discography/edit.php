@@ -143,12 +143,13 @@ if ($release && isset($release->file) && is_array($release->file)) {
             }
 
             if ($foundTrack->id) {
-                //$t = getTrack($foundTrack->id);
+                $t = getTrack(strval($foundTrack->id));
                 //echo "<script>console.log('foundtrack id = ".json_encode($t)."');</script>";
                 // Returning in console: select * from track where id=;
-                if (isset($t)) { // Check if getTrack returned data
-                    $track[] = $foundTrack;
-                    $artists = getArtist($foundTrack->id); // ok
+                if ($t->name != NULL) { // Check if getTrack returned data
+                    $track[] = $t;
+                    echo "<script>console.log('huh ".json_encode($t)."');</script>";
+                    $artists = getArtist(strval($t->id)); // NO IT'S NOT WORKING
                     // Assuming getArtist returns artists for a track ID
                     if ($artists) { // Check if getArtist returned data
                         $currentTrackArtists = [];

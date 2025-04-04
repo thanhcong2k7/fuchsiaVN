@@ -7,6 +7,7 @@
 			return $GLOBALS["conn"]->query($cmd);
 		} catch(Exception $e){
 			echo '<script>console.log("'.$e->getMessage().'");</script>';
+			echo '<script>console.log("Wrong SQL command: '.$cmd.'");</script>';
 			return false;
 		}
 	}
@@ -179,7 +180,7 @@
 		return $typ;
 	}
 	function getArtist($trackID){
-		$tmp1 = query("select * from track where id=".$trackID.";");
+		$tmp1 = query("select * from track where id=".strval($trackID).";");
 		$arr = array();
 		while($row=$tmp1->fetch_assoc()){
 			$jsjsjsjs = json_decode($row["artist"]);
