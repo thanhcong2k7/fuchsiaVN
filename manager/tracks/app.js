@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 credentials: "same-origin"
             }).then(response => response.json())
                 .then(data => {
-                    if (data.status === 0)
+                    if (data.status === 1)
                         console.log(data.message);
                     else console.log(data.message);
                 }).catch(error2 => {
