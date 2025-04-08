@@ -102,11 +102,11 @@ if ($release && $currentAlbumId > 0 && $currentUserId > 0) {
                     // Aggregate artist names for the album display block (optional)
                     // $t->artistname should be populated by getTrack()
                     if (!empty($t->artistname)) {
-                         $currentTrackArtists = explode(', ', $t->artistname);
-                         $allArtistNames = array_merge($allArtistNames, $currentTrackArtists);
+                        $currentTrackArtists = explode(', ', $t->artistname);
+                        $allArtistNames = array_merge($allArtistNames, $currentTrackArtists);
                     }
                 } else {
-                     error_log("getTrack($trackId) failed to return expected object for album $currentAlbumId");
+                    error_log("getTrack($trackId) failed to return expected object for album $currentAlbumId");
                 }
             }
         }
@@ -126,10 +126,10 @@ if ($release && $currentAlbumId > 0 && $currentUserId > 0) {
 
 }
 
-$track=array();
+$track = array();
 // Ensure $release is valid before proceeding
 if ($release && isset($release->file) && is_array($release->file)) {
-    echo '<script>console.log("Found Tracks in this album.")</script>';
+    echo '<script>console.log("Raw track data: '.htmlspecialchars(json_encode($release->file)).'.")</script>';
     $f = getFile($_SESSION["userwtf"]); // Assuming getFile gets tracks associated with the album ID
     if ($f) { // Check if getFile returned data
         foreach ($release->file as $trackIdInRelease) {
@@ -141,14 +141,14 @@ if ($release && isset($release->file) && is_array($release->file)) {
                     break;
                 }
             }
-
-            if ($foundTrack->id) {
-                $t = getTrack(strval($foundTrack->id));
+            if ($foundTrack->id?1:0) {
+                $t = getTrack(strval($trackIdInRelease->id));
                 //echo "<script>console.log('foundtrack id = ".json_encode($t)."');</script>";
                 // Returning in console: select * from track where id=;
+                echo "<script>console.log('huh " . json_encode($t->name) . "');</script>";
                 if ($t->name != NULL) { // Check if getTrack returned data
                     $track[] = $t;
-                    echo "<script>console.log('huh ".json_encode($t)."');</script>";
+                    echo "<script>console.log('huh " . json_encode($t) . "');</script>";
                     $artists = getArtist(strval($t->id)); // NO IT'S NOT WORKING
                     // Assuming getArtist returns artists for a track ID
                     if ($artists) { // Check if getArtist returned data
@@ -249,8 +249,6 @@ $currentYear = date("Y");
             height: 300px;
             padding: 15px;
             text-align: center;
-            border-radius: 7px;
-            border: 2px dashed #ffffff;
             cursor: pointer;
         }
 
@@ -409,7 +407,6 @@ $currentYear = date("Y");
                     <div class="col">
                         <form action="save.php" method="POST" id="formdepchai" enctype='multipart/form-data'>
                             <input value="<?php echo $releaseId; ?>" name="albumid" type="hidden">
-
                             <div class="card">
                                 <div class="card-header">
                                     <i class="zmdi zmdi-border-color"></i> Release ID:
@@ -435,144 +432,142 @@ $currentYear = date("Y");
                                     </ul>
                                     <div class="table-responsive overflow-hidden tab-content p-3">
                                         <div class="tab-pane active mb-0" id="metadata">
-                                            <div class="">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="dnd">
-                                                            <label for="input-file" id="drop-area">
-                                                                <input type="file" accept="image/*" id="input-file"
-                                                                    name="artworkup" hidden>
-                                                                <div id="img-view"
-                                                                    style="<?php echo !empty($release->art) ? 'background-image: url(\'' . htmlspecialchars($release->art, ENT_QUOTES, 'UTF-8') . '\');' : ''; ?>">
-                                                                    <?php if (empty($release->art)): ?>
-                                                                        <i class="zmdi zmdi-file-plus"
-                                                                            style="font-size: 50px; margin-bottom: 15px;"></i>
-                                                                        <span id="texttt">Drag & Drop or Click to Upload
-                                                                            Artwork<br>(Min. 1500x1500, Square)</span>
-                                                                    <?php endif; ?>
-                                                                </div>
-                                                            </label>
-                                                        </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="dnd">
+                                                        <label for="input-file" id="drop-area">
+                                                            <input type="file" accept="image/*" id="input-file"
+                                                                name="artworkup" hidden>
+                                                            <div id="img-view"
+                                                                style="<?php echo !empty($release->art) ? 'background-image: url(\'' . htmlspecialchars($release->art, ENT_QUOTES, 'UTF-8') . '\');' : ''; ?>">
+                                                                <?php if (empty($release->art)): ?>
+                                                                    <i class="zmdi zmdi-file-plus"
+                                                                        style="font-size: 50px; margin-bottom: 15px;"></i>
+                                                                    <span id="texttt">Drag & Drop<br>or Click to Upload
+                                                                        Artwork<br>(Min. 1500x1500, Square)</span>
+                                                                <?php endif; ?>
+                                                            </div>
+                                                        </label>
                                                     </div>
+                                                </div>
 
-                                                    <div class="col-md-8" style="padding-top: 20px;">
-                                                        <h3><?php echo ($release->name ? htmlspecialchars($release->name, ENT_QUOTES, 'UTF-8') : "(untitled)") .
-                                                            ($release->version ? " (" . htmlspecialchars($release->version, ENT_QUOTES, 'UTF-8') . ")" : ""); ?>
-                                                        </h3>
-                                                        <span><span style="font-weight: bold;">UPC</span>:
-                                                            <?php echo $release->upc ? htmlspecialchars($release->upc, ENT_QUOTES, 'UTF-8') : "(not set)"; ?></span>
-                                                        <br />
-                                                        <span><span style="font-weight: bold;">Artists:
-                                                            </span><?php echo $mergedArtistnames; // Already HTML-escaped during creation ?></span>
-                                                        <br />
-                                                        <span><span style="font-weight: bold;">Status:
-                                                            </span><?php
-                                                            // Simplified status display
-                                                            $statusText = "UNKNOWN";
-                                                            switch ($release->status) {
-                                                                case 0:
-                                                                    $statusText = "DRAFT";
-                                                                    break;
-                                                                case 1:
-                                                                    $statusText = "DELIVERED";
-                                                                    break;
-                                                                case 2:
-                                                                    $statusText = "ERROR";
-                                                                    break;
-                                                                case 3:
-                                                                    $statusText = "CHECKING";
-                                                                    break;
-                                                            }
-                                                            echo $statusText;
-                                                            ?>
-                                                        </span>
-                                                    </div>
+                                                <div class="col-md-8" style="padding-top: 20px;">
+                                                    <h3><?php echo ($release->name ? htmlspecialchars($release->name, ENT_QUOTES, 'UTF-8') : "(untitled)") .
+                                                        ($release->version ? " (" . htmlspecialchars($release->version, ENT_QUOTES, 'UTF-8') . ")" : ""); ?>
+                                                    </h3>
+                                                    <span><span style="font-weight: bold;">UPC</span>:
+                                                        <?php echo $release->upc ? htmlspecialchars($release->upc, ENT_QUOTES, 'UTF-8') : "(not set)"; ?></span>
+                                                    <br />
+                                                    <span><span style="font-weight: bold;">Artists:
+                                                        </span><?php echo $mergedArtistnames; // Already HTML-escaped during creation ?></span>
+                                                    <br />
+                                                    <span><span style="font-weight: bold;">Status:
+                                                        </span><?php
+                                                        // Simplified status display
+                                                        $statusText = "UNKNOWN";
+                                                        switch ($release->status) {
+                                                            case 0:
+                                                                $statusText = "DRAFT";
+                                                                break;
+                                                            case 1:
+                                                                $statusText = "DELIVERED";
+                                                                break;
+                                                            case 2:
+                                                                $statusText = "ERROR";
+                                                                break;
+                                                            case 3:
+                                                                $statusText = "CHECKING";
+                                                                break;
+                                                        }
+                                                        echo $statusText;
+                                                        ?>
+                                                    </span>
                                                 </div>
-                                                <br>
-                                                <div class="row">
-                                                    <div class="form-group col-md-6"> <label for="albumtitle">Album
-                                                            Title</label>
-                                                        <input type="text" class="form-control" name="albumtitle"
-                                                            placeholder="Name of your release"
-                                                            value="<?php echo htmlspecialchars($release->name ?? '', ENT_QUOTES, 'UTF-8'); ?>">
-                                                    </div>
-                                                    <div class="form-group col-md-6"> <label for="albumversion">Version
-                                                            line (optional)</label>
-                                                        <input type="text" class="form-control" name="albumversion"
-                                                            placeholder="Leave blank if only 1 track. E.g., Remix, Instrumental"
-                                                            value="<?php echo htmlspecialchars($release->version ?? '', ENT_QUOTES, 'UTF-8'); ?>">
-                                                    </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="form-group col-md-6"> <label for="albumtitle">Album
+                                                        Title</label>
+                                                    <input type="text" class="form-control" name="albumtitle"
+                                                        placeholder="Name of your release"
+                                                        value="<?php echo htmlspecialchars($release->name ?? '', ENT_QUOTES, 'UTF-8'); ?>">
                                                 </div>
-                                                <div class="row">
-                                                    <div class="form-group col-md-6" id="sandbox-container">
-                                                        <label for="reldate">Release date (mm/dd/yyyy)</label>
-                                                        <div class="input-group"> <input type="text"
-                                                                class="form-control" id="reldate" name="reldate"
-                                                                placeholder="Pick release date (mm/dd/yyyy)"
-                                                                value="<?php echo $relDateFormatted; ?>">
-                                                            <div class="input-group-append">
-                                                                <span class="input-group-text"><i
-                                                                        class="zmdi zmdi-calendar"></i></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-md-6" id="sandbox-container2">
-                                                        <label for="orgreldate">Original release date (optional,
-                                                            mm/dd/yyyy)</label>
-                                                        <div class="input-group"> <input type="text"
-                                                                class="form-control" id="orgreldate" name="orgreldate"
-                                                                placeholder="If released before (mm/dd/yyyy)"
-                                                                value="<?php echo $orgRelDateFormatted; ?>">
-                                                            <div class="input-group-append">
-                                                                <span class="input-group-text"><i
-                                                                        class="zmdi zmdi-calendar"></i></span>
-                                                            </div>
+                                                <div class="form-group col-md-6"> <label for="albumversion">Version
+                                                        line (optional)</label>
+                                                    <input type="text" class="form-control" name="albumversion"
+                                                        placeholder="Leave blank if only 1 track. E.g., Remix, Instrumental"
+                                                        value="<?php echo htmlspecialchars($release->version ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-md-6" id="sandbox-container">
+                                                    <label for="reldate">Release date (mm/dd/yyyy)</label>
+                                                    <div class="input-group"> <input type="text" class="form-control"
+                                                            id="reldate" name="reldate"
+                                                            placeholder="Pick release date (mm/dd/yyyy)"
+                                                            value="<?php echo $relDateFormatted; ?>">
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text"><i
+                                                                    class="zmdi zmdi-calendar"></i></span>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <hr class="mt-1 mb-3" />
-                                                <div class="row">
-                                                    <div class="form-group col-12"> <label for="upc">UPC
-                                                            (optional)</label>
-                                                        <input type="text" class="form-control" maxlength="12"
-                                                            name="upc" pattern="\d{12}" title="Enter a 12-digit UPC"
-                                                            placeholder="Valid 12-digit UPC. Leave blank to auto-assign."
-                                                            value="<?php echo htmlspecialchars($release->upc ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+                                                <div class="form-group col-md-6" id="sandbox-container2">
+                                                    <label for="orgreldate">Original release date (optional,
+                                                        mm/dd/yyyy)</label>
+                                                    <div class="input-group"> <input type="text" class="form-control"
+                                                            id="orgreldate" name="orgreldate"
+                                                            placeholder="If released before (mm/dd/yyyy)"
+                                                            value="<?php echo $orgRelDateFormatted; ?>">
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text"><i
+                                                                    class="zmdi zmdi-calendar"></i></span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="form-group col-md-4">
-                                                        <label for="cyear">© Copyright Year</label>
-                                                        <input type="number" class="form-control" name="cyear"
-                                                            pattern="\d{4}" title="Enter a 4-digit year"
-                                                            placeholder="<?php echo $currentYear; ?>"
-                                                            value="<?php echo htmlspecialchars($release->cyear ?? $currentYear, ENT_QUOTES, 'UTF-8'); ?>"
-                                                            required>
-                                                    </div>
-                                                    <div class="form-group col-md-8">
-                                                        <label for="cline">© Copyright Line</label>
-                                                        <input type="text" class="form-control" name="cline"
-                                                            placeholder="Holder of the composition copyright. E.g., Your Label Name"
-                                                            value="<?php echo htmlspecialchars($release->c ?? '', ENT_QUOTES, 'UTF-8'); ?>"
-                                                            required>
-                                                    </div>
+                                            </div>
+                                            <hr class="mt-1 mb-3" />
+                                            <div class="row">
+                                                <div class="form-group col-12"> <label for="upc">UPC
+                                                        (optional)</label>
+                                                    <input type="text" class="form-control" maxlength="12" name="upc"
+                                                        pattern="\d{12}" title="Enter a 12-digit UPC"
+                                                        placeholder="Valid 12-digit UPC. Leave blank to auto-assign."
+                                                        value="<?php echo htmlspecialchars($release->upc ?? '', ENT_QUOTES, 'UTF-8'); ?>">
                                                 </div>
-                                                <div class="row">
-                                                    <div class="form-group col-md-4">
-                                                        <label for="pyear">℗ Phonogram Year</label>
-                                                        <input type="number" class="form-control" name="pyear"
-                                                            pattern="\d{4}" title="Enter a 4-digit year"
-                                                            placeholder="<?php echo $currentYear; ?>"
-                                                            value="<?php echo htmlspecialchars($release->pyear ?? $currentYear, ENT_QUOTES, 'UTF-8'); ?>"
-                                                            required>
-                                                    </div>
-                                                    <div class="form-group col-md-8">
-                                                        <label for="pline">℗ Phonogram Line</label>
-                                                        <input type="text" class="form-control" name="pline"
-                                                            placeholder="Holder of the sound recording copyright. E.g., Your Label Name"
-                                                            value="<?php echo htmlspecialchars($release->p ?? '', ENT_QUOTES, 'UTF-8'); ?>"
-                                                            required>
-                                                    </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="cyear">© Copyright Year</label>
+                                                    <input type="number" class="form-control" name="cyear"
+                                                        pattern="\d{4}" title="Enter a 4-digit year"
+                                                        placeholder="<?php echo $currentYear; ?>"
+                                                        value="<?php echo htmlspecialchars($release->cyear ?? $currentYear, ENT_QUOTES, 'UTF-8'); ?>"
+                                                        required>
+                                                </div>
+                                                <div class="form-group col-md-8">
+                                                    <label for="cline">© Copyright Line</label>
+                                                    <input type="text" class="form-control" name="cline"
+                                                        placeholder="Holder of the composition copyright. E.g., Your Label Name"
+                                                        value="<?php echo htmlspecialchars($release->c ?? '', ENT_QUOTES, 'UTF-8'); ?>"
+                                                        required>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="pyear">℗ Phonogram Year</label>
+                                                    <input type="number" class="form-control" name="pyear"
+                                                        pattern="\d{4}" title="Enter a 4-digit year"
+                                                        placeholder="<?php echo $currentYear; ?>"
+                                                        value="<?php echo htmlspecialchars($release->pyear ?? $currentYear, ENT_QUOTES, 'UTF-8'); ?>"
+                                                        required>
+                                                </div>
+                                                <div class="form-group col-md-8">
+                                                    <label for="pline">℗ Phonogram Line</label>
+                                                    <input type="text" class="form-control" name="pline"
+                                                        placeholder="Holder of the sound recording copyright. E.g., Your Label Name"
+                                                        value="<?php echo htmlspecialchars($release->p ?? '', ENT_QUOTES, 'UTF-8'); ?>"
+                                                        required>
                                                 </div>
                                             </div>
                                         </div>
@@ -614,7 +609,7 @@ $currentYear = date("Y");
                                                                         </a>
                                                                     </td>
                                                                 </tr>
-                                                                <?php echo "<script>console.log(".$tr->id.");</script>"; ?>
+                                                                <?php echo "<script>console.log(" . $tr->id . ");</script>"; ?>
                                                             <?php endforeach; ?>
                                                         <?php else: ?>
                                                             <tr>
@@ -632,7 +627,6 @@ $currentYear = date("Y");
                                             </div>
                                             <div class="card-body">
                                                 <div class="row">
-
                                                     <div class="col-12">
                                                         <label for="stores">Stores/Services</label>
                                                         <div class="row align-items-center no-gutters">
@@ -737,15 +731,17 @@ $currentYear = date("Y");
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="row">
+                                                    <input name="distform" id="distform" type="submit"
+                                                        class="btn btn-warning btn-round px-5" value="Distribute Now">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-center mt-4"> <input name="saveform" id="saveform" type="submit"
+                                    <div class="text-center mt-4">
+                                        <input name="saveform" id="saveform" type="submit"
                                             class="btn btn-light btn-round px-5" value="Save Changes">
-                                        <input name="distform" id="distform" type="submit"
-                                            class="btn btn-warning btn-round px-5" value="Distribute Now">
                                     </div>
-
                                 </div>
                             </div>
                         </form>

@@ -76,7 +76,6 @@ document.addEventListener("DOMContentLoaded", function () {
             formData.append("name", file.name);
             formData.append("type", file.type);
             formData.append("file", base64String);
-            var tmpfileID;
 
             fetch(GAS_DEPLOY, {
                 method: 'POST',
@@ -85,6 +84,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then(data => {
                     if (data.status === "success") {
                         let fileID = getFileIdFromUrl(data.url);
+                        var updateDB = new FormData();
+                        updateDB.append("fName", file.name);
+                        updateDB.append("gID", fileID);
+
+                        fetch("insert.php", {
+                            method: "POST",
+                            body: updateDB,
+                            credentials: "same-origin"
+                        }).then(response => response.json())
+                            .then(data => {
+                                if (data.status === 1)
+                                    console.log(data.message);
+                                else console.log(data.message);
+                            }).catch(error2 => {
+                                console.error(error2);
+                            });
+                        document.getElementById("status").innerText = "Finished uploading.";
                         console.log(fileID);
                         document.getElementById("notiSound").play();
                         tmpfileID = fileID;
@@ -96,24 +112,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     document.getElementById("status").innerText = "Connection error!";
                     console.error(error);
                 });
-
-            var updateDB = new FormData();
-            updateDB.append("fName", file.name);
-            updateDB.append("gID", tmpfileID);
-
-            fetch("insert.php", {
-                method: "POST",
-                body: updateDB,
-                credentials: "same-origin"
-            }).then(response => response.json())
-                .then(data => {
-                    if (data.status === 1)
-                        console.log(data.message);
-                    else console.log(data.message);
-                }).catch(error2 => {
-                    console.error(error2);
-                });
-            document.getElementById("status").innerText = "Finished uploading.";
             //
         } catch (error) {
             document.getElementById("status").innerText = "Error encoding!";
