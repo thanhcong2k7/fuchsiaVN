@@ -42,6 +42,8 @@ else {
     <script src="../assets/js/popper.min.js"></script>
     <script src="../assets/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/assets/css/scroll-bar.css" />
+    <script src="https://cdn.payos.vn/payos-checkout/v1/stable/payos-initialize.js"></script>
+    <script src="index.js"></script>
 </head>
 
 <body class="bg-theme bg-theme1">
@@ -67,10 +69,34 @@ else {
                     <div class="col">
                         <div class="card">
                             <div class="card-header">
-                                Support
+                                Upgrade to PRO!
                             </div>
                             <div class="card-body">
-                                Under construction! Please comeback later...
+                                <img src="" alt="paymentqr" id="qrid">
+                                <div style="display: flex">
+                                    <div style="padding-top: 10px; display: flex; flex-direction: column">
+                                        <div style="border: 2px solid blue; border-radius: 10px; overflow: hidden">
+                                            <div id="content-container" style="padding: 10px">
+                                                <p><strong>Product Name:</strong> White Label plan</p>
+                                                <p><strong>Price:</strong> 150,000 VNĐ</p>
+                                                <p><strong>Quantity:</strong> 1</p>
+                                            </div>
+                                            <div id="button-container">
+                                                <button type="submit" id="create-payment-link-btn" style="
+              width: 100%;
+              background-color: blue;
+              color: white;
+              border: none;
+              padding: 10px;
+              font-size: 15px;
+            ">
+                                                    Create Payment Link
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div id="embeded-payment-container" style="height: 350px"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
