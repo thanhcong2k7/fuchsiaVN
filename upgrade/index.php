@@ -43,7 +43,6 @@ else {
     <script src="../assets/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/assets/css/scroll-bar.css" />
     <script src="https://cdn.payos.vn/payos-checkout/v1/stable/payos-initialize.js"></script>
-    <script src="index.js"></script>
 </head>
 
 <body class="bg-theme bg-theme1">
@@ -162,7 +161,8 @@ else {
         <!--end color switcher-->
 
     </div><!--End wrapper-->
-
+    <!-- Upgrade INDEX JS -->
+    <script src="index.js"></script>
     <!-- simplebar js -->
     <script src="../assets/plugins/simplebar/js/simplebar.js"></script>
     <!-- sidebar-menu js -->

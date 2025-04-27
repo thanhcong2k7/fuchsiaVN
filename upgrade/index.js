@@ -55,9 +55,9 @@ buttonContainer.addEventListener("click", async (event) => {
 
 const getPaymentLink = async () => {
   const response = await fetch(
-    "http://localhost/upgrade/create-embedded-payment-link",
+    "http://localhost/upgrade/checkout.php",
     {
-      method: "POST",
+      method: "GET",
     }
   );
   if (!response.ok) {
