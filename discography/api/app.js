@@ -42,7 +42,7 @@ async function showReleaseDetails(releaseId) {
             trackList.append(`
       <li class="list-group-item d-flex justify-content-between align-items-center">
         <div>
-          <strong>${track.position}.</strong> ${track.name}
+          <strong>FMG_T${track.id} - </strong> ${track.name}
           <br><small class="text-muted">${track.artists.join(', ')}</small>
         </div>
         <span class="badge badge-secondary">${track.duration}</span>

@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     var fileProcessed;
     var fName;
+    var duration;
     document.getElementById("notiSound").volume = 0.8;
     const message = document.getElementById('status');
     const { createFFmpeg, fetchFile } = FFmpeg;
@@ -43,6 +44,20 @@ document.addEventListener("DOMContentLoaded", function () {
         fileProcessed = data.buffer;
         const video = document.getElementById('output-video');
         video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'audio/mpeg' }));
+        // Helper function to get duration from audio buffer
+        const getAudioDuration = (arrayBuffer) => {
+            return new Promise((resolve, reject) => {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                audioContext.decodeAudioData(arrayBuffer, (buffer) => {
+                    resolve(buffer.duration);
+                }, reject);
+            });
+        };
+
+        // Fetch and decode the audio to get duration
+        const response = await fetch(video.src);
+        const arrayBuffer = await response.arrayBuffer();
+        duration = await getAudioDuration(arrayBuffer); // Now holds duration in seconds
     }
     //document.getElementById("filee").addEventListener('onchange', transcode);
     const dropArea = document.getElementById("dnarea");
@@ -87,6 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         var updateDB = new FormData();
                         updateDB.append("fName", file.name);
                         updateDB.append("gID", fileID);
+                        updateDB.append("duration", duration);
 
                         fetch("insert.php", {
                             method: "POST",

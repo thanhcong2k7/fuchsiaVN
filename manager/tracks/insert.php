@@ -12,7 +12,7 @@ if (isset($_SESSION['userwtf'])) {
                 $id = $tmp2['fileID'];
             }
             resetinc('track');
-            query('insert into track (fID, userID, name) values ("' . $id . '",' . $_SESSION['userwtf'] . ',"' . $_POST['fName'] . '");');
+            query('insert into track (fID, userID, name, duration) values ("' . $id . '",' . $_SESSION['userwtf'] . ',"' . $_POST['fName'] . '","'.$_POST["duration"].'");');
             echo '{"status":1, "message":"All tasks succeeded! File ID: '.$id.', gID: '.$_POST["gID"].'"}';
         } catch (Exception $e) {
             echo '{"status":0, "message":"' . $e->getMessage() . '"}';

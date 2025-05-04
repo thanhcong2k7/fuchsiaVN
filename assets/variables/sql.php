@@ -178,6 +178,7 @@ class trackType
 	public $artistname;
 	public $file;
 	public $isrc;
+	public $duration; // in seconds
 }
 function getTrack($track)
 {
@@ -199,6 +200,7 @@ function getTrack($track)
 		$typ->role = json_decode($row["role"]);
 		$typ->file = $row["fID"];
 		$typ->isrc = $row["isrc"];
+		$typ->duration = $row["duration"];
 	}
 	return $typ;
 }
