@@ -18,6 +18,32 @@ else {
   <meta name="description" content="" />
   <meta name="author" content="" />
   <title>Discography - fuchsia Media Group</title>
+  <style>
+    #viewReleaseModal .modal-content {
+      background-color: rgba(0, 0, 0, 0.95);
+      color: #fff;
+    }
+
+    #viewReleaseModal .modal-header {
+      border-bottom: 1px solid #333;
+    }
+
+    #viewReleaseModal .modal-footer {
+      border-top: 1px solid #333;
+    }
+
+    #releaseArt {
+      max-width: 250px;
+      border: 2px solid #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .loader {
+      width: 3rem;
+      height: 3rem;
+      border-width: 0.25em;
+    }
+  </style>
   <!-- loader-->
   <link href="/assets/css/pace.min.css" rel="stylesheet" />
   <script src="/assets/js/pace.min.js"></script>
@@ -40,8 +66,11 @@ else {
   <!-- Bootstrap core JavaScript-->
   <script src="/assets/js/jquery.min.js"></script>
   <script src="/assets/js/popper.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+    integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+    crossorigin="anonymous"></script>
   <script src="/assets/js/bootstrap.min.js"></script>
+  <script type="module" src="api/app.js"></script>
   <link rel="stylesheet" href="/assets/css/scroll-bar.css" />
 </head>
 
@@ -91,33 +120,33 @@ else {
                       </tr>
                     </thead>
                     <tbody>
-                        <?php
-                        if ($release == null)
-                          echo '<center>There\'s nothing here yet...</center>';
-                        else
-                          foreach ($release as &$r) {
-                            $mergedArtistnames = "";
-                            $f = getFile($r->id);
-                            $r2 = getRelease($_SESSION["userwtf"], 0, $r->id);
-                            $track = array();
-                            foreach ($r2->file as &$adu) {
-                              foreach ($f as &$f2) {
-                                if ($f2->id == $adu) {
-                                  $t = getTrack($f2->id);
-                                  $track[] = $t;
-                                  $artist = getArtist($t->id);
-                                  $n = 0;
-                                  foreach ($artist as &$adu) {
-                                    if ($mergedArtistnames) {
-                                      $n++;
-                                    } else
-                                      $mergedArtistnames .= $adu->name;
-                                  }
-                                  $mergedArtistnames .= " & " . $n . " more";
+                      <?php
+                      if ($release == null)
+                        echo '<center>There\'s nothing here yet...</center>';
+                      else
+                        foreach ($release as &$r) {
+                          $mergedArtistnames = "";
+                          $f = getFile($r->id);
+                          $r2 = getRelease($_SESSION["userwtf"], 0, $r->id);
+                          $track = array();
+                          foreach ($r2->file as &$adu) {
+                            foreach ($f as &$f2) {
+                              if ($f2->id == $adu) {
+                                $t = getTrack($f2->id);
+                                $track[] = $t;
+                                $artist = getArtist($t->id);
+                                $n = 0;
+                                foreach ($artist as &$adu) {
+                                  if ($mergedArtistnames) {
+                                    $n++;
+                                  } else
+                                    $mergedArtistnames .= $adu->name;
                                 }
+                                $mergedArtistnames .= " & " . $n . " more";
                               }
                             }
-                            echo '<tr>
+                          }
+                          echo '<tr>
                             <td><img loading="eager" style="border-radius:5px; border-style:solid; border-color:white; border-width:1px;" src="' . (!isset($r->artp) || ($r->artp == "") ? '/assets/images/alb.png' : $r->artp) . '" class="product-img" alt="product img"></td>
                             <td>' . ($r->upc ? $r->upc : "--") . '</td>
                             <td>' . ($r->name ? $r->name : "(untitled)") . '</td>
@@ -132,6 +161,7 @@ else {
                               Actions
                             </button>
                             <div class="dropdown-menu">
+                              <a class="dropdown-item view-release" href="#" data-release-id="' . $r->id . '">View release</a>
                               <a class="dropdown-item" href="edit.php?id=' . $r->id . '">Edit release</a>
                               <a class="dropdown-item" href="edit.php?id=' . $r->id . '&delete=1">Delete release</a>
                             </div>
@@ -139,8 +169,8 @@ else {
                           </td>
                           </tr>
                   ';
-                          }
-                        ?>
+                        }
+                      ?>
                     </tbody>
                   </table>
                 </div>
@@ -226,7 +256,49 @@ else {
     n = new Date();
     document.getElementById("cccccyear").innerHTML = n.getFullYear();
   </script>
-
+  <!-- View Release Modal -->
+  <div class="modal fade" id="viewReleaseModal" tabindex="-1" role="dialog" aria-labelledby="viewReleaseModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="viewReleaseModalLabel">Release Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center" id="loadingSpinner">
+            <div class="loader"></div> Loading release details...
+          </div>
+          <div id="releaseContent" style="display: none;">
+            <div class="row">
+              <div class="col-md-4 text-center">
+                <img id="releaseArt" src="" class="img-fluid rounded mb-3" alt="Release Artwork">
+              </div>
+              <div class="col-md-8">
+                <h4 id="releaseTitle"></h4>
+                <p><strong>UPC:</strong> <span id="releaseUPC"></span></p>
+                <p><strong>Artists:</strong> <span id="releaseArtists"></span></p>
+                <p><strong>Status:</strong> <span id="releaseStatus"></span></p>
+                <p><strong>Release Date:</strong> <span id="releaseDate"></span></p>
+                <p><strong>Original Release Date:</strong> <span id="originalReleaseDate"></span></p>
+              </div>
+            </div>
+            <hr>
+            <h5>Tracks</h5>
+            <ul class="list-group" id="trackList">
+              <!-- Track items will be added here by JS -->
+            </ul>
+          </div>
+          <div id="releaseError" class="alert alert-danger" style="display: none;"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>
