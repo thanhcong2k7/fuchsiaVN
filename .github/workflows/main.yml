@@ -12,7 +12,7 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: fuchsia.viiic.net
-        username: testhihihi@fuchsia.viiic.net
-        password: ${{ secrets.ftp_password }}
+        username: hohoho@fuchsia.viiic.net
+        password: 123456hehehehe
     - name: 🔔 Announce over ntfy.sh 
       run: curl -d "Finished pushing to FTP!" ntfy.sh/ntcedm
