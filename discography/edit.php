@@ -6,6 +6,42 @@ if (!isset($_SESSION["userwtf"])) {
 } else {
     require "../assets/variables/sql.php";
     // Basic input validation for $_GET['id']
+
+
+    // --- Handle New/Delete ---
+// Consider moving these actions to separate scripts or API endpoints for better structure.
+    if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
+        // Assuming these functions handle security appropriately (e.g., prepared statements)
+        resetinc("album");
+        query("insert into album (userID) values (" . $_SESSION["userwtf"] . ");");
+        $newid = creNew($_SESSION["userwtf"]);
+        // Basic validation for newid
+        if ($newid) {
+            echo "<script>window.location.href='edit.php?id=" . $newid . "';</script>";
+        } else {
+            echo "<script>alert('Failed to create new release.'); window.location.href='.';</script>";
+        }
+        exit; // Add exit
+    } elseif (
+        isset($_GET["delete"]) &&
+        isset($releaseId) && // Use the validated $releaseId
+        isset($_SESSION["userwtf"])
+    ) {
+        // Ensure $release was fetched successfully before attempting delete
+        if ($release) {
+            foreach ($release->file as &$trackDel) {
+                // Use NULL instead of "" if the column allows NULLs
+                // Ensure update function uses prepared statements
+                update("albumID", null, "track", "id=" . intval($trackDel));
+            }
+            // Ensure query function uses prepared statements
+            query("delete from album where albumID=" . $releaseId . " AND userID=" . $_SESSION['userwtf'] . ";"); // Add userID check for security
+            echo "<script>alert('Release deleted.'); window.location.href='.';</script>";
+        } else {
+            echo "<script>alert('Cannot delete - release not found.'); window.location.href='.';</script>";
+        }
+        exit; // Add exit
+    }
     $releaseId = isset($_GET["id"]) ? filter_var($_GET["id"], FILTER_VALIDATE_INT) : false;
     if ($releaseId === false) {
         echo '<script>alert("Invalid Release ID!"); window.location.href=".";</script>';
@@ -32,42 +68,6 @@ if (!isset($_SESSION["userwtf"])) {
     $trackList = getTrackList($_SESSION["userwtf"]); // Assuming this gets tracks *not* yet in an album?
 }
 
-// --- Handle New/Delete ---
-// Consider moving these actions to separate scripts or API endpoints for better structure.
-if (isset($_GET["new"]) && isset($_SESSION["userwtf"])) {
-    // Assuming these functions handle security appropriately (e.g., prepared statements)
-    resetinc("album");
-    query("insert into album (userID) values (" . $_SESSION["userwtf"] . ");");
-    $newid = creNew($_SESSION["userwtf"]);
-    // Basic validation for newid
-    if ($newid) {
-        echo "<script>window.location.href='edit.php?id=" . $newid . "';</script>";
-    } else {
-        echo "<script>alert('Failed to create new release.'); window.location.href='.';</script>";
-    }
-    exit; // Add exit
-} elseif (
-    isset($_GET["delete"]) &&
-    isset($releaseId) && // Use the validated $releaseId
-    isset($_SESSION["userwtf"])
-) {
-    // Ensure $release was fetched successfully before attempting delete
-    if ($release) {
-        foreach ($release->file as &$trackDel) {
-            // Use NULL instead of "" if the column allows NULLs
-            // Ensure update function uses prepared statements
-            update("albumID", null, "track", "id=" . intval($trackDel));
-        }
-        // Ensure query function uses prepared statements
-        query("delete from album where albumID=" . $releaseId . " AND userID=" . $_SESSION['userwtf'] . ";"); // Add userID check for security
-        echo "<script>alert('Release deleted.'); window.location.href='.';</script>";
-    } else {
-        echo "<script>alert('Cannot delete - release not found.'); window.location.href='.';</script>";
-    }
-    exit; // Add exit
-}
-
-// --- Prepare data for the form ---
 // --- Prepare data for the form ---
 $mergedArtistnames = ""; // For album-level display (potentially)
 $albumTracks = [];     // CORRECTED: Array to hold tracks belonging to THIS album
@@ -129,7 +129,7 @@ if ($release && $currentAlbumId > 0 && $currentUserId > 0) {
 $track = array();
 // Ensure $release is valid before proceeding
 if ($release && isset($release->file) && is_array($release->file)) {
-    echo '<script>console.log("Raw track data: '.htmlspecialchars(json_encode($release->file)).'.")</script>';
+    echo '<script>console.log("Raw track data: ' . htmlspecialchars(json_encode($release->file)) . '.")</script>';
     $f = getFile($_SESSION["userwtf"]); // Assuming getFile gets tracks associated with the album ID
     if ($f) { // Check if getFile returned data
         foreach ($release->file as $trackIdInRelease) {
@@ -141,7 +141,7 @@ if ($release && isset($release->file) && is_array($release->file)) {
                     break;
                 }
             }
-            if ($foundTrack->id?1:0) {
+            if ($foundTrack->id ? 1 : 0) {
                 $t = getTrack(strval($trackIdInRelease->id));
                 //echo "<script>console.log('foundtrack id = ".json_encode($t)."');</script>";
                 // Returning in console: select * from track where id=;
@@ -489,12 +489,14 @@ $currentYear = date("Y");
                                                 <div class="form-group col-md-6"> <label for="albumtitle">Album
                                                         Title</label>
                                                     <input type="text" class="form-control" name="albumtitle"
+                                                        onkeydown="return /[a-z]/i.test(event.key)"
                                                         placeholder="Name of your release"
                                                         value="<?php echo htmlspecialchars($release->name ?? '', ENT_QUOTES, 'UTF-8'); ?>">
                                                 </div>
                                                 <div class="form-group col-md-6"> <label for="albumversion">Version
                                                         line (optional)</label>
                                                     <input type="text" class="form-control" name="albumversion"
+                                                        onkeydown="return /[a-z]/i.test(event.key)"
                                                         placeholder="Leave blank if only 1 track. E.g., Remix, Instrumental"
                                                         value="<?php echo htmlspecialchars($release->version ?? '', ENT_QUOTES, 'UTF-8'); ?>">
                                                 </div>
@@ -548,6 +550,7 @@ $currentYear = date("Y");
                                                 <div class="form-group col-md-8">
                                                     <label for="cline">© Copyright Line</label>
                                                     <input type="text" class="form-control" name="cline"
+                                                        onkeydown="return /[a-z]/i.test(event.key)"
                                                         placeholder="Holder of the composition copyright. E.g., Your Label Name"
                                                         value="<?php echo htmlspecialchars($release->c ?? '', ENT_QUOTES, 'UTF-8'); ?>"
                                                         required>
@@ -565,6 +568,7 @@ $currentYear = date("Y");
                                                 <div class="form-group col-md-8">
                                                     <label for="pline">℗ Phonogram Line</label>
                                                     <input type="text" class="form-control" name="pline"
+                                                        onkeydown="return /[a-z]/i.test(event.key)"
                                                         placeholder="Holder of the sound recording copyright. E.g., Your Label Name"
                                                         value="<?php echo htmlspecialchars($release->p ?? '', ENT_QUOTES, 'UTF-8'); ?>"
                                                         required>
