@@ -40,44 +40,53 @@
     <li><a href="/manager/artist/"><i class="zmdi zmdi-accounts text-warning"></i> <span>Artists</span></a></li>
     <li><a href="/manager/tracks/"><i class="zmdi zmdi-audio text-success"></i> <span>Tracks</span></a></li>
     <li><a href="/ticket/"><i class="zmdi zmdi-tag text-info"></i> <span>Support</span></a></li>
-    <li><a href="/upgrade/"><i class="zmdi zmdi-tag text-info"></i> <span>Upgrade plan</span></a></li>
+    <li><a href="/upgrade/" onclick="upgrade()" id="upgradePlan" data-toggle="modal" data-target="#paymentModal"><i class="zmdi zmdi-tag text-info"></i> <span>Upgrade plan</span></a></li>
     <li><a href="/login/login.php?logout=yes"><i class="zmdi zmdi-run text-danger"></i> <span>Log out?</span></a></li>
-<li><select id="google_translate_selector">
-  <option value="">🌐 Language</option>
-</select>
-<div id="google_translate_element" style="display:none;"></div></li>
   </ul>
-
 </div>
 <script>
-  document.getElementById('google_translate_selector')
-    .addEventListener('change', function() {
-      var lang = this.value;
-      // Google’s widget listens for this event:
-      var gt = document.querySelector('.goog-te-combo');
-      if (gt) { gt.value = lang; gt.dispatchEvent(new Event('change')); }
-    });
-
-  // Populate the <select> with the same languages Google uses:
-  window.addEventListener('load', function() {
-    var combo = document.querySelector('.goog-te-combo');
-    if (!combo) return;
-    var sel = document.getElementById('google_translate_selector');
-    // Copy options from Google’s hidden select
-    Array.from(combo.options).forEach(function(opt) {
-      sel.appendChild(new Option(opt.text, opt.value));
-    });
-  });
-</script>
-<script type="text/javascript">
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement({
-      pageLanguage: 'en',
-      layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-      autoDisplay: false
-    }, 'google_translate_element');
+  function upgrade(){
+    fetch("/checkout.php")
   }
 </script>
-<script 
-  src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
-</script>
+<style>
+  
+  #paymentModal .modal-content {
+      background-color: rgba(0, 0, 0, 0.95);
+      color: #fff;
+    }
+
+    #paymentModal .modal-header {
+      border-bottom: 1px solid #333;
+    }
+
+    #paymentModal .modal-footer {
+      border-top: 1px solid #333;
+    }
+</style>
+<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="paymentModalLabel">Upgrade to PRO Plan</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col">
+            <img src="/assets/images/alb.png" alt="QR Thanh Toan" id="maqr" width="200px" height="200px" style="border-radius:10px">
+          </div>
+          <div class="col">
+            thanh toan di cu
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

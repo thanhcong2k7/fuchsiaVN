@@ -13,9 +13,7 @@ $data = [
             'price' => 150000,
             'quantity' => 1
         ]
-    ],
-    "returnUrl" => "https://localhost/upgrade/success.html",
-    "cancelUrl" => "https://localhost/upgrade/cancel.html"
+    ]
 ];
 $response = $payOS->createPaymentLink($data);
 echo json_encode($response);
