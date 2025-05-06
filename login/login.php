@@ -20,7 +20,7 @@
 		$iv=generateRandomString(17);
 		setcookie("saveses",openssl_encrypt($key,"AES-128-CTR",$new_md5pwd,0,$iv), time()+(86400*30), "/");
 		query("delete from sessions where ip='".$_SERVER["REMOTE_ADDR"]."';");
-		query("insert into sessions (secret,userID,ip,timeAdded,iv) values ('".$key."',".getID($_SESSION["resetemail"]).",'".$_SERVER['REMOTE_ADDR']."','".date("H:m d/m/Y")."','".$iv."');");
+		query("insert into sessions (secret,userID,ip,timeAdded,iv) values ('".$key."',".getID($_SESSION["resetemail"]).",'".$_SERVER['REMOTE_ADDR']."',NOW(),'".$iv."');");
 		header("Location: ../");
 	} else if (isset($_GET["logout"]) && isset($_SESSION["userwtf"])){
 		unset($_SESSION["userwtf"]);
@@ -54,7 +54,7 @@
 				$iv=generateRandomString(17);
 				setcookie("saveses",openssl_encrypt($key,"AES-128-CTR",$pwd,0,$iv), time()+(86400*30), "/");
 				$conn->query("delete from sessions where ip='".$_SERVER["REMOTE_ADDR"]."';");
-				$conn->query("insert into sessions (secret,userID,ip,timeAdded,iv) values ('".$key."',".$id.",'".$_SERVER['REMOTE_ADDR']."','".date("H:m d/m/Y")."','".$iv."');");
+				$conn->query("insert into sessions (secret,userID,ip,timeAdded,iv) values ('".$key."',".$id.",'".$_SERVER['REMOTE_ADDR']."',NOW(),'".$iv."');");
 			}
 			header("Location: ../index.php");
 	    }
