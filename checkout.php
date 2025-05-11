@@ -1,5 +1,5 @@
 <?php
-require_once '../assets/plugins/vendor/autoload.php';
+require_once 'assets/plugins/vendor/autoload.php';
 header("Content-Type: application/json");
 use PayOS\PayOS;
 $payOS = new PayOS('fc13dcc9-dbbd-472b-9232-2049449847aa', '7ec3d2f3-157d-43db-afc3-61dc72a8e186', '6706daaad10480a167971f24a2d5cd132ba6baf34af78befd20eaf1b3321516a');
@@ -13,7 +13,9 @@ $data = [
             'price' => 150000,
             'quantity' => 1
         ]
-    ]
+    ],
+    "cancelUrl" => "http://localhost/",
+    "returnUrl" => "http://localhost/"
 ];
 $response = $payOS->createPaymentLink($data);
 echo json_encode($response);
