@@ -40,31 +40,51 @@
     <li><a href="/manager/artist/"><i class="zmdi zmdi-accounts text-warning"></i> <span>Artists</span></a></li>
     <li><a href="/manager/tracks/"><i class="zmdi zmdi-audio text-success"></i> <span>Tracks</span></a></li>
     <li><a href="/ticket/"><i class="zmdi zmdi-tag text-info"></i> <span>Support</span></a></li>
-    <li><a href="/upgrade/" onclick="upgrade()" id="upgradePlan" data-toggle="modal" data-target="#paymentModal"><i class="zmdi zmdi-tag text-info"></i> <span>Upgrade plan</span></a></li>
+    <li><a href="/upgrade/" onclick="event.preventDefault(); upgrade();" id="upgradePlan" data-toggle="modal"
+        data-target="#paymentModal"><i class="zmdi zmdi-tag text-info"></i> <span>Upgrade plan</span></a></li>
     <li><a href="/login/login.php?logout=yes"><i class="zmdi zmdi-run text-danger"></i> <span>Log out?</span></a></li>
   </ul>
 </div>
-<script>
-  function upgrade(){
-    fetch("/checkout.php")
-  }
-</script>
 <style>
-  
   #paymentModal .modal-content {
-      background-color: rgba(0, 0, 0, 0.95);
-      color: #fff;
-    }
+    background-color: rgba(0, 0, 0, 0.95);
+    color: #fff;
+  }
 
-    #paymentModal .modal-header {
-      border-bottom: 1px solid #333;
-    }
+  #paymentModal .modal-body .col-12 {
+    padding: .5rem;
+  }
 
-    #paymentModal .modal-footer {
-      border-top: 1px solid #333;
+  #paymentModal .modal-header {
+    border-bottom: 1px solid #333;
+  }
+
+  #paymentModal .modal-footer {
+    border-top: 1px solid #333;
+  }
+
+  #paymentBody.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2rem;
+    height: 2rem;
+    border: .25rem solid #fff;
+    border-top-color: transparent;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: spin .75s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
     }
+  }
 </style>
-<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -72,21 +92,51 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-      </div>
-      <div class="modal-body">
+      </div><!-- in payment-modal.html -->
+      <div class="modal-body position-relative" id="paymentBody" aria-live="polite">
         <div class="row">
-          <div class="col">
-            <img src="/assets/images/alb.png" alt="QR Thanh Toan" id="maqr" width="200px" height="200px" style="border-radius:10px">
+          <div class="col-12 col-md-4 text-center">
+            <img id="maqr" alt="Loading QR…" style="max-width:100%;border-radius:10px">
           </div>
-          <div class="col">
-            thanh toan di cu
+          <div class="col-12 col-md-8">
+            <p>Account Number: <strong id="accountNumber">–</strong></p>
+            <p>Description: <strong id="paymentDescription">Đang thiết lập...</strong></p>
+            <p>Amount: <strong id="paymentAmount">–</strong></p>
+            <p>Order code: <strong id="orderCode">–</strong></p>
+            <button id="checkoutBtn" class="btn btn-success btn-block disabled" disabled>
+              <span id="btnLabel">Loading…</span>
+            </button>
+            <div class="text-danger small mt-2" id="paymentError" hidden></div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+          aria-label="Close payment pop-up" id="closePayment">Close</button>
       </div>
     </div>
   </div>
 </div>
+<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="paymentModalLabel">Payment Status</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div><!-- in payment-modal.html -->
+      <div class="modal-body position-relative" id="paymentBody" aria-live="polite">
+        <div class="row">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+          aria-label="Close payment pop-up" id="closePayment">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/components/payment.js"></script>
+<script src="/components/payment.js"></script>

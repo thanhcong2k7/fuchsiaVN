@@ -6,7 +6,7 @@ $payOS = new PayOS('fc13dcc9-dbbd-472b-9232-2049449847aa', '7ec3d2f3-157d-43db-a
 $data = [
     "orderCode" => intval(substr(strval(microtime(true) * 10000), -6)),
     "amount" => 150000,
-    "description" => "White Label",
+    "description" => "FVN_WB",
     "items" => [
         0 => [
             'name' => 'fuchsia Media Group - PRO Plan',
@@ -14,8 +14,8 @@ $data = [
             'quantity' => 1
         ]
     ],
-    "cancelUrl" => "http://localhost/",
-    "returnUrl" => "http://localhost/"
+    "cancelUrl" => "http://localhost/return.php?cancel=true",
+    "returnUrl" => "http://localhost/return.php"
 ];
 $response = $payOS->createPaymentLink($data);
 echo json_encode($response);
