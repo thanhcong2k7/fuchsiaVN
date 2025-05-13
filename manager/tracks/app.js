@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     var fileProcessed;
     var fName;
     var duration;
@@ -27,17 +27,19 @@ document.addEventListener("DOMContentLoaded", function () {
         },
     });
     const transcode = async () => {
+        if (!ffmpeg.isLoaded()){
+            alert('Please wait until FFmpeg is loaded!');
+            return;
+        }
         document.getElementById("texttt").innerHTML =
             '<i class="zmdi zmdi-file-plus"></i> '
             + document.getElementById("filee").files[0].name;
         document.getElementById("uploadBtn").disabled = true;
         const name = document.getElementById("filee").files[0].name;
-        message.innerHTML = 'Loading ffmpeg-core.js';
-        await ffmpeg.load();
         message.innerHTML = 'Start transcoding';
         await ffmpeg.FS('writeFile', name, await fetchFile(document.getElementById("filee").files[0]));
         await ffmpeg.run('-i', name, 'output.mp3');
-        message.innerHTML = 'Complete transcoding.';
+        message.innerHTML = 'Complete transcoding!';
         document.getElementById("notiSound").play();
         document.getElementById("uploadBtn").disabled = false;
         const data = await ffmpeg.FS('readFile', 'output.mp3');
@@ -135,4 +137,141 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
     document.getElementById("uploadBtn").addEventListener('click', upload);
+    async function doUntil(conditionFn, actionFn, interval = 500) {
+        while (!conditionFn()) {
+            actionFn();
+            await new Promise(res => setTimeout(res, interval));
+        }
+    }
+    async function loadFfmpegWithStatus(ffmpeg) {
+        // initial message
+        message.innerHTML = 'Loading ffmpeg-core.js';
+
+        // kick off the actual loading
+        const loadPromise = ffmpeg.load();
+
+        // every 500ms, append a dot until .isLoaded() goes true
+        await doUntil(
+            () => ffmpeg.isLoaded(),
+            () => {
+                //
+            },
+            500
+        );
+
+        // now await the original load promise in case it’s still running
+        await loadPromise;
+
+        // finally update UI
+        message.innerHTML = '✓ ffmpeg-core.js loaded!';
+    }
+    loadFfmpegWithStatus(ffmpeg);
+
+
+
+    $('#editTrackModal').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget);
+        const trackID = button.data('trackid');
+        const modal = $(this);
+
+        // Show loading state
+        modal.find('.modal-loading').show();
+        modal.find('#modalFormContent').hide();
+
+        // Load form content
+        fetch(`edit-track-form.php?trackID=${trackID}`)
+            .then(response => response.text())
+            .then(html => {
+                modal.find('#modalFormContent').html(html).show();
+                modal.find('.modal-loading').hide();
+            })
+            .catch(error => {
+                modal.find('.modal-loading').html(
+                    `<div class="alert alert-danger">Error loading form: ${error.message}</div>`
+                );
+            });
+    });
+
+    // Add loading spinner HTML to modal body
+    const modalBody = `
+<div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
+  <div id="modalLoading" class="text-center py-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <p class="mt-2">Loading track data...</p>
+  </div>
+  <div id="modalContent" style="display: none;">
+    <!-- Your existing form content here -->
+  </div>
+</div>`;
+
+    // Modal show handler
+    $('#editTrackModal').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget);
+        const trackID = button.data('trackid');
+        const modal = $(this);
+
+        // Show loading state
+        $('#modalLoading').show();
+        $('#modalContent').hide();
+
+        // Fetch track data
+        fetch(`api/get_track_data.php?trackID=${trackID}`)
+            .then(response => {
+                if (!response.ok) throw new Error('Network error');
+                return response.json();
+            })
+            .then(data => {
+                populateModalForm(data);
+                $('#modalLoading').hide();
+                $('#modalContent').show();
+            })
+            .catch(error => {
+                $('#modalLoading').html(`
+                <div class="alert alert-danger">
+                    Error loading track data: ${error.message}
+                </div>
+            `);
+            });
+    });
+
+    // Form population function
+    function populateModalForm(data) {
+        const { track, release, artists } = data;
+
+        // Populate basic fields
+        document.querySelector('input[name="tracktitle"]').value = track.name;
+        document.querySelector('input[name="trackversion"]').value = track.version;
+        document.querySelector('input[name="pyear"]').value = track.pyear;
+
+        // Populate artist datalist
+        const artistList = document.getElementById('artist-list');
+        artistList.innerHTML = artists.map(artist =>
+            `<option value="${artist.id}">${artist.name}</option>`
+        ).join('');
+
+        // Populate existing artists in table
+        const tbody = document.querySelector('#selected-artists-table tbody');
+        tbody.innerHTML = track.artists.map((artist, index) => `
+        <tr data-id="${artist.id}" id="${index}">
+            <td>${artist.name}</td>
+            <td>
+                <select class="role-selector" multiple>
+                    ${artist.roles.map(role =>
+            `<option value="${role}" selected>${role}</option>`
+        ).join('')}
+                </select>
+            </td>
+            <td>
+                <button class="btn btn-link text-danger p-0" onclick="removeArtist(this)">
+                    Remove
+                </button>
+            </td>
+        </tr>
+    `).join('');
+
+        // Initialize selectize
+        $(".role-selector").selectize({ /* ... */ });
+    }
 });

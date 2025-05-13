@@ -1,0 +1,297 @@
+:root {
+  --primary-bg: #2a2b3d;
+  --accent-color: #4CAF50;
+  --text-primary: #fff;
+}
+
+.modal-content {
+  background-color: var(--primary-bg);
+  color: var(--text-primary);
+}
+#filee {
+  display: none;
+}
+
+#ok {
+  height: 100px;
+  width: 90%;
+  border-radius: 6px;
+  text-align: center;
+  border: 1px dashed #999;
+  margin: 0 auto;
+}
+
+#ok span {
+  display: block;
+  font-size: 11px;
+  color: #eeeeee;
+  margin: 0 auto;
+  padding: 35px 0;
+}
+
+#ok:hover {
+  border-color: #AFFFFFFF;
+}
+
+* {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+.dnd {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Both cards have a fixed height of 300px */
+.square-card {
+  height: 350px;
+  width: 100%;
+}
+
+/* On medium screens and up, let the second card expand horizontally */
+@media (min-width: 768px) {
+  .auto-card {
+    width: auto;
+  }
+}
+
+.fixed-card-container {
+  flex: 0 0 350px;
+  width: 100%;
+}
+
+.auto-card {
+  height: 397px;
+  /* Match height with first card */
+  min-width: 300px;
+  /* Prevent card from becoming too narrow */
+}
+
+/* Mobile-first styles */
+@media (max-width: 800px) {
+  .fixed-card-container {
+    width: 100%;
+    flex-basis: auto;
+  }
+
+  .auto-card {
+    width: 100%;
+  }
+}
+
+/* Add modal-specific styling */
+.modal-body .card {
+  box-shadow: none;
+  border: 1px solid #dee2e6;
+}
+
+.modal-body .form-group {
+  margin-bottom: 1rem;
+}
+
+.modal-body .card-header {
+  background: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+#viewReleaseModal .modal-content {
+  background-color: rgba(0, 0, 0, 0.95);
+  color: #fff;
+}
+
+#viewReleaseModal .modal-header {
+  border-bottom: 1px solid #333;
+}
+
+#viewReleaseModal .modal-footer {
+  border-top: 1px solid #333;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.25em;
+}
+
+/* Better loading overlay */
+.modal-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.8);
+  /* Darker overlay */
+  z-index: 1050;
+  /* Higher than modal default 1040 */
+}
+
+/* Consolidated CSS */
+.upload-card {
+  height: 550px;
+}
+
+.drop-zone {
+  height: 150px;
+  border: 2px dashed #666;
+  border-radius: 8px;
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  
+  &.dragover {
+    border-color: #4CAF50;
+    background-color: rgba(76, 175, 80, 0.1);
+  }
+  
+  span {
+    color: #eee;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+  
+  &:hover span {
+    color: #fff;
+  }
+}
+
+.drop-label span {
+  color: #eee;
+  font-size: 1rem;
+}
+
+.upload-status {
+  margin: 1.5rem 0;
+}
+
+.progress {
+  height: 4px;
+  background-color: #333;
+  overflow: visible;
+  /* For better bar visibility */
+}
+
+.progress-bar {
+  transition: width 0.3s ease;
+  background-color: #4CAF50;
+  /* Make progress more visible */
+}
+
+#audioPreview {
+  width: 100%;
+  margin: 1rem 0;
+  background-color: #1a1b26; /* Better contrast */
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+.btn-upload {
+  width: 100%;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+  
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.tracks-list {
+  height: 550px;
+}
+
+.tracks-table {
+  color: #fff;
+
+  th {
+    background-color: #2a2b3d;
+    border-bottom: 2px solid #3d3f50;
+  }
+
+  tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.modal-loading .spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* Standardize breakpoints */
+@media (max-width: 768px) {
+
+  /* Instead of 800px */
+  .fixed-card-container {
+    width: 100%;
+    flex-basis: auto;
+  }
+
+  .auto-card {
+    width: 100%;
+  }
+}
+
+
+.drop-zone {
+    height: 150px;
+    border: 2px dashed #4CAF50;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.drop-zone:hover {
+    border-color: #fff;
+    background-color: rgba(76, 175, 80, 0.1);
+}
+
+.progress {
+    height: 4px;
+    background-color: #1a1b26;
+}
+
+.progress-bar {
+    background-color: #4CAF50;
+    transition: width 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.btn-primary:hover {
+    background-color: #43a047;
+    border-color: #43a047;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 768px) {
+    .drop-zone {
+        height: 120px;
+    }
+    
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .table-responsive {
+        overflow-x: auto;
+    }
+}

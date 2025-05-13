@@ -24,7 +24,7 @@ if (!isset($_SESSION["userwtf"])) {
         exit; // Add exit
     } elseif (
         isset($_GET["delete"]) &&
-        isset($releaseId) && // Use the validated $releaseId
+        isset($_GET["id"]) && // Use the validated $releaseId
         isset($_SESSION["userwtf"])
     ) {
         // Ensure $release was fetched successfully before attempting delete
@@ -35,7 +35,7 @@ if (!isset($_SESSION["userwtf"])) {
                 update("albumID", null, "track", "id=" . intval($trackDel));
             }
             // Ensure query function uses prepared statements
-            query("delete from album where albumID=" . $releaseId . " AND userID=" . $_SESSION['userwtf'] . ";"); // Add userID check for security
+            query("delete from album where albumID=" . $_GET["id"] . " AND userID=" . $_SESSION['userwtf'] . ";"); // Add userID check for security
             echo "<script>alert('Release deleted.'); window.location.href='.';</script>";
         } else {
             echo "<script>alert('Cannot delete - release not found.'); window.location.href='.';</script>";

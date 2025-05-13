@@ -46,6 +46,7 @@ else {
     <link href="/assets/css/sidebar-menu.css" rel="stylesheet" />
     <!-- Custom Style-->
     <link href="/assets/css/app-style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="app.css">
     <!-- Bootstrap core JavaScript-->
     <script src="/assets/js/jquery.min.js"></script>
     <script src="/assets/js/popper.min.js"></script>
@@ -77,94 +78,14 @@ else {
                 <div class="row">
                     <div class="col">
                         <div class="card-body">
-                            <div
-                                class="row d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-start gap-3">
-                                <div class="col fixed-card-container">
-                                    <style>
-                                        #filee {
-                                            display: none;
-                                        }
-
-                                        #ok {
-                                            height: 100px;
-                                            width: 90%;
-                                            border-radius: 6px;
-                                            text-align: center;
-                                            border: 1px dashed #999;
-                                            margin: 0 auto;
-                                        }
-
-                                        #ok span {
-                                            display: block;
-                                            font-size: 11px;
-                                            color: #eeeeee;
-                                            margin: 0 auto;
-                                            padding: 35px 0;
-                                        }
-
-                                        #ok:hover {
-                                            border-color: #AFFFFFFF;
-                                        }
-
-                                        * {
-                                            box-sizing: border-box;
-                                            scroll-behavior: smooth;
-                                        }
-
-                                        .dnd {
-                                            width: 100%;
-                                            height: 100%;
-                                            display: flex;
-                                            justify-content: center;
-                                        }
-
-                                        /* Both cards have a fixed height of 300px */
-                                        .square-card {
-                                            height: 350px;
-                                        }
-
-                                        /* The square card is a fixed 350x350 box */
-                                        .square-card {
-                                            width: 100%;
-                                        }
-
-                                        /* On medium screens and up, let the second card expand horizontally */
-                                        @media (min-width: 768px) {
-                                            .auto-card {
-                                                width: auto;
-                                            }
-                                        }
-
-                                        .fixed-card-container {
-                                            flex: 0 0 350px;
-                                            width: 100%;
-                                        }
-
-                                        .auto-card {
-                                            height: 397px;
-                                            /* Match height with first card */
-                                            min-width: 300px;
-                                            /* Prevent card from becoming too narrow */
-                                        }
-
-                                        /* Mobile-first styles */
-                                        @media (max-width: 800px) {
-                                            .fixed-card-container {
-                                                width: 100%;
-                                                flex-basis: auto;
-                                            }
-
-                                            .auto-card {
-                                                width: 100%;
-                                            }
-                                        }
-                                    </style>
-                                    <div class="dnd card">
+                            <div class="row">
+                                <!-- Upload Card (1 part) -->
+                                <div class="col-12 col-md-3 mb-4">
+                                    <div class="card h-100"> <!-- Added h-100 for equal height -->
                                         <div class="card-header">
-                                            <i class="zmdi zmdi-cloud-upload"></i> Upload file
+                                            <i class="zmdi zmdi-cloud-upload"></i> Upload File
                                         </div>
-                                        <div style="margin:auto; justify-content: center;"
-                                            class="square-card card-body text-center d-flex flex-column justify-content-center">
+                                        <div class="card-body d-flex flex-column">
                                             <div id="dnarea" class="row"
                                                 style="align: center; display: flex; justify-content: center;">
                                                 <input type="file" id="filee" accept="audio/*" />
@@ -174,44 +95,78 @@ else {
                                                     </span>
                                                 </label>
                                             </div>
-                                            <hr class="mt-1 mb-1" />
-                                            <br>
-                                            <span>Status: <span id="status">Waiting for file input...</span></span>
-                                            <div class="row"
-                                                style="display: block; padding-right: 20px; padding-left: 20px;">
-                                                <div class="progress my-3" style="height:4px;">
-                                                    <div class="progress-bar" style="width:50%;" id="progbar"></div>
+                                            <div class="upload-status mt-3">
+                                                <span id="status">Waiting for file input...</span>
+                                                <div class="progress mt-2">
+                                                    <div class="progress-bar" id="progbar"></div>
                                                 </div>
                                             </div>
-                                            <link rel="stylesheet" href="/assets/css/plyr.css">
-                                            <script src="/assets/js/plyr.min.js"></script>
-                                            <audio id="output-video" crossorigin controls></audio>
-                                            <hr class="mt-1 mb-1" />
-                                            <label for="submit"></label>
-                                            <button type="submit" class="btn btn-light px-5" id="uploadBtn" disabled>
-                                                <i class="zmdi zmdi-plus-square"></i> Upload!
+                                            <audio id="output-video" crossorigin controls class="mt-3"
+                                                style="width:100%"></audio>
+                                            <button class="btn btn-primary mt-auto" id="uploadBtn" disabled>
+                                                <i class="zmdi zmdi-plus-square"></i> Upload
                                             </button>
-                                            <script>
-                                                const player = new Plyr('#output-video', {}); //Init Plyr.io audio control
-                                            </script>
                                             <audio src="noti.wav" style="display:none" preload="auto"
                                                 id="notiSound"></audio>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col flex-grow-1" id="metadata">
-                                    <div class="card auto-card" style="height:397px; width: 100%">
-                                        <div class="card-header">
-                                            <i class="zmdi zmdi-info-outline"></i> Track Metadata
-                                            <div class="card-action">
-                                                <div class="dropdown">
-                                                    <a href="">Save </a> <i class="zmdi zmdi-arrow-right"></i>
-                                                </div>
-                                            </div>
+                                <div class="col-12 col-md-9">
+                                    <div class="card h-100">
+                                        <div class="card-header"><i class="zmdi zmdi-collection-music"></i> Your Tracks
+                                            <div class="card-action"></div>
                                         </div>
-                                        <div class="card-body overflow-auto">
+                                        <div class="">
+                                            <table class="table table-responsive align-items-center table-flush table-hover mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>isrc</th>
+                                                        <th>name</th>
+                                                        <th>Album</th>
+                                                        <th>Artist</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    foreach ($trackList as &$tr) {
+                                                        $albName = getRelease($_SESSION["userwtf"], 0, $tr->id)->name;
+                                                        echo '
+                                        <tr>
+                                        <td>' . ($tr->id) . '</td>
+                                        <td>' . ($tr->isrc ? $tr->isrc : "[NULL]") . '</td>
+                                        <td>' . ($tr->name ? $tr->name : "(draft)") . '</td>
+                                        <td>' . ($albName ? $albName : "[NULL]") . '</td>
+                                        <td>' . ($tr->artistname ? $tr->artistname : "[NULL]") . '</td>
+                                        <td>
+  <a href="#" data-toggle="modal" data-target="#editTrackModal" data-trackid="' . $tr->id . '">Edit</a> / 
+  <a class="text-error">Delete</a>
+</td>
+                                        </tr>';
+                                                    }
+                                                    ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Edit Track Modal -->
+                            <div class="modal fade" id="editTrackModal" tabindex="-1" role="dialog"
+                                aria-labelledby="editTrackModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg"
+                                    role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editTrackModalLabel"><i
+                                                    class="zmdi zmdi-info-outline"></i> Edit Track Metadata</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
                                             <form method="POST" action="">
-                                                <!-- Track Section -->
                                                 <!-- Track Section -->
                                                 <div class="card mb-3">
                                                     <div class="card-body">
@@ -250,14 +205,17 @@ else {
                                                             </div>
                                                         </div>
                                                         <datalist id="primary-genre-option-list">
-                                                            <option data-id="0" value="Select primary genre"></option>
+                                                            <option data-id="0" value="Select primary genre">
+                                                            </option>
                                                             <option data-id="1" value="Alternative"></option>
                                                             <option data-id="2" value="Alternative/Experimental">
                                                             </option>
                                                             <option data-id="4" value="Alternative/Gothic"></option>
                                                             <option data-id="5" value="Alternative/Grunge"></option>
-                                                            <option data-id="3" value="Alternative/Indie Pop"></option>
-                                                            <option data-id="6" value="Alternative/Indie Rock"></option>
+                                                            <option data-id="3" value="Alternative/Indie Pop">
+                                                            </option>
+                                                            <option data-id="6" value="Alternative/Indie Rock">
+                                                            </option>
                                                             <option data-id="7" value="Alternative/Rock"></option>
                                                             <option data-id="8" value="Ambient/New Age"></option>
                                                             <option data-id="9" value="Ambient/New Age/Meditation">
@@ -284,23 +242,29 @@ else {
                                                             <option data-id="24" value="Classical/Modern Compositions">
                                                             </option>
                                                             <option data-id="25" value="Classical/Opera"></option>
-                                                            <option data-id="26" value="Classical/Orchestral"></option>
+                                                            <option data-id="26" value="Classical/Orchestral">
+                                                            </option>
                                                             <option data-id="27" value="Classical/Piano"></option>
-                                                            <option data-id="28" value="Classical/Romantic"></option>
+                                                            <option data-id="28" value="Classical/Romantic">
+                                                            </option>
                                                             <option data-id="29" value="Comedy"></option>
                                                             <option data-id="30" value="Country"></option>
                                                             <option data-id="31" value="Country/Bluegrass"></option>
-                                                            <option data-id="32" value="Country/Contemporary"></option>
-                                                            <option data-id="33" value="Country/Honky Tonk"></option>
+                                                            <option data-id="32" value="Country/Contemporary">
+                                                            </option>
+                                                            <option data-id="33" value="Country/Honky Tonk">
+                                                            </option>
                                                             <option data-id="34" value="Country/Nashville"></option>
                                                             <option data-id="35" value="Country/Pop"></option>
-                                                            <option data-id="36" value="Country/Square Dance"></option>
+                                                            <option data-id="36" value="Country/Square Dance">
+                                                            </option>
                                                             <option data-id="37" value="Easy Listening"></option>
                                                             <option data-id="38"
                                                                 value="Easy Listening/Bar Jazz/Cocktail"></option>
                                                             <option data-id="39" value="Easy Listening/Bossa Nova">
                                                             </option>
-                                                            <option data-id="40" value="Easy Listening/Lounge"></option>
+                                                            <option data-id="40" value="Easy Listening/Lounge">
+                                                            </option>
                                                             <option data-id="41" value="Easy Listening/Traditional">
                                                             </option>
                                                             <option data-id="42" value="Electronic"></option>
@@ -309,13 +273,16 @@ else {
                                                             <option data-id="43" value="Electronic/Breaks"></option>
                                                             <option data-id="44" value="Electronic/Broken beat">
                                                             </option>
-                                                            <option data-id="45" value="Electronic/Chill Out"></option>
+                                                            <option data-id="45" value="Electronic/Chill Out">
+                                                            </option>
                                                             <option data-id="48"
                                                                 value="Electronic/DJ Tools/Sample Packs"></option>
                                                             <option data-id="46" value="Electronic/Dance"></option>
-                                                            <option data-id="47" value="Electronic/Deep House"></option>
+                                                            <option data-id="47" value="Electronic/Deep House">
+                                                            </option>
                                                             <option data-id="49"
-                                                                value="Electronic/Downtempo - experimental"></option>
+                                                                value="Electronic/Downtempo - experimental">
+                                                            </option>
                                                             <option data-id="50" value="Electronic/Drum &amp; Bass">
                                                             </option>
                                                             <option data-id="51"
@@ -324,25 +291,34 @@ else {
                                                             </option>
                                                             <option data-id="53" value="Electronic/Electro House">
                                                             </option>
-                                                            <option data-id="54" value="Electronic/Glitch Hop"></option>
-                                                            <option data-id="55" value="Electronic/Hard Dance"></option>
+                                                            <option data-id="54" value="Electronic/Glitch Hop">
+                                                            </option>
+                                                            <option data-id="55" value="Electronic/Hard Dance">
+                                                            </option>
                                                             <option data-id="56" value="Electronic/Hard Techno">
                                                             </option>
-                                                            <option data-id="57" value="Electronic/Hardcore"></option>
-                                                            <option data-id="58" value="Electronic/Hardstyle"></option>
+                                                            <option data-id="57" value="Electronic/Hardcore">
+                                                            </option>
+                                                            <option data-id="58" value="Electronic/Hardstyle">
+                                                            </option>
                                                             <option data-id="59" value="Electronic/House"></option>
                                                             <option data-id="61"
                                                                 value="Electronic/Indie Dance/Nu Disco"></option>
                                                             <option data-id="60" value="Electronic/Jazz"></option>
-                                                            <option data-id="62" value="Electronic/Minimal"></option>
-                                                            <option data-id="63" value="Electronic/Pop Trance"></option>
+                                                            <option data-id="62" value="Electronic/Minimal">
+                                                            </option>
+                                                            <option data-id="63" value="Electronic/Pop Trance">
+                                                            </option>
                                                             <option data-id="64" value="Electronic/Progressive House">
                                                             </option>
-                                                            <option data-id="65" value="Electronic/Psy-Trance"></option>
-                                                            <option data-id="66" value="Electronic/Tech House"></option>
+                                                            <option data-id="65" value="Electronic/Psy-Trance">
+                                                            </option>
+                                                            <option data-id="66" value="Electronic/Tech House">
+                                                            </option>
                                                             <option data-id="67" value="Electronic/Techno"></option>
                                                             <option data-id="68" value="Electronic/Trance"></option>
-                                                            <option data-id="69" value="Electronic/Trip Hop"></option>
+                                                            <option data-id="69" value="Electronic/Trip Hop">
+                                                            </option>
                                                             <option data-id="70" value="Experimental"></option>
                                                             <option data-id="51491" value="Fitness&amp;Workout">
                                                             </option>
@@ -361,7 +337,8 @@ else {
                                                             </option>
                                                             <option data-id="83" value="Jazz/Classic"></option>
                                                             <option data-id="84" value="Jazz/Contemporary"></option>
-                                                            <option data-id="78" value="Jazz/Dixie/Rag Time"></option>
+                                                            <option data-id="78" value="Jazz/Dixie/Rag Time">
+                                                            </option>
                                                             <option data-id="85" value="Jazz/Free Jazz"></option>
                                                             <option data-id="86" value="Jazz/Fusion"></option>
                                                             <option data-id="87" value="Jazz/Jazz Funk"></option>
@@ -379,28 +356,36 @@ else {
                                                             <option data-id="51499" value="Latin/Big Band"></option>
                                                             <option data-id="51500" value="Latin/Bolero"></option>
                                                             <option data-id="93" value="Latin/Bossa Nova"></option>
-                                                            <option data-id="94" value="Latin/Brasil/Tropical"></option>
-                                                            <option data-id="51501" value="Latin/Christian"></option>
+                                                            <option data-id="94" value="Latin/Brasil/Tropical">
+                                                            </option>
+                                                            <option data-id="51501" value="Latin/Christian">
+                                                            </option>
                                                             <option data-id="51502" value="Latin/Conjunto"></option>
                                                             <option data-id="51503" value="Latin/Corridos"></option>
                                                             <option data-id="51504" value="Latin/Cuban"></option>
                                                             <option data-id="51505" value="Latin/Cumbia"></option>
-                                                            <option data-id="51506" value="Latin/Duranguense"></option>
-                                                            <option data-id="51507" value="Latin/Electronica"></option>
+                                                            <option data-id="51506" value="Latin/Duranguense">
+                                                            </option>
+                                                            <option data-id="51507" value="Latin/Electronica">
+                                                            </option>
                                                             <option data-id="51508" value="Latin/Grupero"></option>
                                                             <option data-id="51509" value="Latin/Hip Hop"></option>
-                                                            <option data-id="51510" value="Latin/Latin Rap"></option>
+                                                            <option data-id="51510" value="Latin/Latin Rap">
+                                                            </option>
                                                             <option data-id="51511" value="Latin/Mambo"></option>
                                                             <option data-id="51512" value="Latin/Mariachi"></option>
                                                             <option data-id="51514" value="Latin/Norteño"></option>
                                                             <option data-id="95" value="Latin/Pop"></option>
                                                             <option data-id="51515" value="Latin/Ranchera"></option>
-                                                            <option data-id="51516" value="Latin/Reggaeton"></option>
+                                                            <option data-id="51516" value="Latin/Reggaeton">
+                                                            </option>
                                                             <option data-id="75453" value="Latin/Regional Mexicano">
                                                             </option>
-                                                            <option data-id="96" value="Latin/Rock en Español"></option>
+                                                            <option data-id="96" value="Latin/Rock en Español">
+                                                            </option>
                                                             <option data-id="51517" value="Latin/Salsa"></option>
-                                                            <option data-id="97" value="Latin/Salsa/Merengue"></option>
+                                                            <option data-id="97" value="Latin/Salsa/Merengue">
+                                                            </option>
                                                             <option data-id="51518" value="Latin/Sierreño"></option>
                                                             <option data-id="51519" value="Latin/Sonidero"></option>
                                                             <option data-id="51520" value="Latin/Tango"></option>
@@ -409,7 +394,8 @@ else {
                                                             </option>
                                                             <option data-id="51523" value="Latin/Traditional Mexican">
                                                             </option>
-                                                            <option data-id="51524" value="Latin/Vallenato"></option>
+                                                            <option data-id="51524" value="Latin/Vallenato">
+                                                            </option>
                                                             <option data-id="98" value="New Age"></option>
                                                             <option data-id="99" value="Pop"></option>
                                                             <option data-id="100" value="Pop/Contemporary/Adult">
@@ -423,47 +409,65 @@ else {
                                                             <option data-id="104" value="R&amp;B"></option>
                                                             <option data-id="105" value="Reggae"></option>
                                                             <option data-id="106" value="Rock"></option>
-                                                            <option data-id="75462" value="Rock/Black Metal"></option>
-                                                            <option data-id="75457" value="Rock/Blues-Rock"></option>
+                                                            <option data-id="75462" value="Rock/Black Metal">
+                                                            </option>
+                                                            <option data-id="75457" value="Rock/Blues-Rock">
+                                                            </option>
                                                             <option data-id="107" value="Rock/Brit-Pop"></option>
                                                             <option data-id="75459" value="Rock/British Invasion">
                                                             </option>
-                                                            <option data-id="75460" value="Rock/Chinese Rock"></option>
+                                                            <option data-id="75460" value="Rock/Chinese Rock">
+                                                            </option>
                                                             <option data-id="108" value="Rock/Classic"></option>
-                                                            <option data-id="75461" value="Rock/Death Metal"></option>
+                                                            <option data-id="75461" value="Rock/Death Metal">
+                                                            </option>
                                                             <option data-id="109" value="Rock/Glam Rock"></option>
-                                                            <option data-id="75463" value="Rock/Hair Metal"></option>
+                                                            <option data-id="75463" value="Rock/Hair Metal">
+                                                            </option>
                                                             <option data-id="111" value="Rock/Hard Rock"></option>
                                                             <option data-id="110" value="Rock/Heavy Metal"></option>
                                                             <option data-id="75465" value="Rock/Jam Bands"></option>
-                                                            <option data-id="75466" value="Rock/Korean Rock"></option>
+                                                            <option data-id="75466" value="Rock/Korean Rock">
+                                                            </option>
                                                             <option data-id="112" value="Rock/Progressive"></option>
-                                                            <option data-id="75467" value="Rock/Psychedelic"></option>
-                                                            <option data-id="113" value="Rock/Rock 'n' Roll"></option>
-                                                            <option data-id="75468" value="Rock/Rockabilly"></option>
-                                                            <option data-id="75469" value="Rock/Russian Rock"></option>
+                                                            <option data-id="75467" value="Rock/Psychedelic">
+                                                            </option>
+                                                            <option data-id="113" value="Rock/Rock 'n' Roll">
+                                                            </option>
+                                                            <option data-id="75468" value="Rock/Rockabilly">
+                                                            </option>
+                                                            <option data-id="75469" value="Rock/Russian Rock">
+                                                            </option>
                                                             <option data-id="114" value="Rock/Singer/Songwriter">
                                                             </option>
-                                                            <option data-id="75470" value="Rock/Southern Rock"></option>
+                                                            <option data-id="75470" value="Rock/Southern Rock">
+                                                            </option>
                                                             <option data-id="75471" value="Rock/Surf"></option>
                                                             <option data-id="75472" value="Rock/Tex-Mex"></option>
-                                                            <option data-id="75473" value="Rock/Turkish Rock"></option>
+                                                            <option data-id="75473" value="Rock/Turkish Rock">
+                                                            </option>
                                                             <option data-id="75448" value="Ska"></option>
                                                             <option data-id="115" value="Soul"></option>
                                                             <option data-id="116" value="Soundtrack"></option>
                                                             <option data-id="117" value="Soundtrack/Anime"></option>
-                                                            <option data-id="118" value="Soundtrack/Musical"></option>
+                                                            <option data-id="118" value="Soundtrack/Musical">
+                                                            </option>
                                                             <option data-id="119" value="Soundtrack/TV"></option>
                                                             <option data-id="120" value="Spiritual"></option>
-                                                            <option data-id="121" value="Spiritual/Christian"></option>
+                                                            <option data-id="121" value="Spiritual/Christian">
+                                                            </option>
                                                             <option data-id="122" value="Spiritual/Gospel"></option>
-                                                            <option data-id="126" value="Spiritual/Gregorian"></option>
+                                                            <option data-id="126" value="Spiritual/Gregorian">
+                                                            </option>
                                                             <option data-id="123" value="Spiritual/India"></option>
-                                                            <option data-id="124" value="Spiritual/Judaica"></option>
+                                                            <option data-id="124" value="Spiritual/Judaica">
+                                                            </option>
                                                             <option data-id="125" value="Spiritual/World"></option>
-                                                            <option data-id="127" value="Spoken Word/Speeches"></option>
+                                                            <option data-id="127" value="Spoken Word/Speeches">
+                                                            </option>
                                                             <option data-id="75454" value="Trap"></option>
-                                                            <option data-id="75455" value="Trap/Future Bass"></option>
+                                                            <option data-id="75455" value="Trap/Future Bass">
+                                                            </option>
                                                             <option data-id="75456" value="Trap/Future Bass/Twerk">
                                                             </option>
                                                             <option data-id="128" value="Vocal/Nostalgia"></option>
@@ -489,7 +493,8 @@ else {
                                                             </option>
                                                             <option data-id="75483" value="World/African/Afrobeats">
                                                             </option>
-                                                            <option data-id="75484" value="World/African/Alte"></option>
+                                                            <option data-id="75484" value="World/African/Alte">
+                                                            </option>
                                                             <option data-id="75485" value="World/African/Amapiano">
                                                             </option>
                                                             <option data-id="75486" value="World/African/Benga">
@@ -498,7 +503,8 @@ else {
                                                             </option>
                                                             <option data-id="75488" value="World/African/Coupé-Décalé">
                                                             </option>
-                                                            <option data-id="75489" value="World/African/Gqom"></option>
+                                                            <option data-id="75489" value="World/African/Gqom">
+                                                            </option>
                                                             <option data-id="75490" value="World/African/Highlife">
                                                             </option>
                                                             <option data-id="75491" value="World/African/Kizomba">
@@ -528,11 +534,14 @@ else {
                                                             <option data-id="65131"
                                                                 value="World/Americas/Brazilian/Axé"></option>
                                                             <option data-id="75501"
-                                                                value="World/Americas/Brazilian/Baile Funk"></option>
+                                                                value="World/Americas/Brazilian/Baile Funk">
+                                                            </option>
                                                             <option data-id="65126"
-                                                                value="World/Americas/Brazilian/Black Music"></option>
+                                                                value="World/Americas/Brazilian/Black Music">
+                                                            </option>
                                                             <option data-id="132"
-                                                                value="World/Americas/Brazilian/Bossa Nova"></option>
+                                                                value="World/Americas/Brazilian/Bossa Nova">
+                                                            </option>
                                                             <option data-id="65133"
                                                                 value="World/Americas/Brazilian/Chorinho"></option>
                                                             <option data-id="65128"
@@ -542,7 +551,8 @@ else {
                                                             <option data-id="75503"
                                                                 value="World/Americas/Brazilian/Frevo"></option>
                                                             <option data-id="65127"
-                                                                value="World/Americas/Brazilian/Funk Carioca"></option>
+                                                                value="World/Americas/Brazilian/Funk Carioca">
+                                                            </option>
                                                             <option data-id="65130"
                                                                 value="World/Americas/Brazilian/MPB"></option>
                                                             <option data-id="65135"
@@ -552,13 +562,17 @@ else {
                                                             <option data-id="65132"
                                                                 value="World/Americas/Brazilian/Samba"></option>
                                                             <option data-id="65137"
-                                                                value="World/Americas/Brazilian/Samba-Rock"></option>
+                                                                value="World/Americas/Brazilian/Samba-Rock">
+                                                            </option>
                                                             <option data-id="65139"
-                                                                value="World/Americas/Brazilian/Samba-de-Raiz"></option>
+                                                                value="World/Americas/Brazilian/Samba-de-Raiz">
+                                                            </option>
                                                             <option data-id="65134"
-                                                                value="World/Americas/Brazilian/Samba-enredo"></option>
+                                                                value="World/Americas/Brazilian/Samba-enredo">
+                                                            </option>
                                                             <option data-id="65138"
-                                                                value="World/Americas/Brazilian/Sambalanço"></option>
+                                                                value="World/Americas/Brazilian/Sambalanço">
+                                                            </option>
                                                             <option data-id="75504"
                                                                 value="World/Americas/Brazilian/Sertanejo"></option>
                                                             <option data-id="133" value="World/Americas/Cajun-Creole">
@@ -582,8 +596,10 @@ else {
                                                             <option data-id="139" value="World/Arabic"></option>
                                                             <option data-id="144" value="World/Asian/Central Asia">
                                                             </option>
-                                                            <option data-id="140" value="World/Asian/China"></option>
-                                                            <option data-id="141" value="World/Asian/Indian"></option>
+                                                            <option data-id="140" value="World/Asian/China">
+                                                            </option>
+                                                            <option data-id="141" value="World/Asian/Indian">
+                                                            </option>
                                                             <option data-id="75506" value="World/Asian/Indian/Assamese">
                                                             </option>
                                                             <option data-id="75507" value="World/Asian/Indian/Bengali">
@@ -596,7 +612,8 @@ else {
                                                             <option data-id="142" value="World/Asian/Indian/Bollywood">
                                                             </option>
                                                             <option data-id="75511"
-                                                                value="World/Asian/Indian/Carnatic Classical"></option>
+                                                                value="World/Asian/Indian/Carnatic Classical">
+                                                            </option>
                                                             <option data-id="75512"
                                                                 value="World/Asian/Indian/Devotional &amp; Spiritual">
                                                             </option>
@@ -610,7 +627,8 @@ else {
                                                                 value="World/Asian/Indian/Hindustani Classical">
                                                             </option>
                                                             <option data-id="75517"
-                                                                value="World/Asian/Indian/Indian Classical"></option>
+                                                                value="World/Asian/Indian/Indian Classical">
+                                                            </option>
                                                             <option data-id="75518"
                                                                 value="World/Asian/Indian/Indian Folk"></option>
                                                             <option data-id="75519"
@@ -626,7 +644,8 @@ else {
                                                             <option data-id="75524" value="World/Asian/Indian/Punjabi">
                                                             </option>
                                                             <option data-id="75525"
-                                                                value="World/Asian/Indian/Punjabi/Punjabi Pop"></option>
+                                                                value="World/Asian/Indian/Punjabi/Punjabi Pop">
+                                                            </option>
                                                             <option data-id="75526"
                                                                 value="World/Asian/Indian/Rajasthani"></option>
                                                             <option data-id="75527"
@@ -639,21 +658,27 @@ else {
                                                             </option>
                                                             <option data-id="75530" value="World/Asian/Indian/Urdu">
                                                             </option>
-                                                            <option data-id="143" value="World/Asian/Japan"></option>
+                                                            <option data-id="143" value="World/Asian/Japan">
+                                                            </option>
                                                             <option data-id="145" value="World/Asian/South Asia">
                                                             </option>
                                                             <option data-id="146" value="World/Australian/Pacific">
                                                             </option>
                                                             <option data-id="147" value="World/Ethnic"></option>
-                                                            <option data-id="148" value="World/Europe/Eastern"></option>
-                                                            <option data-id="149" value="World/Europe/French"></option>
-                                                            <option data-id="150" value="World/Europe/German"></option>
+                                                            <option data-id="148" value="World/Europe/Eastern">
+                                                            </option>
+                                                            <option data-id="149" value="World/Europe/French">
+                                                            </option>
+                                                            <option data-id="150" value="World/Europe/German">
+                                                            </option>
                                                             <option data-id="151" value="World/Europe/Northern">
                                                             </option>
                                                             <option data-id="152" value="World/Europe/Southern">
                                                             </option>
-                                                            <option data-id="51492" value="World/Europe/Spain"></option>
-                                                            <option data-id="153" value="World/Europe/Western"></option>
+                                                            <option data-id="51492" value="World/Europe/Spain">
+                                                            </option>
+                                                            <option data-id="153" value="World/Europe/Western">
+                                                            </option>
                                                             <option data-id="154" value="World/Mediterranean/Greece">
                                                             </option>
                                                             <option data-id="155" value="World/Mediterranean/Italy">
@@ -702,7 +727,8 @@ else {
                                                                     value="<?php //echo $track->preview; ?>">
                                                                 <!-- Fixed PHP comment -->
                                                                 <small class="form-text text-muted mt-1">
-                                                                    Indicate the minute at which the track should start
+                                                                    Indicate the minute at which the track should
+                                                                    start
                                                                     playing. Please note that this only applies to
                                                                     channels that support this specification.
                                                                 </small>
@@ -891,8 +917,10 @@ else {
                                                                 <option value="CY">Welsh</option>
                                                                 <option value="XH">Xhosa</option>
                                                             </select>
-                                                            <small class="form-text text-muted">Select the language of
-                                                                the lyrics or if it is an instrumental track.</small>
+                                                            <small class="form-text text-muted">Select the language
+                                                                of
+                                                                the lyrics or if it is an instrumental
+                                                                track.</small>
                                                         </div>
 
                                                         <div class="form-group">
@@ -917,13 +945,15 @@ else {
                                                                     name="explicit_content" value="cleaned"
                                                                     class="custom-control-input">
                                                                 <label class="custom-control-label"
-                                                                    for="explicit3">Cleaned Version - Version of another
+                                                                    for="explicit3">Cleaned Version - Version of
+                                                                    another
                                                                     track where the explicit content has been
                                                                     removed</label>
                                                             </div>
                                                             <small class="form-text text-muted">Indicate whether the
                                                                 lyrics contain words or phrases that are considered
-                                                                offensive, vulgar or inappropriate in some social and
+                                                                offensive, vulgar or inappropriate in some social
+                                                                and
                                                                 cultural contexts, especially for children.</small>
                                                         </div>
 
@@ -950,44 +980,11 @@ else {
                                                 </div>
                                             </form>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header"><i class="zmdi zmdi-collection-music"></i> Your Tracks
-                                    <div class="card-action"></div>
-                                    <div class="table-responsive">
-                                        <table class="table align-items-center table-flush table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Track ID</th>
-                                                    <th>isrc</th>
-                                                    <th>name</th>
-                                                    <th>Album</th>
-                                                    <th>Artist</th>
-                                                    <th>Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                foreach ($trackList as &$tr) {
-                                                    $albName = getRelease($_SESSION["userwtf"], 0, $tr->id)->name;
-                                                    echo '
-                                        <tr>
-                                        <td>' . ($tr->id) . '</td>
-                                        <td>' . ($tr->isrc ? $tr->isrc : "[NULL]") . '</td>
-                                        <td>' . ($tr->name ? $tr->name : "(draft)") . '</td>
-                                        <td>' . ($albName ? $albName : "[NULL]") . '</td>
-                                        <td>' . ($tr->artistname ? $tr->artistname : "[NULL]") . '</td>
-                                        <td>
-                                            <a onclick="" href="?trackID=' . $tr->id . '">Edit</a> / 
-                                            <a class="text-error">Delete</a>
-                                        </td>
-                                        </tr>';
-                                                }
-                                                ?>
-                                            </tbody>
-                                        </table>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1061,13 +1058,14 @@ else {
     <script src="/assets/plugins/simplebar/js/simplebar.js"></script>
     <!-- sidebar-menu js -->
     <script src="/assets/js/sidebar-menu.js"></script>
-    <!-- Custom scripts -->
-    <script src="/assets/js/app-script.js"></script>
     <!-- Chart js -->
 
     <script src="/assets/plugins/Chart.js/Chart.min.js"></script>
     <!-- Something... -->
     <script src="app.js"></script>
+    <script src="/assets/js/app-script.js"></script>
+    <link rel="stylesheet" href="/assets/css/plyr.css">
+    <script src="/assets/js/plyr.min.js"></script>
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
         integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
