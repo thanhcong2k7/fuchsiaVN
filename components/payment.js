@@ -39,7 +39,7 @@ $(function () {
             $acn.text(`${data.accountNumber}`);
             // 2) Enable “Pay” button
             $btn.prop('disabled', false).removeClass('disabled');
-            $label.text(`Pay ${data.currency} ${data.amount.toLocaleString()}`);
+            $label.text(`Open payos page`);
             $btn.off('click').on('click', () => window.open(data.checkoutUrl));
 
             // 3) Show modal
@@ -51,12 +51,10 @@ $(function () {
                 try {
                     const res = await fetch(`/api/check-status/index.php?id=${data.orderCode}`);
                     const json = await res.json();
-                    if (json.status === 'PAID') {
+                    if (json.status === 'PAID' || json.status === 'CANCELLED') {
                         // Update UI one last time
                         $err.text(`Trạng thái: ${json.status}`).show();
                         clearInterval(pollInterval);
-                    } else if (json.status === 'CANCELLED'){
-                        //
                     }
                 } catch (e) {
                     console.error('Polling error', e);

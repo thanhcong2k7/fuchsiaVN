@@ -67,7 +67,7 @@ else {
                     <div class="col">
                         <div class="card">
                             <div class="card-header">
-                                Release Analytics
+                                <i class="zmdi zmdi-trending-up"></i> Release Analytics
                             </div>
                             <div class="card-body">
                                 Under construction! Please comeback later...
