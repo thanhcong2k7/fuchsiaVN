@@ -263,7 +263,7 @@ else {
                                                 </button>
                                             </div>
                                             <div class="modal-body overflow-auto">
-                                            <form method="POST" action="">
+                                            <form method="POST" action="" id="metadataForm">
                                                 <!-- Track Section -->
                                                 <!-- Track Section -->
                                                 <div class="card mb-3">
@@ -1000,23 +1000,86 @@ else {
                                                         </script>
                                                     </div>
                                                 </div>
+                                                <hr>
+                                                <div class="preview-section">
+                                                    <h6>Preview</h6>
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title" id="previewTitle">Track Title</h5>
+                                                            <p class="card-text">
+                                                                <small class="text-muted" id="previewVersion"></small><br>
+                                                                <span id="previewGenre"></span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </form>
-                                        </div>
+                                            </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary px-5" onclick="saveMetadata()">
-                                                    <i class="zmdi zmdi-check"></i> Save Changes
-                                                </button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary" id="saveMetadata">Save changes</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <script>
-                                function saveMetadata() {
-                                    // TODO: Implement save functionality
-                                    $('#metadataModal').modal('hide');
-                                }
+                                $(document).ready(function() {
+                                    // Form validation
+                                    function validateForm() {
+                                        let isValid = true;
+                                        const title = $('input[name="tracktitle"]').val();
+
+                                        if (!title) {
+                                            $('input[name="tracktitle"]').addClass('is-invalid');
+                                            isValid = false;
+                                        } else {
+                                            $('input[name="tracktitle"]').removeClass('is-invalid');
+                                        }
+
+                                        return isValid;
+                                    }
+
+                                    // Live preview update
+                                    $('input[name="tracktitle"]').on('input', function() {
+                                        $('#previewTitle').text($(this).val() || 'Track Title');
+                                    });
+
+                                    $('input[name="trackversion"]').on('input', function() {
+                                        $('#previewVersion').text($(this).val());
+                                    });
+
+                                    // Handle form submission
+                                    $('#saveMetadata').click(function() {
+                                        if (!validateForm()) {
+                                            return;
+                                        }
+
+                                        $('#saveIndicator').show();
+                                        $('#saveError').hide();
+                                        $('#saveSuccess').hide();
+
+                                        const formData = $('#metadataForm').serialize();
+
+                                        $.ajax({
+                                            url: 'save_metadata.php',
+                                            method: 'POST',
+                                            data: formData,
+                                            success: function(response) {
+                                                $('#saveIndicator').hide();
+                                                $('#saveSuccess').show();
+                                                setTimeout(function() {
+                                                    $('#metadataModal').modal('hide');
+                                                    location.reload();
+                                                }, 1000);
+                                            },
+                                            error: function() {
+                                                $('#saveIndicator').hide();
+                                                $('#saveError').show();
+                                            }
+                                        });
+                                    });
+                                });
                                 </script>
                 <!--start overlay-->
                 <div class="overlay toggle-menu"></div>
