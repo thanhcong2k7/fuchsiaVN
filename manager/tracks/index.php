@@ -116,7 +116,6 @@ else {
                                         <div class="card-header"><i class="zmdi zmdi-collection-music"></i> Your Tracks
                                             <div class="card-action"></div>
                                         </div>
-                                        <div class="">
                                             <table class="table table-responsive align-items-center table-flush table-hover mb-0">
                                                 <thead>
                                                     <tr>
@@ -148,7 +147,6 @@ else {
                                                     ?>
                                                 </tbody>
                                             </table>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
