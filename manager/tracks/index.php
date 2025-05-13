@@ -263,7 +263,30 @@ else {
                                                 </button>
                                             </div>
                                             <div class="modal-body overflow-auto">
-                                            <form method="POST" action="" id="metadataForm">
+                                    <form method="POST" action="save_metadata.php" id="metadataForm">
+                                        <input type="hidden" name="trackId" value="<?php echo isset($_GET['trackID']) ? $_GET['trackID'] : ''; ?>">
+                                        <div class="form-group">
+                                            <label>Track Title</label>
+                                            <input type="text" class="form-control" name="trackTitle" value="<?php echo isset($track->name) ? $track->name : ''; ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Primary Genre</label>
+                                            <select class="form-control" name="primaryGenre">
+                                                <option value="">Select Genre</option>
+                                                <option value="pop">Pop</option>
+                                                <option value="rock">Rock</option>
+                                                <option value="electronic">Electronic</option>
+                                                <!-- Add more genres as needed -->
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>ISRC (Optional)</label>
+                                            <input type="text" class="form-control" name="isrc" value="<?php echo isset($track->isrc) ? $track->isrc : ''; ?>">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
                                                 <!-- Track Section -->
                                                 <!-- Track Section -->
                                                 <div class="card mb-3">
@@ -276,6 +299,36 @@ else {
                                                                     value="<?php echo $track->name; ?>">
                                                             </div>
                                                             <div class="form-group col-md-4 mb-3">
+
+<!-- Initialize modal and form handling -->
+<script>
+$(document).ready(function() {
+    // Show modal when edit is clicked
+    $('a[data-toggle="modal"]').on('click', function(e) {
+        e.preventDefault();
+        $('#metadataModal').modal('show');
+    });
+
+    // Handle form submission
+    $('#metadataForm').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            success: function(response) {
+                if(response.success) {
+                    $('#metadataModal').modal('hide');
+                    location.reload();
+                } else {
+                    alert('Error saving metadata: ' + response.message);
+                }
+            }
+        });
+    });
+});
+</script>
+
                                                                 <label class="d-block mb-1">Track Version
                                                                     (optional)</label>
                                                                 <input type="text" class="form-control"
