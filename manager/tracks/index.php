@@ -204,13 +204,89 @@ else {
                                         <div class="card-header">
                                             <i class="zmdi zmdi-info-outline"></i> Track Metadata
                                             <div class="card-action">
-                                                <div class="dropdown">
-                                                    <a href="">Save </a> <i class="zmdi zmdi-arrow-right"></i>
-                                                </div>
+                                                 <a href="" data-toggle="modal" data-target="#metadataModal">Edit </a>
                                             </div>
                                         </div>
-                                        <div class="card-body overflow-auto">
-                                            <form method="POST" action="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header"><i class="zmdi zmdi-collection-music"></i> Your Tracks
+                                    <div class="card-action"></div>
+                                    <div class="table-responsive">
+                                        <table class="table align-items-center table-flush table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Track ID</th>
+                                                    <th>isrc</th>
+                                                    <th>name</th>
+                                                    <th>Album</th>
+                                                    <th>Artist</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                foreach ($trackList as &$tr) {
+                                                    $albName = getRelease($_SESSION["userwtf"], 0, $tr->id)->name;
+                                                    echo '
+                                        <tr>
+                                        <td>' . ($tr->id) . '</td>
+                                        <td>' . ($tr->isrc ? $tr->isrc : "[NULL]") . '</td>
+                                        <td>' . ($tr->name ? $tr->name : "(draft)") . '</td>
+                                        <td>' . ($albName ? $albName : "[NULL]") . '</td>
+                                        <td>' . ($tr->artistname ? $tr->artistname : "[NULL]") . '</td>
+                                        <td>
+                                            <a onclick="" href="?trackID=' . $tr->id . '">Edit</a> / 
+                                            <a class="text-error">Delete</a>
+                                        </td>
+                                        </tr>';
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--End Dashboard Content-->
+                <!-- Modal -->
+                                <div class="modal fade" id="metadataModal" tabindex="-1" role="dialog" aria-labelledby="metadataModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="metadataModalLabel">Track Metadata</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body overflow-auto">
+                                    <form method="POST" action="save_metadata.php" id="metadataForm">
+                                        <input type="hidden" name="trackId" value="<?php echo isset($_GET['trackID']) ? $_GET['trackID'] : ''; ?>">
+                                        <div class="form-group">
+                                            <label>Track Title</label>
+                                            <input type="text" class="form-control" name="trackTitle" value="<?php echo isset($track->name) ? $track->name : ''; ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Primary Genre</label>
+                                            <select class="form-control" name="primaryGenre">
+                                                <option value="">Select Genre</option>
+                                                <option value="pop">Pop</option>
+                                                <option value="rock">Rock</option>
+                                                <option value="electronic">Electronic</option>
+                                                <!-- Add more genres as needed -->
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>ISRC (Optional)</label>
+                                            <input type="text" class="form-control" name="isrc" value="<?php echo isset($track->isrc) ? $track->isrc : ''; ?>">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
                                                 <!-- Track Section -->
                                                 <!-- Track Section -->
                                                 <div class="card mb-3">
@@ -223,6 +299,36 @@ else {
                                                                     value="<?php echo $track->name; ?>">
                                                             </div>
                                                             <div class="form-group col-md-4 mb-3">
+
+<!-- Initialize modal and form handling -->
+<script>
+$(document).ready(function() {
+    // Show modal when edit is clicked
+    $('a[data-toggle="modal"]').on('click', function(e) {
+        e.preventDefault();
+        $('#metadataModal').modal('show');
+    });
+
+    // Handle form submission
+    $('#metadataForm').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            success: function(response) {
+                if(response.success) {
+                    $('#metadataModal').modal('hide');
+                    location.reload();
+                } else {
+                    alert('Error saving metadata: ' + response.message);
+                }
+            }
+        });
+    });
+});
+</script>
+
                                                                 <label class="d-block mb-1">Track Version
                                                                     (optional)</label>
                                                                 <input type="text" class="form-control"
@@ -515,7 +621,7 @@ else {
                                                             </option>
                                                             <option data-id="75497"
                                                                 value="World/African/Shangaan Electro"></option>
-                                                            <option data-id="75498" value="World/African/Soukous">
+                                                            <option data-id="75498" value="World<text>African/Soukous">
                                                             </option>
                                                             <option data-id="75499" value="World/African/Taarab">
                                                             </option>
@@ -947,54 +1053,87 @@ else {
                                                         </script>
                                                     </div>
                                                 </div>
+                                                <hr>
+                                                <div class="preview-section">
+                                                    <h6>Preview</h6>
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title" id="previewTitle">Track Title</h5>
+                                                            <p class="card-text">
+                                                                <small class="text-muted" id="previewVersion"></small><br>
+                                                                <span id="previewGenre"></span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary" id="saveMetadata">Save changes</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header"><i class="zmdi zmdi-collection-music"></i> Your Tracks
-                                    <div class="card-action"></div>
-                                    <div class="table-responsive">
-                                        <table class="table align-items-center table-flush table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Track ID</th>
-                                                    <th>isrc</th>
-                                                    <th>name</th>
-                                                    <th>Album</th>
-                                                    <th>Artist</th>
-                                                    <th>Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                foreach ($trackList as &$tr) {
-                                                    $albName = getRelease($_SESSION["userwtf"], 0, $tr->id)->name;
-                                                    echo '
-                                        <tr>
-                                        <td>' . ($tr->id) . '</td>
-                                        <td>' . ($tr->isrc ? $tr->isrc : "[NULL]") . '</td>
-                                        <td>' . ($tr->name ? $tr->name : "(draft)") . '</td>
-                                        <td>' . ($albName ? $albName : "[NULL]") . '</td>
-                                        <td>' . ($tr->artistname ? $tr->artistname : "[NULL]") . '</td>
-                                        <td>
-                                            <a onclick="" href="?trackID=' . $tr->id . '">Edit</a> / 
-                                            <a class="text-error">Delete</a>
-                                        </td>
-                                        </tr>';
-                                                }
-                                                ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--End Dashboard Content-->
 
+                                <script>
+                                $(document).ready(function() {
+                                    // Form validation
+                                    function validateForm() {
+                                        let isValid = true;
+                                        const title = $('input[name="tracktitle"]').val();
+
+                                        if (!title) {
+                                            $('input[name="tracktitle"]').addClass('is-invalid');
+                                            isValid = false;
+                                        } else {
+                                            $('input[name="tracktitle"]').removeClass('is-invalid');
+                                        }
+
+                                        return isValid;
+                                    }
+
+                                    // Live preview update
+                                    $('input[name="tracktitle"]').on('input', function() {
+                                        $('#previewTitle').text($(this).val() || 'Track Title');
+                                    });
+
+                                    $('input[name="trackversion"]').on('input', function() {
+                                        $('#previewVersion').text($(this).val());
+                                    });
+
+                                    // Handle form submission
+                                    $('#saveMetadata').click(function() {
+                                        if (!validateForm()) {
+                                            return;
+                                        }
+
+                                        $('#saveIndicator').show();
+                                        $('#saveError').hide();
+                                        $('#saveSuccess').hide();
+
+                                        const formData = $('#metadataForm').serialize();
+
+                                        $.ajax({
+                                            url: 'save_metadata.php',
+                                            method: 'POST',
+                                            data: formData,
+                                            success: function(response) {
+                                                $('#saveIndicator').hide();
+                                                $('#saveSuccess').show();
+                                                setTimeout(function() {
+                                                    $('#metadataModal').modal('hide');
+                                                    location.reload();
+                                                }, 1000);
+                                            },
+                                            error: function() {
+                                                $('#saveIndicator').hide();
+                                                $('#saveError').show();
+                                            }
+                                        });
+                                    });
+                                });
+                                </script>
                 <!--start overlay-->
                 <div class="overlay toggle-menu"></div>
                 <!--end overlay-->
