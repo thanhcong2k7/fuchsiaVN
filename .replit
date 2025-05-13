@@ -1,4 +1,0 @@
-modules = ["php-8.2", "nodejs-20", "web"]
-
-[nix]
-channel = "stable-24_05"
