@@ -117,26 +117,5 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="paymentModalLabel">Payment Status</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div><!-- in payment-modal.html -->
-      <div class="modal-body position-relative" id="paymentBody" aria-live="polite">
-        <div class="row">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal"
-          aria-label="Close payment pop-up" id="closePayment">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
 <script src="/components/payment.js"></script>
 <script src="/components/payment.js"></script>
