@@ -14,5 +14,6 @@ jobs:
         server: fuchsia.viiic.net
         username: hohoho@fuchsia.viiic.net
         password: 123456hehehehe
+        timeout: 190000
     - name: 🔔 Announce over ntfy.sh 
       run: curl -d "Finished pushing to FTP!" ntfy.sh/ntcedm
