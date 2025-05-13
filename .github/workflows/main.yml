@@ -11,7 +11,7 @@ jobs:
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
-        server: ftp.fuchsia.viiic.net
+        server: 103.97.126.29
         username: hohoho@fuchsia.viiic.net
         password: 123456hehehehe
         timeout: 190000
