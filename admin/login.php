@@ -57,11 +57,11 @@ unset($_SESSION["saipass"]);
                                     <div class="card-body">
                                         <form action="login_hehe.php" method="POST">
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="userslot" type="username" placeholder="name@example.com" />
+                                                <input class="form-control" id="userslot" name="userslot" type="username" placeholder="name@example.com" />
                                                 <label for="userslot">Email address</label>
                                             </div>
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="pwdslot" type="password" placeholder="Password" />
+                                                <input class="form-control" id="pwdslot" name="pwdslot" type="password" placeholder="Password" />
                                                 <label for="pwdslot">Password</label>
                                             </div>
                                             <div class="form-check mb-3">
