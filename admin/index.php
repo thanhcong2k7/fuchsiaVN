@@ -110,6 +110,39 @@ foreach ($allUsers as $u) {
                             </div>
                         </div>
                     </div>
+                    <?php
+                    // No need to include sql.php again as it's already included at the top
+                    $currentStaffId = $user->id; // Using the $user object from the session check at the top
+
+                    $unclaimedReleasesCount = count(getReleasesForReview(null));
+                    $claimedReleasesCount = count(getReleasesForReview($currentStaffId));
+                    ?>
+                    <div class="row">
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card bg-info text-white mb-4">
+                                <div class="card-body">
+                                    Unclaimed Releases (Review)
+                                    <span class="fs-3 d-block"><?= $unclaimedReleasesCount ?></span>
+                                </div>
+                                <div class="card-footer d-flex align-items-center justify-content-between">
+                                    <a class="small text-white stretched-link" href="release_review.php">View Details</a>
+                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card bg-secondary text-white mb-4">
+                                <div class="card-body">
+                                    My Claimed Releases
+                                    <span class="fs-3 d-block"><?= $claimedReleasesCount ?></span>
+                                </div>
+                                <div class="card-footer d-flex align-items-center justify-content-between">
+                                    <a class="small text-white stretched-link" href="release_review.php">View Details</a>
+                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-xl-6">
                             <div class="card mb-4">

@@ -81,6 +81,8 @@ class albumType
 	public $sx;
 	public $bp;
 	public $artp;
+	public $staffID; // ID of the staff member who claimed this release
+	public $submitterName; // Name of the user who submitted the release
 }
 function getRelease($uid, $num = 0, $id = 0)
 {
@@ -158,10 +160,55 @@ function getAllReleases($statusFilter = null) // Optional status filter (e.g., '
             $tmp2->bp = $row["beatport"];
             $tmp2->artp = $row["artPrev"];
             $tmp2->submitterName = $row["submitterName"]; // Added submitter name
+            $tmp2->staffID = $row["staffID"]; // Include staffID for claim functionality
 
             // Fetch artists for the album - this might need a dedicated function or optimized query
             // For simplicity, let's assume a function getArtistsForAlbum($albumId) exists or is added
             // $tmp2->author = getArtistsForAlbum($row["albumID"]); // Placeholder
+
+            $releases[] = $tmp2;
+        }
+    }
+    return $releases;
+}
+
+function getReleasesForReview($staffId = null)
+{
+    $sql = "SELECT album.*, user.labelName AS submitterName FROM album JOIN user ON album.userID = user.userID";
+    if ($staffId !== null) {
+        // Get releases claimed by a specific staff member
+        $sql .= " WHERE album.staffID = " . intval($staffId);
+    } else {
+        // Get unclaimed releases (staffID is NULL or 0)
+        $sql .= " WHERE album.staffID IS NULL OR album.staffID = 0";
+    }
+    $sql .= " ORDER BY album.createdDate DESC;";
+
+    $tmp1 = query($sql);
+    $releases = array();
+    if ($tmp1) {
+        while ($row = $tmp1->fetch_assoc()) {
+            $tmp2 = new albumType();
+            $tmp2->id = $row["albumID"];
+            $tmp2->upc = $row["UPCNum"];
+            $tmp2->name = $row["albumName"];
+            $tmp2->status = $row["status"];
+            $tmp2->art = $row["artID"];
+            $tmp2->store = json_decode($row["storeID"]);
+            $tmp2->c = $row["compLine"];
+            $tmp2->p = $row["publishLine"];
+            $tmp2->orgReldate = $row["orgReldate"];
+            $tmp2->createdDate = $row["createdDate"];
+            $tmp2->relDate = $row["relDate"];
+            $tmp2->version = $row["versionLine"];
+            $tmp2->ytcid = $row["ytcid"];
+            $tmp2->jdl = $row["juno"];
+            $tmp2->sx = $row["soundx"];
+            $tmp2->sc = $row["scloud"];
+            $tmp2->bp = $row["beatport"];
+            $tmp2->artp = $row["artPrev"];
+            $tmp2->submitterName = $row["submitterName"];
+            $tmp2->staffID = $row["staffID"]; // Include staffID
 
             $releases[] = $tmp2;
         }

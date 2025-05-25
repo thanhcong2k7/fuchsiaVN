@@ -43,12 +43,84 @@ if ($release_id) {
 
     // Let's assume we add a getReleaseById function or modify getAllReleases
     // For now, to make it work, let's fetch all and filter. This is inefficient but for demonstration.
-    $allReleases = getAllReleases(); // This was added earlier
-    foreach ($allReleases as $r) {
-        if ($r->id == $release_id) {
-            $release = $r;
-            break;
+    // Direct database query with explicit error handling and debugging
+    try {
+        // First, let's dump the table structure to see what fields are available
+        $tableInfoQuery = "SHOW COLUMNS FROM album";
+        $tableInfoResult = $GLOBALS["conn"]->query($tableInfoQuery);
+        $tableColumns = [];
+        if ($tableInfoResult) {
+            while ($column = $tableInfoResult->fetch_assoc()) {
+                $tableColumns[] = $column['Field'];
+            }
         }
+        
+        // Now query the release with all fields
+        $sql = "SELECT album.*, user.labelName AS submitterName
+                FROM album
+                JOIN user ON album.userID = user.userID
+                WHERE album.albumID = ?";
+        
+        $stmt = $GLOBALS["conn"]->prepare($sql);
+        if (!$stmt) {
+            throw new Exception("Prepare failed: " . $GLOBALS["conn"]->error);
+        }
+        
+        $stmt->bind_param("i", $release_id);
+        if (!$stmt->execute()) {
+            throw new Exception("Execute failed: " . $stmt->error);
+        }
+        
+        $result = $stmt->get_result();
+        if (!$result) {
+            throw new Exception("Get result failed: " . $stmt->error);
+        }
+        
+        if ($row = $result->fetch_assoc()) {
+            // Create a new albumType object and populate it with all fields
+            $release = new albumType();
+            $release->id = $row["albumID"];
+            $release->upc = $row["UPCNum"];
+            $release->name = $row["albumName"];
+            $release->status = $row["status"];
+            $release->art = $row["artID"];
+            $release->store = json_decode($row["storeID"]);
+            $release->c = $row["compLine"];
+            $release->p = $row["publishLine"];
+            $release->orgReldate = $row["orgReldate"];
+            $release->createdDate = $row["createdDate"];
+            $release->relDate = $row["relDate"];
+            $release->version = $row["versionLine"];
+            $release->ytcid = $row["ytcid"];
+            $release->jdl = $row["juno"];
+            $release->sx = $row["soundx"];
+            $release->sc = $row["scloud"];
+            $release->bp = $row["beatport"];
+            $release->artp = $row["artPrev"];
+            $release->submitterName = $row["submitterName"];
+            $release->staffID = isset($row["staffID"]) ? $row["staffID"] : null;
+            
+            // Store raw data for debugging
+            $rawData = $row;
+        } else {
+            throw new Exception("No release found with ID: " . $release_id);
+        }
+        $stmt->close();
+    } catch (Exception $e) {
+        // Log the error
+        error_log("Error in view_release.php: " . $e->getMessage());
+        
+        // Fallback to the original method
+        $allReleases = getAllReleases();
+        foreach ($allReleases as $r) {
+            if ($r->id == $release_id) {
+                $release = $r;
+                break;
+            }
+        }
+        
+        // Store error for debugging
+        $error = $e->getMessage();
     }
 
     if ($release) {
@@ -108,6 +180,29 @@ $availableStores = getStore(); // Fetch all available stores
                         <li class="breadcrumb-item active">View Release</li>
                     </ol>
 
+                    <!-- Debug information (only visible to admins) -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-warning">
+                            <i class="fas fa-bug me-1"></i>
+                            Debug Information
+                        </div>
+                        <div class="card-body">
+                            <h5>Table Columns:</h5>
+                            <pre><?php echo isset($tableColumns) ? print_r($tableColumns, true) : 'Not available'; ?></pre>
+                            
+                            <h5>Raw Release Data:</h5>
+                            <pre><?php echo isset($rawData) ? print_r($rawData, true) : 'Not available'; ?></pre>
+                            
+                            <h5>Release Object:</h5>
+                            <pre><?php echo isset($release) ? print_r($release, true) : 'Not available'; ?></pre>
+                            
+                            <?php if (isset($error)): ?>
+                                <h5 class="text-danger">Error:</h5>
+                                <pre class="text-danger"><?php echo $error; ?></pre>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
                     <?php if ($release): ?>
                     <div class="card mb-4">
                         <div class="card-header">
@@ -118,27 +213,94 @@ $availableStores = getStore(); // Fetch all available stores
                             </span>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <?php if (!empty($release->art) || !empty($release->artPrev)): ?>
-                                        <img src="<?= htmlspecialchars($release->artPrev ?: $release->art) ?>" alt="Artwork" class="img-thumbnail release-art-preview">
-                                    <?php else: ?>
-                                        <p>No artwork provided.</p>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="col-md-8">
-                                    <p><span class="detail-label">Album ID:</span> <?= htmlspecialchars($release->id) ?></p>
-                                    <p><span class="detail-label">UPC/EAN:</span> <?= htmlspecialchars($release->upc ?: 'N/A') ?></p>
-                                    <p><span class="detail-label">Version/Subtitle:</span> <?= htmlspecialchars($release->version ?: 'N/A') ?></p>
-                                    <p><span class="detail-label">Submitted By:</span> <?= htmlspecialchars($release->submitterName ?? 'N/A') ?></p>
-                                    <p><span class="detail-label">Original Release Date:</span> <?= htmlspecialchars($release->orgReldate ? date("Y-m-d", strtotime($release->orgReldate)) : 'N/A') ?></p>
-                                    <p><span class="detail-label">Digital Release Date:</span> <?= htmlspecialchars($release->relDate ? date("Y-m-d", strtotime($release->relDate)) : 'ASAP') ?></p>
-                                    <p><span class="detail-label">Created Date:</span> <?= htmlspecialchars(date("Y-m-d H:i", strtotime($release->createdDate))) ?></p>
-                                    <p><span class="detail-label">(C) Line:</span> <?= htmlspecialchars($release->c ?: 'N/A') ?></p>
-                                    <p><span class="detail-label">(P) Line:</span> <?= htmlspecialchars($release->p ?: 'N/A') ?></p>
-                                    <p><span class="detail-label">Stores:</span> <?= getStoreNames($release->store, $availableStores) ?></p>
-                                    <!-- Add more fields as needed: ytcid, scloud, soundx, juno, tracklib, beatport -->
-                                </div>
+                            <!-- Simplified display of release details -->
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th colspan="2" class="text-center bg-light">Release Details</th>
+                                    </tr>
+                                    <tr>
+                                        <td width="30%"><strong>Album ID:</strong></td>
+                                        <td><?= htmlspecialchars($release->id) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Album Name:</strong></td>
+                                        <td><?= htmlspecialchars($release->name) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>UPC/EAN:</strong></td>
+                                        <td><?= htmlspecialchars($release->upc ?: 'N/A') ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Version/Subtitle:</strong></td>
+                                        <td><?= htmlspecialchars($release->version ?: 'N/A') ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Artist(s):</strong></td>
+                                        <td>
+                                            <?php
+                                            // Get artists from the first track as a fallback if release artists aren't available
+                                            if (!empty($tracks)) {
+                                                $artistNames = array();
+                                                foreach ($tracks as $track) {
+                                                    if (!empty($track->artistname) && !in_array($track->artistname, $artistNames)) {
+                                                        $artistNames[] = $track->artistname;
+                                                    }
+                                                }
+                                                echo !empty($artistNames) ? htmlspecialchars(implode(', ', $artistNames)) : 'N/A';
+                                            } else {
+                                                echo 'N/A';
+                                            }
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Submitted By:</strong></td>
+                                        <td><?= htmlspecialchars($release->submitterName ?? 'N/A') ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Status:</strong></td>
+                                        <td>
+                                            <span class="badge bg-<?= getStatusBadgeClass($release->status) ?>">
+                                                <?= getStatusText($release->status) ?>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Original Release Date:</strong></td>
+                                        <td><?= htmlspecialchars($release->orgReldate ? date("Y-m-d", strtotime($release->orgReldate)) : 'N/A') ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Digital Release Date:</strong></td>
+                                        <td><?= htmlspecialchars($release->relDate ? date("Y-m-d", strtotime($release->relDate)) : 'ASAP') ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Created Date:</strong></td>
+                                        <td><?= htmlspecialchars(date("Y-m-d H:i", strtotime($release->createdDate))) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>(C) Line:</strong></td>
+                                        <td><?= htmlspecialchars($release->c ?: 'N/A') ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>(P) Line:</strong></td>
+                                        <td><?= htmlspecialchars($release->p ?: 'N/A') ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Stores:</strong></td>
+                                        <td><?= getStoreNames($release->store, $availableStores) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Artwork:</strong></td>
+                                        <td>
+                                            <?php if (!empty($release->art) || !empty($release->artPrev)): ?>
+                                                <img src="<?= htmlspecialchars($release->artPrev ?: $release->art) ?>" alt="Artwork" class="img-thumbnail" style="max-width: 200px;">
+                                            <?php else: ?>
+                                                <p>No artwork provided.</p>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
 
                             <h4 class="mt-4">Tracks</h4>
@@ -171,12 +333,34 @@ $availableStores = getStore(); // Fetch all available stores
                                 <p>No tracks found for this release.</p>
                             <?php endif; ?>
 
-                            <?php if ($release->status == '3' || $release->status == 3): // Status '3' is 'Checking' (integer or string) ?>
                             <hr>
                             <h4>Actions</h4>
-                            <!-- TODO: Implement approve_release.php and reject_release.php -->
+                            
+                            <?php if ($release->status == '3' || $release->status == 3): // Status '3' is 'Checking' (integer or string) ?>
+                            <!-- Approval/Rejection actions -->
                             <a href="approve_release.php?id=<?= htmlspecialchars($release->id) ?>" class="btn btn-success"><i class="fas fa-check"></i> Approve Release</a>
                             <a href="reject_release.php?id=<?= htmlspecialchars($release->id) ?>" class="btn btn-danger"><i class="fas fa-times"></i> Reject Release</a>
+                            <?php endif; ?>
+                            
+                            <!-- Claim Release Button -->
+                            <?php
+                            // Check if release is claimed
+                            $isClaimed = isset($release->staffID) && $release->staffID > 0;
+                            $isClaimedByCurrentUser = $isClaimed && $release->staffID == $user->id;
+                            
+                            if (!$isClaimed):
+                            ?>
+                                <button class="btn btn-primary" onclick="claimRelease(<?= htmlspecialchars($release->id) ?>)">
+                                    <i class="fas fa-hand-paper"></i> Claim Release
+                                </button>
+                            <?php elseif ($isClaimedByCurrentUser): ?>
+                                <div class="alert alert-info mt-3">
+                                    <i class="fas fa-info-circle"></i> You have claimed this release.
+                                </div>
+                            <?php else: ?>
+                                <div class="alert alert-warning mt-3">
+                                    <i class="fas fa-exclamation-triangle"></i> This release has been claimed by another staff member.
+                                </div>
                             <?php endif; ?>
 
                         </div>
@@ -197,5 +381,56 @@ $availableStores = getStore(); // Fetch all available stores
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
+    
+    <script>
+    function claimRelease(releaseId) {
+        if (confirm('Are you sure you want to claim this release?')) {
+            console.log('Attempting to claim release with ID:', releaseId);
+            fetch('claim_release.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'release_id=' + releaseId
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Release claimed successfully!');
+                    // Refresh the page to update the UI
+                    window.location.reload();
+                } else {
+                    alert('Failed to claim release: ' + data.message);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('An error occurred while trying to claim the release.');
+            });
+        }
+    }
+    
+    // Initialize Bootstrap components
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize dropdowns
+        var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
+        var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+            return new bootstrap.Dropdown(dropdownToggleEl)
+        });
+        
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+        
+        // Fix for anchor links with href="#" to prevent page scrolling
+        document.querySelectorAll('a[href="#"]').forEach(function(anchor) {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+            });
+        });
+    });
+    </script>
 </body>
 </html>

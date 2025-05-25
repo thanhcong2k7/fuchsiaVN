@@ -12,6 +12,14 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-compact-disc"></i></div>
                     Release Management
                 </a>
+                <a class="nav-link" href="release_review.php">
+                    <div class="sb-nav-link-icon"><i class="fas fa-check-circle"></i></div>
+                    Release Review
+                </a>
+                <a class="nav-link" href="analytics.php">
+                    <div class="sb-nav-link-icon"><i class="fas fa-chart-line"></i></div>
+                    Analytics
+                </a>
                 <a class="nav-link" href="users.php">
                     <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                     User Management
