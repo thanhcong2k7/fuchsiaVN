@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 session_start();
 require 'assets/variables/sql.php'; // Contains getUser(), getRelease(), getTrack(), getStatusText(), getStatusBadgeClass()
 
@@ -204,17 +207,20 @@ $availableStores = getStore(); // Fetch all available stores
                     </div>
 
                     <?php if ($release): ?>
-                    <div class="card mb-4">
-                        <div class="card-header">
+                    <?php echo "<!-- PHP is working up to this point -->"; ?>
+                    <div style="border: 3px solid blue; margin-bottom: 20px;">
+                        <div style="background-color: #f0f0f0; padding: 10px;">
                             <i class="fas fa-compact-disc me-1"></i>
                             Release: <?= htmlspecialchars($release->name) ?>
                             <span class="badge bg-<?= getStatusBadgeClass($release->status) ?> ms-2">
                                 <?= getStatusText($release->status) ?>
                             </span>
                         </div>
-                        <div class="card-body">
-                            <!-- Simplified display of release details -->
-                            <div class="table-responsive">
+                    </div>
+                    
+                    <?php
+                    die("PHP execution stopped here intentionally. If you can see this message, PHP is working up to this point.");
+                    ?>
                                 <table class="table table-bordered">
                                     <tr>
                                         <th colspan="2" class="text-center bg-light">Release Details</th>
