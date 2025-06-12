@@ -630,12 +630,13 @@ $currentYear = date("Y");
                                                 <i class="zmdi zmdi-store"></i> Distribution Outlets & Options
                                             </div>
                                             <div class="card-body">
+                                                <!-- Main Store Selection -->
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <label for="stores">Stores/Services</label>
+                                                        <label for="stores">Digital Service Providers (DSPs)</label>
                                                         <div class="row align-items-center no-gutters">
-                                                            <div class="col"> <select name="stores[]"
-                                                                    class="form-control" id="stores" multiple
+                                                            <div class="col">
+                                                                <select name="stores[]" class="form-control" id="stores" multiple
                                                                     data-placeholder="Choose stores/services to distribute to"
                                                                     style="width:100%;">
                                                                     <?php
@@ -651,11 +652,11 @@ $currentYear = date("Y");
                                                                 </select>
                                                             </div>
                                                             <div class="col-auto pl-2">
-                                                                <div class="form-check"> <input class="form-check-input"
-                                                                        type="checkbox" id="toggleSelectAllStores"
-                                                                        title="Select/Deselect All">
-                                                                    <label class="form-check-label small"
-                                                                        for="toggleSelectAllStores"> All
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        id="toggleSelectAllStores" title="Select/Deselect All">
+                                                                    <label class="form-check-label small" for="toggleSelectAllStores">
+                                                                        All
                                                                     </label>
                                                                 </div>
                                                             </div>
@@ -664,80 +665,108 @@ $currentYear = date("Y");
                                                 </div>
 
                                                 <hr>
-                                                <h5>Additional Delivery Options</h5>
+                                                <h5>Additional Distribution Services</h5>
 
+                                                <!-- Distribution Services - Organized in Cards -->
                                                 <div class="row">
+                                                    <!-- Content ID & Monetization Services -->
                                                     <div class="col-md-6">
-                                                        <div class="alert alert-warning callout mt-3" role="alert"> <i
-                                                                class="zmdi zmdi-info-outline"></i>
-                                                            <strong>Note:</strong> Enable YouTube Content ID only if
-                                                            your track is 100% original and contains no third-party
-                                                            samples/loops/sounds unless properly licensed for Content ID
-                                                            usage. Misuse can lead to penalties.
-                                                        </div>
-                                                        <div class="card card-body mb-2">
-                                                            <div class="icheck-material-white">
-                                                                <input type="checkbox" id="ytcid" name="ytcid" value="1"
-                                                                    <?php echo !empty($release->ytcid) ? "checked" : ""; ?> />
-                                                                <label for="ytcid"> YouTube Content ID</label>
+                                                        <div class="card mb-3">
+                                                            <div class="card-header bg-transparent">
+                                                                <i class="zmdi zmdi-collection-video"></i> Content ID & Monetization
                                                             </div>
-                                                        </div>
-                                                        <div class="card card-body mb-2">
-                                                            <div class="icheck-material-white">
-                                                                <input type="checkbox" id="scloud" name="scloud"
-                                                                    value="1" <?php echo !empty($release->sc) ? "checked" : ""; ?> />
-                                                                <label for="scloud"
-                                                                    style="overflow: hidden;white-space: initial;">
-                                                                    SoundCloud Monetization & Content Protection</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="card card-body mb-2">
-                                                            <div class="icheck-material-white">
-                                                                <input type="checkbox" id="soundx" name="soundx"
-                                                                    value="1" <?php echo !empty($release->sx) ? "checked" : ""; ?> />
-                                                                <label for="soundx"> SoundExchange Registration</label>
+                                                            <div class="card-body">
+                                                                <div class="alert alert-warning callout mb-3" role="alert">
+                                                                    <i class="zmdi zmdi-info-outline"></i>
+                                                                    <strong>Note:</strong> Enable Content ID only for 100% original content
+                                                                    with properly licensed samples.
+                                                                </div>
+                                                                
+                                                                <!-- YouTube Content ID -->
+                                                                <div class="form-group">
+                                                                    <div class="icheck-material-white">
+                                                                        <input type="checkbox" id="ytcid" name="ytcid" value="1"
+                                                                            <?php echo !empty($release->ytcid) ? "checked" : ""; ?> />
+                                                                        <label for="ytcid"> YouTube Content ID</label>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <!-- SoundCloud Monetization -->
+                                                                <div class="form-group">
+                                                                    <div class="icheck-material-white">
+                                                                        <input type="checkbox" id="scloud" name="scloud" value="1"
+                                                                            <?php echo !empty($release->sc) ? "checked" : ""; ?> />
+                                                                        <label for="scloud">
+                                                                            SoundCloud Monetization & Content Protection
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-
+                                                    
+                                                    <!-- Specialized Distribution Services -->
                                                     <div class="col-md-6">
-                                                        <div class="card card-body mb-2">
-                                                            <div class="icheck-material-white">
-                                                                <input type="checkbox" id="jdl" name="jdl" value="1"
-                                                                    <?php echo !empty($release->jdl) ? "checked" : ""; ?> />
-                                                                <label for="jdl"> Juno Download</label>
+                                                        <div class="card mb-3">
+                                                            <div class="card-header bg-transparent">
+                                                                <i class="zmdi zmdi-collection-music"></i> Specialized Platforms
                                                             </div>
-                                                        </div>
-                                                        <div class="card card-body mb-2">
-                                                            <div class="icheck-material-white">
-                                                                <input type="checkbox" id="trl" name="trl" value="1"
-                                                                    <?php echo !empty($release->trl) ? "checked" : ""; ?> />
-                                                                <label for="trl"> Tracklib</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="card card-body mb-2">
-                                                            <div class="row align-items-center no-gutters">
-                                                                <div class="col-auto pr-2">
+                                                            <div class="card-body">
+                                                                <!-- SoundExchange -->
+                                                                <div class="form-group">
                                                                     <div class="icheck-material-white">
-                                                                        <input type="checkbox" id="bport"
-                                                                            name="bport_enabled" value="1" <?php echo !empty($release->bp) ? "checked" : ""; ?> />
-                                                                        <label for="bport"> Beatport</label>
+                                                                        <input type="checkbox" id="soundx" name="soundx" value="1"
+                                                                            <?php echo !empty($release->sx) ? "checked" : ""; ?> />
+                                                                        <label for="soundx"> SoundExchange Registration</label>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col">
-                                                                    <input type="text"
-                                                                        class="form-control form-control-sm"
-                                                                        name="bporturl"
-                                                                        placeholder="Label Page URL (optional, e.g., beatport.com/label/your-label/xxxxx)"
-                                                                        value="<?php echo htmlspecialchars($release->bp ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+                                                                
+                                                                <!-- Juno Download -->
+                                                                <div class="form-group">
+                                                                    <div class="icheck-material-white">
+                                                                        <input type="checkbox" id="jdl" name="jdl" value="1"
+                                                                            <?php echo !empty($release->jdl) ? "checked" : ""; ?> />
+                                                                        <label for="jdl"> Juno Download</label>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <!-- Tracklib -->
+                                                                <div class="form-group">
+                                                                    <div class="icheck-material-white">
+                                                                        <input type="checkbox" id="trl" name="trl" value="1"
+                                                                            <?php echo !empty($release->trl) ? "checked" : ""; ?> />
+                                                                        <label for="trl"> Tracklib</label>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <!-- Beatport with URL -->
+                                                                <div class="form-group">
+                                                                    <div class="row align-items-center no-gutters">
+                                                                        <div class="col-auto pr-2">
+                                                                            <div class="icheck-material-white">
+                                                                                <input type="checkbox" id="bport" name="bport_enabled" value="1"
+                                                                                    <?php echo !empty($release->bp) ? "checked" : ""; ?> />
+                                                                                <label for="bport"> Beatport</label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <input type="text" class="form-control form-control-sm"
+                                                                                name="bporturl" placeholder="Label Page URL (optional)"
+                                                                                value="<?php echo htmlspecialchars($release->bp ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <input name="distform" id="distform" type="submit"
-                                                        class="btn btn-warning btn-round px-5" value="Distribute Now">
+                                                
+                                                <!-- Distribution Button -->
+                                                <div class="row mt-3">
+                                                    <div class="col-12">
+                                                        <input name="distform" id="distform" type="submit"
+                                                            class="btn btn-warning btn-round px-5" value="Distribute Now">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

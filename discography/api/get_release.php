@@ -41,6 +41,28 @@ try {
         }
     }
 
+    // Check if rejection_reason column exists
+    $columnExists = false;
+    $checkColumnQuery = "SHOW COLUMNS FROM album LIKE 'rejection_reason'";
+    $columnResult = $GLOBALS["conn"]->query($checkColumnQuery);
+    if ($columnResult && $columnResult->num_rows > 0) {
+        $columnExists = true;
+    }
+    
+    // Get rejection reason if status is ERROR and column exists
+    $rejectionReason = null;
+    if ($release->status == 2 && $columnExists) {
+        $sql = "SELECT rejection_reason FROM album WHERE albumID = ?";
+        $stmt = $GLOBALS["conn"]->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("i", $releaseId);
+            $stmt->execute();
+            $stmt->bind_result($rejectionReason);
+            $stmt->fetch();
+            $stmt->close();
+        }
+    }
+    
     // Prepare response
     $response = [
         'status' => 'success',
@@ -52,6 +74,7 @@ try {
             'status' => $release->status,
             'release_date' => $release->relDate,
             'original_release_date' => $release->orgReldate,
+            'rejection_reason' => $rejectionReason,
             'artists' => array_values(array_unique(array_merge(...array_column($tracks, 'artists')))),
             'tracks' => $tracks
         ]

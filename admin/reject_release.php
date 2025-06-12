@@ -19,6 +19,14 @@ $release = null;
 $message = '';
 $messageType = '';
 
+// Check if rejection_reason column exists
+$columnExists = false;
+$checkColumnQuery = "SHOW COLUMNS FROM album LIKE 'rejection_reason'";
+$columnResult = $GLOBALS["conn"]->query($checkColumnQuery);
+if ($columnResult && $columnResult->num_rows > 0) {
+    $columnExists = true;
+}
+
 // Process form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reject'])) {
     $reason = filter_input(INPUT_POST, 'reason', FILTER_SANITIZE_STRING);
@@ -27,18 +35,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reject'])) {
         $message = 'Please provide a reason for rejection.';
         $messageType = 'danger';
     } else {
-        // Update the release status to Error (2) and store the rejection reason
-        // Assuming there's a 'notes' or similar field in the album table to store the reason
-        // If not, you might need to add this field to the database
-        $sql = "UPDATE album SET status = 2, notes = ? WHERE albumID = ?";
-        $stmt = $GLOBALS["conn"]->prepare($sql);
+        // Update the release status to Error (2) and store the rejection reason if column exists
+        if ($columnExists) {
+            $sql = "UPDATE album SET status = 2, rejection_reason = ? WHERE albumID = ?";
+            $stmt = $GLOBALS["conn"]->prepare($sql);
+            $stmt->bind_param("si", $reason, $release_id);
+        } else {
+            // If column doesn't exist, just update the status
+            $sql = "UPDATE album SET status = 2 WHERE albumID = ?";
+            $stmt = $GLOBALS["conn"]->prepare($sql);
+            $stmt->bind_param("i", $release_id);
+            
+            // Store a warning message
+            $message = 'Release rejected, but rejection reason could not be stored. Please run the database update.';
+            $messageType = 'warning';
+        }
         
         if ($stmt) {
-            $stmt->bind_param("si", $reason, $release_id);
-            
             if ($stmt->execute()) {
-                $message = 'Release rejected successfully.';
-                $messageType = 'success';
+                if (empty($message)) {
+                    $message = 'Release rejected successfully!';
+                    $messageType = 'success';
+                }
                 
                 // Redirect back to releases page after successful rejection
                 header("Location: releases.php?message=" . urlencode($message) . "&type=" . urlencode($messageType));
@@ -102,6 +120,14 @@ if ($release_id) {
                     </div>
                     <?php endif; ?>
                     
+                    <?php if (!$columnExists): ?>
+                    <div class="alert alert-warning" role="alert">
+                        <strong>Database Update Required:</strong> The rejection_reason column does not exist in the database.
+                        Rejections will work, but reasons won't be stored until you
+                        <a href="db_updates/update_database.php" class="alert-link">update the database</a>.
+                    </div>
+                    <?php endif; ?>
+                    
                     <?php if ($release): ?>
                     <div class="card mb-4">
                         <div class="card-header">
@@ -111,9 +137,16 @@ if ($release_id) {
                         <div class="card-body">
                             <form method="post" action="">
                                 <div class="mb-3">
-                                    <label for="reason" class="form-label">Reason for Rejection</label>
+                                    <label for="reason" class="form-label">Rejection Reason</label>
                                     <textarea class="form-control" id="reason" name="reason" rows="5" required></textarea>
-                                    <div class="form-text">Please provide a detailed explanation of why this release is being rejected.</div>
+                                    <div class="form-text">
+                                        Please provide a detailed reason for rejecting this release.
+                                        <?php if (!$columnExists): ?>
+                                        <strong>Note:</strong> The reason won't be stored until you update the database.
+                                        <?php else: ?>
+                                        This information will be visible to the submitter.
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                                 
                                 <div class="mt-4">

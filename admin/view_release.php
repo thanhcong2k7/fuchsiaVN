@@ -48,6 +48,14 @@ $release_id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $release = null;
 $tracks = [];
 
+// Check if rejection_reason column exists
+$columnExists = false;
+$checkColumnQuery = "SHOW COLUMNS FROM album LIKE 'rejection_reason'";
+$columnResult = $GLOBALS["conn"]->query($checkColumnQuery);
+if ($columnResult && $columnResult->num_rows > 0) {
+    $columnExists = true;
+}
+
 if ($release_id) {
     // Use getRelease function, assuming it can fetch a single release by ID
     // We might need to adapt getRelease or use a specific part of getAllReleases logic
@@ -118,6 +126,7 @@ if ($release_id) {
             $release->artp = $row["artPrev"];
             $release->submitterName = $row["submitterName"];
             $release->staffID = isset($row["staffID"]) ? $row["staffID"] : null;
+            $release->rejection_reason = isset($row["rejection_reason"]) ? $row["rejection_reason"] : null;
             
             // Store raw data for debugging
             $rawData = $row;
@@ -260,6 +269,15 @@ $availableStores = getStore(); // Fetch all available stores
                                             <span class="badge bg-<?= getStatusBadgeClass($release->status) ?>">
                                                 <?= getStatusText($release->status) ?>
                                             </span>
+                                            <?php if ($release->status == '2' && $columnExists && isset($release->rejection_reason) && !empty($release->rejection_reason)): ?>
+                                                <div class="mt-2 text-danger">
+                                                    <strong>Rejection Reason:</strong> <?= htmlspecialchars($release->rejection_reason) ?>
+                                                </div>
+                                            <?php elseif ($release->status == '2' && !$columnExists): ?>
+                                                <div class="mt-2 text-warning">
+                                                    <strong>Note:</strong> Rejection reason not available. Database update required.
+                                                </div>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                     <tr>
@@ -334,6 +352,10 @@ $availableStores = getStore(); // Fetch all available stores
                             
                             <?php if ($release->status == '3' || $release->status == 3): // Status '3' is 'Checking' (integer or string) ?>
                             <!-- Approval/Rejection actions -->
+                            <a href="approve_release.php?id=<?= htmlspecialchars($release->id) ?>" class="btn btn-success"><i class="fas fa-check"></i> Approve Release</a>
+                            <a href="reject_release.php?id=<?= htmlspecialchars($release->id) ?>" class="btn btn-danger"><i class="fas fa-times"></i> Reject Release</a>
+                            <?php elseif ($release->status == '0' || $release->status == 0): // Status '0' is 'Draft' ?>
+                            <!-- Draft releases can also be approved or rejected -->
                             <a href="approve_release.php?id=<?= htmlspecialchars($release->id) ?>" class="btn btn-success"><i class="fas fa-check"></i> Approve Release</a>
                             <a href="reject_release.php?id=<?= htmlspecialchars($release->id) ?>" class="btn btn-danger"><i class="fas fa-times"></i> Reject Release</a>
                             <?php endif; ?>

@@ -31,9 +31,38 @@ async function showReleaseDetails(releaseId) {
         const allArtists = [].concat(...releaseData.artists).filter((v, i, a) => a.indexOf(v) === i);
         $('#releaseArtists').text(allArtists.join(', ') || '--');
         $('#releaseStatus').text(formatStatus(releaseData.status));
+        
+        // Handle rejection reason
+        if (releaseData.status === 2 && releaseData.rejection_reason) {
+            $('#rejectionReason').text(releaseData.rejection_reason);
+            $('#rejectionReasonSection').show();
+        } else {
+            $('#rejectionReasonSection').hide();
+        }
+        
         $('#releaseDate').text(releaseData.release_date || '--');
         $('#releaseArt').attr('src', releaseData.artwork || '/assets/images/alb.png');
         $('#originalReleaseDate').text(releaseData.original_release_date || '--');
+        
+        // Handle rejection reason
+        if (releaseData.status === 2 && releaseData.rejection_reason) {
+            // If rejection reason exists, display it
+            if ($('#rejectionReasonSection').length === 0) {
+                $('#releaseContent .row .col-md-8').append(`
+                    <div id="rejectionReasonSection" class="mt-3 alert alert-danger">
+                        <strong>Rejection Reason:</strong>
+                        <p id="rejectionReason"></p>
+                    </div>
+                `);
+            }
+            $('#rejectionReason').text(releaseData.rejection_reason);
+            $('#rejectionReasonSection').show();
+        } else {
+            // If no rejection reason or status is not ERROR, hide the section
+            if ($('#rejectionReasonSection').length > 0) {
+                $('#rejectionReasonSection').hide();
+            }
+        }
 
         // Populate tracks
         const trackList = $('#trackList');
