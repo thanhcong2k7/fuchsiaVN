@@ -85,7 +85,7 @@ INSERT INTO `author` (`authorID`, `authorName`, `spotifyID`, `amID`, `email`, `u
 (1, 'yasuo', '21qe21', '21ewq2', '2211@21e1.eee', 1, '[1]'),
 (2, 'yasussy', '21qe21', '21ewq2', '2211@21e1.eee', 1, '[1]'),
 (3, '', '', '', '', 2, NULL),
-(4, 'HoÃ ng Anh', '', '', 'prmedia.contact@gmail.com', 2, NULL);
+(4, 'Hoàng Anh', '', '', 'prmedia.contact@gmail.com', 2, NULL);
 
 -- --------------------------------------------------------
 
