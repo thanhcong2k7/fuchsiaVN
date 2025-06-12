@@ -1,8 +1,24 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 session_start();
+function getStatusText($statusCode) {
+    switch ($statusCode) {
+        case '0': return 'Draft';
+        case '1': return 'Accepted';
+        case '2': return 'Error';
+        case '3': return 'Checking';
+        default: return 'Unknown (' . htmlspecialchars($statusCode) . ')';
+    }
+}
+
+function getStatusBadgeClass($statusCode) {
+    switch ($statusCode) {
+        case '0': return 'secondary'; // Draft
+        case '1': return 'success';   // Accepted
+        case '2': return 'danger';    // Error
+        case '3': return 'warning';   // Checking
+        default: return 'dark';
+    }
+}
 require 'assets/variables/sql.php'; // Contains getUser(), getRelease(), getTrack(), getStatusText(), getStatusBadgeClass()
 
 if (!isset($_SESSION["userwtf"])) {
@@ -183,44 +199,18 @@ $availableStores = getStore(); // Fetch all available stores
                         <li class="breadcrumb-item active">View Release</li>
                     </ol>
 
-                    <!-- Debug information (only visible to admins) -->
-                    <div class="card mb-4">
-                        <div class="card-header bg-warning">
-                            <i class="fas fa-bug me-1"></i>
-                            Debug Information
-                        </div>
-                        <div class="card-body">
-                            <h5>Table Columns:</h5>
-                            <pre><?php echo isset($tableColumns) ? print_r($tableColumns, true) : 'Not available'; ?></pre>
-                            
-                            <h5>Raw Release Data:</h5>
-                            <pre><?php echo isset($rawData) ? print_r($rawData, true) : 'Not available'; ?></pre>
-                            
-                            <h5>Release Object:</h5>
-                            <pre><?php echo isset($release) ? print_r($release, true) : 'Not available'; ?></pre>
-                            
-                            <?php if (isset($error)): ?>
-                                <h5 class="text-danger">Error:</h5>
-                                <pre class="text-danger"><?php echo $error; ?></pre>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-
                     <?php if ($release): ?>
-                    <?php echo "<!-- PHP is working up to this point -->"; ?>
-                    <div style="border: 3px solid blue; margin-bottom: 20px;">
-                        <div style="background-color: #f0f0f0; padding: 10px;">
+                    <div class="card mb-4">
+                        <div class="card-header">
                             <i class="fas fa-compact-disc me-1"></i>
                             Release: <?= htmlspecialchars($release->name) ?>
                             <span class="badge bg-<?= getStatusBadgeClass($release->status) ?> ms-2">
                                 <?= getStatusText($release->status) ?>
                             </span>
                         </div>
-                    </div>
-                    
-                    <?php
-                    die("PHP execution stopped here intentionally. If you can see this message, PHP is working up to this point.");
-                    ?>
+                        <div class="card-body">
+                            <!-- Simplified display of release details -->
+                            <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <tr>
                                         <th colspan="2" class="text-center bg-light">Release Details</th>

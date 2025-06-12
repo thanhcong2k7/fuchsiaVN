@@ -24,7 +24,10 @@ $(function () {
 
     //sidebar menu js
     $.sidebarMenu($('.sidebar-menu'));
-
+    if(!getCookie('theme')){
+        //Default to theme1
+        theme1();
+    }
     // === toggle-menu js
     $(".toggle-menu").on("click", function (e) {
         e.preventDefault();
