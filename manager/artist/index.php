@@ -79,60 +79,52 @@ else {
                         <div class="card">
                             <div class="card-header"><i class="zmdi zmdi-accounts-list"></i> Artist Editor</div>
                             <div class="card-body">
-                                <div class="row">
-                                    <form action="artist.php" id="newArtist" class="col" method="POST">
-                                        <div class="row" style="justify-content: center;">
-                                            <div class="col col-4">
-                                                <div class="form-group">
-                                                    <label for="artist-id">Artist ID</label>
-                                                    <input type="text" class="form-control" id="artist-id"
-                                                        name="artist-id"
-                                                        placeholder="(Optional if you're creating new artist)">
-                                                </div>
-                                            </div>
-                                            <div class="col col-8">
-                                                <div class="form-group">
-                                                    <label for="alias">Artist Name</label>
-                                                    <input type="text" class="form-control" id="alias" name="alias"
-                                                        placeholder="Alias. Example: Unknown Brain, Elektronomia, Japandee, Thereon, ...">
-                                                </div>
-                                            </div>
+                                <form action="artist.php" id="newArtist" method="POST">
+
+                                    <div class="form-group row">
+                                        <label for="artist-id" class="col-sm-2 col-form-label">Artist ID</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" id="artist-id" name="artist-id"
+                                                placeholder="(Optional if you're creating new artist)">
                                         </div>
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label for="spotifyID">Spotify ID</label>
-                                                    <input type="text" class="form-control" id="spotifyID"
-                                                        name="spotifyID"
-                                                        placeholder="Spotify ID ONLY. Example: 3NtqIIwOmoUGkrS4iD4lxY">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label for="amID">Apple Music ID</label>
-                                                    <input type="text" class="form-control" id="amID" name="amID"
-                                                        placeholder="Apple Music ID ONLY. Example: 1726676105">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label for="email">Email</label>
-                                                    <input type="text" class="form-control" id="email" name="email"
-                                                        placeholder="Artist's email (optional)">
-                                                </div>
-                                            </div>
+
+                                        <label for="alias" class="col-sm-2 col-form-label">Artist Name</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" id="alias" name="alias"
+                                                placeholder="Alias. Example: Unknown Brain, Elektronomia, Japandee, Thereon, ...">
                                         </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <label for="submit"></label>
-                                                <button type="submit" class="btn btn-light px-5" id="submit">
-                                                    <i class="zmdi zmdi-plus-square"></i> Submit
-                                                </button>
-                                            </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="spotifyID" class="col-sm-2 col-form-label">Spotify ID</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" id="spotifyID" name="spotifyID"
+                                                placeholder="Spotify ID ONLY. Example: 3NtqIIwOmoUGkrS4iD4lxY">
                                         </div>
-                                    </form>
-                                </div>
-                                <div class="w-100"></div>
+
+                                        <label for="amID" class="col-sm-2 col-form-label">Apple Music ID</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" id="amID" name="amID"
+                                                placeholder="Apple Music ID ONLY. Example: 1726676105">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="email" class="col-sm-2 col-form-label">Email</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" id="email" name="email"
+                                                placeholder="Artist's email (optional)">
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-light px-5 w-100">
+                                            <i class="zmdi zmdi-plus-square"></i> Submit
+                                        </button>
+                                    </div>
+
+                                </form>
+                                <div class="clearfix"></div>
                             </div>
                         </div>
                         <div class="card">

@@ -7,7 +7,7 @@ what?
             $ar = fetchArtist($_SESSION["userwtf"]);
             foreach($ar as &$a){
                 if($a->id == $_GET["id"]){
-                    if(count($a->isRestrict) == 0)
+                    if($a->isRestrict == NULL ||count($a->isRestrict) == 0)
                         query("delete from author where authorID=".$_GET["id"].";");
                     else $_SESSION["restricted"] = $a->isRestrict_;
                 }
