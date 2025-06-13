@@ -30,7 +30,7 @@ if ($columnResult && $columnResult->num_rows > 0) {
 // Process form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reject'])) {
     $reason = filter_input(INPUT_POST, 'reason', FILTER_SANITIZE_STRING);
-    
+
     if (empty($reason)) {
         $message = 'Please provide a reason for rejection.';
         $messageType = 'danger';
@@ -45,19 +45,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reject'])) {
             $sql = "UPDATE album SET status = 2 WHERE albumID = ?";
             $stmt = $GLOBALS["conn"]->prepare($sql);
             $stmt->bind_param("i", $release_id);
-            
+
             // Store a warning message
             $message = 'Release rejected, but rejection reason could not be stored. Please run the database update.';
             $messageType = 'warning';
         }
-        
+
         if ($stmt) {
             if ($stmt->execute()) {
                 if (empty($message)) {
                     $message = 'Release rejected successfully!';
                     $messageType = 'success';
                 }
-                
+
                 // Redirect back to releases page after successful rejection
                 header("Location: releases.php?message=" . urlencode($message) . "&type=" . urlencode($messageType));
                 exit;
@@ -82,7 +82,7 @@ if ($release_id) {
             break;
         }
     }
-    
+
     if (!$release) {
         $message = 'Release not found.';
         $messageType = 'danger';
@@ -91,6 +91,7 @@ if ($release_id) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -99,6 +100,7 @@ if ($release_id) {
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
+
 <body class="sb-nav-fixed">
     <?php include '_header.php'; ?>
     <div id="layoutSidenav">
@@ -110,66 +112,72 @@ if ($release_id) {
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
                         <li class="breadcrumb-item"><a href="releases.php">Release Management</a></li>
-                        <li class="breadcrumb-item"><a href="view_release.php?id=<?= $release_id ?>">View Release</a></li>
+                        <li class="breadcrumb-item"><a href="view_release.php?id=<?= $release_id ?>">View Release</a>
+                        </li>
                         <li class="breadcrumb-item active">Reject Release</li>
                     </ol>
-                    
+
                     <?php if (!empty($message)): ?>
-                    <div class="alert alert-<?= $messageType ?>" role="alert">
-                        <?= htmlspecialchars($message) ?>
-                    </div>
+                        <div class="alert alert-<?= $messageType ?>" role="alert">
+                            <?= htmlspecialchars($message) ?>
+                        </div>
                     <?php endif; ?>
-                    
+
                     <?php if (!$columnExists): ?>
-                    <div class="alert alert-warning" role="alert">
-                        <strong>Database Update Required:</strong> The rejection_reason column does not exist in the database.
-                        Rejections will work, but reasons won't be stored until you
-                        <a href="db_updates/update_database.php" class="alert-link">update the database</a>.
-                    </div>
+                        <div class="alert alert-warning" role="alert">
+                            <strong>Database Update Required:</strong> The rejection_reason column does not exist in the
+                            database.
+                            Rejections will work, but reasons won't be stored until you
+                            <a href="db_updates/update_database.php" class="alert-link">update the database</a>.
+                        </div>
                     <?php endif; ?>
-                    
+
                     <?php if ($release): ?>
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-times-circle me-1"></i>
-                            Reject Release: <?= htmlspecialchars($release->name) ?>
-                        </div>
-                        <div class="card-body">
-                            <form method="post" action="">
-                                <div class="mb-3">
-                                    <label for="reason" class="form-label">Rejection Reason</label>
-                                    <textarea class="form-control" id="reason" name="reason" rows="5" required></textarea>
-                                    <div class="form-text">
-                                        Please provide a detailed reason for rejecting this release.
-                                        <?php if (!$columnExists): ?>
-                                        <strong>Note:</strong> The reason won't be stored until you update the database.
-                                        <?php else: ?>
-                                        This information will be visible to the submitter.
-                                        <?php endif; ?>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-times-circle me-1"></i>
+                                Reject Release: <?= htmlspecialchars($release->name) ?>
+                            </div>
+                            <div class="card-body">
+                                <form method="post" action="">
+                                    <div class="mb-3">
+                                        <label for="reason" class="form-label">Rejection Reason</label>
+                                        <textarea class="form-control" id="reason" name="reason" rows="5"
+                                            required></textarea>
+                                        <div class="form-text">
+                                            Please provide a detailed reason for rejecting this release.
+                                            <?php if (!$columnExists): ?>
+                                                <strong>Note:</strong> The reason won't be stored until you update the database.
+                                            <?php else: ?>
+                                                This information will be visible to the submitter.
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
-                                </div>
-                                
-                                <div class="mt-4">
-                                    <button type="submit" name="reject" class="btn btn-danger">
-                                        <i class="fas fa-times"></i> Reject Release
-                                    </button>
-                                    <a href="view_release.php?id=<?= $release_id ?>" class="btn btn-secondary">Cancel</a>
-                                </div>
-                            </form>
+
+                                    <div class="mt-4">
+                                        <button type="submit" name="reject" class="btn btn-danger">
+                                            <i class="fas fa-times"></i> Reject Release
+                                        </button>
+                                        <a href="view_release.php?id=<?= $release_id ?>"
+                                            class="btn btn-secondary">Cancel</a>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                    </div>
                     <?php else: ?>
-                    <div class="alert alert-danger" role="alert">
-                        Release not found or you do not have permission to reject it.
-                    </div>
-                    <a href="releases.php" class="btn btn-secondary">Back to Releases</a>
+                        <div class="alert alert-danger" role="alert">
+                            Release not found or you do not have permission to reject it.
+                        </div>
+                        <a href="releases.php" class="btn btn-secondary">Back to Releases</a>
                     <?php endif; ?>
                 </div>
             </main>
             <?php include '_footer.php'; ?>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
 </body>
+
 </html>

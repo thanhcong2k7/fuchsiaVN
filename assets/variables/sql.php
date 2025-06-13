@@ -74,11 +74,6 @@ class albumType
 	public $p; //publishing line
 	public $file = array(); //JSON array of tracks
 	public $version; //Album version line: remix,...
-	public $ytcid;
-	public $sc;
-	public $jdl;
-	public $trl;
-	public $sx;
 	public $bp;
 	public $artp;
 }
@@ -103,10 +98,6 @@ function getRelease($uid, $num = 0, $id = 0)
 		$tmp2->createdDate = $row["createdDate"];
 		$tmp2->relDate = $row["relDate"];
 		$tmp2->version = $row["versionLine"];
-		$tmp2->ytcid = $row["ytcid"];
-		$tmp2->jdl = $row["juno"];
-		$tmp2->sx = $row["soundx"];
-		$tmp2->sc = $row["scloud"];
 		$tmp2->bp = $row["beatport"];
 		$tmp2->artp = $row["artPrev"];
 		if ($id != 0 && $row["albumID"] == $id) {

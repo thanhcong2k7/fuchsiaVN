@@ -21,8 +21,8 @@ async function showReleaseDetails(releaseId) {
     try {
         const response = await fetch(`api/get_release.php?id=${releaseId}`);
         if (!response.ok) throw new Error('Failed to fetch release data');
-
         const json = await response.json();
+        console.log(json.data);
         if (json.status !== 'success') throw new Error('API returned an error status');
         const releaseData = json.data;
         // Populate data
@@ -31,18 +31,19 @@ async function showReleaseDetails(releaseId) {
         const allArtists = [].concat(...releaseData.artists).filter((v, i, a) => a.indexOf(v) === i);
         $('#releaseArtists').text(allArtists.join(', ') || '--');
         $('#releaseStatus').text(formatStatus(releaseData.status));
-        
+
         // Handle rejection reason
-        if (releaseData.status === 2 && releaseData.rejection_reason) {
+        if (releaseData.status == 2 && releaseData.rejection_reason) {
             $('#rejectionReason').text(releaseData.rejection_reason);
-            $('#rejectionReasonSection').show();
+            $('#rejectionReasonSection').css("display","");
         } else {
-            $('#rejectionReasonSection').hide();
+            $('#rejectionReasonSection').css("display","none")
         }
-        
+
         $('#releaseDate').text(releaseData.release_date || '--');
         $('#releaseArt').attr('src', releaseData.artwork || '/assets/images/alb.png');
         $('#originalReleaseDate').text(releaseData.original_release_date || '--');
+        $('#btnEdit').attr('href','edit.php?id='+releaseData.id);
 
         // Populate tracks
         const trackList = $('#trackList');

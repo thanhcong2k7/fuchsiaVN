@@ -154,35 +154,35 @@ else {
                             <td class="text' . ($r->status == 0 ? "" : ($r->status == 1 ? "-success" : ($r->status == 2 ? "-error" : "-info"))) . '">
                           ' . ($r->status == 0 ? "DRAFT" : ($r->status == 1 ? "DELIVERED" : ($r->status == 2 ? "ERROR" : "CHECKING"))) . '
                           ';
-                          
+
                           // Check if rejection_reason column exists and if this is a rejected release
                           if ($r->status == 2) {
-                              // Check if rejection_reason column exists
-                              $columnExists = false;
-                              $checkColumnQuery = "SHOW COLUMNS FROM album LIKE 'rejection_reason'";
-                              $columnResult = $GLOBALS["conn"]->query($checkColumnQuery);
-                              if ($columnResult && $columnResult->num_rows > 0) {
-                                  $columnExists = true;
+                            // Check if rejection_reason column exists
+                            $columnExists = false;
+                            $checkColumnQuery = "SHOW COLUMNS FROM album LIKE 'rejection_reason'";
+                            $columnResult = $GLOBALS["conn"]->query($checkColumnQuery);
+                            if ($columnResult && $columnResult->num_rows > 0) {
+                              $columnExists = true;
+                            }
+
+                            // If column exists, check if this release has a rejection reason
+                            if ($columnExists) {
+                              $sql = "SELECT rejection_reason FROM album WHERE albumID = ?";
+                              $stmt = $GLOBALS["conn"]->prepare($sql);
+                              if ($stmt) {
+                                $stmt->bind_param("i", $r->id);
+                                $stmt->execute();
+                                $stmt->bind_result($rejectionReason);
+                                $stmt->fetch();
+                                $stmt->close();
+
+                                if (!empty($rejectionReason)) {
+                                  echo ' <i class="zmdi zmdi-info-outline" title="This release was rejected. View details to see the reason." style="cursor: help;"></i>';
+                                }
                               }
-                              
-                              // If column exists, check if this release has a rejection reason
-                              if ($columnExists) {
-                                  $sql = "SELECT rejection_reason FROM album WHERE albumID = ?";
-                                  $stmt = $GLOBALS["conn"]->prepare($sql);
-                                  if ($stmt) {
-                                      $stmt->bind_param("i", $r->id);
-                                      $stmt->execute();
-                                      $stmt->bind_result($rejectionReason);
-                                      $stmt->fetch();
-                                      $stmt->close();
-                                      
-                                      if (!empty($rejectionReason)) {
-                                          echo ' <i class="zmdi zmdi-info-outline" title="This release was rejected. View details to see the reason." style="cursor: help;"></i>';
-                                      }
-                                  }
-                              }
+                            }
                           }
-                          
+
                           echo '
                           </td>
                                       <td>' . ($r->relDate ? $r->relDate : "--/--/----") . '</td>
@@ -312,10 +312,9 @@ else {
                 <p><strong>UPC:</strong> <span id="releaseUPC"></span></p>
                 <p><strong>Artists:</strong> <span id="releaseArtists"></span></p>
                 <p><strong>Status:</strong> <span id="releaseStatus"></span></p>
-                <div id="rejectionReasonSection" class="alert alert-danger mt-2" style="display: none;">
-                    <strong>Rejection Reason:</strong>
-                    <p id="rejectionReason"></p>
-                </div>
+                <p id="rejectionReasonSection" style="color: red; display: none;">
+                  <strong>Rejection Reason:</strong> <span id="rejectionReason"></span>
+                </p>
                 <p><strong>Release Date:</strong> <span id="releaseDate"></span></p>
                 <p><strong>Original Release Date:</strong> <span id="originalReleaseDate"></span></p>
               </div>
@@ -329,6 +328,7 @@ else {
           <div id="releaseError" class="alert alert-danger" style="display: none;"></div>
         </div>
         <div class="modal-footer">
+          <a href="" id="btnEdit"><button type="button" class="btn btn-warning">Edit</button></a>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
