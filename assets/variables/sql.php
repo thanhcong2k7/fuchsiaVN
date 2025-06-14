@@ -117,6 +117,7 @@ function getRelease($uid, $num = 0, $id = 0)
 				if ($releases[$i]->id == $id)
 					return $releases[$i];
 			}
+			return null;
 		}
 	}
 	return $releases;
