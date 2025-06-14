@@ -205,7 +205,7 @@ function getTrack($track)
 }
 function getArtist($trackID)
 {
-	$tmp1 = query("select * from track where id=1;");
+	$tmp1 = query("select * from track where id=".strval($trackID).";");
 	$arr = array();
 	while ($row = $tmp1->fetch_assoc()) {
 		$jsjsjsjs = json_decode($row["artist"]);
