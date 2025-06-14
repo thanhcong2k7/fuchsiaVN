@@ -18,8 +18,8 @@ try {
 
     // Get release data
     $release = getRelease($_SESSION["userwtf"], 0, $releaseId);
-    echo $_SESSION['userwtf']."\n";
-    echo $release->id."\n";
+    //echo $_SESSION['userwtf']."\n";
+    //echo $release->id."\n";
     if (!$release) {
         throw new Exception('Release not found');
     }
