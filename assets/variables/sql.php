@@ -17,11 +17,11 @@ function resetinc($table)
 	$tmp = query("SELECT `AUTO_INCREMENT`
 					FROM  INFORMATION_SCHEMA.TABLES
 					WHERE TABLE_SCHEMA = 'wtjmdnac_fuchsia'
-					AND   TABLE_NAME   = '".$table."';");
+					AND   TABLE_NAME   = '" . $table . "';");
 	$lastInc = 0;
 	while ($row = $tmp->fetch_assoc())
 		$lastInc = $row["AUTO_INCREMENT"];
-	query("ALTER TABLE " . $table . " AUTO_INCREMENT = ".($lastInc===NULL?"0":$lastInc).";");
+	query("ALTER TABLE " . $table . " AUTO_INCREMENT = " . ($lastInc === NULL ? "0" : $lastInc) . ";");
 }
 function update($key, $val, $table, $condition)
 {
@@ -111,6 +111,13 @@ function getRelease($uid, $num = 0, $id = 0)
 			$r[] = $releases[$i];
 		}
 		return $r;
+	} else {
+		if ($id == 0) {
+			for ($i = 0; $i < $num && $i < count($releases); $i++) {
+				if ($releases[$i]->id == $id)
+					return $releases[$i];
+			}
+		}
 	}
 	return $releases;
 }
