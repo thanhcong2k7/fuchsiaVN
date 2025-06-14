@@ -39,7 +39,6 @@
     <li class="sidebar-header">TOOLBOX</li>
     <li><a href="/manager/artist/"><i class="zmdi zmdi-accounts text-warning"></i> <span>Artists</span></a></li>
     <li><a href="/manager/tracks/"><i class="zmdi zmdi-audio text-success"></i> <span>Tracks</span></a></li>
-    <li><a href="/ticket/"><i class="zmdi zmdi-tag text-info"></i> <span>Support</span></a></li>
     <li><a href="/upgrade/" onclick="event.preventDefault(); upgrade();" id="upgradePlan" data-toggle="modal"
         data-target="#paymentModal"><i class="zmdi zmdi-tag text-info"></i> <span>Upgrade plan</span></a></li>
     <li><a href="/login/login.php?logout=yes"><i class="zmdi zmdi-run text-danger"></i> <span>Log out?</span></a></li>
