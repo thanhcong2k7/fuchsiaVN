@@ -1,1 +1,9 @@
-@/discography/api/get_release.php on localhost, it's returning value normally. But when I deploy to my PHP hosting, it's not even returning anything (blank!). Explain, but do not modify my code.
+localhost/wtjmdnac_fuchsia/track/		https://fuchsia.viiic.net/phpmyadmin/index.php?route=/table/sql&db=wtjmdnac_fuchsia&table=track
+Your SQL query has been executed successfully.
+
+SHOW CREATE TABLE track;
+
+
+
+track	CREATE TABLE `track` (
+  `id` int(11) NOT NULL AUT...	

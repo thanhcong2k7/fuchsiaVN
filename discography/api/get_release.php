@@ -50,7 +50,6 @@ try {
     if ($columnResult && $columnResult->num_rows > 0) {
         $columnExists = true;
     }
-    
     // Get rejection reason if status is ERROR and column exists
     $rejectionReason = null;
     if ($release->status == 2 && $columnExists) {
