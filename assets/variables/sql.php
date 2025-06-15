@@ -106,6 +106,7 @@ function getRelease($uid, $num = 0, $id = 0)
 			$releases[] = $tmp2;
 	}
 	$r = array();
+	/*
 	if ($num != 0) {
 		for ($i = 0; $i < $num && $i < count($releases); $i++) {
 			$r[] = $releases[$i];
@@ -119,7 +120,7 @@ function getRelease($uid, $num = 0, $id = 0)
 			}
 			return null;
 		}
-	}
+	}*/
 	return $releases;
 }
 class userType
