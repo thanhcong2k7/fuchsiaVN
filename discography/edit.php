@@ -604,7 +604,7 @@ $currentYear = date("Y");
                                                                     <td><?php echo $tr->id; ?></td>
                                                                     <td><?php echo htmlspecialchars($tr->name ?? 'N/A', ENT_QUOTES, 'UTF-8'); ?>
                                                                     </td>
-                                                                    <td><?php echo $tr->artistname; // Already escaped ?></td>
+                                                                    <td><?php echo (!$tr->artistname?"--":$tr->artistname); // Already escaped ?></td>
                                                                     <td>
                                                                         <a href="#" class="text-warning delete-track"
                                                                             data-track-id="<?php echo $tr->id; ?>"

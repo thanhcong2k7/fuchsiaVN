@@ -106,13 +106,13 @@ function getRelease($uid, $num = 0, $id = 0)
 			$releases[] = $tmp2;
 	}
 	$r = array();
-	/*
 	if ($num != 0) {
 		for ($i = 0; $i < $num && $i < count($releases); $i++) {
 			$r[] = $releases[$i];
 		}
 		return $r;
-	} else {
+	}
+	/* else {
 		if ($id == 0) {
 			for ($i = 0; $i < $num && $i < count($releases); $i++) {
 				if ($releases[$i]->id == $id)

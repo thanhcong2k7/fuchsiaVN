@@ -59,8 +59,7 @@
                         <!-- YouTube Content ID -->
                         <div class="form-group">
                             <div class="icheck-material-white">
-                                <input type="checkbox" id="ytcid" name="ytcid" value="1"
-                                    <?php echo !empty($release->ytcid) ? "checked" : ""; ?> />
+                                <input type="checkbox" id="ytcid" name="ytcid" value="1"/>
                                 <label for="ytcid"> YouTube Content ID</label>
                             </div>
                         </div>
@@ -68,8 +67,7 @@
                         <!-- SoundCloud Monetization -->
                         <div class="form-group">
                             <div class="icheck-material-white">
-                                <input type="checkbox" id="scloud" name="scloud" value="1"
-                                    <?php echo !empty($release->sc) ? "checked" : ""; ?> />
+                                <input type="checkbox" id="scloud" name="scloud" value="1"/>
                                 <label for="scloud">
                                     SoundCloud Monetization & Content Protection
                                 </label>
