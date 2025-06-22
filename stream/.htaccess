@@ -1,0 +1,6 @@
+RewriteEngine On
+
+# Rewrite album URLs to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([a-zA-Z0-9_-]+)$ index.php?associated=$1 [L,QSA]
