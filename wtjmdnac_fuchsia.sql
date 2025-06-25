@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 15, 2025 at 06:29 AM
+-- Generation Time: Jun 25, 2025 at 03:37 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -62,6 +62,28 @@ INSERT INTO `album` (`albumID`, `albumName`, `UPCNum`, `status`, `storeID`, `use
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `albums_stream`
+--
+
+CREATE TABLE `albums_stream` (
+  `id` int(11) NOT NULL,
+  `associated` varchar(255) NOT NULL,
+  `album_name` varchar(255) NOT NULL,
+  `release_date` date NOT NULL,
+  `album_image` varchar(255) NOT NULL,
+  `artist` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `albums_stream`
+--
+
+INSERT INTO `albums_stream` (`id`, `associated`, `album_name`, `release_date`, `album_image`, `artist`) VALUES
+(1, 'midnight-echoes', 'Midnight Echoes', '2025-05-30', 'https://example.com/image.jpg', 'Nova Collective');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `author`
 --
 
@@ -82,6 +104,30 @@ CREATE TABLE `author` (
 INSERT INTO `author` (`authorID`, `authorName`, `spotifyID`, `amID`, `email`, `userID`, `isRestricted`) VALUES
 (1, 'yasuo', '21qe21', '21ewq2', '2211@21e1.eee', 1, '[1]'),
 (2, 'yasussy', '21qe21', '21ewq2', '2211@21e1.eee', 1, '[1]');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dsp_urls`
+--
+
+CREATE TABLE `dsp_urls` (
+  `id` int(11) NOT NULL,
+  `album_id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `order` tinyint(4) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `dsp_urls`
+--
+
+INSERT INTO `dsp_urls` (`id`, `album_id`, `name`, `url`, `order`) VALUES
+(1, 1, 'Spotify', 'https://spotify.com/album', 1),
+(2, 1, 'Apple Music', 'https://music.apple.com/album', 2),
+(3, 1, 'YouTube Music', 'https://music.youtube.com/album', 3),
+(4, 1, 'Amazon Music', 'https://music.amazon.com/album', 4);
 
 -- --------------------------------------------------------
 
@@ -142,8 +188,7 @@ INSERT INTO `sessions` (`ip`, `secret`, `userID`, `timeAdded`, `iv`) VALUES
 ('14.163.121.192', 'xFqJEG7Qrv78Hf', 1, '02:01:00', '0DtLBcCn8ih1eNPS6'),
 ('14.166.252.151', 'LObbBEv', 1, '09:01:00', 'hxvizRI6x2OeH78g4'),
 ('113.163.17.200', 'GclHnPxKJPPX', 1, '18:02:00', 'FbXeGXQ3q5dDeFPem'),
-('127.0.0.1', 'YTdkJv0xw', 1, '12:02:00', '5VrAcySb6l9RuA5Y4'),
-('::1', 'mlfR4JEBb9', 1, '10:59:34', 'ZF11JQJIbkvNBVfHX');
+('127.0.0.1', 'YTdkJv0xw', 1, '12:02:00', '5VrAcySb6l9RuA5Y4');
 
 -- --------------------------------------------------------
 
@@ -301,11 +346,25 @@ ALTER TABLE `album`
   ADD KEY `storeID` (`storeID`);
 
 --
+-- Indexes for table `albums_stream`
+--
+ALTER TABLE `albums_stream`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `associated` (`associated`);
+
+--
 -- Indexes for table `author`
 --
 ALTER TABLE `author`
   ADD PRIMARY KEY (`authorID`),
   ADD KEY `userID` (`userID`);
+
+--
+-- Indexes for table `dsp_urls`
+--
+ALTER TABLE `dsp_urls`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `album_id` (`album_id`);
 
 --
 -- Indexes for table `storage`
@@ -347,10 +406,22 @@ ALTER TABLE `album`
   MODIFY `albumID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `albums_stream`
+--
+ALTER TABLE `albums_stream`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `author`
 --
 ALTER TABLE `author`
   MODIFY `authorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `dsp_urls`
+--
+ALTER TABLE `dsp_urls`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `storage`
@@ -391,6 +462,12 @@ ALTER TABLE `album`
 --
 ALTER TABLE `author`
   ADD CONSTRAINT `author_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`);
+
+--
+-- Constraints for table `dsp_urls`
+--
+ALTER TABLE `dsp_urls`
+  ADD CONSTRAINT `dsp_urls_ibfk_1` FOREIGN KEY (`album_id`) REFERENCES `albums_stream` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `storage`

@@ -123,6 +123,19 @@ function getRelease($uid, $num = 0, $id = 0)
 	}*/
 	return $releases;
 }
+function smallRelease($uid, $upc){
+	$tmp1 = query("select * from album where userID=" . $uid . ";");
+	$tmp2 = new albumType();
+	while ($row = $tmp1->fetch_assoc()) {
+		if($upc == $row["UPCNum"]){
+			$tmp2->orgReldate = $row["orgReldate"];
+			$tmp2->relDate = $row["relDate"];
+			$tmp2->upc = $row["UPCNum"];
+			$tmp2->id = $row["albumID"];
+		}
+	}
+	return $tmp2;
+}
 class userType
 {
 	public $name;

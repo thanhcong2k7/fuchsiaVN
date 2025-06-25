@@ -532,7 +532,6 @@ if(!$albumData || isset($albumData['error'])) {
                 <?php endforeach; ?>
             </div>
         </div>
-        
         <footer>
             <p>&copy; <?= date('Y') ?> Fuchsia Media Ltd. All rights reserved.</p>
             <p>Experience music like never before.</p>
