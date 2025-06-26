@@ -13,7 +13,7 @@ if(empty($albumName)) {
 }
 
 // Fetch album data from API
-$apiUrl = "http://" . $_SERVER['HTTP_HOST'] . "/stream/api/index.php?associated=$albumName";
+$apiUrl = "http://dashboard.fuchsia.viiic.net/stream/api/index.php?associated=$albumName";
 $json = @file_get_contents($apiUrl);
 
 if($json === false) {
