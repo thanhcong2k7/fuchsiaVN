@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 25, 2025 at 03:37 PM
+-- Generation Time: Jun 25, 2025 at 05:01 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -55,7 +55,7 @@ CREATE TABLE `album` (
 --
 
 INSERT INTO `album` (`albumID`, `albumName`, `UPCNum`, `status`, `storeID`, `userID`, `artID`, `createdDate`, `relDate`, `compLine`, `publishLine`, `trackID`, `versionLine`, `cyear`, `pyear`, `orgReldate`, `beatport`, `artPrev`, `staffID`, `rejection_reason`) VALUES
-(2, 'sadas', '', 2, '[]', 1, 'https://i.ibb.co/Ltkbn1N/4d818baf946b.jpg', '2025-01-27 21:46:28', '2025-03-28', 'asd', 'das', '[]', 'asdas', 2025, 2025, '2025-01-27', NULL, 'https://i.ibb.co/r67T4Hd/4d818baf946b.jpg', 1, 'gfhhfghgf'),
+(2, 'sadas', '5063248317359', 2, '[]', 1, 'https://i.ibb.co/Ltkbn1N/4d818baf946b.jpg', '2025-01-27 21:46:28', '2025-03-28', 'asd', 'das', '[]', 'asdas', 2025, 2025, '2025-01-27', NULL, 'https://i.ibb.co/r67T4Hd/4d818baf946b.jpg', 1, 'gfhhfghgf'),
 (3, '', NULL, 0, '[]', 1, NULL, '2025-03-04 21:37:33', NULL, NULL, NULL, '[]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (4, '', NULL, 0, '[]', 1, NULL, '2025-05-06 18:26:30', NULL, NULL, NULL, '[]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
@@ -71,15 +71,16 @@ CREATE TABLE `albums_stream` (
   `album_name` varchar(255) NOT NULL,
   `release_date` date NOT NULL,
   `album_image` varchar(255) NOT NULL,
-  `artist` varchar(255) NOT NULL
+  `artist` varchar(255) NOT NULL,
+  `albumID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `albums_stream`
 --
 
-INSERT INTO `albums_stream` (`id`, `associated`, `album_name`, `release_date`, `album_image`, `artist`) VALUES
-(1, 'midnight-echoes', 'Midnight Echoes', '2025-05-30', 'https://example.com/image.jpg', 'Nova Collective');
+INSERT INTO `albums_stream` (`id`, `associated`, `album_name`, `release_date`, `album_image`, `artist`, `albumID`) VALUES
+(18, 'sr341_memories-14', 'Memories', '2025-03-28', 'https://static.found.ee/user/264079/res-b240fdf4-afa3-438c-9927-13e8843e359e-b3490c3c-23ed-41d6-b8be-ef872812e454', 'SR341', 2);
 
 -- --------------------------------------------------------
 
@@ -118,16 +119,6 @@ CREATE TABLE `dsp_urls` (
   `url` varchar(255) NOT NULL,
   `order` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `dsp_urls`
---
-
-INSERT INTO `dsp_urls` (`id`, `album_id`, `name`, `url`, `order`) VALUES
-(1, 1, 'Spotify', 'https://spotify.com/album', 1),
-(2, 1, 'Apple Music', 'https://music.apple.com/album', 2),
-(3, 1, 'YouTube Music', 'https://music.youtube.com/album', 3),
-(4, 1, 'Amazon Music', 'https://music.amazon.com/album', 4);
 
 -- --------------------------------------------------------
 
@@ -188,7 +179,8 @@ INSERT INTO `sessions` (`ip`, `secret`, `userID`, `timeAdded`, `iv`) VALUES
 ('14.163.121.192', 'xFqJEG7Qrv78Hf', 1, '02:01:00', '0DtLBcCn8ih1eNPS6'),
 ('14.166.252.151', 'LObbBEv', 1, '09:01:00', 'hxvizRI6x2OeH78g4'),
 ('113.163.17.200', 'GclHnPxKJPPX', 1, '18:02:00', 'FbXeGXQ3q5dDeFPem'),
-('127.0.0.1', 'YTdkJv0xw', 1, '12:02:00', '5VrAcySb6l9RuA5Y4');
+('127.0.0.1', 'YTdkJv0xw', 1, '12:02:00', '5VrAcySb6l9RuA5Y4'),
+('::1', 'F0tljp8OcBFmZ', 1, '21:34:34', '70SIUteQlbjrHNPhP');
 
 -- --------------------------------------------------------
 
@@ -409,7 +401,7 @@ ALTER TABLE `album`
 -- AUTO_INCREMENT for table `albums_stream`
 --
 ALTER TABLE `albums_stream`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `author`

@@ -22,6 +22,7 @@ if($json === false) {
     echo '<h1>Album Not Found</h1>';
     echo '<p>The album you requested could not be found.</p>';
     echo '</body></html>';
+    var_dump($json);
     exit;
 }
 

@@ -187,16 +187,16 @@ else {
                           </td>
                                       <td>' . ($r->relDate ? $r->relDate : "--/--/----") . '</td>
                           <td>
-                          <div class="dropdown">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                              Actions
-                            </button>
-                            <div class="dropdown-menu">
-                              <a class="dropdown-item view-release" href="#" data-release-id="' . $r->id . '">View release</a>
-                              <a class="dropdown-item" href="edit.php?id=' . $r->id . '">Edit release</a>
-                              <a class="dropdown-item" href="edit.php?id=' . $r->id . '&delete=1">Delete release</a>
+                            <div class="dropdown">
+                              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                Actions
+                              </button>
+                              <div class="dropdown-menu">
+                                <a class="dropdown-item view-release" href="#" data-release-id="' . $r->id . '">View release</a>
+                                <a class="dropdown-item" href="edit.php?id=' . $r->id . '">Edit release</a>
+                                <a class="dropdown-item" href="edit.php?id=' . $r->id . '&delete=1">Delete release</a>
+                              </div>
                             </div>
-                          </div>
                           </td>
                           </tr>
                   ';
@@ -324,6 +324,17 @@ else {
             <ul class="list-group" id="trackList">
               <!-- Track items will be added here by JS -->
             </ul>
+            <hr>
+            <div class="row">
+              <div class="col">
+                <h5 class="row">
+                  Create/Edit your stream link here:
+                </h5>
+                <div class="row">
+                  https://stream.fuchsia.viiic.net/<input type="text" class="form-control form-control-sm" placeholder="abcxyz">
+                </div>
+              </div>
+            </div>
           </div>
           <div id="releaseError" class="alert alert-danger" style="display: none;"></div>
         </div>

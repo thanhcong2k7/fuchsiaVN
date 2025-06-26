@@ -1,4 +1,7 @@
 <?php
+//
+// This file is for handling creating/editing stream link.
+//
 session_start();
 if (isset($_SESSION['userwtf']) && $_GET['upc'] != null) {
     // Endpoint URL
@@ -20,11 +23,6 @@ if (isset($_SESSION['userwtf']) && $_GET['upc'] != null) {
         echo 'Error:' . curl_error($ch);
     }
     curl_close($ch);
-
-
-
-
-
 
     //nghĩ tên để đặt vcl
     $ok = json_decode($response);
