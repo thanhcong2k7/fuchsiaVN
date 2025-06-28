@@ -1,6 +1,6 @@
 <?php
 include 'obf.php';
-//echo "FUCK YOU! YOU DON'T HAVE ANY PERMISSIONS TO RUN THIS SHIT!";
+session_start();
 error_reporting(E_ERROR | E_PARSE);
 function query($cmd)
 {

@@ -64,13 +64,27 @@ else {
         <div class="content-wrapper">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col">
+                    <div class="col-lg-6">
                         <div class="card">
                             <div class="card-header">
-                                <i class="zmdi zmdi-trending-up"></i> Release Analytics
+                                <i class="zmdi zmdi-chart"></i> Total Views by Store
                             </div>
                             <div class="card-body">
-                                Under construction! Please comeback later...
+                                <div class="chart-container-1" style="position: relative; height: 300px;">
+                                    <canvas id="viewsChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="zmdi zmdi-money-box"></i> Total Revenue by Store
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container-1" style="position: relative; height: 300px;">
+                                    <canvas id="revenueChart"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -148,9 +162,111 @@ else {
     <script src="../assets/plugins/Chart.js/Chart.min.js"></script>
 
     <!-- Index js -->
+    <script src="../assets/plugins/Chart.js/Chart.min.js"></script>
     <script type="text/javascript">
         n = new Date();
         document.getElementById("cccccyear").innerHTML = n.getFullYear();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/analytics.php')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('analyticsTableBody');
+                    if (data.error) {
+                        tableBody.innerHTML = `<tr><td colspan="5" class="text-center">${data.error}</td></tr>`;
+                        return;
+                    }
+                    if (data.length === 0) {
+                        tableBody.innerHTML = `<tr><td colspan="5" class="text-center">No analytics data available.</td></tr>`;
+                        return;
+                    }
+
+                    let totalViewsByStore = {};
+                    let totalRevenueByStore = {};
+
+                    data.forEach(item => {
+                        const row = `
+                            <tr>
+                                <td>${item.upc}</td>
+                                <td>${item.isrc}</td>
+                                <td>${item.date}</td>
+                                <td><pre>${JSON.stringify(item.raw_view, null, 2)}</pre></td>
+                                <td><pre>${JSON.stringify(item.raw_revenue, null, 2) || 'N/A'}</pre></td>
+                            </tr>
+                        `;
+                        tableBody.innerHTML += row;
+
+                        // Aggregate views
+                        if (item.raw_view && Array.isArray(item.raw_view)) {
+                            item.raw_view.forEach(view => {
+                                totalViewsByStore[view.storeID] = (totalViewsByStore[view.storeID] || 0) + view.quantity;
+                            });
+                        }
+
+                        // Aggregate revenue
+                        if (item.raw_revenue && Array.isArray(item.raw_revenue)) {
+                            item.raw_revenue.forEach(revenue => {
+                                totalRevenueByStore[revenue.storeID] = (totalRevenueByStore[revenue.storeID] || 0) + revenue.quantity;
+                            });
+                        }
+                    });
+
+                    // Render Views Chart
+                    const viewsCtx = document.getElementById('viewsChart').getContext('2d');
+                    new Chart(viewsCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: Object.keys(totalViewsByStore),
+                            datasets: [{
+                                label: 'Total Views',
+                                data: Object.values(totalViewsByStore),
+                                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+
+                    // Render Revenue Chart
+                    const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+                    new Chart(revenueCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: Object.keys(totalRevenueByStore),
+                            datasets: [{
+                                label: 'Total Revenue',
+                                data: Object.values(totalRevenueByStore),
+                                backgroundColor: 'rgba(153, 102, 255, 0.6)',
+                                borderColor: 'rgba(153, 102, 255, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+
+                })
+                .catch(error => {
+                    console.error('Error fetching analytics data:', error);
+                    document.getElementById('analyticsTableBody').innerHTML = `<tr><td colspan="5" class="text-center">Failed to load analytics data.</td></tr>`;
+                });
+        });
     </script>
 
 </body>

@@ -63,7 +63,12 @@ try {
             $stmt->close();
         }
     }
-    
+    $shortUrl = '';
+    $tmp2 = query("select * from albums_stream where albumID=" . $release->id . ";");
+    while ($row = $tmp2->fetch_assoc()) {
+        $shortUrl = $row["associated"];
+    }
+
     // Prepare response
     $response = [
         'status' => 'success',
@@ -77,7 +82,8 @@ try {
             'original_release_date' => $release->orgReldate,
             'rejection_reason' => $rejectionReason,
             'artists' => array_values(array_unique(array_merge(...array_column($tracks, 'artists')))),
-            'tracks' => $tracks
+            'tracks' => $tracks,
+            'shortUrl' => $shortUrl
         ]
     ];
 

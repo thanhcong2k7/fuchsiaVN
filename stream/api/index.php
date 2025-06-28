@@ -4,16 +4,16 @@ header('Content-Type: application/json');
 
 // Database connection (replace with your credentials)
 $host = '127.0.0.1';
-$db   = 'wtjmdnac_fuchsia';
+$db = 'wtjmdnac_fuchsia';
 $user = 'wtjmdnac_fuchsia';
 $pass = 'nguyenthanhcong';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 $options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
+    PDO::ATTR_EMULATE_PREPARES => false,
 ];
 
 try {
@@ -27,7 +27,7 @@ try {
 // Get album name from query string
 $albumName = $_GET['associated'] ?? '';
 
-if(empty($albumName)) {
+if (empty($albumName)) {
     http_response_code(400);
     echo json_encode(['error' => 'Album name not provided']);
     exit;
@@ -41,7 +41,7 @@ $stmt = $pdo->prepare('SELECT id, album_name AS albumName, release_date AS relea
 $stmt->execute([':associated' => $albumName]);
 $album = $stmt->fetch();
 
-if(!$album) {
+if (!$album) {
     http_response_code(404);
     echo json_encode(['error' => 'Album not found']);
     exit;

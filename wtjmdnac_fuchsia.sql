@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 25, 2025 at 05:01 PM
+-- Generation Time: Jun 28, 2025 at 09:55 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -81,6 +81,20 @@ CREATE TABLE `albums_stream` (
 
 INSERT INTO `albums_stream` (`id`, `associated`, `album_name`, `release_date`, `album_image`, `artist`, `albumID`) VALUES
 (18, 'sr341_memories-14', 'Memories', '2025-03-28', 'https://static.found.ee/user/264079/res-b240fdf4-afa3-438c-9927-13e8843e359e-b3490c3c-23ed-41d6-b8be-ef872812e454', 'SR341', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `analytics`
+--
+
+CREATE TABLE `analytics` (
+  `upc` int(11) NOT NULL,
+  `isrc` text NOT NULL,
+  `date` int(11) NOT NULL,
+  `raw_view` text NOT NULL,
+  `raw_revenue` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Catalog Analytics';
 
 -- --------------------------------------------------------
 
@@ -179,8 +193,7 @@ INSERT INTO `sessions` (`ip`, `secret`, `userID`, `timeAdded`, `iv`) VALUES
 ('14.163.121.192', 'xFqJEG7Qrv78Hf', 1, '02:01:00', '0DtLBcCn8ih1eNPS6'),
 ('14.166.252.151', 'LObbBEv', 1, '09:01:00', 'hxvizRI6x2OeH78g4'),
 ('113.163.17.200', 'GclHnPxKJPPX', 1, '18:02:00', 'FbXeGXQ3q5dDeFPem'),
-('127.0.0.1', 'YTdkJv0xw', 1, '12:02:00', '5VrAcySb6l9RuA5Y4'),
-('::1', 'F0tljp8OcBFmZ', 1, '21:34:34', '70SIUteQlbjrHNPhP');
+('127.0.0.1', 'YTdkJv0xw', 1, '12:02:00', '5VrAcySb6l9RuA5Y4');
 
 -- --------------------------------------------------------
 
