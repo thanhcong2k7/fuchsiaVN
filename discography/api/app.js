@@ -17,7 +17,6 @@ async function showReleaseDetails(releaseId) {
     loading.show();
     content.hide();
     errorDiv.hide().text('');
-
     try {
         const response = await fetch(`api/get_release.php?id=${releaseId}`);
         if (!response.ok) throw new Error('Failed to fetch release data');
@@ -44,6 +43,8 @@ async function showReleaseDetails(releaseId) {
         $('#releaseArt').attr('src', releaseData.artwork || '/assets/images/alb.png');
         $('#originalReleaseDate').text(releaseData.original_release_date || '--');
         $('#btnEdit').attr('href','edit.php?id='+releaseData.id);
+        if(releaseData.shortUrl)
+            $("stream").attr('value',releaseData.shortUrl);
 
         // Populate tracks
         const trackList = $('#trackList');

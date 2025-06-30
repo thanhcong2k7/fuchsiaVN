@@ -23,7 +23,6 @@ try {
     if (!$release) {
         throw new Exception('Release not found');
     }
-
     // Get tracks and artists
     $tracks = [];
     $f = getFile($_SESSION["userwtf"]);
