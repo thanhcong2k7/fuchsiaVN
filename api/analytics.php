@@ -3,14 +3,13 @@ require '../assets/variables/sql.php';
 
 header('Content-Type: application/json');
 
-$conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
     die(json_encode(["error" => "Connection failed: " . $conn->connect_error]));
 }
 
 $sql = "SELECT upc, isrc, date, raw_view, raw_revenue FROM analytics";
-$result = $conn->query($sql);
+$result = query($sql);
 
 $analyticsData = [];
 if ($result->num_rows > 0) {

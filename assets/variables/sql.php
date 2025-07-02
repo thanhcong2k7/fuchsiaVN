@@ -1,6 +1,7 @@
 <?php
 include 'obf.php';
-session_start();
+if (session_status() !== PHP_SESSION_ACTIVE)
+	session_start();
 error_reporting(E_ERROR | E_PARSE);
 function query($cmd)
 {
@@ -123,11 +124,12 @@ function getRelease($uid, $num = 0, $id = 0)
 	}*/
 	return $releases;
 }
-function smallRelease($uid, $upc){
+function smallRelease($uid, $upc)
+{
 	$tmp1 = query("select * from album where userID=" . $uid . ";");
 	$tmp2 = new albumType();
 	while ($row = $tmp1->fetch_assoc()) {
-		if($upc == $row["UPCNum"]){
+		if ($upc == $row["UPCNum"]) {
 			$tmp2->orgReldate = $row["orgReldate"];
 			$tmp2->relDate = $row["relDate"];
 			$tmp2->upc = $row["UPCNum"];
@@ -219,7 +221,7 @@ function getTrack($track)
 }
 function getArtist($trackID)
 {
-	$tmp1 = query("select * from track where id=".strval($trackID).";");
+	$tmp1 = query("select * from track where id=" . strval($trackID) . ";");
 	$arr = array();
 	while ($row = $tmp1->fetch_assoc()) {
 		$jsjsjsjs = json_decode($row["artist"]);
