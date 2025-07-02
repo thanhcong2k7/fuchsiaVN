@@ -1,5 +1,5 @@
 :root {
-  --primary-bg: #2a2b3d;
+  --primary-bg: #121212;
   --accent-color: #4CAF50;
   --text-primary: #fff;
 }
@@ -85,16 +85,11 @@
 /* Add modal-specific styling */
 .modal-body .card {
   box-shadow: none;
-  border: 1px solid #dee2e6;
+  /*border: 1px solid #dee2e6;*/
 }
 
 .modal-body .form-group {
   margin-bottom: 1rem;
-}
-
-.modal-body .card-header {
-  background: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
 }
 
 #viewReleaseModal .modal-content {
@@ -209,6 +204,10 @@
   height: 550px;
 }
 
+.card-bod {
+  background-color: #212121;
+  padding: 15px 15px 15px 15px;
+}
 .tracks-table {
   color: #fff;
 

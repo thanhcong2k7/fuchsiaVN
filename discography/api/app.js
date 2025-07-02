@@ -27,6 +27,10 @@ async function showReleaseDetails(releaseId) {
         // Populate data
         $('#releaseTitle').text(releaseData.name || '(Untitled Release)');
         $('#releaseUPC').text(releaseData.upc || '--');
+        if(!releaseData.upc)
+            $('#streamBlock').attr('style','display:none;');
+        else
+            $('#streamBlock').attr('style','');
         const allArtists = [].concat(...releaseData.artists).filter((v, i, a) => a.indexOf(v) === i);
         $('#releaseArtists').text(allArtists.join(', ') || '--');
         $('#releaseStatus').text(formatStatus(releaseData.status));

@@ -45,8 +45,8 @@ else {
     <!-- Sidebar CSS-->
     <link href="/assets/css/sidebar-menu.css" rel="stylesheet" />
     <!-- Custom Style-->
-    <link href="/assets/css/app-style.css" rel="stylesheet" />
     <link rel="stylesheet" href="app.css">
+    <link href="/assets/css/app-style.css" rel="stylesheet" />
     <!-- Bootstrap core JavaScript-->
     <script src="/assets/js/jquery.min.js"></script>
     <script src="/assets/js/popper.min.js"></script>
@@ -167,7 +167,7 @@ else {
                                             <form method="POST" action="">
                                                 <!-- Track Section -->
                                                 <div class="card mb-3">
-                                                    <div class="card-body">
+                                                    <div class="card-bod">
                                                         <div class="form-row">
                                                             <div class="form-group col-md-8 mb-3">
                                                                 <label class="d-block mb-1">Track Title</label>
@@ -737,7 +737,7 @@ else {
                                                 <!-- Selected artists table -->
                                                 <div class="card mt-3">
                                                     <div class="card-header">Select And Select Artists</div>
-                                                    <div class="card-body">
+                                                    <div class="card-bod">
                                                         <input type="text" class="form-control" id="artist-search"
                                                             name="artist-search" placeholder="" value=""
                                                             list="artist-list">
@@ -829,7 +829,7 @@ else {
                                                 <!-- Lyrics -->
                                                 <div class="card mt-3">
                                                     <div class="card-header">Lyrics</div>
-                                                    <div class="card-body">
+                                                    <div class="card-bod">
                                                         <div class="form-group">
                                                             <label>Language of the Lyrics</label>
                                                             <div class="custom-control custom-checkbox mb-2">
