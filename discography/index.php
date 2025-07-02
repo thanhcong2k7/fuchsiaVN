@@ -325,15 +325,13 @@ else {
               <!-- Track items will be added here by JS -->
             </ul>
             <hr>
-            <div class="row">
-              <div class="col">
-                <h5 class="row">
-                  Create/Edit your stream link here:
-                </h5>
-                <div class="row">
-                  https://stream.fuchsia.viiic.net/<input type="text" class="form-control form-control-sm" placeholder="abcxyz">
-                </div>
-              </div>
+            <h5>
+              Create/Edit your stream link here:
+            </h5>
+            <div style='display:flex;flex-flow: row wrap;' class="input-group">
+              <span class="col-auto input-group-text">https://stream.fuchsia.viiic.net/</span>
+              <input type="text" class="form-control" style='float:left;' placeholder="abcxyz" value="" id="stream">
+              <button class="btn btn-outline-success btn-sm" type="button" id="saveStream">Save</button>
             </div>
           </div>
           <div id="releaseError" class="alert alert-danger" style="display: none;"></div>

