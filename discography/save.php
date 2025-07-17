@@ -32,24 +32,6 @@ if (isset($_SESSION['userwtf'])) {
     if (isset($_POST['pline'])) {
         update("publishLine", $_POST["pline"], "album", "albumID=" . $_POST["albumid"]);
     }
-    if (isset($_POST['ytcid'])) {
-        update("ytcid", 1, "album", "albumID=" . $_POST["albumid"]);
-    }
-    if (isset($_POST['scloud'])) {
-        update("scloud", 1, "album", "albumID=" . $_POST["albumid"]);
-    }
-    if (isset($_POST['soundx'])) {
-        update("soundx", 1, "album", "albumID=" . $_POST["albumid"]);
-    }
-    if (isset($_POST['jdl'])) {
-        update("juno", 1, "album", "albumID=" . $_POST["albumid"]);
-    }
-    if (isset($_POST['trl'])) {
-        update("tracklib", 1, "album", "albumID=" . $_POST["albumid"]);
-    }
-    if (isset($_POST['bport'])) {
-        update("beatport", ($_POST["bporturl"] ? $_POST["bporturl"] : "1"), "album", "albumID=" . $_POST["albumid"]);
-    }
     if ($_POST["submit"] == 'Distribute now') {
         update("status", 3, "album", "albumID=" . $_POST["albumid"]);
     }

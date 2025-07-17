@@ -67,7 +67,7 @@ else {
                     <div class="col-lg-6">
                         <div class="card">
                             <div class="card-header">
-                                <i class="zmdi zmdi-chart"></i> Total Views by Store
+                                <i class="zmdi zmdi-chart"></i> Total Views
                             </div>
                             <div class="card-body">
                                 <div class="chart-container-1" style="position: relative; height: 300px;">
@@ -79,7 +79,7 @@ else {
                     <div class="col-lg-6">
                         <div class="card">
                             <div class="card-header">
-                                <i class="zmdi zmdi-money-box"></i> Total Revenue by Store
+                                <i class="zmdi zmdi-money-box"></i> Total Revenue
                             </div>
                             <div class="card-body">
                                 <div class="chart-container-1" style="position: relative; height: 300px;">
@@ -166,105 +166,148 @@ else {
     <script type="text/javascript">
         n = new Date();
         document.getElementById("cccccyear").innerHTML = n.getFullYear();
-
-        document.addEventListener('DOMContentLoaded', function() {
+        function unixtodate(unix_timestamp) {
+            var now = new Date(unix_timestamp * 1000);
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1; // Add 1 because getMonth() is zero-indexed
+            const day = now.getDate();
+            const formattedDate = `${year}/${String(month).padStart(2, '0')}`;
+            return (formattedDate); // Example output: 2025-07-08
+        }
+        document.addEventListener('DOMContentLoaded', function () {
             fetch('/api/analytics.php')
                 .then(response => response.json())
                 .then(data => {
-                    const tableBody = document.getElementById('analyticsTableBody');
                     if (data.error) {
-                        tableBody.innerHTML = `<tr><td colspan="5" class="text-center">${data.error}</td></tr>`;
+                        alert(data.error);
                         return;
                     }
                     if (data.length === 0) {
-                        tableBody.innerHTML = `<tr><td colspan="5" class="text-center">No analytics data available.</td></tr>`;
+                        alert('No analytics data available.</td></tr>');
                         return;
                     }
 
-                    let totalViewsByStore = {};
-                    let totalRevenueByStore = {};
-
+                    let totalViews = [];
+                    let totalRevenue = [];
+                    let months1 = [];
+                    let months2 = [];
+                    console.log(unixtodate(1751964077));
                     data.forEach(item => {
-                        const row = `
-                            <tr>
-                                <td>${item.upc}</td>
-                                <td>${item.isrc}</td>
-                                <td>${item.date}</td>
-                                <td><pre>${JSON.stringify(item.raw_view, null, 2)}</pre></td>
-                                <td><pre>${JSON.stringify(item.raw_revenue, null, 2) || 'N/A'}</pre></td>
-                            </tr>
-                        `;
-                        tableBody.innerHTML += row;
-
-                        // Aggregate views
-                        if (item.raw_view && Array.isArray(item.raw_view)) {
-                            item.raw_view.forEach(view => {
-                                totalViewsByStore[view.storeID] = (totalViewsByStore[view.storeID] || 0) + view.quantity;
-                            });
-                        }
-
-                        // Aggregate revenue
-                        if (item.raw_revenue && Array.isArray(item.raw_revenue)) {
-                            item.raw_revenue.forEach(revenue => {
-                                totalRevenueByStore[revenue.storeID] = (totalRevenueByStore[revenue.storeID] || 0) + revenue.quantity;
-                            });
-                        }
+                        let temp1 = item.raw_view;
+                        totalViews.push(view1);
+                        months1.push(unixtodate(item.date));
                     });
+                    var view1 = {
+                        type: 'line',
+                        label: "",
+                        data: [1, 2, 3, 4],
+                        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                        borderColor: 'transparent',
+                        borderWidth: 1
+                    };
 
                     // Render Views Chart
                     const viewsCtx = document.getElementById('viewsChart').getContext('2d');
                     new Chart(viewsCtx, {
-                        type: 'bar',
                         data: {
-                            labels: Object.keys(totalViewsByStore),
-                            datasets: [{
-                                label: 'Total Views',
-                                data: Object.values(totalViewsByStore),
-                                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                                borderColor: 'rgba(75, 192, 192, 1)',
-                                borderWidth: 1
-                            }]
+                            labels: months,
+                            datasets: totalViews
                         },
                         options: {
-                            responsive: true,
                             maintainAspectRatio: false,
-                            scales: {
-                                y: {
-                                    beginAtZero: true
+                            legend: {
+                                display: false,
+                                labels: {
+                                    fontColor: '#ddd',
+                                    boxWidth: 40
                                 }
+                            },
+                            tooltips: {
+                                displayColors: false
+                            },
+                            scales: {
+                                xAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                        fontColor: '#ddd'
+                                    },
+                                    gridLines: {
+                                        display: true,
+                                        color: "rgba(221, 221, 221, 0.08)"
+                                    },
+                                }],
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                        fontColor: '#ddd'
+                                    },
+                                    gridLines: {
+                                        display: true,
+                                        color: "rgba(221, 221, 221, 0.08)"
+                                    },
+                                }]
                             }
+
                         }
                     });
 
                     // Render Revenue Chart
                     const revenueCtx = document.getElementById('revenueChart').getContext('2d');
                     new Chart(revenueCtx, {
-                        type: 'bar',
+                        type: 'line',
                         data: {
-                            labels: Object.keys(totalRevenueByStore),
+                            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
                             datasets: [{
                                 label: 'Total Revenue',
-                                data: Object.values(totalRevenueByStore),
-                                backgroundColor: 'rgba(153, 102, 255, 0.6)',
-                                borderColor: 'rgba(153, 102, 255, 1)',
+                                data: totalRevenue,
+                                backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                                borderColor: 'transparent',
                                 borderWidth: 1
                             }]
                         },
                         options: {
-                            responsive: true,
                             maintainAspectRatio: false,
-                            scales: {
-                                y: {
-                                    beginAtZero: true
+                            legend: {
+                                display: false,
+                                labels: {
+                                    fontColor: '#ddd',
+                                    boxWidth: 40
                                 }
+                            },
+                            tooltips: {
+                                displayColors: false
+                            },
+                            scales: {
+                                xAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                        fontColor: '#ddd'
+                                    },
+                                    gridLines: {
+                                        display: true,
+                                        color: "rgba(221, 221, 221, 0.08)"
+                                    },
+                                }],
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                        fontColor: '#ddd'
+                                    },
+                                    gridLines: {
+                                        display: true,
+                                        color: "rgba(221, 221, 221, 0.08)"
+                                    },
+                                }]
                             }
+
                         }
                     });
 
                 })
                 .catch(error => {
                     console.error('Error fetching analytics data:', error);
-                    document.getElementById('analyticsTableBody').innerHTML = `<tr><td colspan="5" class="text-center">Failed to load analytics data.</td></tr>`;
+                    //document.getElementById('analyticsTableBody').innerHTML = `<tr><td colspan="5" class="text-center">Failed to load analytics data.</td></tr>`;
+                    alert('[Server] Failed to load analytics data.')
                 });
         });
     </script>

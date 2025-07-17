@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-12">
                 <label for="stores">Digital Service Providers (DSPs)</label>
-                <div class="row align-items-center no-gutters">
+                <div class="row align-items-center no-gutters" style="padding-left: 50px; padding-right: 50px; padding-top: 10px">
                     <?php
                     $availableStores = getStore(); // Assume returns array of store objects (id, name)
                     $selectedStores = $release->stores ?? []; // Assume $release->stores is an array of selected store IDs
