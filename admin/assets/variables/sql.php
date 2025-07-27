@@ -17,11 +17,11 @@ function resetinc($table)
 	$tmp = query("SELECT `AUTO_INCREMENT`
 					FROM  INFORMATION_SCHEMA.TABLES
 					WHERE TABLE_SCHEMA = 'wtjmdnac_fuchsia'
-					AND   TABLE_NAME   = '".$table."';");
+					AND   TABLE_NAME   = '" . $table . "';");
 	$lastInc = 0;
 	while ($row = $tmp->fetch_assoc())
 		$lastInc = $row["AUTO_INCREMENT"];
-	query("ALTER TABLE " . $table . " AUTO_INCREMENT = ".($lastInc===NULL?"0":$lastInc).";");
+	query("ALTER TABLE " . $table . " AUTO_INCREMENT = " . ($lastInc === NULL ? "0" : $lastInc) . ";");
 }
 function update($key, $val, $table, $condition)
 {
@@ -39,9 +39,9 @@ class store
 	public $id;
 	public $name;
 }
-function getStore()
+function getStore($status)
 {
-	$tmp = query("select * from stores;");
+	$tmp = query("select * from stores " . ($status ? "where status=1" : "") . ";");
 	$tmp2 = array();
 	while ($row = mysqli_fetch_array($tmp)) {
 		$sus = new store();
@@ -96,7 +96,12 @@ function getRelease($uid, $num = 0, $id = 0)
 		$tmp2->name = $row["albumName"];
 		$tmp2->status = $row["status"];
 		$tmp2->art = $row["artID"];
-		$tmp2->store = json_decode($row["storeID"]);
+		//$tmp2->store = json_decode($row["storeID"]);
+		$tmp5 = "[]";
+		$tmp6 = query("select * from storereq where id=" . strval($row["albumID"]) . ";");
+		while ($row2 = $tmp6->fetch_assoc())
+			$tmp5 = $row2["data"];
+		$tmp2->store = json_decode($tmp5);
 		$tmp2->file = getTrackListOfAlbum($id);
 		$tmp2->c = $row["compLine"];
 		$tmp2->p = $row["publishLine"];
@@ -127,118 +132,123 @@ function getRelease($uid, $num = 0, $id = 0)
 }
 function getAllReleases($statusFilter = null) // Optional status filter (e.g., 'pending', 'approved')
 {
-    $sql = "SELECT album.*, user.labelName AS submitterName FROM album JOIN user ON album.userID = user.userID";
-    if ($statusFilter !== null) {
-        // Assuming status 0=draft, 1=accepted, 2=error, 3=checking/pending
-        // Adjust the condition based on how you want to filter (e.g., for pending: status = 3)
-        $sql .= " WHERE album.status = '" . $GLOBALS["conn"]->real_escape_string($statusFilter) . "'";
-    }
-    $sql .= " ORDER BY album.createdDate DESC;";
+	$sql = "SELECT album.*, user.labelName AS submitterName FROM album JOIN user ON album.userID = user.userID";
+	if ($statusFilter !== null) {
+		// Assuming status 0=draft, 1=accepted, 2=error, 3=checking/pending
+		// Adjust the condition based on how you want to filter (e.g., for pending: status = 3)
+		$sql .= " WHERE album.status = '" . $GLOBALS["conn"]->real_escape_string($statusFilter) . "'";
+	}
+	$sql .= " ORDER BY album.createdDate DESC;";
 
-    $tmp1 = query($sql);
-    $releases = array();
-    if ($tmp1) {
-        while ($row = $tmp1->fetch_assoc()) {
-            $tmp2 = new albumType();
-            $tmp2->id = $row["albumID"];
-            $tmp2->upc = $row["UPCNum"];
-            $tmp2->name = $row["albumName"];
-            $tmp2->status = $row["status"];
-            $tmp2->art = $row["artID"];
-            $tmp2->store = json_decode($row["storeID"]);
-            // $tmp2->file = getTrackListOfAlbum($row["albumID"]); // Potentially heavy, consider loading on demand
-            $tmp2->c = $row["compLine"];
-            $tmp2->p = $row["publishLine"];
-            $tmp2->orgReldate = $row["orgReldate"];
-            $tmp2->createdDate = $row["createdDate"];
-            $tmp2->relDate = $row["relDate"];
-            $tmp2->version = $row["versionLine"];
-            $tmp2->ytcid = $row["ytcid"];
-            $tmp2->jdl = $row["juno"];
-            $tmp2->sx = $row["soundx"];
-            $tmp2->sc = $row["scloud"];
-            $tmp2->bp = $row["beatport"];
-            $tmp2->artp = $row["artPrev"];
-            $tmp2->submitterName = $row["submitterName"]; // Added submitter name
-            $tmp2->staffID = $row["staffID"]; // Include staffID for claim functionality
+	$tmp1 = query($sql);
+	$releases = array();
+	if ($tmp1) {
+		while ($row = $tmp1->fetch_assoc()) {
+			$tmp2 = new albumType();
+			$tmp2->id = $row["albumID"];
+			$tmp2->upc = $row["UPCNum"];
+			$tmp2->name = $row["albumName"];
+			$tmp2->status = $row["status"];
+			$tmp2->art = $row["artID"];
+			//$tmp2->store = json_decode($row["storeID"]);
+			$tmp5 = "[]";
+			$tmp6 = query("select * from storereq where id='" . $row["albumID"] . "';");
+			while ($row2 = $tmp6->fetch_assoc())
+				$tmp5 = $row2["data"];
+			$tmp2->store = json_decode($tmp5);
+			// $tmp2->file = getTrackListOfAlbum($row["albumID"]); // Potentially heavy, consider loading on demand
+			$tmp2->c = $row["compLine"];
+			$tmp2->p = $row["publishLine"];
+			$tmp2->orgReldate = $row["orgReldate"];
+			$tmp2->createdDate = $row["createdDate"];
+			$tmp2->relDate = $row["relDate"];
+			$tmp2->version = $row["versionLine"];
+			$tmp2->ytcid = $row["ytcid"];
+			$tmp2->jdl = $row["juno"];
+			$tmp2->sx = $row["soundx"];
+			$tmp2->sc = $row["scloud"];
+			$tmp2->bp = $row["beatport"];
+			$tmp2->artp = $row["artPrev"];
+			$tmp2->submitterName = $row["submitterName"]; // Added submitter name
+			$tmp2->staffID = $row["staffID"]; // Include staffID for claim functionality
 
-            // Fetch artists for the album - this might need a dedicated function or optimized query
-            // For simplicity, let's assume a function getArtistsForAlbum($albumId) exists or is added
-            // $tmp2->author = getArtistsForAlbum($row["albumID"]); // Placeholder
+			// Fetch artists for the album - this might need a dedicated function or optimized query
+			// For simplicity, let's assume a function getArtistsForAlbum($albumId) exists or is added
+			// $tmp2->author = getArtistsForAlbum($row["albumID"]); // Placeholder
 
-            $releases[] = $tmp2;
-        }
-    }
-    return $releases;
+			$releases[] = $tmp2;
+		}
+	}
+	return $releases;
 }
 
 function getReleasesForReview($staffId = null)
 {
-    $sql = "SELECT album.*, user.labelName AS submitterName FROM album JOIN user ON album.userID = user.userID";
-    if ($staffId !== null) {
-        // Get releases claimed by a specific staff member
-        $sql .= " WHERE album.staffID = " . intval($staffId);
-    } else {
-        // Get unclaimed releases (staffID is NULL or 0)
-        $sql .= " WHERE album.staffID IS NULL OR album.staffID = 0";
-    }
-    $sql .= " ORDER BY album.createdDate DESC;";
+	$sql = "SELECT album.*, user.labelName AS submitterName FROM album JOIN user ON album.userID = user.userID";
+	if ($staffId !== null) {
+		// Get releases claimed by a specific staff member
+		$sql .= " WHERE album.staffID = " . intval($staffId);
+	} else {
+		// Get unclaimed releases (staffID is NULL or 0)
+		$sql .= " WHERE album.staffID IS NULL OR album.staffID = 0";
+	}
+	$sql .= " ORDER BY album.createdDate DESC;";
 
-    $tmp1 = query($sql);
-    $releases = array();
-    if ($tmp1) {
-        while ($row = $tmp1->fetch_assoc()) {
-            $tmp2 = new albumType();
-            $tmp2->id = $row["albumID"];
-            $tmp2->upc = $row["UPCNum"];
-            $tmp2->name = $row["albumName"];
-            $tmp2->status = $row["status"];
-            $tmp2->art = $row["artID"];
-            $tmp2->store = json_decode($row["storeID"]);
-            $tmp2->c = $row["compLine"];
-            $tmp2->p = $row["publishLine"];
-            $tmp2->orgReldate = $row["orgReldate"];
-            $tmp2->createdDate = $row["createdDate"];
-            $tmp2->relDate = $row["relDate"];
-            $tmp2->version = $row["versionLine"];
-            $tmp2->ytcid = $row["ytcid"];
-            $tmp2->jdl = $row["juno"];
-            $tmp2->sx = $row["soundx"];
-            $tmp2->sc = $row["scloud"];
-            $tmp2->bp = $row["beatport"];
-            $tmp2->artp = $row["artPrev"];
-            $tmp2->submitterName = $row["submitterName"];
-            $tmp2->staffID = $row["staffID"]; // Include staffID
+	$tmp1 = query($sql);
+	$releases = array();
+	if ($tmp1) {
+		while ($row = $tmp1->fetch_assoc()) {
+			$tmp2 = new albumType();
+			$tmp2->id = $row["albumID"];
+			$tmp2->upc = $row["UPCNum"];
+			$tmp2->name = $row["albumName"];
+			$tmp2->status = $row["status"];
+			$tmp2->art = $row["artID"];
+			$tmp2->store = json_decode($row["storeID"]);
+			$tmp2->c = $row["compLine"];
+			$tmp2->p = $row["publishLine"];
+			$tmp2->orgReldate = $row["orgReldate"];
+			$tmp2->createdDate = $row["createdDate"];
+			$tmp2->relDate = $row["relDate"];
+			$tmp2->version = $row["versionLine"];
+			$tmp2->ytcid = $row["ytcid"];
+			$tmp2->jdl = $row["juno"];
+			$tmp2->sx = $row["soundx"];
+			$tmp2->sc = $row["scloud"];
+			$tmp2->bp = $row["beatport"];
+			$tmp2->artp = $row["artPrev"];
+			$tmp2->submitterName = $row["submitterName"];
+			$tmp2->staffID = $row["staffID"]; // Include staffID
 
-            $releases[] = $tmp2;
-        }
-    }
-    return $releases;
+			$releases[] = $tmp2;
+		}
+	}
+	return $releases;
 }
 
 function getAllUsers()
 {
-    $tmp1 = query("SELECT * FROM user ORDER BY regdate DESC;");
-    $users = array();
-    if ($tmp1) {
-        while ($row = $tmp1->fetch_assoc()) {
-            $tmp2 = new userType();
-            $tmp2->id = $row["userID"]; // Assuming userID is the primary key
-            $tmp2->name = $row["name"];
-            $tmp2->display = $row["labelName"];
-            $tmp2->register = $row["regdate"];
-            $tmp2->avatar = $row["imgavt"] ? $row["imgavt"] : "/assets/images/gallery/ava_sample.png";
-            $tmp2->email = $row["email"];
-            $tmp2->type = $row["type"];
-            $tmp2->handle = $row["username"];
-            $users[] = $tmp2;
-        }
-    }
-    return $users;
+	$tmp1 = query("SELECT * FROM user ORDER BY regdate DESC;");
+	$users = array();
+	if ($tmp1) {
+		while ($row = $tmp1->fetch_assoc()) {
+			$tmp2 = new userType();
+			$tmp2->id = $row["userID"]; // Assuming userID is the primary key
+			$tmp2->name = $row["name"];
+			$tmp2->display = $row["labelName"];
+			$tmp2->register = $row["regdate"];
+			$tmp2->avatar = $row["imgavt"] ? $row["imgavt"] : "/assets/images/gallery/ava_sample.png";
+			$tmp2->email = $row["email"];
+			$tmp2->type = $row["type"];
+			$tmp2->handle = $row["username"];
+			$users[] = $tmp2;
+		}
+	}
+	return $users;
 }
 class userType
 {
-public $id;
+	public $id;
 	public $name;
 	public $email;
 	public $display; //Display name
@@ -249,42 +259,42 @@ public $id;
 }
 function getUser($uid)
 {
-    if ($GLOBALS["conn"] === null) {
-        // Handle null connection if necessary, though it should be set by var.php
-        error_log("Database connection is not initialized in getUser.");
-        return null;
-    }
+	if ($GLOBALS["conn"] === null) {
+		// Handle null connection if necessary, though it should be set by var.php
+		error_log("Database connection is not initialized in getUser.");
+		return null;
+	}
 
-    $stmt = $GLOBALS["conn"]->prepare("SELECT userID, name, labelName, regdate, imgavt, email, type, username FROM user WHERE userID = ?");
-    if (!$stmt) {
-        error_log("Prepare failed: (" . $GLOBALS["conn"]->errno . ") " . $GLOBALS["conn"]->error);
-        return null;
-    }
+	$stmt = $GLOBALS["conn"]->prepare("SELECT userID, name, labelName, regdate, imgavt, email, type, username FROM user WHERE userID = ?");
+	if (!$stmt) {
+		error_log("Prepare failed: (" . $GLOBALS["conn"]->errno . ") " . $GLOBALS["conn"]->error);
+		return null;
+	}
 
-    $stmt->bind_param("i", $uid);
-    if (!$stmt->execute()) {
-        error_log("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
-        $stmt->close();
-        return null;
-    }
+	$stmt->bind_param("i", $uid);
+	if (!$stmt->execute()) {
+		error_log("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
+		$stmt->close();
+		return null;
+	}
 
-    $result = $stmt->get_result();
-    if ($row = $result->fetch_assoc()) {
-        $user = new userType();
-        $user->id = $row["userID"];
-        $user->name = $row["name"];
-        $user->display = $row["labelName"];
-        $user->register = $row["regdate"];
-        $user->avatar = $row["imgavt"] ? $row["imgavt"] : "/assets/images/gallery/ava_sample.png";
-        $user->email = $row["email"];
-        $user->type = $row["type"];
-        $user->handle = $row["username"];
-        $stmt->close();
-        return $user;
-    }
+	$result = $stmt->get_result();
+	if ($row = $result->fetch_assoc()) {
+		$user = new userType();
+		$user->id = $row["userID"];
+		$user->name = $row["name"];
+		$user->display = $row["labelName"];
+		$user->register = $row["regdate"];
+		$user->avatar = $row["imgavt"] ? $row["imgavt"] : "/assets/images/gallery/ava_sample.png";
+		$user->email = $row["email"];
+		$user->type = $row["type"];
+		$user->handle = $row["username"];
+		$stmt->close();
+		return $user;
+	}
 
-    $stmt->close();
-    return null; // User not found
+	$stmt->close();
+	return null; // User not found
 }
 class file
 {

@@ -32,11 +32,11 @@
 
     <li>
       <a href="/settings/">
-        <i class="zmdi zmdi-assignment-account"></i> <span>Your Account</span>
+        <i class="zmdi zmdi-assignment-account"></i> <span>Settings</span>
       </a>
     </li>
 
-    <li class="sidebar-header">TOOLBOX</li>
+    <li class="sidebar-header">MANAGEMENT</li>
     <li><a href="/manager/artist/"><i class="zmdi zmdi-accounts text-warning"></i> <span>Artists</span></a></li>
     <li><a href="/manager/tracks/"><i class="zmdi zmdi-audio text-success"></i> <span>Tracks</span></a></li>
     <li><a href="/upgrade/" onclick="event.preventDefault(); upgrade();" id="upgradePlan" data-toggle="modal"

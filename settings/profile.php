@@ -3,13 +3,16 @@
 	if (isset($_SESSION["userwtf"])){
 		require '../assets/variables/sql.php';
 		if(isset($_POST["fulname"])){
-			query("update user set name='".$_POST["fulname"]."' where userID=".$_SESSION["userwtf"].";");
+			query("update user set name='".$_POST["fullname"]."' where userID=".$_SESSION["userwtf"].";");
 		}
 		if(isset($_POST["displayname"])){
 			query("update user set display='".$_POST["displayname"]."' where userID=".$_SESSION["userwtf"].";");
 		}
 		if(isset($_POST["email"])){
-			query("update user set display='".$_POST["email"]."' where userID=".$_SESSION["userwtf"].";");
+			query("update user set email='".$_POST["email"]."' where userID=".$_SESSION["userwtf"].";");
+		}
+		if(isset($_POST["paypal"])){
+			query("update user set paypal='".$_POST["paypal"]."' where userID=".$_SESSION["userwtf"].";");
 		}
 		if(isset($_POST["pwd"])){
 			update("pwd",md5($_POST["pwd"]),"user","userID=".$_SESSION["userwtf"]);

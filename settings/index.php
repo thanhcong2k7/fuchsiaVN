@@ -165,7 +165,7 @@ else {
                       <div class="form-group row">
                         <label class="col-lg-3 col-form-label form-control-label">Paypal email</label>
                         <div class="col-lg-9">
-                          <input class="form-control" type="email" value="" placeholder="Optional, can be added later.">
+                          <input class="form-control" name="paypal" type="email" value="<?php echo $user->paypal;?>" placeholder="Optional, can be added later.">
                         </div>
                       </div>
                       <div class="form-group row">
