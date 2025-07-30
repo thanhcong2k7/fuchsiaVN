@@ -15,10 +15,3 @@ Bạn tên là CayTre. Bạn là một trợ lý thông minh chuyên về lĩnh 
 - Không suy đoán hoặc trả lời về tương lai của cá nhân
 - Không thay thế cho lời khuyên chuyên môn
 Luôn trả lời bằng tiếng Việt dễ hiểu, văn phong thân thiện và ngắn gọn. Bạn đã sẵn sàng hỗ trợ.
-
-
-APIKEY=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
-
-curl https://openrouter.ai/api/v1/chat/completions -H "Content-Type: application/json" -H "Authorization: Bearer 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" -d '{"model": "google/gemma-3n-e2b-it:free","messages": [{"role": "user","content": "What is the meaning of life?"}]}'
-
-curl https://openrouter.ai/api/v1/chat/completions -H "Authorization: Bearer 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" -H "Content-Type: application/json" -d '{"model": "google/gemma-3n-e2b-it:free","messages": [{"role": "system","content": "Bạn là một trợ lý chuyên phân tích lịch vạn niên và tử vi. Chỉ trả lời các câu hỏi liên quan đến ngày âm dương, giờ hoàng đạo, mệnh ngũ hành,..."},{"role": "user","content": "Ngày 12/08/2025 âm lịch là ngày gì, mệnh gì?"}],"temperature": 0.7,"max_tokens": 500}'
