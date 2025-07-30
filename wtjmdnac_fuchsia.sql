@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 28, 2025 at 09:55 AM
+-- Generation Time: Jul 30, 2025 at 04:32 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -47,17 +47,18 @@ CREATE TABLE `album` (
   `beatport` varchar(255) DEFAULT NULL,
   `artPrev` varchar(255) DEFAULT NULL,
   `staffID` int(11) DEFAULT NULL,
-  `rejection_reason` text DEFAULT NULL COMMENT 'Reason for rejection when status is 2'
+  `rejection_reason` text DEFAULT NULL COMMENT 'Reason for rejection when status is 2',
+  `labelid` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `album`
 --
 
-INSERT INTO `album` (`albumID`, `albumName`, `UPCNum`, `status`, `storeID`, `userID`, `artID`, `createdDate`, `relDate`, `compLine`, `publishLine`, `trackID`, `versionLine`, `cyear`, `pyear`, `orgReldate`, `beatport`, `artPrev`, `staffID`, `rejection_reason`) VALUES
-(2, 'sadas', '5063248317359', 2, '[]', 1, 'https://i.ibb.co/Ltkbn1N/4d818baf946b.jpg', '2025-01-27 21:46:28', '2025-03-28', 'asd', 'das', '[]', 'asdas', 2025, 2025, '2025-01-27', NULL, 'https://i.ibb.co/r67T4Hd/4d818baf946b.jpg', 1, 'gfhhfghgf'),
-(3, '', NULL, 0, '[]', 1, NULL, '2025-03-04 21:37:33', NULL, NULL, NULL, '[]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(4, '', NULL, 0, '[]', 1, NULL, '2025-05-06 18:26:30', NULL, NULL, NULL, '[]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `album` (`albumID`, `albumName`, `UPCNum`, `status`, `storeID`, `userID`, `artID`, `createdDate`, `relDate`, `compLine`, `publishLine`, `trackID`, `versionLine`, `cyear`, `pyear`, `orgReldate`, `beatport`, `artPrev`, `staffID`, `rejection_reason`, `labelid`) VALUES
+(2, 'sadas', '5063248317359', 2, '[]', 1, 'https://i.ibb.co/Ltkbn1N/4d818baf946b.jpg', '2025-01-27 21:46:28', '2025-03-28', 'asd', 'das', '[]', 'asdas', 2025, 2025, '2025-01-27', NULL, 'https://i.ibb.co/r67T4Hd/4d818baf946b.jpg', 1, 'gfhhfghgf', NULL),
+(3, '', NULL, 0, '[]', 1, NULL, '2025-03-04 21:37:33', NULL, NULL, NULL, '[]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(4, '', NULL, 0, '[]', 1, NULL, '2025-05-06 18:26:30', NULL, NULL, NULL, '[]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -93,8 +94,16 @@ CREATE TABLE `analytics` (
   `isrc` text NOT NULL,
   `date` int(11) NOT NULL,
   `raw_view` text NOT NULL,
-  `raw_revenue` text DEFAULT NULL
+  `raw_revenue` text DEFAULT NULL,
+  `userID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Catalog Analytics';
+
+--
+-- Dumping data for table `analytics`
+--
+
+INSERT INTO `analytics` (`upc`, `isrc`, `date`, `raw_view`, `raw_revenue`, `userID`) VALUES
+(1, '1', 1, '[\r\n    {\r\n        \"storeID\": 1,\r\n        \"quantity\": 19999\r\n    },\r\n    {\r\n        \"storeID\": 2,\r\n        \"quantity\": 19999\r\n    },\r\n    {\r\n        \"storeID\": 3,\r\n        \"quantity\": 19999\r\n    },\r\n    {\r\n        \"storeID\": 4,\r\n        \"quantity\": 19999\r\n    },\r\n    {\r\n        \"storeID\": 5,\r\n        \"quantity\": 19999\r\n    }\r\n]', '[\r\n    {\r\n        \"storeID\": 1,\r\n        \"quantity\": 19999\r\n    },\r\n    {\r\n        \"storeID\": 2,\r\n        \"quantity\": 19999\r\n    },\r\n    {\r\n        \"storeID\": 3,\r\n        \"quantity\": 19999\r\n    },\r\n    {\r\n        \"storeID\": 4,\r\n        \"quantity\": 19999\r\n    },\r\n    {\r\n        \"storeID\": 5,\r\n        \"quantity\": 19999\r\n    }\r\n]', 1);
 
 -- --------------------------------------------------------
 
@@ -133,6 +142,24 @@ CREATE TABLE `dsp_urls` (
   `url` varchar(255) NOT NULL,
   `order` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `label`
+--
+
+CREATE TABLE `label` (
+  `labelid` int(11) NOT NULL,
+  `labelName` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `label`
+--
+
+INSERT INTO `label` (`labelid`, `labelName`) VALUES
+(1, 'Fuchsia Media Group');
 
 -- --------------------------------------------------------
 
@@ -193,7 +220,7 @@ INSERT INTO `sessions` (`ip`, `secret`, `userID`, `timeAdded`, `iv`) VALUES
 ('14.163.121.192', 'xFqJEG7Qrv78Hf', 1, '02:01:00', '0DtLBcCn8ih1eNPS6'),
 ('14.166.252.151', 'LObbBEv', 1, '09:01:00', 'hxvizRI6x2OeH78g4'),
 ('113.163.17.200', 'GclHnPxKJPPX', 1, '18:02:00', 'FbXeGXQ3q5dDeFPem'),
-('127.0.0.1', 'YTdkJv0xw', 1, '12:02:00', '5VrAcySb6l9RuA5Y4');
+('::1', 'i8jgtiobklt', 1, '09:31:23', 'GMMHy5KJuXCfSFsDC');
 
 -- --------------------------------------------------------
 
@@ -372,6 +399,12 @@ ALTER TABLE `dsp_urls`
   ADD KEY `album_id` (`album_id`);
 
 --
+-- Indexes for table `label`
+--
+ALTER TABLE `label`
+  ADD PRIMARY KEY (`labelid`);
+
+--
 -- Indexes for table `storage`
 --
 ALTER TABLE `storage`
@@ -427,6 +460,12 @@ ALTER TABLE `author`
 --
 ALTER TABLE `dsp_urls`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `label`
+--
+ALTER TABLE `label`
+  MODIFY `labelid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `storage`
