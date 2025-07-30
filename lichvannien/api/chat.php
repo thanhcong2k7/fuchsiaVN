@@ -100,7 +100,7 @@ curl_close($ch);
 
 if ($httpCode !== 200) {
     http_response_code(500);
-    echo json_encode(['error' => 'Failed to fetch response from AI.']);
+    echo json_encode(['error' => 'Failed to fetch response from AI. REASON:' + $response]);
     exit;
 }
 
