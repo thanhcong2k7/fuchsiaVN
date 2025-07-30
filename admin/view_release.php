@@ -356,8 +356,7 @@ $availableStores = getStore(); // Fetch all available stores
                             <a href="reject_release.php?id=<?= htmlspecialchars($release->id) ?>" class="btn btn-danger"><i class="fas fa-times"></i> Reject Release</a>
                             <?php elseif ($release->status == '0' || $release->status == 0): // Status '0' is 'Draft' ?>
                             <!-- Draft releases can also be approved or rejected -->
-                            <a href="approve_release.php?id=<?= htmlspecialchars($release->id) ?>" class="btn btn-success"><i class="fas fa-check"></i> Approve Release</a>
-                            <a href="reject_release.php?id=<?= htmlspecialchars($release->id) ?>" class="btn btn-danger"><i class="fas fa-times"></i> Reject Release</a>
+                            <p>No actions available!</p>
                             <?php endif; ?>
                             
                             <!-- Claim Release Button -->
@@ -368,9 +367,11 @@ $availableStores = getStore(); // Fetch all available stores
                             
                             if (!$isClaimed):
                             ?>
+                            <?php if ($release->status != '0' || $release->status != 0):?>
                                 <button class="btn btn-primary" onclick="claimRelease(<?= htmlspecialchars($release->id) ?>)">
                                     <i class="fas fa-hand-paper"></i> Claim Release
                                 </button>
+                                <?php endif;?>
                             <?php elseif ($isClaimedByCurrentUser): ?>
                                 <div class="alert alert-info mt-3">
                                     <i class="fas fa-info-circle"></i> You have claimed this release.

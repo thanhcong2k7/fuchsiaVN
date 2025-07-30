@@ -1,0 +1,5 @@
+sudo apt update
+sudo apt-get install mysql-server mysql-client php-cli -y
+sudo service mysql start
+sudo mysql -u root < "create user 'wtjmdnac_fuchsia'@'localhost' identified by 'nguyenthanhcong';\ncreate database wtjmdnac_fuchsia;\nsource wtjmdnac_fuchsia.sql;\ngrant all privileges on wtjmdnac_fuchsia.* to 'wtjmdnac_fuchsia'@'localhost';\nflush privileges;\n"
+sudo php -S localhost:8080

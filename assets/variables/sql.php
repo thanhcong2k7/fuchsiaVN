@@ -147,6 +147,7 @@ class userType
 	public $avatar; //Google Drive file ID
 	public $type; //account type: 0 admin; 1 sub-acc
 	public $handle; //actually username
+	public $paypal; //paypal email
 }
 function getUser($uid)
 {
@@ -160,6 +161,7 @@ function getUser($uid)
 		$tmp2->email = $row["email"];
 		$tmp2->type = $row["type"];
 		$tmp2->handle = $row["username"];
+		$tmp2->paypal = $row["paypal"];
 	}
 	return $tmp2;
 }
