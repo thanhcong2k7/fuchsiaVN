@@ -47,7 +47,8 @@ $prompt = "Phân tích lịch vạn niên cho ngày $date (dương lịch). Hãy
 - Đánh giá ngày tốt/xấu, việc nên làm/kiêng kỵ
 - Các thông tin phong thủy khác liên quan.
 
-Hãy trả lời bằng JSON với cấu trúc:
+Hãy trả lời *bằng JSON hợp lệ duy nhất*, không có chú thích, không có giải thích, không có đoạn văn bản bên ngoài. Đảm bảo JSON trả về không chứa lỗi cú pháp.
+Cấu trúc như sau:
 {
   'solar_date': 'Thứ ..., ngày ... tháng ... năm ...',
   'lunar_date': 'Ngày ... tháng ... năm ...',
@@ -60,7 +61,9 @@ Hãy trả lời bằng JSON với cấu trúc:
   'avoid_activities': 'Các việc nên tránh',
   'conflicting_ages': 'Các tuổi xung (ví dụ: Tuổi Tỵ, Hợi)',
   'additional_info': 'Thông tin bổ sung'
-}";
+}
+Chỉ trả về JSON hợp lệ như trên. Không thêm bất kỳ mô tả, markdown, tiêu đề, hoặc văn bản nào khác.
+";
 
 $apiKey = GOOGLE_AI_STUDIO_API;
 $apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemma-3n-e4b-it:generateContent?key=' . $apiKey;
@@ -69,7 +72,20 @@ $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $apiUrl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, "{\n\"contents\": [{\n\"parts\":[{\"text\":\"" . $prompt . "\"}]\n}]\n}");
+curl_setopt($ch, CURLOPT_POSTFIELDS, "{\n
+    \"contents\":
+        [{\n
+            \"parts\":[
+                {
+                    \"text\":\"" . $prompt . "\"
+                }
+            ]\n
+        }],
+    \"generationConfig\":{
+      \"temperature\": 0.8,
+      \"topP\": 0.95
+    }\n
+}");
 
 $headers = array();
 $headers[] = 'Content-Type: application/json';

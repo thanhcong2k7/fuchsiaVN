@@ -651,7 +651,7 @@ $_SESSION["chat_history"]=[];
                 messageDiv.innerHTML = `${text}`;
             } else {
                 messageDiv.classList.add('bot-message');
-                messageDiv.innerHTML = `${formatBotMessage(text)}`;
+                messageDiv.innerHTML = `<strong>CayTre:</strong> ${formatBotMessage(text)}`;
             }
 
             chatMessages.appendChild(messageDiv);
