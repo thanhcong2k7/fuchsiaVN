@@ -27,17 +27,6 @@ if (empty($userMessage)) {
     exit;
 }
 
-// Lọc nội dung không phù hợp
-/*
-$forbiddenKeywords = ['code', 'programming', 'hack', 'crack', 'AI', 'artificial intelligence', 'machine learning', 'neural network'];
-foreach ($forbiddenKeywords as $keyword) {
-    if (stripos($userMessage, $keyword) !== false) {
-        http_response_code(400);
-        echo json_encode(['error' => 'Your message contains forbidden content.']);
-        exit;
-    }
-}*/
-
 // Xây dựng system prompt
 $currentDate = date('d/m/Y');
 $userName = $_SESSION['user']['name'] ?? 'User';
@@ -68,7 +57,7 @@ Luôn trả lời bằng tiếng Việt dễ hiểu, văn phong thân thiện v�
 
 Bạn đã sẵn sàng hỗ trợ.
 ";
-
+/*
 $apiUrl = 'https://openrouter.ai/api/v1/chat/completions';
 $apiKey = OPENROUTER_API_KEY;
 
@@ -84,13 +73,40 @@ $data = [
     'model' => 'z-ai/glm-4.5-air:free',
     'messages' => $messages
 ];
+*/
 
+$messages = [['role' => 'user', 'parts' => [$systemPrompt]]];
+foreach ($history as $turn) {
+    $messages[] = ['role' => 'user', 'parts' => [$turn['user']]];
+    $messages[] = ['role' => 'model', 'parts' => [$turn['bot']]];
+}
+$messages[] = ['role' => 'user', 'parts' => [$userMessage]];
+
+/*
 $ch = curl_init($apiUrl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'Authorization: Bearer ' . $apiKey,
+    'Content-Type: application/json'
+]);
+
+$response = curl_exec($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
+*/
+
+$data = json_encode(['contents' => $messages]);
+
+// Gửi request
+$accessToken = $_SESSION['user']['access_token'];
+$ch = curl_init("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'Authorization: Bearer ' . $accessToken,
     'Content-Type: application/json'
 ]);
 
@@ -105,7 +121,8 @@ if ($httpCode !== 200) {
 }
 
 $responseData = json_decode($response, true);
-$reply = $responseData['choices'][0]['message']['content'] ?? 'Xin lỗi, tôi không thể trả lời câu hỏi này ngay lúc này.';
+//$reply = $responseData['choices'][0]['message']['content'] ?? 'Xin lỗi, tôi không thể trả lời câu hỏi này ngay lúc này.';
+$reply = $responseData['candidates'][0]['content']['parts'][0] ?? 'Xin lỗi, tôi không thể trả lời lúc này.';
 
 // Lưu lịch sử chat vào session
 if (!isset($_SESSION['chat_history'])) {
@@ -119,8 +136,8 @@ $_SESSION['chat_history'][] = [
 ];
 
 // Giới hạn lịch sử chat (giữ lại 10 tin nhắn gần nhất)
-if (count($_SESSION['chat_history']) > 10) {
-    array_shift($_SESSION['chat_history']);
-}
+//if (count($_SESSION['chat_history']) > 10) {
+//    array_shift($_SESSION['chat_history']);
+//}
 
 echo json_encode(['reply' => $reply]);

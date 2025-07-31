@@ -53,6 +53,7 @@ if ($provider === 'google' && $code) {
             'name' => $userInfo['name'],
             'email' => $userInfo['email'],
             'avatar_url' => $userInfo['picture'] ?? '',
+            'access_token' => $tokenData["access_token"]
         ];
     }
 
@@ -64,7 +65,7 @@ if ($provider === 'google' && !isset($_SESSION['user'])) {
         'client_id' => GOOGLE_CLIENT_ID,
         'redirect_uri' => BASE_URL . '/auth.php?provider=google',
         'response_type' => 'code',
-        'scope' => 'profile email',
+        'scope' => 'profile email https://www.googleapis.com/auth/generative-language.tuned.readonly https://www.googleapis.com/auth/generative-language.aiservices',
         'access_type' => 'online',
     ]);
     header("Location: $authUrl");
