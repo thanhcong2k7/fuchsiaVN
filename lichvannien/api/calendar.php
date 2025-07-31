@@ -112,4 +112,4 @@ if ($jsonStart !== false && $jsonEnd !== false) {
 
 // Fallback if JSON parsing fails
 http_response_code(500);
-echo json_encode(['error' => 'Failed to parse response from OpenRouter.']);
+echo json_encode(['error' => 'Failed to parse response from Google, ' . $content]);

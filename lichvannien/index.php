@@ -444,14 +444,6 @@ $_SESSION["chat_history"]=[];
         </div>
     </div>
 
-    <!-- Bottom Bar -->
-    <div class="bottombar">
-        <div class="container">
-            <p class="mb-0">© 2025 Lịch Vạn Niên CayTre. Được viết và hoàn thiện bởi <a
-                    href="http://facebook.com/l0stctrl"></a></p>
-        </div>
-    </div>
-
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
