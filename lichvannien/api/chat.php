@@ -54,7 +54,6 @@ Người dùng sẽ hỏi bạn về thông tin của từng ngày theo lịch �
 - Không suy đoán hoặc trả lời về tương lai của cá nhân
 - Không thay thế cho lời khuyên chuyên môn
 Luôn trả lời bằng tiếng Việt dễ hiểu, văn phong thân thiện và ngắn gọn.
-
 Bạn đã sẵn sàng hỗ trợ.
 ";
 /*
@@ -103,7 +102,7 @@ $data = json_encode(['contents' => $messages]);
 $accessToken = $_SESSION['user']['access_token'];
 $ch = curl_init("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POST, value: true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'Authorization: Bearer ' . $accessToken,

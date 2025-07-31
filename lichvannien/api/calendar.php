@@ -42,56 +42,56 @@ if (file_exists($cacheFile)) {
 $prompt = "Phân tích lịch vạn niên cho ngày $date (dương lịch). Hãy cung cấp thông tin: 
 - Âm lịch (ngày, tháng, năm âm lịch)
 - Mệnh ngũ hành
-- Giờ hoàng đạo
-- Tuổi xung
+- Giờ hoàng đạo (cho cả ngày, nếu có thể)
+- Tuổi xung (đầy đủ danh sách)
 - Đánh giá ngày tốt/xấu, việc nên làm/kiêng kỵ
 - Các thông tin phong thủy khác liên quan.
 
 Hãy trả lời bằng JSON với cấu trúc:
 {
-  \"solar_date\": \"Thứ ..., ngày ... tháng ... năm ...\",
-  \"lunar_date\": \"Ngày ... tháng ... năm ...\",
-  \"chinese_zodiac\": \"Can chi\",
-  \"element\": \"Tên mệnh ngũ hành\",
-  \"auspicious_hours\": \"Các giờ hoàng đạo (ví dụ: Bính Tí (23h-1h), Đinh Sửu (1h-3h), Kỷ Mão (5h-7h), Nhâm Ngọ (11h-13h))\",
-  \"day_quality\": \"Tốt/Xấu/Bình thường\",
-  \"day_reason\": \"Lý do ngắn giải thích cho day_quality\",
-  \"recommended_activities\": \"Các việc nên làm\",
-  \"avoid_activities\": \"Các việc nên tránh\",
-  \"conflicting_ages\": \"Các tuổi xung (ví dụ: Tuổi Tỵ, Hợi)\",
-  \"additional_info\": \"Thông tin bổ sung\"
+  'solar_date': 'Thứ ..., ngày ... tháng ... năm ...',
+  'lunar_date': 'Ngày ... tháng ... năm ...',
+  'chinese_zodiac': 'Can chi',
+  'element': 'Tên mệnh ngũ hành',
+  'auspicious_hours': 'Các giờ hoàng đạo (ví dụ: Bính Tí (23h-1h), Đinh Sửu (1h-3h), Kỷ Mão (5h-7h), Nhâm Ngọ (11h-13h))',
+  'day_quality': 'Tốt/Xấu/Bình thường',
+  'day_reason': 'Lý do ngắn giải thích cho day_quality',
+  'recommended_activities': 'Các việc nên làm',
+  'avoid_activities': 'Các việc nên tránh',
+  'conflicting_ages': 'Các tuổi xung (ví dụ: Tuổi Tỵ, Hợi)',
+  'additional_info': 'Thông tin bổ sung'
 }";
 
-$apiUrl = 'https://openrouter.ai/api/v1/chat/completions';
-$apiKey = OPENROUTER_API_KEY;
-$data = [
-    'model' => 'z-ai/glm-4.5-air:free',
-    'messages' => [
-        ['role' => 'user', 'content' => $prompt]
-    ]
-];
+$apiKey = GOOGLE_AI_STUDIO_API;
+$apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemma-3n-e4b-it:generateContent?key=' . $apiKey;
+$ch = curl_init();
 
-$ch = curl_init($apiUrl);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    'Authorization: Bearer ' . $apiKey,
-    'Content-Type: application/json'
-]);
+curl_setopt($ch, CURLOPT_URL, $apiUrl);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, "{\n\"contents\": [{\n\"parts\":[{\"text\":\"" . $prompt . "\"}]\n}]\n}");
 
-$response = curl_exec($ch);
+$headers = array();
+$headers[] = 'Content-Type: application/json';
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+$res = curl_exec($ch);
+$response = str_replace('```', '', str_replace('```json', '', $res));
+
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+if (curl_errno($ch)) {
+    echo 'Error:' . curl_error($ch);
+}
 curl_close($ch);
 
 if ($httpCode !== 200) {
     http_response_code(500);
-    echo json_encode(['error' => 'Failed to fetch data from OpenRouter.']);
+    echo json_encode(['error' => 'Failed to fetch data from Google, ' . $res]);
     exit;
 }
 
 $responseData = json_decode($response, true);
-$content = $responseData['choices'][0]['message']['content'] ?? '';
+$content = $responseData['candidates'][0]['content']['parts'][0]['text'] ?? '';
 
 // Extract JSON from response
 $jsonStart = strpos($content, '{');
