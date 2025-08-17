@@ -59,6 +59,8 @@ else {
   <link href="/assets/css/animate.css" rel="stylesheet" type="text/css" />
   <!-- Icons CSS-->
   <link href="/assets/css/icons.css" rel="stylesheet" type="text/css" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Sidebar CSS-->
   <link href="/assets/css/sidebar-menu.css" rel="stylesheet" />
   <!-- Custom Style-->
@@ -187,16 +189,12 @@ else {
                           </td>
                                       <td>' . ($r->relDate ? $r->relDate : "--/--/----") . '</td>
                           <td>
-                            <div class="dropdown">
-                              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                Actions
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item view-release" href="#" data-release-id="' . $r->id . '">View release</a>
-                                <a class="dropdown-item" href="edit.php?id=' . $r->id . '">Edit release</a>
-                                <a class="dropdown-item" href="edit.php?id=' . $r->id . '&delete=1">Delete release</a>
-                              </div>
-                            </div>
+                            <a class="btn btn-sm btn-outline-primary me-1" href="edit.php?id=' . $r->id . '">
+                              <i class="fas fa-edit"></i>
+                            </a>
+                            <a class="btn btn-sm btn-outline-success">
+                              <i class="fas fa-paper-plane"></i>
+                            </a>
                           </td>
                           </tr>
                   ';

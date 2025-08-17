@@ -391,6 +391,15 @@ $currentYear = date("Y");
             color: #fff;
         }
     </style>
+    <!-- Bootstrap core JavaScript-->
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script type="module" src="api/app.js"></script>
+    <link rel="stylesheet" href="/assets/css/scroll-bar.css" />
 </head>
 
 <body class="bg-theme bg-theme1">
@@ -603,7 +612,8 @@ $currentYear = date("Y");
                                                                     <td><?php echo $tr->id; ?></td>
                                                                     <td><?php echo htmlspecialchars($tr->name ?? 'N/A', ENT_QUOTES, 'UTF-8'); ?>
                                                                     </td>
-                                                                    <td><?php echo (!$tr->artistname?"--":$tr->artistname); // Already escaped ?></td>
+                                                                    <td><?php echo (!$tr->artistname ? "--" : $tr->artistname); // Already escaped ?>
+                                                                    </td>
                                                                     <td>
                                                                         <a href="#" class="text-warning delete-track"
                                                                             data-track-id="<?php echo $tr->id; ?>"
@@ -624,7 +634,7 @@ $currentYear = date("Y");
                                                 </table>
                                             </div>
                                         </div>
-                                        <?php require 'edit_comp/distribution.php';?>
+                                        <?php require 'edit_comp/distribution.php'; ?>
                                     </div>
                                     <div class="text-center mt-4">
                                         <input name="saveform" id="saveform" type="submit"
